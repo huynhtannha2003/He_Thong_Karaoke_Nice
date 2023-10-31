@@ -2,6 +2,8 @@ package entity;
 
 import java.sql.Date;
 
+import enums.TrangThaiKhuyenMai;
+
 public class KhuyenMai {
 	private String maKhuyenMai;
 	private String tenKhuyenMai;
@@ -9,14 +11,15 @@ public class KhuyenMai {
 	private float gioiHan;
 	private Date ngayBatDau;
 	private Date ngayKetThuc;
-	private int trangThai;
+	private TrangThaiKhuyenMai trangThai;
 	private Ca ca;
 
 	public KhuyenMai() {
 	}
 
 	public KhuyenMai(String maKhuyenMai, String tenKhuyenMai, float phanTram, float gioiHan, Date ngayBatDau,
-			Date ngayKetThuc, int trangThai, Ca ca) {
+			Date ngayKetThuc, TrangThaiKhuyenMai trangThai, Ca ca) {
+		super();
 		this.maKhuyenMai = maKhuyenMai;
 		this.tenKhuyenMai = tenKhuyenMai;
 		this.phanTram = phanTram;
@@ -75,11 +78,11 @@ public class KhuyenMai {
 		this.ngayKetThuc = ngayKetThuc;
 	}
 
-	public int getTrangThai() {
+	public TrangThaiKhuyenMai getTrangThai() {
 		return trangThai;
 	}
 
-	public void setTrangThai(int trangThai) {
+	public void setTrangThai(TrangThaiKhuyenMai trangThai) {
 		this.trangThai = trangThai;
 	}
 
@@ -90,4 +93,5 @@ public class KhuyenMai {
 	public void setCa(Ca ca) {
 		this.ca = ca;
 	}
+
 }

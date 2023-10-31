@@ -1,16 +1,19 @@
 package entity;
 
+import enums.TrangThaiPhong;
+
 public class Phong {
 	private String maPhong;
 	private LoaiPhong loaiPhong;
 	private String tenPhong;
 	private int sucChua;
-	private int trangThai;
-	
+	private TrangThaiPhong trangThai;
+
 	public Phong() {
 	}
 
-	public Phong(String maPhong, LoaiPhong loaiPhong, String tenPhong, int sucChua, int trangThai) {
+	public Phong(String maPhong, LoaiPhong loaiPhong, String tenPhong, int sucChua, TrangThaiPhong trangThai) {
+		super();
 		this.maPhong = maPhong;
 		this.loaiPhong = loaiPhong;
 		this.tenPhong = tenPhong;
@@ -50,11 +53,11 @@ public class Phong {
 		this.sucChua = sucChua;
 	}
 
-	public int getTrangThai() {
+	public TrangThaiPhong getTrangThai() {
 		return trangThai;
 	}
 
-	public void setTrangThai(int trangThai) {
+	public void setTrangThai(TrangThaiPhong trangThai) {
 		this.trangThai = trangThai;
 	}
 }

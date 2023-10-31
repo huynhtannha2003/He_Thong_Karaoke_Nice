@@ -2,16 +2,19 @@ package entity;
 
 import java.sql.Time;
 
+import enums.TrangThaiCa;
+
 public class Ca {
 	private String maCa;
 	private Time thoiGianBatDau;
 	private Time thoiGianKetThuc;
-	private int trangThai;
+	private TrangThaiCa trangThai;
 
 	public Ca() {
 	}
 
-	public Ca(String maCa, Time thoiGianBatDau, Time thoiGianKetThuc, int trangThai) {
+	public Ca(String maCa, Time thoiGianBatDau, Time thoiGianKetThuc, TrangThaiCa trangThai) {
+		super();
 		this.maCa = maCa;
 		this.thoiGianBatDau = thoiGianBatDau;
 		this.thoiGianKetThuc = thoiGianKetThuc;
@@ -42,11 +45,11 @@ public class Ca {
 		this.thoiGianKetThuc = thoiGianKetThuc;
 	}
 
-	public int getTrangThai() {
+	public TrangThaiCa getTrangThai() {
 		return trangThai;
 	}
 
-	public void setTrangThai(int trangThai) {
+	public void setTrangThai(TrangThaiCa trangThai) {
 		this.trangThai = trangThai;
 	}
 }
