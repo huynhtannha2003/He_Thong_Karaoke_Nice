@@ -1,53 +1,37 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
 
 import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
 import utils.RoomImageUtil;
-
-import java.awt.BorderLayout;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Graphics2D;
-
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.RenderingHints;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
+import utils.RoomPanelUtil;
 
 public class GD_QuanLyDatPhong extends JFrame {
 
@@ -145,38 +129,8 @@ public class GD_QuanLyDatPhong extends JFrame {
 		pnListRoom.setLayout(new GridLayout(0, 5, 0, 0));
 		pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		listPhong.forEach(phong -> {
-			JPanel phongPanel = new JPanel();
-			phongPanel.setLayout(new BoxLayout(phongPanel, BoxLayout.Y_AXIS));
-			phongPanel.setBackground(new Color(255, 255, 255));
-
-			phongPanel.add(Box.createVerticalStrut(15));
-
-			JLabel imageLabel = new JLabel(RoomImageUtil.getImageByTypePhong(phong.getTrangThai(), 110, 110));
-			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-			phongPanel.add(imageLabel);
-
-			phongPanel.add(Box.createVerticalStrut(10));
-
-			JLabel lblRoomName = new JLabel("Phòng: " + phong.getTenPhong());
-			lblRoomName.setAlignmentX(Component.CENTER_ALIGNMENT);
-			phongPanel.add(lblRoomName);
-
-			phongPanel.add(Box.createVerticalStrut(10));
-
-			JLabel lblCapacity = new JLabel("Sức chứa: " + phong.getSucChua());
-			lblCapacity.setAlignmentX(Component.CENTER_ALIGNMENT);
-			phongPanel.add(lblCapacity);
-
-			phongPanel.add(Box.createVerticalStrut(10));
-
-			JLabel lblType = new JLabel("Loại phòng: " + phong.getLoaiPhong().getTenLoaiPhong());
-			lblType.setAlignmentX(Component.CENTER_ALIGNMENT);
-			phongPanel.add(lblType);
-
-			phongPanel.add(Box.createVerticalStrut(15));
-			pnListRoom.add(phongPanel);
-		});
+		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong);
+		phongPanels.forEach(pnListRoom::add);
 	}
 
 	private void initData() {
