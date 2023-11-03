@@ -14,6 +14,7 @@ import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
+import utils.RoomImageUtil;
 
 import java.awt.BorderLayout;
 import javax.swing.JMenu;
@@ -120,9 +121,8 @@ public class GD_QuanLyDatPhong extends JFrame {
 			JPanel pnNotePhong = new JPanel();
 			pnNotePhong.setBackground(new Color(255, 255, 255));
 		
-			String roomStatus = getRoomStatusToString(currentTrangThaiPhong);
 			
-			JLabel imageLabel = new JLabel(new ImageIcon(getImageByTypePhong(roomStatus, 40, 40)));
+			JLabel imageLabel = new JLabel(RoomImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
 			pnNotePhong.add(imageLabel);
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -132,27 +132,6 @@ public class GD_QuanLyDatPhong extends JFrame {
 
 			pnNote.add(pnNotePhong);
 		}
-	}
-
-	private String getRoomStatusToString(TrangThaiPhong trangThai) {
-		switch (trangThai) {
-		case PHONG_TRONG:
-			return "phongTrong.png";
-		case PHONG_DANG_SU_DUNG:
-			return "phongBan.png";
-		case PHONG_CHO:
-			return "phongCho.png";
-		case PHONG_DANG_BAO_TRI:
-			return "phongDangSuaChua.png";
-		default:
-			return null;
-		}
-	}
-
-	private Image getImageByTypePhong(String typePhong, int width, int height) {
-		ImageIcon icon = new ImageIcon(getClass().getResource("/image/" + typePhong));
-		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		return resizedIcon;
 	}
 
 	private void addPanelRoom() throws IOException {
@@ -173,8 +152,7 @@ public class GD_QuanLyDatPhong extends JFrame {
 
 			phongPanel.add(Box.createVerticalStrut(15));
 
-			String roomStatus = getRoomStatusToString(phong.getTrangThai());
-			JLabel imageLabel = new JLabel(new ImageIcon(getImageByTypePhong(roomStatus, 110, 110)));
+			JLabel imageLabel = new JLabel(RoomImageUtil.getImageByTypePhong(phong.getTrangThai(), 110, 110));
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			phongPanel.add(imageLabel);
 
