@@ -313,7 +313,7 @@ public class GD_QuanLyDatPhong extends JFrame {
 		getContentPane().add(pnNorth, BorderLayout.NORTH);
 
 		JLabel lblTitle = new JLabel("Quản lý đặt phòng");
-		lblTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		pnNorth.add(lblTitle);
 	}
 
