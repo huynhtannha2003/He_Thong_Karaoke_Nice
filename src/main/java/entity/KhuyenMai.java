@@ -1,33 +1,31 @@
 package entity;
 
 import java.sql.Date;
-
-import enums.TrangThaiKhuyenMai;
+import java.sql.Time;
 
 public class KhuyenMai {
 	private String maKhuyenMai;
 	private String tenKhuyenMai;
-	private float phanTram;
-	private float gioiHan;
+	private double phanTram;
+	private double gioiHan;
 	private Date ngayBatDau;
 	private Date ngayKetThuc;
-	private TrangThaiKhuyenMai trangThai;
-	private Ca ca;
+	private Time thoiDiemBatDau;
+	private Time thoiDiemKetThuc;
 
 	public KhuyenMai() {
 	}
 
-	public KhuyenMai(String maKhuyenMai, String tenKhuyenMai, float phanTram, float gioiHan, Date ngayBatDau,
-			Date ngayKetThuc, TrangThaiKhuyenMai trangThai, Ca ca) {
-		super();
+	public KhuyenMai(String maKhuyenMai, String tenKhuyenMai, double phanTram, double gioiHan, Date ngayBatDau,
+			Date ngayKetThuc, Time thoiDiemBatDau, Time thoiDiemKetThuc) {
 		this.maKhuyenMai = maKhuyenMai;
 		this.tenKhuyenMai = tenKhuyenMai;
 		this.phanTram = phanTram;
 		this.gioiHan = gioiHan;
 		this.ngayBatDau = ngayBatDau;
 		this.ngayKetThuc = ngayKetThuc;
-		this.trangThai = trangThai;
-		this.ca = ca;
+		this.thoiDiemBatDau = thoiDiemBatDau;
+		this.thoiDiemKetThuc = thoiDiemKetThuc;
 	}
 
 	public String getMaKhuyenMai() {
@@ -46,19 +44,19 @@ public class KhuyenMai {
 		this.tenKhuyenMai = tenKhuyenMai;
 	}
 
-	public float getPhanTram() {
+	public double getPhanTram() {
 		return phanTram;
 	}
 
-	public void setPhanTram(float phanTram) {
+	public void setPhanTram(double phanTram) {
 		this.phanTram = phanTram;
 	}
 
-	public float getGioiHan() {
+	public double getGioiHan() {
 		return gioiHan;
 	}
 
-	public void setGioiHan(float gioiHan) {
+	public void setGioiHan(double gioiHan) {
 		this.gioiHan = gioiHan;
 	}
 
@@ -78,20 +76,19 @@ public class KhuyenMai {
 		this.ngayKetThuc = ngayKetThuc;
 	}
 
-	public TrangThaiKhuyenMai getTrangThai() {
-		return trangThai;
+	public Time getThoiDiemBatDau() {
+		return thoiDiemBatDau;
 	}
 
-	public void setTrangThai(TrangThaiKhuyenMai trangThai) {
-		this.trangThai = trangThai;
+	public void setThoiDiemBatDau(Time thoiDiemBatDau) {
+		this.thoiDiemBatDau = thoiDiemBatDau;
 	}
 
-	public Ca getCa() {
-		return ca;
+	public Time getThoiDiemKetThuc() {
+		return thoiDiemKetThuc;
 	}
 
-	public void setCa(Ca ca) {
-		this.ca = ca;
+	public void setThoiDiemKetThuc(Time thoiDiemKetThuc) {
+		this.thoiDiemKetThuc = thoiDiemKetThuc;
 	}
-
 }
