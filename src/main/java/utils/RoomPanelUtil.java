@@ -15,7 +15,7 @@ import entity.Phong;
 public class RoomPanelUtil {
 
 	public static List<JPanel> createPhongPanels(List<Phong> listPhong) {
-		List<JPanel> panels = new ArrayList<>();
+		List<JPanel> panels = new ArrayList<JPanel>();
 		for (Phong phong : listPhong) {
 			JPanel phongPanel = new JPanel();
 			phongPanel.setLayout(new BoxLayout(phongPanel, BoxLayout.Y_AXIS));

@@ -134,7 +134,7 @@ public class GD_QuanLyDatPhong extends JFrame {
 	}
 
 	private void initData() {
-		listPhong = new ArrayList<>();
+		listPhong = new ArrayList<Phong>();
 		LoaiPhong loaiPhong = new LoaiPhong("001", "Thường", TrangThaiLoaiPhong.HIEU_LUC);
 		for (int i = 0; i < 18; i++) {
 			listPhong.add(new Phong("00" + (i + 1), loaiPhong, "00" + (i + 1), 5, TrangThaiPhong.PHONG_TRONG));
