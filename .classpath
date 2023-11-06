@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17"/>
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
-			<attribute name="test" value="true"/>
-			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
-			<attribute name="module" value="true"/>
+			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
@@ -24,18 +24,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/gnujaxp.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/jcommon-1.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/junit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/jfreechart-1.0.1.jar"/>
-=======
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
->>>>>>> 9bdfea7c095cd4b1dfb76531c6efa55abee807eb
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
