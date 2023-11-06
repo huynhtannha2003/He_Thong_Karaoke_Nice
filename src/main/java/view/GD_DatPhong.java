@@ -68,7 +68,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
 		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Đặt phòng"));
-		lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 
 		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
 		pnCenter.setLayout(new GridLayout(0, 1, 50, 30));
@@ -249,7 +249,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
 			exitButton();
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		new GD_DatPhong().setVisible(true);
 	}

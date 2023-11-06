@@ -70,7 +70,7 @@ public class GD_ThanhToan extends JFrame {
 		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Thanh toán"));
-		lblTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 
 		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));

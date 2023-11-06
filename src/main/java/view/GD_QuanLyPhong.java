@@ -56,7 +56,7 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener {
 		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Quản lý phòng"));
-		lblTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 
 		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
 //		pnCenter.setLayout(new GridLayout(3, 1));
