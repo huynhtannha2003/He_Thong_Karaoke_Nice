@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import utils.*;
 
 public class GD_ManHinhChinh extends JFrame {
 
@@ -56,7 +57,7 @@ public class GD_ManHinhChinh extends JFrame {
 	public GD_ManHinhChinh() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000,650);
+		setSize(1000, 650);
 
 		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -134,9 +135,9 @@ public class GD_ManHinhChinh extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		lbBackGroundKaraoke = new JLabel("");
-		lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/Flash screen 1.png")));
+		lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
 		lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
 		contentPane.add(lbBackGroundKaraoke);
 	}

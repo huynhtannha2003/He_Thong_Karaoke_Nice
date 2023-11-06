@@ -27,6 +27,7 @@ import java.awt.Font;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.border.LineBorder;
+import utils.*;
 
 public class GD_QuanLyHoaDon extends JFrame {
 
@@ -259,7 +260,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(new Color(107, 208, 107));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/Group 98.png")));
+		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/search_icon.png")));
 		BoxThongTin3.add(btnTimKiem);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -268,7 +269,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		btnXuatHoaDon = new JButton("Xuất hóa đơn");
 		btnXuatHoaDon.setBackground(new Color(107, 208, 107));
 		btnXuatHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXuatHoaDon.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/printing 1.png")));
+		btnXuatHoaDon.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/print_icon.png")));
 		BoxThongTin3.add(btnXuatHoaDon);
 
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -277,7 +278,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.setBackground(new Color(107, 208, 107));
 		btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/clear-format 1.png")));
+		btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/clear_icon.png")));
 		BoxThongTin3.add(btnXoaTrang);
 
 		verticalStrut_3 = Box.createVerticalStrut(20);

@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.FlowLayout;
+import utils.*;
 
 public class GD_QuanLyNhanVien extends JFrame {
 
@@ -331,7 +332,7 @@ public class GD_QuanLyNhanVien extends JFrame {
 		BoxVerticalThongTin_1.add(horizontalBox_7);
 
 		btnThem = new JButton("Thêm");
-		btnThem.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/plus 1.png")));
+		btnThem.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/icon/add_icon.png")));
 		btnThem.setBackground(new Color(107, 208, 107));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_7.add(btnThem);
@@ -340,7 +341,7 @@ public class GD_QuanLyNhanVien extends JFrame {
 		horizontalBox_7.add(horizontalStrut_5);
 
 		btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/pen (1) 1.png")));
+		btnCapNhat.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/icon/update_icon.png")));
 		btnCapNhat.setBackground(new Color(107, 208, 107));
 		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_7.add(btnCapNhat);
@@ -349,7 +350,7 @@ public class GD_QuanLyNhanVien extends JFrame {
 		horizontalBox_7.add(horizontalStrut_6);
 
 		btnXoaTrang = new JButton("Xóa trắng");
-		btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/clear-format 1.png")));
+		btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/icon/clear_icon.png")));
 		btnXoaTrang.setBackground(new Color(107, 208, 107));
 		btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_7.add(btnXoaTrang);
@@ -371,7 +372,7 @@ public class GD_QuanLyNhanVien extends JFrame {
 		verticalBox.add(verticalStrut);
 
 		lbImageNV = new JLabel("");
-		lbImageNV.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/image 5.png")));
+		lbImageNV.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/icon/user_icon.png")));
 		lbImageNV.setMaximumSize(new Dimension(500, 200));
 		lbImageNV.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImageNV.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -385,7 +386,7 @@ public class GD_QuanLyNhanVien extends JFrame {
 		verticalBox.add(horizontalBox);
 
 		btnChonAnh = new JButton("Chọn ảnh");
-		btnChonAnh.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/import 1.png")));
+		btnChonAnh.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/icon/import_icon.png")));
 		btnChonAnh.setBackground(new Color(107, 208, 107));
 		btnChonAnh.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(btnChonAnh);
@@ -443,7 +444,7 @@ public class GD_QuanLyNhanVien extends JFrame {
 		horizontalBox_1.add(horizontalStrut_10);
 
 		btnTimKiem = new JButton("Tìm kiếm");
-		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/Group 98.png")));
+		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyNhanVien.class.getResource("/image/icon/search_icon.png")));
 		btnTimKiem.setBackground(new Color(107, 208, 107));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_1.add(btnTimKiem);
