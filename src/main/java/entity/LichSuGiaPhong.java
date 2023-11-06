@@ -1,24 +1,29 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class LichSuGiaPhong {
 	private String maLichSuGiaPhong;
-	private Date ngayBatDau;
-	private Date ngayKetThuc;
-	private float gia;
-	private Ca ca;
+    private Date ngayBatDau;
+    private Date ngayKetThuc;
+    private Time thoiDiemBatDau;
+    private Time thoiDiemKetThuc;
+    private double gia;
 	private Phong phong;
 
 	public LichSuGiaPhong() {
 	}
 
-	public LichSuGiaPhong(String maLichSuGiaPhong, Date ngayBatDau, Date ngayKetThuc, float gia, Ca ca, Phong phong) {
+	public LichSuGiaPhong(String maLichSuGiaPhong, Date ngayBatDau, Date ngayKetThuc, Time thoiDiemBatDau,
+			Time thoiDiemKetThuc, double gia, Phong phong) {
+		super();
 		this.maLichSuGiaPhong = maLichSuGiaPhong;
 		this.ngayBatDau = ngayBatDau;
 		this.ngayKetThuc = ngayKetThuc;
+		this.thoiDiemBatDau = thoiDiemBatDau;
+		this.thoiDiemKetThuc = thoiDiemKetThuc;
 		this.gia = gia;
-		this.ca = ca;
 		this.phong = phong;
 	}
 
@@ -46,20 +51,28 @@ public class LichSuGiaPhong {
 		this.ngayKetThuc = ngayKetThuc;
 	}
 
-	public float getGia() {
+	public Time getThoiDiemBatDau() {
+		return thoiDiemBatDau;
+	}
+
+	public void setThoiDiemBatDau(Time thoiDiemBatDau) {
+		this.thoiDiemBatDau = thoiDiemBatDau;
+	}
+
+	public Time getThoiDiemKetThuc() {
+		return thoiDiemKetThuc;
+	}
+
+	public void setThoiDiemKetThuc(Time thoiDiemKetThuc) {
+		this.thoiDiemKetThuc = thoiDiemKetThuc;
+	}
+
+	public double getGia() {
 		return gia;
 	}
 
-	public void setGia(float gia) {
+	public void setGia(double gia) {
 		this.gia = gia;
-	}
-
-	public Ca getCa() {
-		return ca;
-	}
-
-	public void setCa(Ca ca) {
-		this.ca = ca;
 	}
 
 	public Phong getPhong() {
