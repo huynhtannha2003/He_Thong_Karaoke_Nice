@@ -4,9 +4,9 @@ import enums.TrangThaiPhong;
 
 public class Phong {
 	private String maPhong;
-	private LoaiPhong loaiPhong;
 	private String tenPhong;
 	private int sucChua;
+	private LoaiPhong loaiPhong;
 	private TrangThaiPhong trangThai;
 
 	public Phong() {

@@ -24,10 +24,18 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/gnujaxp.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/jcommon-1.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/junit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Trung Tien/Downloads/JAR/jfreechart-1.0.1/lib/jfreechart-1.0.1.jar"/>
+=======
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+>>>>>>> 9bdfea7c095cd4b1dfb76531c6efa55abee807eb
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
