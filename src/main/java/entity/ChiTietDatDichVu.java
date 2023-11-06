@@ -1,7 +1,6 @@
 package entity;
 
 public class ChiTietDatDichVu {
-	private String maChiTietDatDichVu;
 	private int soLuong;
 	private PhieuDatPhong phieuDatPhong;
 	private DichVu dichVu;
@@ -9,19 +8,10 @@ public class ChiTietDatDichVu {
 	public ChiTietDatDichVu() {
 	}
 
-	public ChiTietDatDichVu(String maChiTietDatDichVu, int soLuong, PhieuDatPhong phieuDatPhong, DichVu dichVu) {
-		this.maChiTietDatDichVu = maChiTietDatDichVu;
+	public ChiTietDatDichVu(int soLuong, PhieuDatPhong phieuDatPhong, DichVu dichVu) {
 		this.soLuong = soLuong;
 		this.phieuDatPhong = phieuDatPhong;
 		this.dichVu = dichVu;
-	}
-
-	public String getMaChiTietDatDichVu() {
-		return maChiTietDatDichVu;
-	}
-
-	public void setMaChiTietDatDichVu(String maChiTietDatDichVu) {
-		this.maChiTietDatDichVu = maChiTietDatDichVu;
 	}
 
 	public int getSoLuong() {

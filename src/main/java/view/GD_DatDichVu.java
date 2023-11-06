@@ -4,9 +4,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.Panel;
+import java.awt.Scrollbar;
+
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -18,36 +21,38 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import entity.DichVu;
+import entity.LoaiDichVu;
+import enums.TrangThaiDichVu;
+import enums.TrangThaiLoaiDichVu;
+import utils.RoomPanelUtil;
+
 import javax.swing.border.LineBorder;
 import java.awt.BorderLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 public class GD_DatDichVu extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JTextField txtServiceName;
+	private JTable tableOrderedServices;
 	private JTextField textField;
-	private JTable table;
-	private JTable table_1;
-	private JTextField textField_1;
-	private JTable table_2;
-	private JTextField txtTongTien;
-	private JTextField textField_2;
-
-	/**
-	 * Launch the application.
-	 */
+	private List<DichVu> listDichVu = new ArrayList<>();
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,161 +66,119 @@ public class GD_DatDichVu extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public GD_DatDichVu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		setSize(1000, 700);
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		setLocationRelativeTo(null);
+
+		JPanel pnTitle = new JPanel();
+		pnTitle.setBackground(new Color(97, 255, 204));
+		getContentPane().add(pnTitle, BorderLayout.NORTH);
+
+		JLabel lblTitle = new JLabel("Đặt dịch vụ");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
+		pnTitle.add(lblTitle);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBackground(new Color(97, 250, 204));
-		getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BorderLayout(0, 0));
+		panel.setBackground(new Color(255, 255, 255));
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Đặt dịch vụ");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		panel.add(lblNewLabel);
+		JLabel lblRoomName = new JLabel("Phòng 003");
+		lblRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRoomName.setBounds(10, 10, 96, 25);
+		panel.add(lblRoomName);
 		
-		JPanel info_Pane = new JPanel();
-		getContentPane().add(info_Pane, BorderLayout.CENTER);
-		info_Pane.setLayout(new BorderLayout(0, 0));
-		
-		JPanel table_Pane = new JPanel();
-		info_Pane.add(table_Pane, BorderLayout.WEST);
-		table_Pane.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		table_2 = new JTable();
-		table_2.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"STT", "T\u00EAn d\u1ECBch v\u1EE5", "S\u1ED1 l\u01B0\u1EE3ng", "Th\u00E0nh ti\u1EC1n"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		JScrollPane jp = new JScrollPane(table_2);
-		table_Pane.add(jp);
-		
-		JPanel panel_4 = new JPanel();
-		info_Pane.add(panel_4, BorderLayout.NORTH);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
-		
-		JPanel panel_6 = new JPanel();
-		panel_4.add(panel_6);
-		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		panel_6.add(lblNewLabel_1);
-		
-		Component horizontalStrut_5 = Box.createHorizontalStrut(200);
-		panel_6.add(horizontalStrut_5);
-		
-		JPanel panel_7 = new JPanel();
-		panel_4.add(panel_7);
-		panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		Box verticalBox = Box.createVerticalBox();
-		panel_7.add(verticalBox);
-		
-		Box horizontalBox = Box.createHorizontalBox();
-		verticalBox.add(horizontalBox);
-		
-		JLabel lblLoiDchV = new JLabel("Loại dịch vụ:");
-		lblLoiDchV.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox.add(lblLoiDchV);
-		
-		Component horizontalStrut_2 = Box.createHorizontalStrut(50);
-		horizontalBox.add(horizontalStrut_2);
+		JLabel lblServiceType = new JLabel("Loại dịch vụ");
+		lblServiceType.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblServiceType.setBounds(369, 10, 96, 25);
+		panel.add(lblServiceType);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Tất cả"}));
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		horizontalBox.add(comboBox);
+		comboBox.setBounds(475, 12, 85, 25);
+		panel.add(comboBox);
 		
-		Component horizontalStrut_3 = Box.createHorizontalStrut(50);
-		horizontalBox.add(horizontalStrut_3);
+		JLabel lblServiceName = new JLabel("Tên dịch vụ:");
+		lblServiceName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblServiceName.setBounds(570, 10, 96, 25);
+		panel.add(lblServiceName);
 		
-		JLabel lblTen = new JLabel("Tên dịch vụ:");
-		lblTen.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox.add(lblTen);
+		txtServiceName = new JTextField();
+		txtServiceName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtServiceName.setBounds(664, 10, 162, 25);
+		panel.add(txtServiceName);
+		txtServiceName.setColumns(10);
 		
-		Component horizontalStrut_4 = Box.createHorizontalStrut(50);
-		horizontalBox.add(horizontalStrut_4);
+		JButton btnFind = new JButton("Tìm kiếm");
+		btnFind.setBackground(new Color(107, 208, 107));
+		btnFind.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnFind.setBounds(858, 10, 117, 25);
+		panel.add(btnFind);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_2.setColumns(10);
-		horizontalBox.add(textField_2);
-		
-		Box horizontalBox_1 = Box.createHorizontalBox();
-		verticalBox.add(horizontalBox_1);
-		
-		Component horizontalStrut_6 = Box.createHorizontalStrut(100);
-		horizontalBox_1.add(horizontalStrut_6);
-		
-		JButton btnSearch = new JButton("Tìm kiếm");
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_1.add(btnSearch);
-		
-		JPanel panel_8 = new JPanel();
-		info_Pane.add(panel_8, BorderLayout.CENTER);
-		panel_8.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JPanel panel_1 = new JPanel();
-		getContentPane().add(panel_1, BorderLayout.SOUTH);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
-		
-		JPanel panel_2 = new JPanel();
-		panel_1.add(panel_2);
-		
-		JButton btnThem = new JButton("Thêm");
-		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel_2.add(btnThem);
-		
-		Component horizontalStrut = Box.createHorizontalStrut(30);
-		panel_2.add(horizontalStrut);
-		
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel_2.add(btnXoa);
-		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(30);
-		panel_2.add(horizontalStrut_1);
-		
-		JButton btnReset = new JButton("Làm mới");
-		btnReset.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel_2.add(btnReset);
-		
-		JPanel panel_3 = new JPanel();
-		panel_1.add(panel_3);
-		
-		JLabel lblTong = new JLabel("Tổng tiền:");
-		lblTong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel_3.add(lblTong);
-		
-		txtTongTien = new JTextField();
-		txtTongTien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel_3.add(txtTongTien);
-		txtTongTien.setColumns(10);
-		
-		JButton btnDat = new JButton("Đặt dịch vụ");
-		btnDat.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel_3.add(btnDat);
+		tableOrderedServices = new JTable();
+		tableOrderedServices.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"STT", "Tên dịch vụ", "Số lượng", "Thành tiền"
+			}
+		));
+		JScrollPane spOrderedServices = new JScrollPane(tableOrderedServices);
+		spOrderedServices.setBounds(10, 58, 327, 479);
+		panel.add(spOrderedServices);
 
+		initData();
+		
+		JPanel services = new JPanel();
+		JScrollPane spServices = new JScrollPane(services);
+		JScrollBar verticalScrollbar = spServices.getVerticalScrollBar();
+		verticalScrollbar.setUnitIncrement(16);
+		services.setLayout(new GridLayout(0, 3, 0, 0));
+		spServices.setBounds(369, 58, 606, 479);
+		panel.add(spServices);
+		
+		List<JPanel> dichVuPanel = RoomPanelUtil.createDichVuPanels(listDichVu);
+		dichVuPanel.forEach(services::add);
+		
+		JButton btnAdd = new JButton("Thêm");
+		btnAdd.setBackground(new Color(107, 208, 107));
+		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnAdd.setBounds(10, 571, 94, 25);
+		panel.add(btnAdd);
+		
+		JButton btnDelete = new JButton("Xóa");
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnDelete.setBackground(new Color(221, 78, 78));
+		btnDelete.setBounds(123, 571, 94, 25);
+		panel.add(btnDelete);
+		
+		JButton btnClearAll = new JButton("Xóa tất cả");
+		btnClearAll.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnClearAll.setBackground(new Color(57, 130, 240));
+		btnClearAll.setBounds(243, 571, 94, 25);
+		panel.add(btnClearAll);
+		
+		JLabel lblTotalPrice = new JLabel("Tổng tiền:");
+		lblTotalPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTotalPrice.setBounds(511, 573, 82, 25);
+		panel.add(lblTotalPrice);
+		
+		textField = new JTextField();
+		textField.setBounds(620, 572, 185, 25);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnApply = new JButton("Đặt dịch vụ");
+		btnApply.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnApply.setBackground(new Color(107, 208, 107));
+		btnApply.setBounds(855, 570, 120, 25);
+		panel.add(btnApply);
+	}
+	
+	public void initData() {
+		LoaiDichVu loaiDichVu = new LoaiDichVu("001", "Loại Dịch Vụ 1", TrangThaiLoaiDichVu.HIEU_LUC);
+	    for (int i = 0; i < 10; i++) {
+	        listDichVu.add(new DichVu("00" + (i + 1), "Dịch Vụ " + (i + 1), 5, TrangThaiDichVu.HIEU_LUC, loaiDichVu));
+	    }
 	}
 }

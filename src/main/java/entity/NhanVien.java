@@ -1,5 +1,7 @@
 package entity;
 
+import enums.TrangThaiNhanVien;
+
 public class NhanVien {
 	private String maNhanVien;
 	private String ten;
@@ -7,13 +9,14 @@ public class NhanVien {
 	private String sdt;
 	private String email;
 	private String diaChi;
-	private int trangThai;
+	private TrangThaiNhanVien trangThai;
 
 	public NhanVien() {
 	}
 
 	public NhanVien(String maNhanVien, String ten, String chucVu, String sdt, String email, String diaChi,
-			int trangThai) {
+			TrangThaiNhanVien trangThai) {
+		super();
 		this.maNhanVien = maNhanVien;
 		this.ten = ten;
 		this.chucVu = chucVu;
@@ -71,11 +74,11 @@ public class NhanVien {
 		this.diaChi = diaChi;
 	}
 
-	public int getTrangThai() {
+	public TrangThaiNhanVien getTrangThai() {
 		return trangThai;
 	}
 
-	public void setTrangThai(int trangThai) {
+	public void setTrangThai(TrangThaiNhanVien trangThai) {
 		this.trangThai = trangThai;
 	}
 }

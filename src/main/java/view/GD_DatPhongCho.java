@@ -25,7 +25,7 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.DefaultComboBoxModel;
 
-public class GD_DatPhongTruoc extends JFrame {
+public class GD_DatPhongCho extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -33,14 +33,11 @@ public class GD_DatPhongTruoc extends JFrame {
 	private JTextField txtKH;
 	private JTextField txtTenPhong;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GD_DatPhongTruoc frame = new GD_DatPhongTruoc();
+					GD_DatPhongCho frame = new GD_DatPhongCho();
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				} catch (Exception e) {
@@ -50,15 +47,13 @@ public class GD_DatPhongTruoc extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public GD_DatPhongTruoc() {
+	public GD_DatPhongCho() {
+		setBackground(new Color(255, 255, 255));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		setSize(1000,700);
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		setLocationRelativeTo(null);
 		
 		JPanel panelTieuDe = new JPanel();
 		panelTieuDe.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -75,17 +70,16 @@ public class GD_DatPhongTruoc extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel info_Pane = new JPanel();
+		info_Pane.setBackground(new Color(255, 255, 255));
 		contentPane.add(info_Pane, BorderLayout.NORTH);
 		info_Pane.setLayout(new BoxLayout(info_Pane, BoxLayout.X_AXIS));
 		
-		Component horizontalStrut = Box.createHorizontalStrut(30);
-		info_Pane.add(horizontalStrut);
+		info_Pane.add(Box.createHorizontalStrut(30));
 		
 		Box verticalBox = Box.createVerticalBox();
 		info_Pane.add(verticalBox);
 		
-		Component verticalStrut = Box.createVerticalStrut(10);
-		verticalBox.add(verticalStrut);
+		verticalBox.add(Box.createVerticalStrut(10));
 		
 		Box horizontalBox = Box.createHorizontalBox();
 		verticalBox.add(horizontalBox);
@@ -95,26 +89,22 @@ public class GD_DatPhongTruoc extends JFrame {
 		lblSDT.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(lblSDT);
 		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		horizontalBox.add(horizontalStrut_1);
+		horizontalBox.add(Box.createHorizontalStrut(20));
 		
 		txtSDT = new JTextField();
 		txtSDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		horizontalBox.add(txtSDT);
 		txtSDT.setColumns(10);
 		
-		Component horizontalStrut_3 = Box.createHorizontalStrut(30);
-		horizontalBox.add(horizontalStrut_3);
+		horizontalBox.add(Box.createHorizontalStrut(30));
 		
 		JButton btnCheck = new JButton("Kiểm tra");
 		btnCheck.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(btnCheck);
 		
-		Component horizontalStrut_2 = Box.createHorizontalStrut(30);
-		horizontalBox.add(horizontalStrut_2);
+		horizontalBox.add(Box.createHorizontalStrut(30));
 		
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		verticalBox.add(verticalStrut_1);
+		verticalBox.add(Box.createVerticalStrut(20));
 		
 		Box horizontalBox_1 = Box.createHorizontalBox();
 		verticalBox.add(horizontalBox_1);
@@ -123,19 +113,16 @@ public class GD_DatPhongTruoc extends JFrame {
 		lblKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_1.add(lblKH);
 		
-		Component horizontalStrut_4 = Box.createHorizontalStrut(111);
-		horizontalBox_1.add(horizontalStrut_4);
+		horizontalBox_1.add(Box.createHorizontalStrut(111));
 		
 		txtKH = new JTextField();
 		txtKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		horizontalBox_1.add(txtKH);
 		txtKH.setColumns(10);
 		
-		Component horizontalStrut_5 = Box.createHorizontalStrut(150);
-		horizontalBox_1.add(horizontalStrut_5);
+		horizontalBox_1.add(Box.createHorizontalStrut(150));
 		
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		verticalBox.add(verticalStrut_2);
+		verticalBox.add(Box.createVerticalStrut(20));
 		
 		Box horizontalBox_2 = Box.createHorizontalBox();
 		verticalBox.add(horizontalBox_2);
@@ -144,43 +131,40 @@ public class GD_DatPhongTruoc extends JFrame {
 		lblTenPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(lblTenPhong);
 		
-		Component horizontalStrut_7 = Box.createHorizontalStrut(50);
-		horizontalBox_2.add(horizontalStrut_7);
+		horizontalBox_2.add(Box.createHorizontalStrut(50));
 		
 		txtTenPhong = new JTextField();
 		txtTenPhong.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		horizontalBox_2.add(txtTenPhong);
 		txtTenPhong.setColumns(10);
 		
-		Component horizontalStrut_8 = Box.createHorizontalStrut(80);
-		horizontalBox_2.add(horizontalStrut_8);
+		horizontalBox_2.add(Box.createHorizontalStrut(80));
 		
 		JLabel lblLoaiPhong = new JLabel("Loại phòng:");
 		lblLoaiPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(lblLoaiPhong);
 		
-		Component horizontalStrut_9 = Box.createHorizontalStrut(80);
-		horizontalBox_2.add(horizontalStrut_9);
+		horizontalBox_2.add(Box.createHorizontalStrut(80));
 		
 		JComboBox cbxLoaiPhong = new JComboBox();
 		cbxLoaiPhong.setModel(new DefaultComboBoxModel(new String[] {"Tất cả", "Vip", "Thường"}));
 		cbxLoaiPhong.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		horizontalBox_2.add(cbxLoaiPhong);
 		
-		Component horizontalStrut_10 = Box.createHorizontalStrut(100);
-		horizontalBox_2.add(horizontalStrut_10);
+		horizontalBox_2.add(Box.createHorizontalStrut(100));
 		
 		JButton btnSearch = new JButton("Tìm kiếm");
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(btnSearch);
 		
-		Component horizontalStrut_6 = Box.createHorizontalStrut(30);
-		horizontalBox_2.add(horizontalStrut_6);
+		horizontalBox_2.add(Box.createHorizontalStrut(30));
 		
 		JPanel panel_Table = new JPanel();
+		panel_Table.setBackground(new Color(255, 255, 255));
 		contentPane.add(panel_Table);
 		
 		JPanel panel_Bottom = new JPanel();
+		panel_Bottom.setBackground(new Color(255, 255, 255));
 		contentPane.add(panel_Bottom, BorderLayout.SOUTH);
 		panel_Bottom.setLayout(new BorderLayout(0, 0));
 		
@@ -190,29 +174,27 @@ public class GD_DatPhongTruoc extends JFrame {
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		verticalBox_1.add(horizontalBox_3);
 		
-		Component horizontalStrut_12 = Box.createHorizontalStrut(30);
-		horizontalBox_3.add(horizontalStrut_12);
+		horizontalBox_3.add(Box.createHorizontalStrut(30));
 		
 		JLabel lblNhanPhong = new JLabel("Nhận phòng:");
 		lblNhanPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_3.add(lblNhanPhong);
 		
-		Component horizontalStrut_13 = Box.createHorizontalStrut(30);
-		horizontalBox_3.add(horizontalStrut_13);
+		horizontalBox_3.add(Box.createHorizontalStrut(30));
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Hôm nay");
+		rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
 		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_3.add(rdbtnNewRadioButton);
 		
-		Component horizontalStrut_14 = Box.createHorizontalStrut(30);
-		horizontalBox_3.add(horizontalStrut_14);
+		horizontalBox_3.add(Box.createHorizontalStrut(30));
 		
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Ngày khác");
+		rdbtnNewRadioButton_1.setBackground(new Color(255, 255, 255));
 		rdbtnNewRadioButton_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_3.add(rdbtnNewRadioButton_1);
 		
-		Component horizontalStrut_15 = Box.createHorizontalStrut(300);
-		horizontalBox_3.add(horizontalStrut_15);
+		horizontalBox_3.add(Box.createHorizontalStrut(300));
 		
 		JDateChooser dateChooser = new JDateChooser();
 		horizontalBox_3.add(dateChooser);
@@ -220,11 +202,9 @@ public class GD_DatPhongTruoc extends JFrame {
 		JPanel panel = new JPanel();
 		horizontalBox_3.add(panel);
 		
-		Component horizontalStrut_21 = Box.createHorizontalStrut(50);
-		panel.add(horizontalStrut_21);
+		horizontalBox_3.add(Box.createHorizontalStrut(50));
 		
-		Component verticalStrut_3 = Box.createVerticalStrut(30);
-		verticalBox_1.add(verticalStrut_3);
+		verticalBox_1.add(Box.createVerticalStrut(30));
 		
 		Box horizontalBox_4 = Box.createHorizontalBox();
 		verticalBox_1.add(horizontalBox_4);
@@ -278,6 +258,7 @@ public class GD_DatPhongTruoc extends JFrame {
 		horizontalBox_4.add(horizontalStrut_18);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		verticalBox_1.add(panel_1);
 		
 		Component verticalStrut_4 = Box.createVerticalStrut(20);

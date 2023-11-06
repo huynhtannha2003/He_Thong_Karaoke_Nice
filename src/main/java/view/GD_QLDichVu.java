@@ -1,52 +1,33 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-
-import javax.swing.border.MatteBorder;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.CardLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.Box;
-import javax.swing.JTextField;
 import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JComboBox;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.DropMode;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import java.awt.TextArea;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.awt.Insets;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class GD_QLDichVu {
 
@@ -58,9 +39,6 @@ public class GD_QLDichVu {
 	private JTextField textField_1;
 	private JTable table_1;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -74,24 +52,22 @@ public class GD_QLDichVu {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public GD_QLDichVu() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1321, 696);
-
+		frame.setSize(1000, 700);
+		frame.setLocationRelativeTo(null);
+		
+		addHeaderPanel();
+        addInputPanel();
+        addDataTablePanel();
+		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(new Color(0, 0, 0));
+		menuBar.setBackground(new Color(255, 255, 255));
 		menuBar.setToolTipText("");
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		frame.setJMenuBar(menuBar);
@@ -177,21 +153,18 @@ public class GD_QLDichVu {
 		Box verticalBox = Box.createVerticalBox();
 		Info_Pane.add(verticalBox);
 		
-		Component verticalStrut = Box.createVerticalStrut(40);
-		verticalBox.add(verticalStrut);
+		verticalBox.add(Box.createVerticalStrut(40));
 
 		Box horizontalBox = Box.createHorizontalBox();
 		verticalBox.add(horizontalBox);
 		
-		Component horizontalStrut = Box.createHorizontalStrut(50);
-		horizontalBox.add(horizontalStrut);
+		horizontalBox.add(Box.createHorizontalStrut(50));
 
 		JLabel lblMaDichVu = new JLabel("Mã dịch vụ:");
 		lblMaDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(lblMaDichVu);
 		
-		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
-		horizontalBox.add(horizontalStrut_2);
+		horizontalBox.add(Box.createHorizontalStrut(20));
 
 		txtMaDichVu = new JTextField();
 		txtMaDichVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -204,56 +177,49 @@ public class GD_QLDichVu {
 		lblTenDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(lblTenDichVu);
 		
-		Component horizontalStrut_4 = Box.createHorizontalStrut(30);
-		horizontalBox.add(horizontalStrut_4);
+		horizontalBox.add(Box.createHorizontalStrut(20));
 		
 		txtTenDichVu = new JTextField();
 		txtTenDichVu.setColumns(10);
 		txtTenDichVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		horizontalBox.add(txtTenDichVu);
 		
-		Component horizontalStrut_8 = Box.createHorizontalStrut(50);
-		horizontalBox.add(horizontalStrut_8);
+		horizontalBox.add(Box.createHorizontalStrut(50));
 		
-		Component verticalStrut_3 = Box.createVerticalStrut(40);
-		verticalBox.add(verticalStrut_3);
+		verticalBox.add(Box.createVerticalStrut(40));
 
-		Box horizontalBox_2 = Box.createHorizontalBox();
-		verticalBox.add(horizontalBox_2);
+		Box horizontalBox_1 = Box.createHorizontalBox();
+		verticalBox.add(horizontalBox_1);
 		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(50);
-		horizontalBox_2.add(horizontalStrut_1);
+		horizontalBox_1.add(Box.createHorizontalStrut(50));
 
 		JLabel lblSoLuong = new JLabel("Số lượng:");
 		lblSoLuong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_2.add(lblSoLuong);
+		horizontalBox_1.add(lblSoLuong);
 		
-		Component horizontalStrut_3 = Box.createHorizontalStrut(30);
-		horizontalBox_2.add(horizontalStrut_3);
+		horizontalBox_1.add(Box.createHorizontalStrut(20));
 
 		txtSoLuong = new JTextField();
-		txtSoLuong.setColumns(10);
+		txtSoLuong.setPreferredSize(txtMaDichVu.getPreferredSize());
 		txtSoLuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		horizontalBox_2.add(txtSoLuong);
+		horizontalBox_1.add(txtSoLuong);
 		
-		Component horizontalStrut_9 = Box.createHorizontalStrut(50);
-		horizontalBox_2.add(horizontalStrut_9);
+		horizontalBox_1.add(Box.createHorizontalStrut(50));
 		
 		JLabel lblTrangThai = new JLabel("Trạng thái:");
 		lblTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_2.add(lblTrangThai);
+		horizontalBox_1.add(lblTrangThai);
 		
-		Component horizontalStrut_10 = Box.createHorizontalStrut(37);
-		horizontalBox_2.add(horizontalStrut_10);
+		horizontalBox_1.add(Box.createHorizontalStrut(20));
 		
 		JComboBox cbxTrangThai = new JComboBox();
 		cbxTrangThai.setModel(new DefaultComboBoxModel(new String[] {"Hiệu lực ", "Vô hiệu"}));
 		cbxTrangThai.setMaximumRowCount(2);
 		cbxTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		horizontalBox_2.add(cbxTrangThai);
+		horizontalBox_1.add(cbxTrangThai);
 		
-		Component horizontalStrut_5 = Box.createHorizontalStrut(310);
-		horizontalBox_2.add(horizontalStrut_5);
+		Component horizontalStrut_5 = Box.createHorizontalStrut(160);
+		horizontalBox_1.add(horizontalStrut_5);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		verticalBox.add(verticalStrut_1);
@@ -265,12 +231,14 @@ public class GD_QLDichVu {
 		horizontalBox_4.add(horizontalStrut_13);
 
 		JButton btnThem = new JButton("Thêm");
+		btnThem.setBackground(new Color(107, 208, 107));
 		btnThem.setAlignmentX(1.0f);
 		btnThem.setAlignmentY(0.0f);
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_4.add(btnThem);
 
 		JButton btnSua = new JButton("Sửa");
+		btnSua.setBackground(new Color(107, 208, 107));
 		btnSua.setAlignmentY(0.0f);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -286,6 +254,7 @@ public class GD_QLDichVu {
 		horizontalBox_4.add(horizontalStrut_11);
 
 		JButton btnXoaTrang = new JButton("Xóa Trắng");
+		btnXoaTrang.setBackground(new Color(107, 208, 107));
 		btnXoaTrang.setAlignmentY(0.0f);
 		btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_4.add(btnXoaTrang);
@@ -297,11 +266,11 @@ public class GD_QLDichVu {
 		Info_Pane.add(verticalBox_1);
 		
 		JButton btnChonAnh = new JButton("Chọn ảnh");
+		btnChonAnh.setBackground(new Color(107, 208, 107));
 		btnChonAnh.setFont(new Font("Tahoma", Font.BOLD, 14));
 		verticalBox_1.add(btnChonAnh);
 		
-		Component horizontalStrut_7 = Box.createHorizontalStrut(50);
-		Info_Pane.add(horizontalStrut_7);
+		Info_Pane.add(Box.createHorizontalStrut(50));
 		
 		JPanel Pane = new JPanel();
 		contentPane.add(Pane, BorderLayout.CENTER);
@@ -312,72 +281,52 @@ public class GD_QLDichVu {
 		Pane.add(search_Pane, BorderLayout.NORTH);
 		search_Pane.setLayout(new BoxLayout(search_Pane, BoxLayout.X_AXIS));
 		
-		Component horizontalStrut_14 = Box.createHorizontalStrut(50);
-		search_Pane.add(horizontalStrut_14);
+		search_Pane.add(Box.createHorizontalStrut(50));
 		
 		Box verticalBox_2 = Box.createVerticalBox();
+		verticalBox_2.add(Box.createVerticalStrut(20));
 		search_Pane.add(verticalBox_2);
 		
-		Box horizontalBox_1 = Box.createHorizontalBox();
-		verticalBox_2.add(horizontalBox_1);
+		Box horizontalBox_2 = Box.createHorizontalBox();
+		verticalBox_2.add(horizontalBox_2);
 		
 		JLabel lblTimMa = new JLabel("Chọn từ khóa:");
 		lblTimMa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_1.add(lblTimMa);
+		horizontalBox_2.add(lblTimMa);
 		
-		Component horizontalStrut_18 = Box.createHorizontalStrut(20);
-		horizontalBox_1.add(horizontalStrut_18);
+		horizontalBox_2.add(Box.createHorizontalStrut(20));
 		
 		JComboBox cbxTimtrangthai = new JComboBox();
 		cbxTimtrangthai.setModel(new DefaultComboBoxModel(new String[] {"Mã dịch vụ", "Tên dịch vụ", "Số lượng", "Trạng thái"}));
 		cbxTimtrangthai.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		horizontalBox_1.add(cbxTimtrangthai);
+		horizontalBox_2.add(cbxTimtrangthai);
 		
-		Component horizontalStrut_20 = Box.createHorizontalStrut(20);
-		horizontalBox_1.add(horizontalStrut_20);
+		horizontalBox_2.add(Box.createHorizontalStrut(20));
 		
 		JLabel lblNewLabel_2 = new JLabel("Nhập từ khóa:");
-		horizontalBox_1.add(lblNewLabel_2);
+		horizontalBox_2.add(lblNewLabel_2);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		Component horizontalStrut_19 = Box.createHorizontalStrut(20);
-		horizontalBox_1.add(horizontalStrut_19);
+		horizontalBox_2.add(Box.createHorizontalStrut(20));
 		
 		textField_1 = new JTextField();
-		horizontalBox_1.add(textField_1);
+		horizontalBox_2.add(textField_1);
 		textField_1.setColumns(10);
 		
-		Component horizontalStrut_16 = Box.createHorizontalStrut(50);
-		horizontalBox_1.add(horizontalStrut_16);
+		horizontalBox_2.add(Box.createHorizontalStrut(50));
 		
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		verticalBox_2.add(verticalStrut_2);
-		
-		Box horizontalBox_3 = Box.createHorizontalBox();
-		horizontalBox_3.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		verticalBox_2.add(horizontalBox_3);
-		
-		Component horizontalStrut_21 = Box.createHorizontalStrut(700);
-		horizontalStrut_21.setEnabled(false);
-		horizontalBox_3.add(horizontalStrut_21);
+		verticalBox_2.add(Box.createVerticalStrut(20));
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
-		horizontalBox_3.add(btnTimKiem);
+		btnTimKiem.setBackground(new Color(107, 208, 107));
+		horizontalBox_2.add(btnTimKiem);
 		btnTimKiem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		Component horizontalStrut_17 = Box.createHorizontalStrut(40);
-		horizontalBox_3.add(horizontalStrut_17);
-		
-		JButton btnXoaTrang_1 = new JButton("Xóa Trắng");
-		btnXoaTrang_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_3.add(btnXoaTrang_1);
-		
-		Component horizontalStrut_15 = Box.createHorizontalStrut(40);
-		search_Pane.add(horizontalStrut_15);
+		search_Pane.add(Box.createHorizontalStrut(40));
 		
 		JPanel table_Pane = new JPanel();
 		Pane.add(table_Pane, BorderLayout.CENTER);
@@ -402,6 +351,21 @@ public class GD_QLDichVu {
 		JScrollPane jp = new JScrollPane(table_1);
 		jp.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
 		table_Pane.add(jp);
+		
+	}
+
+	private void addDataTablePanel() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addInputPanel() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addHeaderPanel() {
+		// TODO Auto-generated method stub
 		
 	}
 

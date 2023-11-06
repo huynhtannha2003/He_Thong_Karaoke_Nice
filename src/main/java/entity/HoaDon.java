@@ -1,23 +1,29 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class HoaDon {
 	private String maHoaDon;
+	private double tongTien;
+	private Date NgayThanhToan;
+	private Time thoiDiemThanhToan;
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
-	private float tongTien;
-	private Date thoiGianThanhToan;
+	private KhuyenMai khuyenMai;
 
 	public HoaDon() {
 	}
 
-	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien, float tongTien, Date thoiGianThanhToan) {
+	public HoaDon(String maHoaDon, double tongTien, Date ngayThanhToan, Time thoiDiemThanhToan, KhachHang khachHang,
+			NhanVien nhanVien, KhuyenMai khuyenMai) {
 		this.maHoaDon = maHoaDon;
+		this.tongTien = tongTien;
+		NgayThanhToan = ngayThanhToan;
+		this.thoiDiemThanhToan = thoiDiemThanhToan;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
-		this.tongTien = tongTien;
-		this.thoiGianThanhToan = thoiGianThanhToan;
+		this.khuyenMai = khuyenMai;
 	}
 
 	public String getMaHoaDon() {
@@ -26,6 +32,30 @@ public class HoaDon {
 
 	public void setMaHoaDon(String maHoaDon) {
 		this.maHoaDon = maHoaDon;
+	}
+
+	public double getTongTien() {
+		return tongTien;
+	}
+
+	public void setTongTien(double tongTien) {
+		this.tongTien = tongTien;
+	}
+
+	public Date getNgayThanhToan() {
+		return NgayThanhToan;
+	}
+
+	public void setNgayThanhToan(Date ngayThanhToan) {
+		NgayThanhToan = ngayThanhToan;
+	}
+
+	public Time getThoiDiemThanhToan() {
+		return thoiDiemThanhToan;
+	}
+
+	public void setThoiDiemThanhToan(Time thoiDiemThanhToan) {
+		this.thoiDiemThanhToan = thoiDiemThanhToan;
 	}
 
 	public KhachHang getKhachHang() {
@@ -44,19 +74,11 @@ public class HoaDon {
 		this.nhanVien = nhanVien;
 	}
 
-	public float getTongTien() {
-		return tongTien;
+	public KhuyenMai getKhuyenMai() {
+		return khuyenMai;
 	}
 
-	public void setTongTien(float tongTien) {
-		this.tongTien = tongTien;
-	}
-
-	public Date getThoiGianThanhToan() {
-		return thoiGianThanhToan;
-	}
-
-	public void setThoiGianThanhToan(Date thoiGianThanhToan) {
-		this.thoiGianThanhToan = thoiGianThanhToan;
+	public void setKhuyenMai(KhuyenMai khuyenMai) {
+		this.khuyenMai = khuyenMai;
 	}
 }

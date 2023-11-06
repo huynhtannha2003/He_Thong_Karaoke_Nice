@@ -8,7 +8,7 @@ public class PhieuDatPhong {
 	private Time thoiGianKetThuc;
 	private HoaDon hoaDon;
 	private Phong phong;
-
+	
 	public PhieuDatPhong() {
 	}
 
