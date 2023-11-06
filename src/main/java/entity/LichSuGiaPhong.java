@@ -5,18 +5,18 @@ import java.sql.Time;
 
 public class LichSuGiaPhong {
 	private String maLichSuGiaPhong;
-    private Date ngayBatDau;
-    private Date ngayKetThuc;
-    private Time thoiDiemBatDau;
-    private Time thoiDiemKetThuc;
-    private double gia;
-	private Phong phong;
+	private Date ngayBatDau;
+	private Date ngayKetThuc;
+	private Time thoiDiemBatDau;
+	private Time thoiDiemKetThuc;
+	private double gia;
+	private LoaiPhong phong;
 
 	public LichSuGiaPhong() {
 	}
 
 	public LichSuGiaPhong(String maLichSuGiaPhong, Date ngayBatDau, Date ngayKetThuc, Time thoiDiemBatDau,
-			Time thoiDiemKetThuc, double gia, Phong phong) {
+			Time thoiDiemKetThuc, double gia, LoaiPhong phong) {
 		super();
 		this.maLichSuGiaPhong = maLichSuGiaPhong;
 		this.ngayBatDau = ngayBatDau;
@@ -75,11 +75,12 @@ public class LichSuGiaPhong {
 		this.gia = gia;
 	}
 
-	public Phong getPhong() {
+	public LoaiPhong getPhong() {
 		return phong;
 	}
 
-	public void setPhong(Phong phong) {
+	public void setPhong(LoaiPhong phong) {
 		this.phong = phong;
 	}
+
 }

@@ -121,7 +121,6 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener {
 		pnFind.setBorder(BorderFactory.createLineBorder(Color.black));
 		pnFind.setLayout(new BoxLayout(pnFind, BoxLayout.Y_AXIS));
 		pnFind.add(box = Box.createVerticalBox());
-//		pnFind.setMaximumSize(new Dimension(1000,25));
 
 		box.add(Box.createVerticalStrut(10));
 		box.add(box1 = Box.createHorizontalBox());

@@ -30,7 +30,7 @@ import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
-import utils.RoomImageUtil;
+import utils.ResizeImageUtil;
 import utils.RoomPanelUtil;
 
 public class GD_QuanLyDatPhong extends JFrame {
@@ -106,7 +106,7 @@ public class GD_QuanLyDatPhong extends JFrame {
 			pnNotePhong.setBackground(new Color(255, 255, 255));
 		
 			
-			JLabel imageLabel = new JLabel(RoomImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
+			JLabel imageLabel = new JLabel(ResizeImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
 			pnNotePhong.add(imageLabel);
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 

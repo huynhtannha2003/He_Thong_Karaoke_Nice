@@ -5,11 +5,13 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import entity.DichVu;
 import entity.Phong;
 
 public class RoomPanelUtil {
@@ -23,7 +25,7 @@ public class RoomPanelUtil {
 
 			phongPanel.add(Box.createVerticalStrut(15));
 
-			JLabel imageLabel = new JLabel(RoomImageUtil.getImageByTypePhong(phong.getTrangThai(), 110, 110));
+			JLabel imageLabel = new JLabel(ResizeImageUtil.getImageByTypePhong(phong.getTrangThai(), 110, 110));
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			phongPanel.add(imageLabel);
 
@@ -50,4 +52,41 @@ public class RoomPanelUtil {
 		}
 		return panels;
 	}
+	
+	public static List<JPanel> createDichVuPanels(List<DichVu> listDichVu) {
+        List<JPanel> panels = new ArrayList<>();
+
+        for (DichVu dichVu : listDichVu) {
+            JPanel dichVuPanel = new JPanel();
+            dichVuPanel.setLayout(new BoxLayout(dichVuPanel, BoxLayout.Y_AXIS));
+            dichVuPanel.setBackground(new Color(255, 255, 255));
+
+            dichVuPanel.add(Box.createVerticalStrut(15));
+
+             JLabel imageLabel = new JLabel(ResizeImageUtil.getResizedImage("phongTrong", 110, 110));
+             imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+             dichVuPanel.add(imageLabel);
+
+             JLabel lblServiceName = new JLabel("Dịch vụ: " + dichVu.getTenDichVu());
+            lblServiceName.setAlignmentX(Component.CENTER_ALIGNMENT);
+            dichVuPanel.add(lblServiceName);
+
+            dichVuPanel.add(Box.createVerticalStrut(10));
+
+            JLabel lblQuantity = new JLabel("Số lượng: " + dichVu.getSoLuong());
+            lblQuantity.setAlignmentX(Component.CENTER_ALIGNMENT);
+            dichVuPanel.add(lblQuantity);
+
+            dichVuPanel.add(Box.createVerticalStrut(10));
+
+            JLabel lblType = new JLabel("Loại dịch vụ: " + dichVu.getLoaiDichVu().getTenLoaiDichVu());
+            lblType.setAlignmentX(Component.CENTER_ALIGNMENT);
+            dichVuPanel.add(lblType);
+
+            dichVuPanel.add(Box.createVerticalStrut(15));
+
+            panels.add(dichVuPanel);
+        }
+        return panels;
+    }
 }

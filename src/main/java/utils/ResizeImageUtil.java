@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 import enums.TrangThaiPhong;
 
-public class RoomImageUtil {
+public class ResizeImageUtil {
 	private static String getRoomStatusToString(TrangThaiPhong trangThai) {
 		switch (trangThai) {
 		case PHONG_TRONG:
@@ -24,7 +24,13 @@ public class RoomImageUtil {
 
 	public static ImageIcon getImageByTypePhong(TrangThaiPhong trangThai, int width, int height) {
 		String status = getRoomStatusToString(trangThai);
-		ImageIcon icon = new ImageIcon(RoomImageUtil.class.getResource("/image/" + status + ".png"));
+		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource("/image/" + status + ".png"));
+		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		return new ImageIcon(resizedIcon);
+	}
+	
+	public static ImageIcon getResizedImage(String service, int width, int height) {
+		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource("/image/dichVu/" + service + ".png"));
 		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedIcon);
 	}
