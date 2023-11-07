@@ -161,8 +161,8 @@ VALUES ('P0201', '001', 10, 'LP002', 0),
 GO
 
 INSERT INTO LichSuGiaPhong
-VALUES ('GP.041123.01', '2023-11-04', '2023-11-10', '6:00', '12:00', 100000, 'LP001'),
-       ('GP.041123.02', '2023-11-06', '2023-11-20', '18:00', '23:00', 100000, 'LP002')
+VALUES ('GP.041123.01', '2018-01-01', '2023-11-10', '6:00', '12:00', 100000, 'LP001'),
+       ('GP.041123.02', '2018-01-01', '2023-11-20', '18:00', '23:00', 100000, 'LP002')
 GO
 
 INSERT INTO NhanVien
@@ -202,16 +202,16 @@ VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1),
 GO
 
 INSERT INTO LichSuGiaDichVu
-VALUES ('GDV.041123001', '2023-11-04', '2023-11-8', '6:00', '12:00', 80000, 'DV.001.001'),
-       ('GDV.041123002', '2023-11-04', '2023-11-8', '6:00', '12:00', 120000, 'DV.001.002'),
-       ('GDV.041123003', '2023-11-04', '2023-11-8', '12:00', '18:00', 100000, 'DV.001.003'),
-       ('GDV.041123004', '2023-11-04', '2023-11-8', '12:00', '18:00', 40000, 'DV.001.004'),
-       ('GDV.051123001', '2023-11-05', '2023-11-12', '18:00', '23:00', 150000, 'DV.001.005'),
-       ('GDV.051123002', '2023-11-05', '2023-11-12', '18:00', '23:00', 20000, 'DV.002.001'),
-       ('GDV.061123001', '2023-11-06', '2023-11-15', '6:00', '12:00', 560000, 'DV.002.002'),
-       ('GDV.061123002', '2023-11-06', '2023-11-15', '6:00', '12:00', 18000, 'DV.002.003'),
-       ('GDV.061123003', '2023-11-06', '2023-11-15', '6:00', '12:00', 15000, 'DV.002.004'),
-       ('GDV.061123014', '2023-11-06', '2023-11-15', '6:00', '12:00', 830000, 'DV.002.005')
+VALUES ('GDV.041123001', '2018-01-01', NULL, '6:00', '12:00', 80000, 'DV.001.001'),
+       ('GDV.041123002', '2018-01-01', NULL, '6:00', '12:00', 120000, 'DV.001.002'),
+       ('GDV.041123003', '2018-01-01', NULL, '12:00', '18:00', 100000, 'DV.001.003'),
+       ('GDV.041123004', '2018-01-01', NULL, '12:00', '18:00', 40000, 'DV.001.004'),
+       ('GDV.051123001', '2018-01-01', NULL, '18:00', '23:00', 150000, 'DV.001.005'),
+       ('GDV.051123002', '2018-01-01', NULL, '18:00', '23:00', 20000, 'DV.002.001'),
+       ('GDV.061123001', '2018-01-01', NULL, '6:00', '12:00', 560000, 'DV.002.002'),
+       ('GDV.061123002', '2018-01-01', NULL, '6:00', '12:00', 18000, 'DV.002.003'),
+       ('GDV.061123003', '2018-01-01', NULL, '6:00', '12:00', 15000, 'DV.002.004'),
+       ('GDV.061123014', '2018-01-01', NULL, '6:00', '12:00', 830000, 'DV.002.005')
 GO
 
 INSERT INTO KhuyenMai
@@ -330,12 +330,21 @@ FROM NhanVien;
 GO
 
 CREATE VIEW TaiKhoanView AS
-SELECT maTaiKhoan  AS TaiKhoan_MaTaiKhoan,
-       tenTaiKhoan AS TaiKhoan_TenTaiKhoan,
-       matKhau     AS TaiKhoan_MatKhau,
-       trangThai   AS TaiKhoan_TrangThai,
-       maNhanVien  AS TaiKhoan_MaNhanVien
-FROM TaiKhoan;
+SELECT
+    TK.maTaiKhoan AS TaiKhoan_MaTaiKhoan,
+    TK.tenTaiKhoan AS TaiKhoan_TenTaiKhoan,
+    TK.matKhau AS TaiKhoan_MatKhau,
+    TK.trangThai AS TaiKhoan_TrangThai,
+    TK.maNhanVien AS TaiKhoan_MaNhanVien,
+    NV.maNhanVien AS NhanVien_MaNhanVien,
+    NV.ten AS NhanVien_Ten,
+    NV.chucVu AS NhanVien_ChucVu,
+    NV.sdt AS NhanVien_SDT,
+    NV.email AS NhanVien_Email,
+    NV.diaChi AS NhanVien_DiaChi,
+    NV.trangThai AS NhanVien_TrangThai
+FROM TaiKhoan TK
+LEFT JOIN NhanVien NV ON TK.maNhanVien = NV.maNhanVien;
 GO
 
 CREATE VIEW LoaiDichVuView AS
@@ -396,19 +405,51 @@ FROM HoaDon;
 GO
 
 CREATE VIEW PhieuDatPhongView AS
-SELECT maPhieuDatPhong AS PhieuDatPhong_MaPhieuDatPhong,
-       thoiGianBatDau  AS PhieuDatPhong_ThoiGianBatDau,
-       thoiGianKetThuc AS PhieuDatPhong_ThoiGianKetThuc,
-       maHoaDon        AS PhieuDatPhong_MaHoaDon,
-       maPhong         AS PhieuDatPhong_MaPhong
-FROM PhieuDatPhong;
+SELECT PDP.maPhieuDatPhong  AS PhieuDatPhong_MaPhieuDatPhong,
+       PDP.thoiGianBatDau   AS PhieuDatPhong_ThoiGianBatDau,
+       PDP.thoiGianKetThuc  AS PhieuDatPhong_ThoiGianKetThuc,
+       PDP.maHoaDon         AS PhieuDatPhong_MaHoaDon,
+       PDP.maPhong          AS PhieuDatPhong_MaPhong,
+       P.tenPhong           AS Phong_TenPhong,
+       P.sucChua            AS Phong_SucChua,
+       P.maLoaiPhong        AS Phong_MaLoaiPhong,
+       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai         AS LoaiPhong_TrangThai,
+       LSG.maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
+       LSG.ngayBatDau       AS LichSuGiaPhong_NgayBatDau,
+       LSG.ngayKetThuc      AS LichSuGiaPhong_NgayKetThuc,
+       LSG.thoiDiemBatDau   AS LichSuGiaPhong_ThoiDiemBatDau,
+       LSG.thoiDiemKetThuc  AS LichSuGiaPhong_ThoiDiemKetThuc,
+       LSG.gia              AS LichSuGiaPhong_Gia
+FROM PhieuDatPhong PDP
+         LEFT JOIN Phong P ON PDP.maPhong = P.maPhong
+         LEFT JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
+         LEFT JOIN HoaDon HD ON PDP.maHoaDon = HD.maHoaDon
+         LEFT JOIN LichSuGiaPhong LSG ON P.maLoaiPhong = LSG.maLoaiPhong
+         WHERE LSG.ngayBatDau <= HD.NgayThanhToan AND (LSG.ngayKetThuc >= HD.NgayThanhToan OR LSG.ngayKetThuc IS NULL)
 GO
 
 CREATE VIEW ChiTietDatDichVuView AS
-SELECT maPhieuDatPhong AS ChiTietDatDichVu_MaPhieuDatPhong,
-       maDichVu        AS ChiTietDatDichVu_MaDichVu,
-       soLuong         AS ChiTietDatDichVu_SoLuong
-FROM ChiTietDatDichVu;
+SELECT PDT.maHoaDon        AS HoaDon_MaHoaDon,
+       CDD.maPhieuDatPhong AS ChiTietDatDichVu_MaPhieuDatPhong,
+       CDD.maDichVu        AS ChiTietDatDichVu_MaDichVu,
+       CDD.soLuong         AS ChiTietDatDichVu_SoLuong,
+       DV.maDichVu         AS DichVu_MaDichVu,
+       DV.tenDichVu        AS DichVu_TenDichVu,
+       DV.soLuong          AS DichVu_SoLuong,
+       DV.maLoaiDichVu     AS DichVu_MaLoaiDichVu,
+       LDV.maLoaiDichVu    AS LoaiDichVu_MaLoaiDichVu,
+       LDV.tenLoaiDichVu   AS LoaiDichVu_TenLoaiDichVu,
+       LDV.trangThai       AS LoaiDichVu_TrangThai,
+       LGDV.gia            AS LichSuGiaDichVu_Gia
+FROM ChiTietDatDichVu CDD
+         JOIN DichVu DV ON CDD.maDichVu = DV.maDichVu
+         JOIN LoaiDichVu LDV ON DV.maLoaiDichVu = LDV.maLoaiDichVu
+         JOIN PhieuDatPhong PDT ON CDD.maPhieuDatPhong = PDT.maPhieuDatPhong
+         JOIN HoaDon HD ON PDT.maHoaDon = HD.maHoaDon
+         JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu
+WHERE LGDV.ngayBatDau <= HD.NgayThanhToan
+  AND (LGDV.ngayKetThuc >= HD.NgayThanhToan OR LGDV.ngayKetThuc IS NULL);
 GO
 
 CREATE VIEW HoaDonDetailsView AS

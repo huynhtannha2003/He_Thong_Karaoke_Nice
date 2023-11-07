@@ -1,5 +1,8 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class ChiTietDatDichVu {
 	private int soLuong;
 	private PhieuDatPhong phieuDatPhong;
@@ -14,6 +17,11 @@ public class ChiTietDatDichVu {
 		this.dichVu = dichVu;
 	}
 
+	public ChiTietDatDichVu(ResultSet rs) throws SQLException {
+		this.soLuong = rs.getInt("ChiTietDatDichVu_SoLuong");
+		this.dichVu = new DichVu(rs);
+	}
+	
 	public int getSoLuong() {
 		return soLuong;
 	}

@@ -1,5 +1,7 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 
 public class PhieuDatPhong {
@@ -21,6 +23,13 @@ public class PhieuDatPhong {
 		this.phong = phong;
 	}
 
+	public PhieuDatPhong(ResultSet rs) throws SQLException {
+		this.maPhieuDatPhong = rs.getString("PhieuDatPhong_MaPhieuDatPhong");
+		this.thoiGianBatDau = rs.getTime("PhieuDatPhong_ThoiGianBatDau");
+		this.thoiGianKetThuc = rs.getTime("PhieuDatPhong_ThoiGianKetThuc");
+		this.phong = new Phong(rs);
+	}
+	
 	public String getMaPhieuDatPhong() {
 		return maPhieuDatPhong;
 	}
