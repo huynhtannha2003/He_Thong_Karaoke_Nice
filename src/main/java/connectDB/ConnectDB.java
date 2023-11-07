@@ -30,7 +30,7 @@ public class ConnectDB {
 		}
 	}
 
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		return con;
 	}
 }
