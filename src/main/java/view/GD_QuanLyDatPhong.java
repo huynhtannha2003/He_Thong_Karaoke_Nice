@@ -60,15 +60,15 @@ public class GD_QuanLyDatPhong extends JFrame {
 	}
 
 	private void setupFrame() {
-        getContentPane().setBackground(Color.WHITE);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-    }
-	
+		getContentPane().setBackground(Color.WHITE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(1000, 700);
+		setLocationRelativeTo(null);
+	}
+
 	private void initGUI() throws IOException {
 		setupFrame();
-		
+
 		addMenuBar();
 
 		addPanelNorth();
@@ -90,7 +90,7 @@ public class GD_QuanLyDatPhong extends JFrame {
 
 		addPanelRoom();
 
-		addNotePanel();	
+		addNotePanel();
 	}
 
 	private void addNotePanel() {
@@ -99,13 +99,12 @@ public class GD_QuanLyDatPhong extends JFrame {
 		pnCenter.add(pnNote, BorderLayout.SOUTH);
 
 		pnNote.setLayout(new GridLayout(0, 4, 0, 0));
-		
+
 		TrangThaiPhong[] dsTrangThaiPhong = TrangThaiPhong.values();
-		for(TrangThaiPhong currentTrangThaiPhong : dsTrangThaiPhong) {
+		for (TrangThaiPhong currentTrangThaiPhong : dsTrangThaiPhong) {
 			JPanel pnNotePhong = new JPanel();
 			pnNotePhong.setBackground(new Color(255, 255, 255));
-		
-			
+
 			JLabel imageLabel = new JLabel(ResizeImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
 			pnNotePhong.add(imageLabel);
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
