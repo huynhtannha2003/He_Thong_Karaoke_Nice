@@ -3,6 +3,7 @@ package utils;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import enums.TrangThaiPhong;
 
@@ -28,10 +29,11 @@ public class ResizeImageUtil {
 		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedIcon);
 	}
-	
+
 	public static ImageIcon getResizedImage(String service, int width, int height) {
 		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource("/image/dichVu/" + service + ".png"));
 		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedIcon);
 	}
+
 }

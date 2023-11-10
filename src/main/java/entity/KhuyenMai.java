@@ -1,6 +1,8 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 
 public class KhuyenMai {
@@ -28,6 +30,17 @@ public class KhuyenMai {
 		this.thoiDiemKetThuc = thoiDiemKetThuc;
 	}
 
+	public KhuyenMai(ResultSet rs) throws SQLException {
+		this.maKhuyenMai = rs.getString("KhuyenMai_MaKhuyenMai");
+		this.tenKhuyenMai = rs.getString("KhuyenMai_TenKhuyenMai");
+		this.phanTram = rs.getDouble("KhuyenMai_PhanTram");
+		this.gioiHan = rs.getDouble("KhuyenMai_GioiHan");
+		this.ngayBatDau = rs.getDate("KhuyenMai_NgayBatDau");
+		this.ngayKetThuc = rs.getDate("KhuyenMai_NgayKetThuc");
+		this.thoiDiemBatDau = rs.getTime("KhuyenMai_ThoiDiemBatDau");
+		this.thoiDiemKetThuc = rs.getTime("KhuyenMai_ThoiDiemKetThuc");
+	}
+	
 	public String getMaKhuyenMai() {
 		return maKhuyenMai;
 	}

@@ -1,5 +1,8 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import enums.TrangThaiPhong;
 
 public class Phong {
@@ -13,12 +16,19 @@ public class Phong {
 	}
 
 	public Phong(String maPhong, LoaiPhong loaiPhong, String tenPhong, int sucChua, TrangThaiPhong trangThai) {
-		super();
 		this.maPhong = maPhong;
 		this.loaiPhong = loaiPhong;
 		this.tenPhong = tenPhong;
 		this.sucChua = sucChua;
 		this.trangThai = trangThai;
+	}
+
+	public Phong(ResultSet rs) throws SQLException {
+		this.maPhong = rs.getString("Phong_MaPhong");
+		this.loaiPhong = new LoaiPhong(rs);
+		this.tenPhong = rs.getString("Phong_TenPhong");
+		this.sucChua = rs.getInt("Phong_SucChua");
+		this.trangThai = TrangThaiPhong.values()[rs.getInt("Phong_TrangThai")];
 	}
 
 	public String getMaPhong() {

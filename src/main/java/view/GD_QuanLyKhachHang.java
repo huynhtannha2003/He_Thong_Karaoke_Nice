@@ -26,6 +26,7 @@ import javax.swing.JMenuItem;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+import utils.*;
 
 public class GD_QuanLyKhachHang extends JFrame {
 
@@ -246,7 +247,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(107, 208, 107));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnThem.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/plus 1.png")));
+		btnThem.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/add_icon.png")));
 		BoxThongTin3.add(btnThem);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -255,7 +256,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnCapNhat = new JButton("Cập nhật");
 		btnCapNhat.setBackground(new Color(107, 208, 107));
 		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnCapNhat.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/pen (1) 1.png")));
+		btnCapNhat.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/update_icon.png")));
 		BoxThongTin3.add(btnCapNhat);
 
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -264,7 +265,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnXoaTrangThongTin = new JButton("Xóa trắng");
 		btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
 		btnXoaTrangThongTin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXoaTrangThongTin.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/clear-format 1.png")));
+		btnXoaTrangThongTin.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/clear_icon.png")));
 		BoxThongTin3.add(btnXoaTrangThongTin);
 
 		verticalStrut_5 = Box.createVerticalStrut(10);
@@ -325,7 +326,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(new Color(107, 208, 107));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/plus 1.png")));
+		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/add_icon.png")));
 		BoxTacVu.add(btnTimKiem);
 
 		Component horizontalStrut_10_1_1_1 = Box.createHorizontalStrut(20);
@@ -334,7 +335,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnXoaTrangTacVu = new JButton("Xóa trắng");
 		btnXoaTrangTacVu.setBackground(new Color(107, 208, 107));
 		btnXoaTrangTacVu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXoaTrangTacVu.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/clear-format 1.png")));
+		btnXoaTrangTacVu.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/clear_icon.png")));
 		BoxTacVu.add(btnXoaTrangTacVu);
 
 		Component verticalStrut_4 = Box.createVerticalStrut(10);

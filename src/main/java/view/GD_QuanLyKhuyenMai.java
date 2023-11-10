@@ -28,6 +28,7 @@ import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import utils.*;
 
 public class GD_QuanLyKhuyenMai extends JFrame {
 
@@ -335,7 +336,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		BoxVerticalThongTin.add(BoxThongTin3);
 
 		btnThem = new JButton("Thêm");
-		btnThem.setIcon(new ImageIcon(GD_QuanLyKhuyenMai.class.getResource("/image/plus 1.png")));
+		btnThem.setIcon(new ImageIcon(getClass().getResource("/image/icon/add_icon.png")));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThem.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnThem);
@@ -344,7 +345,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		BoxThongTin3.add(horizontalStrut);
 
 		btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setIcon(new ImageIcon(GD_QuanLyKhuyenMai.class.getResource("/image/pen (1) 1.png")));
+		btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
 		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCapNhat.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnCapNhat);
@@ -353,7 +354,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		BoxThongTin3.add(horizontalStrut_1);
 
 		btnXoaTrangThongTin = new JButton("Xóa trắng");
-		btnXoaTrangThongTin.setIcon(new ImageIcon(GD_QuanLyKhuyenMai.class.getResource("/image/clear-format 1.png")));
+		btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
 		btnXoaTrangThongTin.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnXoaTrangThongTin);
@@ -416,7 +417,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		btnTimKiem.setPreferredSize(new Dimension(127, 30));
 		btnTimKiem.setBackground(new Color(107, 208, 107));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyKhuyenMai.class.getResource("/image/Group 98.png")));
+		btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
 		BoxTacVu.add(btnTimKiem);
 
 		Component horizontalStrut_10_1_1_1 = Box.createHorizontalStrut(20);
@@ -453,7 +454,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalBox_2.add(horizontalStrut_7);
 
 		btnXoaTrangTacVu = new JButton("Xóa trắng");
-		btnXoaTrangTacVu.setIcon(new ImageIcon(GD_QuanLyKhuyenMai.class.getResource("/image/clear-format 1.png")));
+		btnXoaTrangTacVu.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
 		btnXoaTrangTacVu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaTrangTacVu.setBackground(new Color(107, 208, 107));
 		horizontalBox_2.add(btnXoaTrangTacVu);
