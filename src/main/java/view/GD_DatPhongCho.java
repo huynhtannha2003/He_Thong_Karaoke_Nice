@@ -33,30 +33,22 @@ import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
+import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
-public class GD_DatTruocCho extends JFrame {
+public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener{
 
-	private JPanel contentPane;
-	private JTextField txtNumber;
-	private JTextField txtCustomer;
-	private JTextField txtName;
+	private JPanel contentPane, pnCenter, pnNorth, pnSouth;
+	private JTextField txtNumber, txtCustomer, txtName;
 	private List<Phong> listPhong;
-	private JPanel pnCenter;
-	private JPanel pnNorth;
-	private JPanel pnSouth;
 	private ButtonGroup group;
-	private JComboBox<String> cbMin;
-	private JComboBox<String> cbHours;
+	private JComboBox<String> cbMin, cbHours;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GD_DatTruocCho frame = new GD_DatTruocCho();
+					GD_DatPhongCho frame = new GD_DatPhongCho();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,10 +57,7 @@ public class GD_DatTruocCho extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public GD_DatTruocCho() throws IOException {
+	public GD_DatPhongCho() throws IOException {
 		initGUI();
 	}
 
@@ -156,7 +145,7 @@ public class GD_DatTruocCho extends JFrame {
 
 		initData();
 
-		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong);
+		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong, this);
 		phongPanels.forEach(pnRoomScrollPane::add);
 	}
 
@@ -385,7 +374,7 @@ public class GD_DatTruocCho extends JFrame {
 
 	private void inputHours() {
 		String s;
-		for (int i = 0; i < 25; i++) {
+		for (int i = 8; i < 25; i++) {
 			if (i < 10) {
 				s = "0" + i + "";
 			} else {
@@ -397,7 +386,7 @@ public class GD_DatTruocCho extends JFrame {
 
 	private void inputMin() {
 		String s;
-		for (int i = 0; i < 61; i++) {
+		for (int i = 0; i < 61; i= i + 5) {
 			if (i < 10) {
 				s = "0" + i + "";
 			} else {
@@ -405,5 +394,10 @@ public class GD_DatTruocCho extends JFrame {
 			}
 			cbMin.addItem(s);
 		}
+	}
+
+	@Override
+	public void onPhongPanelClicked(Phong phong) {
+		
 	}
 }
