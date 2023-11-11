@@ -4,11 +4,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -49,7 +51,6 @@ public class GD_QuanLyHoaDon extends JFrame {
 	private JMenuItem MenuItemTKDoanhThu;
 	private JMenu MenuTroGiup;
 	private JLabel lbMaHoaDon;
-	private JTextField txtMaKhachHang;
 	private JLabel lbTenKhachHang;
 	private JButton btnTimKiem;
 	private JButton btnXuatHoaDon;
@@ -58,20 +59,17 @@ public class GD_QuanLyHoaDon extends JFrame {
 	private JLabel lbNgayKetThuc;
 	private JDateChooser txtNgayKetThuc;
 	private JDateChooser txtNgayBatDau;
-	private Component horizontalStrut_2;
-	private Component horizontalStrut_6;
-	private JScrollPane scrollPane;
-	private JTable table;
-	private Component verticalStrut_3;
-	private Component horizontalStrut_3;
+	private JScrollPane scrollPaneInvoice , scrollPaneInvoiceServiceDetail;
+	private JTable tableInvoice;
 	private JMenuItem MenuItemDangXuat;
 	private JMenuItem MenuItemThoat;
 	private JMenuItem MenuItemTrangChu;
 	private JMenuItem MenuItemTaiKhoan;
+	private JPanel pnCenter;
+	private JPanel pnDetail;
+	private JScrollPane scrollPaneInvoiceDetail;
+	private JTable tableInvoiceDetail, tableInvoiceServiceDetail;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -85,9 +83,6 @@ public class GD_QuanLyHoaDon extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public GD_QuanLyHoaDon() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1002, 699);
@@ -164,13 +159,14 @@ public class GD_QuanLyHoaDon extends JFrame {
 		MenuTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
 		menuBar.add(MenuTroGiup);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 10));
 
 		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 254));
+		TitlePanel.setBackground(new Color(97, 250, 204));
 		contentPane.add(TitlePanel, BorderLayout.NORTH);
 
 		JLabel lbTitle = new JLabel("Quản lý hóa đơn");
@@ -178,22 +174,22 @@ public class GD_QuanLyHoaDon extends JFrame {
 		TitlePanel.add(lbTitle);
 
 		JPanel ContentPanel = new JPanel();
+		ContentPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(ContentPanel);
 		ContentPanel.setLayout(new BorderLayout(0, 20));
 
 		JPanel PaneThongTin = new JPanel();
+		PaneThongTin.setBackground(new Color(255, 255, 255));
 		PaneThongTin.setBorder(new LineBorder(new Color(0, 0, 0)));
 		ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
 		PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
 
-		horizontalStrut_6 = Box.createHorizontalStrut(20);
-		PaneThongTin.add(horizontalStrut_6);
+		PaneThongTin.add(Box.createHorizontalStrut(20));
 
 		Box BoxVerticalThongTin = Box.createVerticalBox();
 		PaneThongTin.add(BoxVerticalThongTin);
 
-		Component verticalStrut = Box.createVerticalStrut(20);
-		BoxVerticalThongTin.add(verticalStrut);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
 		Box BoxThongTin1 = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(BoxThongTin1);
@@ -238,8 +234,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		lbNgayBatDau.setLabelFor(txtNgayBatDau);
 		BoxThongTin2.add(txtNgayBatDau);
 
-		horizontalStrut_2 = Box.createHorizontalStrut(20);
-		BoxThongTin2.add(horizontalStrut_2);
+		BoxThongTin2.add(Box.createHorizontalStrut(20));
 
 		lbNgayKetThuc = new JLabel("Đến ngày:");
 		lbNgayKetThuc.setPreferredSize(new Dimension(130, 30));
@@ -250,8 +245,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		lbNgayKetThuc.setLabelFor(txtNgayKetThuc);
 		BoxThongTin2.add(txtNgayKetThuc);
 
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		BoxVerticalThongTin.add(verticalStrut_2);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
 		Box BoxThongTin3 = Box.createHorizontalBox();
 		BoxThongTin3.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -263,8 +257,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/search_icon.png")));
 		BoxThongTin3.add(btnTimKiem);
 
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		BoxThongTin3.add(horizontalStrut);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
 		btnXuatHoaDon = new JButton("Xuất hóa đơn");
 		btnXuatHoaDon.setBackground(new Color(107, 208, 107));
@@ -272,8 +265,7 @@ public class GD_QuanLyHoaDon extends JFrame {
 		btnXuatHoaDon.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/print_icon.png")));
 		BoxThongTin3.add(btnXuatHoaDon);
 
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		BoxThongTin3.add(horizontalStrut_1);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
 		btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.setBackground(new Color(107, 208, 107));
@@ -281,22 +273,92 @@ public class GD_QuanLyHoaDon extends JFrame {
 		btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/clear_icon.png")));
 		BoxThongTin3.add(btnXoaTrang);
 
-		verticalStrut_3 = Box.createVerticalStrut(20);
-		BoxVerticalThongTin.add(verticalStrut_3);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-		horizontalStrut_3 = Box.createHorizontalStrut(20);
-		PaneThongTin.add(horizontalStrut_3);
+		PaneThongTin.add(Box.createHorizontalStrut(20));
 
 		String row[] = { "Mã hóa đơn", "Tên khách hàng", "Số điện thoại", "Email" };
 		modelTable = new DefaultTableModel(row, 0);
-		table = new JTable(modelTable);
-		scrollPane = new JScrollPane(table);
-		table.setFont(new Font("Tahoma", Font.BOLD, 12));
-		ContentPanel.add(scrollPane, BorderLayout.CENTER);
+		tableInvoice = new JTable(modelTable);
+		scrollPaneInvoice = new JScrollPane(tableInvoice);
+		scrollPaneInvoice.setBounds(10, 20, 958, 140);
+		scrollPaneInvoice.setBorder(BorderFactory.createTitledBorder("Danh sách Hóa đơn"));
+		tableInvoice.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setBackground(new Color(255, 255, 255));
+		centerPanel.setBounds(0, -22, 978, 168);
+		centerPanel.setLayout(null);
+		centerPanel.add(scrollPaneInvoice);
+		
+		pnCenter = new JPanel();
+		pnCenter.setBackground(new Color(255, 255, 255));
+		ContentPanel.add(pnCenter, BorderLayout.CENTER);
+		pnCenter.setLayout(null);
+		pnCenter.add(centerPanel);
+		
+		pnDetail = new JPanel();
+		pnDetail.setBackground(new Color(255, 255, 255));
+		pnDetail.setBounds(0, 185, 978, 202);
+		pnCenter.add(pnDetail);
+		
+		tableInvoiceDetail = new JTable();
+		tableInvoiceDetail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tableInvoiceDetail.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"STT", "Tên Phòng", "Loại Phòng", "Sức chứa"
+			}
+		));
+		tableInvoiceDetail.getColumnModel().getColumn(3).setResizable(false);
+		pnDetail.setLayout(null);
+		
+		scrollPaneInvoiceDetail = new JScrollPane(tableInvoiceDetail);
+		scrollPaneInvoiceDetail.setBounds(10, 10, 462, 182);
+		scrollPaneInvoiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách phiếu đặt phòng"));
+		pnDetail.add(scrollPaneInvoiceDetail);
+		
 
-		String s[] = { "HD001", "Vũ Quốc Huy", "0334405617", "vuquochuy.01012003@gmail.com" };
-		modelTable.addRow(s);
+		tableInvoiceServiceDetail = new JTable();
+		tableInvoiceDetail.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"STT", "Tên Phòng", "Loại Phòng", "Sức chứa"
+			}
+		));
 
+		tableInvoiceServiceDetail = new JTable();
+		tableInvoiceServiceDetail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tableInvoiceServiceDetail.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"STT", "Tên Dịch Vụ", "Loại Dịch Vụ", "Số lượng"
+				}
+			));
+
+		scrollPaneInvoiceServiceDetail = new JScrollPane(tableInvoiceServiceDetail);
+		scrollPaneInvoiceServiceDetail.setBounds(501, 10, 467, 182);
+		scrollPaneInvoiceServiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách dịch vụ"
+				+ ""));
+		pnDetail.add(scrollPaneInvoiceServiceDetail);
+		
+		JButton btnPrevious = new JButton("<");
+		btnPrevious.setBackground(new Color(107, 208, 107));
+		btnPrevious.setBounds(420, 154, 45, 21);
+		pnCenter.add(btnPrevious);
+		
+		JButton btnNext = new JButton(">");
+		btnNext.setBackground(new Color(107, 208, 107));
+		btnNext.setBounds(508, 156, 45, 21);
+		pnCenter.add(btnNext);
+		
+		JLabel lblCurrentPageNumber = new JLabel("1");
+		lblCurrentPageNumber.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCurrentPageNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCurrentPageNumber.setBounds(475, 156, 24, 19);
+		pnCenter.add(lblCurrentPageNumber);
 	}
-
 }

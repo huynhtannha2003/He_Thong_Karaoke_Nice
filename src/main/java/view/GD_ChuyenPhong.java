@@ -13,6 +13,7 @@ import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
+import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
 import java.awt.Color;
@@ -32,7 +33,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.GridLayout;
 
-public class GD_ChuyenPhong extends JDialog {
+public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener {
 	private JTextField txtRoomName;
 	private JPanel pnCenter;
 	private ArrayList rooms;
@@ -188,7 +189,7 @@ public class GD_ChuyenPhong extends JDialog {
 
 		initData();
 
-		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(rooms);
+		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(rooms, this);
 		roomPanels.forEach(pnRoomScrollPane::add);
 	}
 
@@ -259,6 +260,11 @@ public class GD_ChuyenPhong extends JDialog {
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		pnNorth.add(lblTitle);
 
+	}
+
+	@Override
+	public void onPhongPanelClicked(Phong phong) {
+		
 	}
 
 }
