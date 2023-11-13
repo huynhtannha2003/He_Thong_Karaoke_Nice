@@ -146,18 +146,18 @@ VALUES ('LP001', N'Phòng thường', 1),
 GO
 
 INSERT INTO Phong
-VALUES ('P0101', '001', 10, 'LP001', 0),
-       ('P0102', '002', 10, 'LP001', 0),
-       ('P0103', '003', 10, 'LP001', 1),
-       ('P0104', '004', 10, 'LP001', 0),
-       ('P0105', '005', 10, 'LP001', 2)
+VALUES ('P0101', '01.001', 10, 'LP001', 0),
+       ('P0102', '01.002', 10, 'LP001', 0),
+       ('P0103', '01.003', 10, 'LP001', 0),
+       ('P0104', '01.004', 10, 'LP001', 0),
+       ('P0105', '01.005', 10, 'LP001', 0)
 
 INSERT INTO Phong
-VALUES ('P0201', '001', 10, 'LP002', 0),
-       ('P0202', '002', 10, 'LP002', 3),
-       ('P0203', '003', 10, 'LP002', 1),
-       ('P0204', '004', 10, 'LP002', 0),
-       ('P0205', '005', 10, 'LP002', 2)
+VALUES ('P0201', '02.001', 10, 'LP002', 0),
+       ('P0202', '02.002', 10, 'LP002', 0),
+       ('P0203', '02.003', 10, 'LP002', 0),
+       ('P0204', '02.004', 10, 'LP002', 0),
+       ('P0205', '02.005', 10, 'LP002', 0)
 GO
 
 INSERT INTO LichSuGiaPhong
@@ -299,12 +299,30 @@ FROM LoaiPhong;
 GO
 
 CREATE VIEW PhongView AS
-SELECT maPhong     AS Phong_MaPhong,
-       tenPhong    AS Phong_TenPhong,
-       sucChua     AS Phong_SucChua,
-       maLoaiPhong AS Phong_MaLoaiPhong,
-       trangThai   AS Phong_TrangThai
-FROM Phong;
+SELECT P.maPhong       AS Phong_MaPhong,
+       P.tenPhong      AS Phong_TenPhong,
+       P.sucChua       AS Phong_SucChua,
+       P.maLoaiPhong   AS Phong_MaLoaiPhong,
+       P.trangThai     AS Phong_TrangThai,
+       LP.maLoaiPhong  AS LoaiPhong_MaLoaiPhong,
+       LP.tenLoaiPhong AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai    AS LoaiPhong_TrangThai
+FROM Phong P
+         JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
+GO
+
+CREATE VIEW PhongTrongView AS
+SELECT P.maPhong       AS Phong_MaPhong,
+       P.tenPhong      AS Phong_TenPhong,
+       P.sucChua       AS Phong_SucChua,
+       P.maLoaiPhong   AS Phong_MaLoaiPhong,
+       P.trangThai     AS Phong_TrangThai,
+       LP.maLoaiPhong  AS LoaiPhong_MaLoaiPhong,
+       LP.tenLoaiPhong AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai    AS LoaiPhong_TrangThai
+FROM Phong P
+         JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
+WHERE P.trangThai = 0;
 GO
 
 CREATE VIEW LichSuGiaPhongView AS
@@ -330,21 +348,20 @@ FROM NhanVien;
 GO
 
 CREATE VIEW TaiKhoanView AS
-SELECT
-    TK.maTaiKhoan AS TaiKhoan_MaTaiKhoan,
-    TK.tenTaiKhoan AS TaiKhoan_TenTaiKhoan,
-    TK.matKhau AS TaiKhoan_MatKhau,
-    TK.trangThai AS TaiKhoan_TrangThai,
-    TK.maNhanVien AS TaiKhoan_MaNhanVien,
-    NV.maNhanVien AS NhanVien_MaNhanVien,
-    NV.ten AS NhanVien_Ten,
-    NV.chucVu AS NhanVien_ChucVu,
-    NV.sdt AS NhanVien_SDT,
-    NV.email AS NhanVien_Email,
-    NV.diaChi AS NhanVien_DiaChi,
-    NV.trangThai AS NhanVien_TrangThai
+SELECT TK.maTaiKhoan  AS TaiKhoan_MaTaiKhoan,
+       TK.tenTaiKhoan AS TaiKhoan_TenTaiKhoan,
+       TK.matKhau     AS TaiKhoan_MatKhau,
+       TK.trangThai   AS TaiKhoan_TrangThai,
+       TK.maNhanVien  AS TaiKhoan_MaNhanVien,
+       NV.maNhanVien  AS NhanVien_MaNhanVien,
+       NV.ten         AS NhanVien_Ten,
+       NV.chucVu      AS NhanVien_ChucVu,
+       NV.sdt         AS NhanVien_SDT,
+       NV.email       AS NhanVien_Email,
+       NV.diaChi      AS NhanVien_DiaChi,
+       NV.trangThai   AS NhanVien_TrangThai
 FROM TaiKhoan TK
-LEFT JOIN NhanVien NV ON TK.maNhanVien = NV.maNhanVien;
+         LEFT JOIN NhanVien NV ON TK.maNhanVien = NV.maNhanVien;
 GO
 
 CREATE VIEW LoaiDichVuView AS
@@ -426,7 +443,8 @@ FROM PhieuDatPhong PDP
          LEFT JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
          LEFT JOIN HoaDon HD ON PDP.maHoaDon = HD.maHoaDon
          LEFT JOIN LichSuGiaPhong LSG ON P.maLoaiPhong = LSG.maLoaiPhong
-         WHERE LSG.ngayBatDau <= HD.NgayThanhToan AND (LSG.ngayKetThuc >= HD.NgayThanhToan OR LSG.ngayKetThuc IS NULL)
+WHERE LSG.ngayBatDau <= HD.NgayThanhToan
+  AND (LSG.ngayKetThuc >= HD.NgayThanhToan OR LSG.ngayKetThuc IS NULL)
 GO
 
 CREATE VIEW ChiTietDatDichVuView AS
@@ -482,6 +500,26 @@ FROM HoaDon HD
          LEFT JOIN KhachHang KH ON HD.maKhachHang = KH.maKhachHang
          LEFT JOIN NhanVien NV ON HD.maNhanVien = NV.maNhanVien
          LEFT JOIN KhuyenMai KM ON HD.maKhuyenMai = KM.maKhuyenMai;
+GO
+CREATE PROCEDURE GetPhongByTenAndLoaiPhong @tenPhong NVARCHAR(255),
+                                           @maLoaiPhong VARCHAR(5) = NULL
+AS
+BEGIN
+    IF @maLoaiPhong IS NOT NULL
+        BEGIN
+            SELECT *
+            FROM PhongView
+            WHERE Phong_TenPhong LIKE '%' + @tenPhong + '%'
+              AND Phong_MaLoaiPhong = @maLoaiPhong;
+        END
+    ELSE
+        BEGIN
+            SELECT *
+            FROM PhongView
+            WHERE Phong_TenPhong LIKE '%' + @tenPhong + '%';
+        END
+END;
+
 GO
 
 CREATE PROCEDURE InsertIntoLoaiPhong @maLoaiPhong VARCHAR(5),
