@@ -501,6 +501,7 @@ FROM HoaDon HD
          LEFT JOIN NhanVien NV ON HD.maNhanVien = NV.maNhanVien
          LEFT JOIN KhuyenMai KM ON HD.maKhuyenMai = KM.maKhuyenMai;
 GO
+
 CREATE PROCEDURE GetPhongByTenAndLoaiPhong @tenPhong NVARCHAR(255),
                                            @maLoaiPhong VARCHAR(5) = NULL
 AS
@@ -519,7 +520,16 @@ BEGIN
             WHERE Phong_TenPhong LIKE '%' + @tenPhong + '%';
         END
 END;
+GO
 
+CREATE PROCEDURE FindCustomerByPhoneNumber
+    @sdt NVARCHAR(15)
+AS
+BEGIN
+    SELECT *
+    FROM KhachHangView
+    WHERE KhachHang_SDT = @sdt;
+END;
 GO
 
 CREATE PROCEDURE InsertIntoLoaiPhong @maLoaiPhong VARCHAR(5),

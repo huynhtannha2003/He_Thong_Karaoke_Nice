@@ -50,7 +50,7 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	private JTextField txtCurrentRoomPrice;
 	private JTextField txtCurrentRoomType;
 	private PhongDAO phongDao = new PhongDAO();
-	private LoaiPhongDAO loaiPhongDao = new LoaiPhongDAO();
+	private LoaiPhongDAO loaiPhongDao;
 	private JComboBox<LoaiPhong> cbTypeRoom;
 	private JButton btnFind;
 	private JButton btnApply;
@@ -67,6 +67,8 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	}
 
 	public GD_ChuyenPhong() {
+		loaiPhongDao = new LoaiPhongDAO();
+		
 		getContentPane().setLayout(new BorderLayout());
 		setSize(784, 600);
 		setLocationRelativeTo(null);
