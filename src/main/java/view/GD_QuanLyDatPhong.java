@@ -30,10 +30,12 @@ import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
+import utils.PhongPanelClickListener;
 import utils.ResizeImageUtil;
 import utils.RoomPanelUtil;
+import javax.swing.DefaultComboBoxModel;
 
-public class GD_QuanLyDatPhong extends JFrame {
+public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener {
 
 	private JPanel contentPane;
 	private JTextField txtName, txtCapacity;
@@ -41,6 +43,8 @@ public class GD_QuanLyDatPhong extends JFrame {
 	private List<Phong> listPhong;
 	private JPanel pnListRoom;
 	private JPanel pnNote;
+	private JComboBox cbStatus;
+	private JComboBox cbType;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -60,15 +64,15 @@ public class GD_QuanLyDatPhong extends JFrame {
 	}
 
 	private void setupFrame() {
-        getContentPane().setBackground(Color.WHITE);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-    }
-	
+		getContentPane().setBackground(Color.WHITE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(1000, 700);
+		setLocationRelativeTo(null);
+	}
+
 	private void initGUI() throws IOException {
 		setupFrame();
-		
+
 		addMenuBar();
 
 		addPanelNorth();
@@ -90,7 +94,7 @@ public class GD_QuanLyDatPhong extends JFrame {
 
 		addPanelRoom();
 
-		addNotePanel();	
+		addNotePanel();
 	}
 
 	private void addNotePanel() {
@@ -99,13 +103,12 @@ public class GD_QuanLyDatPhong extends JFrame {
 		pnCenter.add(pnNote, BorderLayout.SOUTH);
 
 		pnNote.setLayout(new GridLayout(0, 4, 0, 0));
-		
+
 		TrangThaiPhong[] dsTrangThaiPhong = TrangThaiPhong.values();
-		for(TrangThaiPhong currentTrangThaiPhong : dsTrangThaiPhong) {
+		for (TrangThaiPhong currentTrangThaiPhong : dsTrangThaiPhong) {
 			JPanel pnNotePhong = new JPanel();
 			pnNotePhong.setBackground(new Color(255, 255, 255));
-		
-			
+
 			JLabel imageLabel = new JLabel(ResizeImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
 			pnNotePhong.add(imageLabel);
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -129,13 +132,13 @@ public class GD_QuanLyDatPhong extends JFrame {
 		pnListRoom.setLayout(new GridLayout(0, 5, 0, 0));
 		pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong);
+		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong, this);
 		phongPanels.forEach(pnListRoom::add);
 	}
 
 	private void initData() {
 		listPhong = new ArrayList<Phong>();
-		LoaiPhong loaiPhong = new LoaiPhong("001", "Thường", TrangThaiLoaiPhong.HIEU_LUC);
+		LoaiPhong loaiPhong = new LoaiPhong("001", "Phòng thường", TrangThaiLoaiPhong.HIEU_LUC);
 		for (int i = 0; i < 18; i++) {
 			listPhong.add(new Phong("00" + (i + 1), loaiPhong, "00" + (i + 1), 5, TrangThaiPhong.PHONG_TRONG));
 		}
@@ -164,7 +167,8 @@ public class GD_QuanLyDatPhong extends JFrame {
 
 		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		JComboBox cbStatus = new JComboBox();
+		cbStatus = new JComboBox();
+		cbStatus.setModel(new DefaultComboBoxModel<>(TrangThaiPhong.values()));
 		cbStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		firstFormHorizontalBox.add(cbStatus);
 
@@ -177,7 +181,9 @@ public class GD_QuanLyDatPhong extends JFrame {
 
 		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		JComboBox cbType = new JComboBox();
+		cbType = new JComboBox();
+		//please change in future
+		cbType.setModel(new DefaultComboBoxModel(new String[] {"Phòng vip", "Phòng thường"}));
 		cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		firstFormHorizontalBox.add(cbType);
 
@@ -333,6 +339,15 @@ public class GD_QuanLyDatPhong extends JFrame {
 		pnLeft.add(horizontalBox);
 		pnLeft.add(Box.createVerticalStrut(20));
 
+	}
+
+	@Override
+	public void onPhongPanelClicked(Phong phong) {
+		txtName.setText(phong.getTenPhong());
+        txtCapacity.setText(String.valueOf(phong.getSucChua()));
+        System.out.println(phong.getTrangThai());
+        cbType.setSelectedItem(phong.getLoaiPhong().getTenLoaiPhong());
+        cbStatus.setSelectedItem(phong.getTrangThai());
 	}
 
 }

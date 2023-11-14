@@ -2,6 +2,8 @@ package utils;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,7 @@ import entity.DichVu;
 import entity.Phong;
 
 public class RoomPanelUtil {
-
-	public static List<JPanel> createPhongPanels(List<Phong> listPhong) {
+	public static List<JPanel> createPhongPanels(List<Phong> listPhong, PhongPanelClickListener listener) {
 		List<JPanel> panels = new ArrayList<JPanel>();
 		for (Phong phong : listPhong) {
 			JPanel phongPanel = new JPanel();
@@ -49,6 +50,37 @@ public class RoomPanelUtil {
 
 			phongPanel.add(Box.createVerticalStrut(15));
 			panels.add(phongPanel);
+			
+			phongPanel.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					phongPanel.setBackground(new Color(255, 255, 255));
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					phongPanel.setBackground(new Color(200, 200, 200));
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					listener.onPhongPanelClicked(phong);					
+				}
+			});
 		}
 		return panels;
 	}

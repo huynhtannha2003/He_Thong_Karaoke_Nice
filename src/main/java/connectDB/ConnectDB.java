@@ -8,13 +8,17 @@ public class ConnectDB {
 	public static Connection con = null;
 	private static ConnectDB instance = new ConnectDB();
 
-	public static ConnectDB getInstance() throws SQLException {
-		instance.connect();
+	public static ConnectDB getInstance() {
+		try {
+			instance.connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return instance;
 	}
 
 	public void connect() throws SQLException {
-		String url = "jdbc:sqlserver://localhost:1433;databasename=QuanLyCuaHangKaraoke4T";
+		String url = "jdbc:sqlserver://localhost:1433;databasename=Karaoke";
 		String user = "sa";
 		String password = "sapassword";
 		con = DriverManager.getConnection(url, user, password);
@@ -30,7 +34,7 @@ public class ConnectDB {
 		}
 	}
 
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		return con;
 	}
 }

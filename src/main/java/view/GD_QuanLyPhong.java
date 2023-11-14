@@ -24,6 +24,7 @@ import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
+import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
 import java.awt.event.ActionListener;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class GD_QuanLyPhong extends JFrame implements ActionListener {
+public class GD_QuanLyPhong extends JFrame implements ActionListener, PhongPanelClickListener {
 	private JPanel pnNorth, pnCenter, pnSouth, pnInfo, pnFind, pnListRoom;
 	private JLabel lblTitle, lblMaPhong, lblTenPhong, lblSoLuong, lblTrangThai, lblLoai, lblTuKhoaTim;
 	private JTextField txtMaPhong, txtTenPhong, txtTrangThai, txtTuKhoaTim;
@@ -56,7 +57,7 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener {
 		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Quản lý phòng"));
-		lblTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 
 		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
 //		pnCenter.setLayout(new GridLayout(3, 1));
@@ -116,7 +117,7 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener {
 		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		spnSoLuong.setPreferredSize(new Dimension(370, 20));
-		lblMaPhong.setPreferredSize(new Dimension(75, 17));
+		lblMaPhong.setPreferredSize(new Dimension(79, 17));
 
 		pnFind.setBorder(BorderFactory.createLineBorder(Color.black));
 		pnFind.setLayout(new BoxLayout(pnFind, BoxLayout.Y_AXIS));
@@ -178,7 +179,7 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener {
 		pnListRoom.setLayout(new GridLayout(0, 6, 0, 0));
 		pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		List<JPanel> phongPanel = RoomPanelUtil.createPhongPanels(listPhong);
+		List<JPanel> phongPanel = RoomPanelUtil.createPhongPanels(listPhong, this);
 		phongPanel.forEach(pnListRoom::add);
 	}
 
@@ -199,6 +200,11 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new GD_QuanLyPhong().setVisible(true);
+	}
+
+	@Override
+	public void onPhongPanelClicked(Phong phong) {
+		
 	}
 
 }
