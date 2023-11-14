@@ -17,11 +17,7 @@ public class PhongDAO {
 	private ConnectDB connectDB;
 
 	public PhongDAO() {
-		try {
-			this.connectDB = ConnectDB.getInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.connectDB = ConnectDB.getInstance();
 	}
 
 	public List<Phong> getAllPhong() {
@@ -67,8 +63,8 @@ public class PhongDAO {
 
 		try (CallableStatement callableStatement = connection.prepareCall(sql)) {
 			callableStatement.setString(1, tenPhong);
-	        callableStatement.setString(2, loaiPhong.getMaLoaiPhong());
-	        
+			callableStatement.setString(2, loaiPhong.getMaLoaiPhong());
+
 			ResultSet resultSet = callableStatement.executeQuery();
 			while (resultSet.next()) {
 				Phong phong = new Phong(resultSet);

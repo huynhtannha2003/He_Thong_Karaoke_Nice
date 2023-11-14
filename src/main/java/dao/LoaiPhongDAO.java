@@ -14,13 +14,9 @@ public class LoaiPhongDAO {
 	private ConnectDB connectDB;
 
 	public LoaiPhongDAO() {
-		try {
-			this.connectDB = ConnectDB.getInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.connectDB = ConnectDB.getInstance();
 	}
-	
+
 	public List<LoaiPhong> getAllLoaiPhong() {
 		List<LoaiPhong> loaiPhongList = new ArrayList<>();
 		Connection connection = connectDB.getConnection();

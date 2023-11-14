@@ -1,42 +1,18 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.border.EmptyBorder;
-
 import dao.LoaiPhongDAO;
 import dao.PhongDAO;
 import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
-import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.BoxLayout;
-import java.awt.Component;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, ActionListener {
 	private JTextField txtRoomName;

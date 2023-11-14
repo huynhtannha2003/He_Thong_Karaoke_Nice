@@ -391,6 +391,43 @@ SELECT maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
 FROM LichSuGiaDichVu;
 GO
 
+CREATE VIEW DichVuLichSuGiaByConditionTimeView AS
+SELECT DV.maDichVu            AS DichVu_MaDichVu,
+       DV.tenDichVu           AS DichVu_TenDichVu,
+       DV.soLuong             AS DichVu_SoLuong,
+       DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
+       DV.trangThai           AS DichVu_TrangThai,
+       LGDV.maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
+       LGDV.ngayBatDau        AS LichSuGiaDichVu_NgayBatDau,
+       LGDV.ngayKetThuc       AS LichSuGiaDichVu_NgayKetThuc,
+       LGDV.thoiDiemBatDau    AS LichSuGiaDichVu_ThoiDiemBatDau,
+       LGDV.thoiDiemKetThuc   AS LichSuGiaDichVu_ThoiDiemKetThuc,
+       LGDV.gia               AS LichSuGiaDichVu_Gia,
+       LDV.maLoaiDichVu       AS LoaiDichVu_MaLoaiDichVu,
+       LDV.tenLoaiDichVu      AS LoaiDichVu_TenLoaiDichVu,
+       LDV.trangThai          AS LoaiDichVu_TrangThai
+FROM DichVu DV
+         JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu
+         JOIN LoaiDichVu LDV ON DV.maLoaiDichVu = LDV.maLoaiDichVu
+WHERE LGDV.ngayKetThuc IS NULL;
+GO
+
+CREATE VIEW DichVuLichSuGiaView AS
+SELECT DV.maDichVu            AS DichVu_MaDichVu,
+       DV.tenDichVu           AS DichVu_TenDichVu,
+       DV.soLuong             AS DichVu_SoLuong,
+       DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
+       DV.trangThai           AS DichVu_TrangThai,
+       LGDV.maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
+       LGDV.ngayBatDau        AS LichSuGiaDichVu_NgayBatDau,
+       LGDV.ngayKetThuc       AS LichSuGiaDichVu_NgayKetThuc,
+       LGDV.thoiDiemBatDau    AS LichSuGiaDichVu_ThoiDiemBatDau,
+       LGDV.thoiDiemKetThuc   AS LichSuGiaDichVu_ThoiDiemKetThuc,
+       LGDV.gia               AS LichSuGiaDichVu_Gia
+FROM DichVu DV
+         JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu;
+GO
+
 CREATE VIEW KhuyenMaiView AS
 SELECT maKhuyenMai     AS KhuyenMai_MaKhuyenMai,
        tenKhuyenMai    AS KhuyenMai_TenKhuyenMai,
@@ -421,7 +458,7 @@ SELECT maHoaDon          AS HoaDon_MaHoaDon,
 FROM HoaDon;
 GO
 
-CREATE VIEW PhieuDatPhongView AS
+CREATE VIEW PhieuDatPhongConditionByTimeView AS
 SELECT PDP.maPhieuDatPhong  AS PhieuDatPhong_MaPhieuDatPhong,
        PDP.thoiGianBatDau   AS PhieuDatPhong_ThoiGianBatDau,
        PDP.thoiGianKetThuc  AS PhieuDatPhong_ThoiGianKetThuc,
@@ -447,8 +484,64 @@ WHERE LSG.ngayBatDau <= HD.NgayThanhToan
   AND (LSG.ngayKetThuc >= HD.NgayThanhToan OR LSG.ngayKetThuc IS NULL)
 GO
 
+CREATE VIEW PhieuDatPhongView AS
+SELECT PDP.maPhieuDatPhong  AS PhieuDatPhong_MaPhieuDatPhong,
+       PDP.thoiGianBatDau   AS PhieuDatPhong_ThoiGianBatDau,
+       PDP.thoiGianKetThuc  AS PhieuDatPhong_ThoiGianKetThuc,
+       PDP.maHoaDon         AS PhieuDatPhong_MaHoaDon,
+       PDP.maPhong          AS PhieuDatPhong_MaPhong,
+       P.maPhong            AS Phong_MaPhong,
+       P.tenPhong           AS Phong_TenPhong,
+       P.sucChua            AS Phong_SucChua,
+       P.maLoaiPhong        AS Phong_MaLoaiPhong,
+       P.trangThai          AS Phong_TrangThai,
+       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai         AS LoaiPhong_TrangThai,
+       LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
+       LSG.maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
+       LSG.ngayBatDau       AS LichSuGiaPhong_NgayBatDau,
+       LSG.ngayKetThuc      AS LichSuGiaPhong_NgayKetThuc,
+       LSG.thoiDiemBatDau   AS LichSuGiaPhong_ThoiDiemBatDau,
+       LSG.thoiDiemKetThuc  AS LichSuGiaPhong_ThoiDiemKetThuc,
+       LSG.gia              AS LichSuGiaPhong_Gia
+FROM PhieuDatPhong PDP
+         LEFT JOIN Phong P ON PDP.maPhong = P.maPhong
+         LEFT JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
+         LEFT JOIN HoaDon HD ON PDP.maHoaDon = HD.maHoaDon
+         LEFT JOIN LichSuGiaPhong LSG ON P.maLoaiPhong = LSG.maLoaiPhong
+GO
+
+CREATE VIEW ChiTietDatDichVuByConditionTimeView AS
+SELECT HD.maHoaDon            AS HoaDon_MaHoaDon,
+       CDD.maPhieuDatPhong    AS ChiTietDatDichVu_MaPhieuDatPhong,
+       CDD.maDichVu           AS ChiTietDatDichVu_MaDichVu,
+       CDD.soLuong            AS ChiTietDatDichVu_SoLuong,
+       DV.maDichVu            AS DichVu_MaDichVu,
+       DV.tenDichVu           AS DichVu_TenDichVu,
+       DV.soLuong             AS DichVu_SoLuong,
+       DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
+       DV.trangThai           AS DichVu_TrangThai,
+       LDV.maLoaiDichVu       AS LoaiDichVu_MaLoaiDichVu,
+       LDV.tenLoaiDichVu      AS LoaiDichVu_TenLoaiDichVu,
+       LDV.trangThai          AS LoaiDichVu_TrangThai,
+       LGDV.maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
+       LGDV.ngayBatDau        AS LichSuGiaDichVu_NgayBatDau,
+       LGDV.ngayKetThuc       AS LichSuGiaDichVu_NgayKetThuc,
+       LGDV.thoiDiemBatDau    AS LichSuGiaDichVu_ThoiDiemBatDau,
+       LGDV.thoiDiemKetThuc   AS LichSuGiaDichVu_ThoiDiemKetThuc,
+       LGDV.gia               AS LichSuGiaDichVu_Gia
+FROM ChiTietDatDichVu CDD
+         JOIN DichVu DV ON CDD.maDichVu = DV.maDichVu
+         JOIN LoaiDichVu LDV ON DV.maLoaiDichVu = LDV.maLoaiDichVu
+         JOIN PhieuDatPhong PDT ON CDD.maPhieuDatPhong = PDT.maPhieuDatPhong
+         JOIN HoaDon HD ON PDT.maHoaDon = HD.maHoaDon
+         JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu
+WHERE LGDV.ngayBatDau <= HD.NgayThanhToan
+  AND (LGDV.ngayKetThuc >= HD.NgayThanhToan OR LGDV.ngayKetThuc IS NULL);
+GO
+
 CREATE VIEW ChiTietDatDichVuView AS
-SELECT PDT.maHoaDon        AS HoaDon_MaHoaDon,
+SELECT HD.maHoaDon         AS HoaDon_MaHoaDon,
        CDD.maPhieuDatPhong AS ChiTietDatDichVu_MaPhieuDatPhong,
        CDD.maDichVu        AS ChiTietDatDichVu_MaDichVu,
        CDD.soLuong         AS ChiTietDatDichVu_SoLuong,
@@ -456,6 +549,7 @@ SELECT PDT.maHoaDon        AS HoaDon_MaHoaDon,
        DV.tenDichVu        AS DichVu_TenDichVu,
        DV.soLuong          AS DichVu_SoLuong,
        DV.maLoaiDichVu     AS DichVu_MaLoaiDichVu,
+       DV.trangThai        AS DichVu_TrangThai,
        LDV.maLoaiDichVu    AS LoaiDichVu_MaLoaiDichVu,
        LDV.tenLoaiDichVu   AS LoaiDichVu_TenLoaiDichVu,
        LDV.trangThai       AS LoaiDichVu_TrangThai,
@@ -466,8 +560,6 @@ FROM ChiTietDatDichVu CDD
          JOIN PhieuDatPhong PDT ON CDD.maPhieuDatPhong = PDT.maPhieuDatPhong
          JOIN HoaDon HD ON PDT.maHoaDon = HD.maHoaDon
          JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu
-WHERE LGDV.ngayBatDau <= HD.NgayThanhToan
-  AND (LGDV.ngayKetThuc >= HD.NgayThanhToan OR LGDV.ngayKetThuc IS NULL);
 GO
 
 CREATE VIEW HoaDonDetailsView AS
@@ -502,6 +594,25 @@ FROM HoaDon HD
          LEFT JOIN KhuyenMai KM ON HD.maKhuyenMai = KM.maKhuyenMai;
 GO
 
+CREATE PROCEDURE GetPhieuDatPhongByMaHoaDon @MaHoaDon VARCHAR(255)
+AS
+BEGIN
+    SELECT *
+    FROM PhieuDatPhongView
+    WHERE PhieuDatPhong_MaHoaDon = @MaHoaDon;
+END;
+
+GO
+
+CREATE PROCEDURE GetChiTietDatDichVuByPhieuDatPhong @MaPhieuDatPhong VARCHAR(14)
+AS
+BEGIN
+    SELECT *
+    FROM ChiTietDatDichVuByConditionTimeView
+    WHERE ChiTietDatDichVu_MaPhieuDatPhong = @MaPhieuDatPhong;
+END;
+GO
+
 CREATE PROCEDURE GetPhongByTenAndLoaiPhong @tenPhong NVARCHAR(255),
                                            @maLoaiPhong VARCHAR(5) = NULL
 AS
@@ -522,13 +633,21 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE FindCustomerByPhoneNumber
-    @sdt NVARCHAR(15)
+CREATE PROCEDURE FindCustomerByPhoneNumber @sdt NVARCHAR(15)
 AS
 BEGIN
     SELECT *
     FROM KhachHangView
     WHERE KhachHang_SDT = @sdt;
+END;
+GO
+
+CREATE PROCEDURE GetLichSuGiaDichVuByMaDichVu @MaDichVu VARCHAR(14)
+AS
+BEGIN
+    SELECT *
+    FROM LichSuGiaDichVuView
+    WHERE LichSuGiaDichVu_MaDichVu = @MaDichVu;
 END;
 GO
 
@@ -702,8 +821,56 @@ BEGIN
     DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
-    FROM HoaDon
-    ORDER BY maHoaDon
+    FROM HoaDonDetailsView
+    ORDER BY HoaDon_NgayThanhToan
+    OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
+END;
+GO
+
+CREATE PROCEDURE GetHoaDonPagedByMaHoaDon
+    @MaHoaDon VARCHAR(20),
+    @PageNumber INT,
+    @RowsPerPage INT
+AS
+BEGIN
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+
+    SELECT *
+    FROM HoaDonDetailsView
+    WHERE HoaDon_MaHoaDon LIKE '%' + @MaHoaDon + '%'
+    ORDER BY HoaDon_NgayThanhToan
+    OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
+END;
+GO
+CREATE PROCEDURE GetHoaDonPagedByTenKhachHangLike
+    @TenKhachHang NVARCHAR(255),
+    @PageNumber INT,
+    @RowsPerPage INT
+AS
+BEGIN
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+
+    SELECT *
+    FROM HoaDonDetailsView
+    WHERE KhachHang_TenKhachHang LIKE N'%' + @TenKhachHang + N'%'
+    ORDER BY HoaDon_NgayThanhToan
+    OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
+END;
+GO
+
+CREATE PROCEDURE GetHoaDonPagedByDateRange
+    @FromDay DATE,
+    @ToDay DATE,
+    @PageNumber INT,
+    @RowsPerPage INT
+AS
+BEGIN
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+
+    SELECT *
+    FROM HoaDonDetailsView
+    WHERE HoaDon_NgayThanhToan BETWEEN @FromDay AND @ToDay
+    ORDER BY HoaDon_NgayThanhToan
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
 END;
 GO

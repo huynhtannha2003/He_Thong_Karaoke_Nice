@@ -8,8 +8,12 @@ public class ConnectDB {
 	public static Connection con = null;
 	private static ConnectDB instance = new ConnectDB();
 
-	public static ConnectDB getInstance() throws SQLException {
-		instance.connect();
+	public static ConnectDB getInstance() {
+		try {
+			instance.connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return instance;
 	}
 

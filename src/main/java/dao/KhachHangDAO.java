@@ -12,11 +12,7 @@ public class KhachHangDAO {
 	private ConnectDB connectDB;
 
 	public KhachHangDAO() {
-		try {
-			this.connectDB = ConnectDB.getInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.connectDB = ConnectDB.getInstance();
 	}
 
 	public KhachHang getCustomerByPhoneNumber(String phoneNumber) {

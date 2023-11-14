@@ -1,364 +1,433 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import java.awt.Font;
-import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
+import dao.ChiTietDatDichVuDAO;
+import dao.HoaDonDAO;
+import dao.PhieuDatPhongDAO;
+import entity.ChiTietDatDichVu;
+import entity.DichVu;
+import entity.HoaDon;
+import entity.PhieuDatPhong;
+
+import javax.swing.*;
 import javax.swing.border.LineBorder;
-import utils.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GD_QuanLyHoaDon extends JFrame {
+public class GD_QuanLyHoaDon extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
-	private JTextField txtMaHoaDon;
-	private JTextField txtTenKhachHang;
-	private JLabel lbNgayBatDau;
-	private JMenuBar menuBar;
-	private JMenu MenuHeThong;
-	private JMenu MenuDanhMuc;
-	private JMenuItem MenuItemPhong;
-	private JMenuItem MenuItemNhanVien;
-	private JMenuItem MenuItemDichVu;
-	private JMenuItem MenuItemKhachHang;
-	private JMenuItem MenuItemKhuyenMai;
-	private JMenu MenuXuLy;
-	private JMenuItem MenuItemDatPhong;
-	private JMenu MenuThongKe;
-	private JMenuItem MenuItemTKDoanhThu;
-	private JMenu MenuTroGiup;
-	private JLabel lbMaHoaDon;
-	private JLabel lbTenKhachHang;
-	private JButton btnTimKiem;
-	private JButton btnXuatHoaDon;
-	private JButton btnXoaTrang;
-	private DefaultTableModel modelTable;
-	private JLabel lbNgayKetThuc;
-	private JDateChooser txtNgayKetThuc;
-	private JDateChooser txtNgayBatDau;
-	private JScrollPane scrollPaneInvoice , scrollPaneInvoiceServiceDetail;
-	private JTable tableInvoice;
-	private JMenuItem MenuItemDangXuat;
-	private JMenuItem MenuItemThoat;
-	private JMenuItem MenuItemTrangChu;
-	private JMenuItem MenuItemTaiKhoan;
-	private JPanel pnCenter;
-	private JPanel pnDetail;
-	private JScrollPane scrollPaneInvoiceDetail;
-	private JTable tableInvoiceDetail, tableInvoiceServiceDetail;
+    private JTextField txtMaHoaDon, txtTenKhachHang;
+    private JLabel lbNgayBatDau, lbMaHoaDon, lbTenKhachHang, lbNgayKetThuc, lblCurrentPageNumber;
+    private JButton btnTimKiem, btnXuatHoaDon, btnXoaTrang, btnNext, btnPrevious;
+    private JDateChooser txtNgayKetThuc, txtNgayBatDau;
+    private JScrollPane scrollPaneInvoice, scrollPaneInvoiceServiceDetail, scrollPaneInvoiceDetail;
+    private JPanel pnCenter, pnDetail;
+    private JTable tableInvoice, tableInvoiceDetail, tableInvoiceServiceDetail;
+    private HoaDonDAO hoaDonDAO;
+    private PhieuDatPhongDAO phieuDatPhongDAO;
+    private ChiTietDatDichVuDAO chiTietDatDichVuDAO;
+    private int currentPageNumber;
+    private DefaultTableModel modelInvoice, modelInvoiceDetail, modelInvoiceServiceDetail;
+    private List<HoaDon> invoices;
+    private HoaDon currentInvoice;
+    private List<PhieuDatPhong> invoiceDetails;
+    private List<DichVu> services;
+    private static final int ROWS_PER_PAGE = 6;
+    private Box horizontalBox;
+    private JLabel lblSelect;
+    private JComboBox<String> cbSelect;
+    private Component horizontalStrut_2;
+    private Component horizontalStrut_3;
+    private Component horizontalStrut_4;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GD_QuanLyHoaDon frame = new GD_QuanLyHoaDon();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GD_QuanLyHoaDon frame = new GD_QuanLyHoaDon();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	public GD_QuanLyHoaDon() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1002, 699);
-		setLocationRelativeTo(null);
-		menuBar = new JMenuBar();
-		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
-		setJMenuBar(menuBar);
+    public GD_QuanLyHoaDon() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
 
-		MenuHeThong = new JMenu("Hệ thống");
-		MenuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuHeThong);
+        hoaDonDAO = new HoaDonDAO();
+        phieuDatPhongDAO = new PhieuDatPhongDAO();
+        chiTietDatDichVuDAO = new ChiTietDatDichVuDAO();
+        currentPageNumber = 1;
+        createGUI();
+    }
 
-		MenuItemTrangChu = new JMenuItem("Trang chủ");
-		MenuItemTrangChu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuHeThong.add(MenuItemTrangChu);
+    public void initData() {
+        invoices = hoaDonDAO.getHoaDonPaged(currentPageNumber, ROWS_PER_PAGE);
+        loadInvoiceData(invoices);
+    }
 
-		MenuItemTaiKhoan = new JMenuItem("Tài khoản ");
-		MenuItemTaiKhoan.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuHeThong.add(MenuItemTaiKhoan);
+    private void loadInvoiceData(List<HoaDon> invoices) {
+        modelInvoice.setRowCount(0);
+        for (HoaDon invoice : invoices) {
+            Object[] rowData = {invoice.getMaHoaDon(), invoice.getKhachHang().getTenKhachHang(),
+                    invoice.getKhachHang().getSdt(), invoice.getNgayThanhToan(), invoice.getNhanVien().getMaNhanVien(),
+                    invoice.getNhanVien().getTen(), invoice.getKhuyenMai().getTenKhuyenMai(), invoice.getTongTien()};
 
-		JMenuItem MenuItemTroGiup = new JMenuItem("Trợ giúp");
-		MenuItemTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuHeThong.add(MenuItemTroGiup);
+            modelInvoice.addRow(rowData);
+        }
+    }
 
-		MenuItemDangXuat = new JMenuItem("Đăng xuất");
-		MenuItemDangXuat.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuHeThong.add(MenuItemDangXuat);
+    private void loadInvoiceDetailData(HoaDon invoice) {
+        modelInvoiceDetail.setRowCount(0);
+        invoiceDetails = phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(invoice.getMaHoaDon());
+        for (PhieuDatPhong invoiceDetail : invoiceDetails) {
+            Object[] rowData = {invoiceDetail.getMaPhieuDatPhong(), invoiceDetail.getPhong().getTenPhong(),
+                    invoiceDetail.getPhong().getLoaiPhong(), invoiceDetail.getPhong().getSucChua(),
+                    invoiceDetail.getThoiGianBatDau(), invoiceDetail.getThoiGianKetThuc()};
 
-		MenuItemThoat = new JMenuItem("Thoát");
-		MenuItemThoat.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuHeThong.add(MenuItemThoat);
+            modelInvoiceDetail.addRow(rowData);
+        }
+    }
 
-		MenuDanhMuc = new JMenu("Danh mục");
-		MenuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuDanhMuc);
+    private void loadInvoiceServiceDetail(List<ChiTietDatDichVu> chiTietDatDichVuList) {
+        modelInvoiceServiceDetail.setRowCount(0);
+        for (ChiTietDatDichVu chiTietDatDichVu : chiTietDatDichVuList) {
+            Object[] rowData = {chiTietDatDichVu.getDichVu().getMaDichVu(),
+                    chiTietDatDichVu.getDichVu().getTenDichVu(), chiTietDatDichVu.getSoLuong(),
+                    chiTietDatDichVu.getDichVu().getLoaiDichVu().getTenLoaiDichVu(),
+                    chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0).getGia()};
+            modelInvoiceServiceDetail.addRow(rowData);
+        }
+    }
 
-		MenuItemPhong = new JMenuItem("Phòng");
-		MenuItemPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuDanhMuc.add(MenuItemPhong);
+    private void createGUI() {
+        getContentPane().setLayout(new BorderLayout(0, 10));
 
-		MenuItemNhanVien = new JMenuItem("Nhân viên");
-		MenuItemNhanVien.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuDanhMuc.add(MenuItemNhanVien);
+        JPanel TitlePanel = new JPanel();
+        TitlePanel.setBackground(new Color(97, 250, 204));
+        getContentPane().add(TitlePanel, BorderLayout.NORTH);
 
-		MenuItemDichVu = new JMenuItem("Dịch vụ");
-		MenuItemDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuDanhMuc.add(MenuItemDichVu);
+        JLabel lbTitle = new JLabel("Quản lý hóa đơn");
+        lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
+        TitlePanel.add(lbTitle);
 
-		MenuItemKhachHang = new JMenuItem("Khách hàng");
-		MenuItemKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuDanhMuc.add(MenuItemKhachHang);
+        JPanel ContentPanel = new JPanel();
+        ContentPanel.setBackground(new Color(255, 255, 255));
+        getContentPane().add(ContentPanel);
+        ContentPanel.setLayout(new BorderLayout(0, 20));
 
-		MenuItemKhuyenMai = new JMenuItem("Khuyến mãi");
-		MenuItemKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuDanhMuc.add(MenuItemKhuyenMai);
+        JPanel PaneThongTin = new JPanel();
+        PaneThongTin.setBackground(new Color(255, 255, 255));
+        PaneThongTin.setBorder(new LineBorder(new Color(0, 0, 0)));
+        ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
+        PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
 
-		MenuXuLy = new JMenu("Xử lý");
-		MenuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuXuLy);
+        PaneThongTin.add(Box.createHorizontalStrut(20));
 
-		MenuItemDatPhong = new JMenuItem("Đặt phòng");
-		MenuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuXuLy.add(MenuItemDatPhong);
+        Box BoxVerticalThongTin = Box.createVerticalBox();
+        PaneThongTin.add(BoxVerticalThongTin);
+        BoxVerticalThongTin.add(Box.createVerticalStrut(10));
+        horizontalBox = Box.createHorizontalBox();
+        BoxVerticalThongTin.add(horizontalBox);
 
-		MenuThongKe = new JMenu("Thống kê");
-		MenuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuThongKe);
+        lblSelect = new JLabel("Tìm kiếm theo");
+        lblSelect.setFont(new Font("Tahoma", Font.BOLD, 14));
+        horizontalBox.add(lblSelect);
 
-		MenuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
-		MenuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuThongKe.add(MenuItemTKDoanhThu);
+        horizontalBox.add(Box.createHorizontalStrut(20));
 
-		MenuTroGiup = new JMenu("Trợ giúp");
-		MenuTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuTroGiup);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        cbSelect = new JComboBox();
+        cbSelect.setFont(new Font("Tahoma", Font.BOLD, 14));
+        cbSelect.setModel(
+                new DefaultComboBoxModel(new String[]{"Tất cả", "Mã hóa đơn", "Tên khách hàng", "Khoảng thời gian"}));
+        horizontalBox.add(cbSelect);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 10));
+        BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 204));
-		contentPane.add(TitlePanel, BorderLayout.NORTH);
+        Box BoxThongTin1 = Box.createHorizontalBox();
+        BoxVerticalThongTin.add(BoxThongTin1);
 
-		JLabel lbTitle = new JLabel("Quản lý hóa đơn");
-		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
-		TitlePanel.add(lbTitle);
+        lbNgayBatDau = new JLabel("Từ ngày:");
+        lbNgayBatDau.setPreferredSize(new Dimension(100, 30));
 
-		JPanel ContentPanel = new JPanel();
-		ContentPanel.setBackground(new Color(255, 255, 255));
-		contentPane.add(ContentPanel);
-		ContentPanel.setLayout(new BorderLayout(0, 20));
+        lbMaHoaDon = new JLabel("Mã hóa đơn:");
+        lbMaHoaDon.setPreferredSize(new Dimension(100, 30));
+        lbMaHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lbMaHoaDon.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbMaHoaDon.setHorizontalAlignment(SwingConstants.LEFT);
+        BoxThongTin1.add(lbMaHoaDon);
 
-		JPanel PaneThongTin = new JPanel();
-		PaneThongTin.setBackground(new Color(255, 255, 255));
-		PaneThongTin.setBorder(new LineBorder(new Color(0, 0, 0)));
-		ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
-		PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
+        BoxThongTin1.add(Box.createHorizontalStrut(20));
 
-		PaneThongTin.add(Box.createHorizontalStrut(20));
+        txtMaHoaDon = new JTextField();
+        txtMaHoaDon.setEnabled(false);
+        lbMaHoaDon.setLabelFor(txtMaHoaDon);
+        BoxThongTin1.add(txtMaHoaDon);
 
-		Box BoxVerticalThongTin = Box.createVerticalBox();
-		PaneThongTin.add(BoxVerticalThongTin);
+        BoxThongTin1.add(Box.createHorizontalStrut(20));
 
-		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+        lbTenKhachHang = new JLabel("Tên khách hàng:");
+        lbTenKhachHang.setPreferredSize(new Dimension(130, 30));
+        lbTenKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
+        BoxThongTin1.add(lbTenKhachHang);
 
-		Box BoxThongTin1 = Box.createHorizontalBox();
-		BoxVerticalThongTin.add(BoxThongTin1);
+        BoxThongTin1.add(Box.createHorizontalStrut(20));
 
-		lbNgayBatDau = new JLabel("Từ ngày:");
-		lbNgayBatDau.setPreferredSize(new Dimension(100, 30));
+        txtTenKhachHang = new JTextField();
+        txtTenKhachHang.setEnabled(false);
+        lbTenKhachHang.setLabelFor(txtTenKhachHang);
+        BoxThongTin1.add(txtTenKhachHang);
 
-		lbMaHoaDon = new JLabel("Mã hóa đơn:");
-		lbMaHoaDon.setPreferredSize(new Dimension(100, 30));
-		lbMaHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbMaHoaDon.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbMaHoaDon.setHorizontalAlignment(SwingConstants.LEFT);
-		BoxThongTin1.add(lbMaHoaDon);
+        BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-		txtMaHoaDon = new JTextField();
-		lbMaHoaDon.setLabelFor(txtMaHoaDon);
-		BoxThongTin1.add(txtMaHoaDon);
+        Box BoxThongTin2 = Box.createHorizontalBox();
+        BoxVerticalThongTin.add(BoxThongTin2);
 
-		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
-		BoxThongTin1.add(horizontalStrut_5);
+        lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lbNgayBatDau.setHorizontalAlignment(SwingConstants.LEFT);
+        BoxThongTin2.add(lbNgayBatDau);
 
-		lbTenKhachHang = new JLabel("Tên khách hàng:");
-		lbTenKhachHang.setPreferredSize(new Dimension(130, 30));
-		lbTenKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
-		BoxThongTin1.add(lbTenKhachHang);
+        BoxThongTin2.add(Box.createHorizontalStrut(20));
 
-		txtTenKhachHang = new JTextField();
-		lbTenKhachHang.setLabelFor(txtTenKhachHang);
-		BoxThongTin1.add(txtTenKhachHang);
+        txtNgayBatDau = new JDateChooser();
+        txtNgayBatDau.setEnabled(false);
+        lbNgayBatDau.setLabelFor(txtNgayBatDau);
+        BoxThongTin2.add(txtNgayBatDau);
 
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		BoxVerticalThongTin.add(verticalStrut_1);
+        BoxThongTin2.add(Box.createHorizontalStrut(20));
 
-		Box BoxThongTin2 = Box.createHorizontalBox();
-		BoxVerticalThongTin.add(BoxThongTin2);
+        lbNgayKetThuc = new JLabel("Đến ngày:");
+        lbNgayKetThuc.setPreferredSize(new Dimension(130, 30));
+        lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+        BoxThongTin2.add(lbNgayKetThuc);
 
-		lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbNgayBatDau.setHorizontalAlignment(SwingConstants.LEFT);
-		BoxThongTin2.add(lbNgayBatDau);
+        BoxThongTin2.add(Box.createHorizontalStrut(20));
 
-		txtNgayBatDau = new JDateChooser();
-		lbNgayBatDau.setLabelFor(txtNgayBatDau);
-		BoxThongTin2.add(txtNgayBatDau);
+        txtNgayKetThuc = new JDateChooser();
+        txtNgayKetThuc.setEnabled(false);
+        lbNgayKetThuc.setLabelFor(txtNgayKetThuc);
+        BoxThongTin2.add(txtNgayKetThuc);
 
-		BoxThongTin2.add(Box.createHorizontalStrut(20));
+        BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-		lbNgayKetThuc = new JLabel("Đến ngày:");
-		lbNgayKetThuc.setPreferredSize(new Dimension(130, 30));
-		lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-		BoxThongTin2.add(lbNgayKetThuc);
+        Box BoxThongTin3 = Box.createHorizontalBox();
+        BoxThongTin3.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        BoxVerticalThongTin.add(BoxThongTin3);
 
-		txtNgayKetThuc = new JDateChooser();
-		lbNgayKetThuc.setLabelFor(txtNgayKetThuc);
-		BoxThongTin2.add(txtNgayKetThuc);
+        btnTimKiem = new JButton("Tìm kiếm");
+        btnTimKiem.setBackground(new Color(107, 208, 107));
+        btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnTimKiem.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/search_icon.png")));
+        BoxThongTin3.add(btnTimKiem);
 
-		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+        BoxThongTin3.add(Box.createHorizontalStrut(20));
 
-		Box BoxThongTin3 = Box.createHorizontalBox();
-		BoxThongTin3.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		BoxVerticalThongTin.add(BoxThongTin3);
+        btnXuatHoaDon = new JButton("Xuất hóa đơn");
+        btnXuatHoaDon.setBackground(new Color(107, 208, 107));
+        btnXuatHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnXuatHoaDon.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/print_icon.png")));
+        BoxThongTin3.add(btnXuatHoaDon);
 
-		btnTimKiem = new JButton("Tìm kiếm");
-		btnTimKiem.setBackground(new Color(107, 208, 107));
-		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/search_icon.png")));
-		BoxThongTin3.add(btnTimKiem);
+        BoxThongTin3.add(Box.createHorizontalStrut(20));
 
-		BoxThongTin3.add(Box.createHorizontalStrut(20));
+        btnXoaTrang = new JButton("Xóa trắng");
+        btnXoaTrang.setBackground(new Color(107, 208, 107));
+        btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/clear_icon.png")));
+        BoxThongTin3.add(btnXoaTrang);
 
-		btnXuatHoaDon = new JButton("Xuất hóa đơn");
-		btnXuatHoaDon.setBackground(new Color(107, 208, 107));
-		btnXuatHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXuatHoaDon.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/print_icon.png")));
-		BoxThongTin3.add(btnXuatHoaDon);
+        BoxVerticalThongTin.add(Box.createVerticalStrut(10));
 
-		BoxThongTin3.add(Box.createHorizontalStrut(20));
+        PaneThongTin.add(Box.createHorizontalStrut(20));
 
-		btnXoaTrang = new JButton("Xóa trắng");
-		btnXoaTrang.setBackground(new Color(107, 208, 107));
-		btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/clear_icon.png")));
-		BoxThongTin3.add(btnXoaTrang);
+        String Invoicerow[] = {"Mã hóa đơn", "Tên khách hàng", "Số điện thoại", "Ngày thanh toán", "Mã nhân viên",
+                "Tên nhân viên", "Khuyến mãi", "Tổng tiền"};
+        modelInvoice = new DefaultTableModel(Invoicerow, 0);
+        tableInvoice = new JTable(modelInvoice);
+        scrollPaneInvoice = new JScrollPane(tableInvoice);
+        scrollPaneInvoice.setBounds(10, 20, 958, 140);
+        scrollPaneInvoice.setBorder(BorderFactory.createTitledBorder("Danh sách Hóa đơn"));
+        tableInvoice.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
-		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(new Color(255, 255, 255));
+        centerPanel.setBounds(0, -22, 978, 168);
+        centerPanel.setLayout(null);
+        centerPanel.add(scrollPaneInvoice);
 
-		PaneThongTin.add(Box.createHorizontalStrut(20));
+        pnCenter = new JPanel();
+        pnCenter.setBackground(new Color(255, 255, 255));
+        ContentPanel.add(pnCenter, BorderLayout.CENTER);
+        pnCenter.setLayout(null);
+        pnCenter.add(centerPanel);
 
-		String row[] = { "Mã hóa đơn", "Tên khách hàng", "Số điện thoại", "Email" };
-		modelTable = new DefaultTableModel(row, 0);
-		tableInvoice = new JTable(modelTable);
-		scrollPaneInvoice = new JScrollPane(tableInvoice);
-		scrollPaneInvoice.setBounds(10, 20, 958, 140);
-		scrollPaneInvoice.setBorder(BorderFactory.createTitledBorder("Danh sách Hóa đơn"));
-		tableInvoice.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
-		JPanel centerPanel = new JPanel();
-		centerPanel.setBackground(new Color(255, 255, 255));
-		centerPanel.setBounds(0, -22, 978, 168);
-		centerPanel.setLayout(null);
-		centerPanel.add(scrollPaneInvoice);
-		
-		pnCenter = new JPanel();
-		pnCenter.setBackground(new Color(255, 255, 255));
-		ContentPanel.add(pnCenter, BorderLayout.CENTER);
-		pnCenter.setLayout(null);
-		pnCenter.add(centerPanel);
-		
-		pnDetail = new JPanel();
-		pnDetail.setBackground(new Color(255, 255, 255));
-		pnDetail.setBounds(0, 185, 978, 202);
-		pnCenter.add(pnDetail);
-		
-		tableInvoiceDetail = new JTable();
-		tableInvoiceDetail.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		tableInvoiceDetail.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"STT", "Tên Phòng", "Loại Phòng", "Sức chứa"
-			}
-		));
-		tableInvoiceDetail.getColumnModel().getColumn(3).setResizable(false);
-		pnDetail.setLayout(null);
-		
-		scrollPaneInvoiceDetail = new JScrollPane(tableInvoiceDetail);
-		scrollPaneInvoiceDetail.setBounds(10, 10, 462, 182);
-		scrollPaneInvoiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách phiếu đặt phòng"));
-		pnDetail.add(scrollPaneInvoiceDetail);
-		
+        pnDetail = new JPanel();
+        pnDetail.setBackground(new Color(255, 255, 255));
+        pnDetail.setBounds(0, 185, 978, 202);
+        pnCenter.add(pnDetail);
 
-		tableInvoiceServiceDetail = new JTable();
-		tableInvoiceDetail.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"STT", "Tên Phòng", "Loại Phòng", "Sức chứa"
-			}
-		));
+        String InvoiceDetailRow[] = {"Mã phiếu đặt phòng", "Tên Phòng", "Loại Phòng", "Sức chứa", "Từ lúc",
+                "Đến lúc"};
+        modelInvoiceDetail = new DefaultTableModel(InvoiceDetailRow, 0);
+        tableInvoiceDetail = new JTable(modelInvoiceDetail);
+        tableInvoiceDetail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        tableInvoiceDetail.getColumnModel().getColumn(3).setResizable(false);
+        pnDetail.setLayout(null);
 
-		tableInvoiceServiceDetail = new JTable();
-		tableInvoiceServiceDetail.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		tableInvoiceServiceDetail.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"STT", "Tên Dịch Vụ", "Loại Dịch Vụ", "Số lượng"
-				}
-			));
+        scrollPaneInvoiceDetail = new JScrollPane(tableInvoiceDetail);
+        scrollPaneInvoiceDetail.setBounds(10, 10, 462, 182);
+        scrollPaneInvoiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách phiếu đặt phòng"));
+        pnDetail.add(scrollPaneInvoiceDetail);
 
-		scrollPaneInvoiceServiceDetail = new JScrollPane(tableInvoiceServiceDetail);
-		scrollPaneInvoiceServiceDetail.setBounds(501, 10, 467, 182);
-		scrollPaneInvoiceServiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách dịch vụ"
-				+ ""));
-		pnDetail.add(scrollPaneInvoiceServiceDetail);
-		
-		JButton btnPrevious = new JButton("<");
-		btnPrevious.setBackground(new Color(107, 208, 107));
-		btnPrevious.setBounds(420, 154, 45, 21);
-		pnCenter.add(btnPrevious);
-		
-		JButton btnNext = new JButton(">");
-		btnNext.setBackground(new Color(107, 208, 107));
-		btnNext.setBounds(508, 156, 45, 21);
-		pnCenter.add(btnNext);
-		
-		JLabel lblCurrentPageNumber = new JLabel("1");
-		lblCurrentPageNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCurrentPageNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCurrentPageNumber.setBounds(475, 156, 24, 19);
-		pnCenter.add(lblCurrentPageNumber);
-	}
+        String invoiceServiceDetailRow[] = {"Mã dịch vụ", "Tên dịch vụ", "Số lượng", "Loại dịch vụ", "Giá"};
+        modelInvoiceServiceDetail = new DefaultTableModel(invoiceServiceDetailRow, 0);
+        tableInvoiceServiceDetail = new JTable(modelInvoiceServiceDetail);
+
+        tableInvoiceServiceDetail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+
+        scrollPaneInvoiceServiceDetail = new JScrollPane(tableInvoiceServiceDetail);
+        scrollPaneInvoiceServiceDetail.setBounds(501, 10, 467, 182);
+        scrollPaneInvoiceServiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách dịch vụ" + ""));
+        pnDetail.add(scrollPaneInvoiceServiceDetail);
+
+        btnPrevious = new JButton("<");
+        btnPrevious.setBackground(new Color(107, 208, 107));
+        btnPrevious.setBounds(420, 154, 45, 21);
+        pnCenter.add(btnPrevious);
+
+        btnNext = new JButton(">");
+        btnNext.setBackground(new Color(107, 208, 107));
+        btnNext.setBounds(508, 156, 45, 21);
+        pnCenter.add(btnNext);
+
+        lblCurrentPageNumber = new JLabel("1");
+        lblCurrentPageNumber.setHorizontalAlignment(SwingConstants.CENTER);
+        lblCurrentPageNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblCurrentPageNumber.setBounds(475, 156, 24, 19);
+        pnCenter.add(lblCurrentPageNumber);
+        initData();
+        btnNext.addActionListener(this);
+        btnPrevious.addActionListener(this);
+        btnTimKiem.addActionListener(this);
+        btnXoaTrang.addActionListener(this);
+        btnXuatHoaDon.addActionListener(this);
+        cbSelect.addActionListener(this);
+        addAction();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == btnNext || source == btnPrevious) {
+            handlePageNavigation(source);
+        } else if (source == cbSelect) {
+            handleComboBoxSelection();
+        } else if (source == btnTimKiem) {
+            handleSearch();
+        }
+    }
+    private void handleSearch() {
+        int selectedOption = cbSelect.getSelectedIndex();
+        invoices = getInvoicesForPage(1, selectedOption);
+        lblCurrentPageNumber.setText("1");
+        loadInvoiceData(invoices);
+    }
+    private void handlePageNavigation(Object source) {
+        int targetPageNumber = (source == btnNext) ? currentPageNumber + 1 : currentPageNumber - 1;
+        int selectedOption = cbSelect.getSelectedIndex();
+
+        invoices = getInvoicesForPage(targetPageNumber, selectedOption);
+        updateAndLoadInvoices(targetPageNumber);
+    }
+
+    private List<HoaDon> getInvoicesForPage(int targetPageNumber, int selectedOption) {
+        switch (selectedOption) {
+            case 0:
+                return hoaDonDAO.getHoaDonPaged(targetPageNumber, ROWS_PER_PAGE);
+            case 1:
+                return hoaDonDAO.getHoaDonPagedByMaHoaDon(txtMaHoaDon.getText(), targetPageNumber, ROWS_PER_PAGE);
+            case 2:
+                return hoaDonDAO.getHoaDonPagedByTenKhachHang(txtTenKhachHang.getText(), targetPageNumber, ROWS_PER_PAGE);
+            case 3:
+                return hoaDonDAO.getHoaDonPagedByDateRange(
+                        new Date(txtNgayBatDau.getDate().getTime()),
+                        new Date(txtNgayKetThuc.getDate().getTime()),
+                        targetPageNumber,
+                        ROWS_PER_PAGE
+                );
+            default:
+                return new ArrayList<>();
+        }
+    }
+
+    private void updateAndLoadInvoices(int targetPageNumber) {
+        if (!invoices.isEmpty()) {
+            currentPageNumber = targetPageNumber;
+            lblCurrentPageNumber.setText(String.valueOf(currentPageNumber));
+            loadInvoiceData(invoices);
+        }
+    }
+
+    private void enableComponents(boolean[] enableFlags) {
+        txtMaHoaDon.setEnabled(enableFlags[0]);
+        txtTenKhachHang.setEnabled(enableFlags[1]);
+        txtNgayBatDau.setEnabled(enableFlags[2]);
+        txtNgayKetThuc.setEnabled(enableFlags[3]);
+    }
+
+    private void handleComboBoxSelection() {
+        int selectedOption = cbSelect.getSelectedIndex();
+        boolean[] enableFlags = {false, false, false, false};
+
+        switch (selectedOption) {
+            case 1:
+                enableFlags[0] = true;
+                break;
+            case 2:
+                enableFlags[1] = true;
+                break;
+            case 3:
+                enableFlags[2] = enableFlags[3] = true;
+                break;
+        }
+        enableComponents(enableFlags);
+    }
+
+
+    private void addAction() {
+        tableInvoice.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = tableInvoice.getSelectedRow();
+                if (selectedRow != -1) {
+                    currentInvoice = invoices.get(selectedRow);
+                    loadInvoiceDetailData(currentInvoice);
+                }
+            }
+        });
+
+        tableInvoiceDetail.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectRow = tableInvoiceDetail.getSelectedRow();
+                if (selectRow != -1) {
+                    String maPhieuDatPhong = invoiceDetails.get(selectRow).getMaPhieuDatPhong();
+                    List<ChiTietDatDichVu> chiTietDatDichVuList = chiTietDatDichVuDAO
+                            .getChiTietDatDichVuByPhieuDatPhong(maPhieuDatPhong);
+                    loadInvoiceServiceDetail(chiTietDatDichVuList);
+                }
+            }
+        });
+    }
 }
