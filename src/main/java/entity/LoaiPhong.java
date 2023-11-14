@@ -48,4 +48,9 @@ public class LoaiPhong {
 	public void setTrangThai(TrangThaiLoaiPhong trangThai) {
 		this.trangThai = trangThai;
 	}
+	
+	@Override
+	public String toString() {
+		return tenLoaiPhong;
+	}
 }

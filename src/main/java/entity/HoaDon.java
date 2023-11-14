@@ -13,7 +13,7 @@ public class HoaDon {
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
 	private KhuyenMai khuyenMai;
-
+	
 	public HoaDon() {
 	}
 
