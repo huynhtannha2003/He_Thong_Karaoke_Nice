@@ -12,6 +12,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,6 +34,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.DichVuDAO;
+import entity.DichVu;
+
 import javax.swing.border.EtchedBorder;
 
 public class GD_QuanLyDichVu extends JFrame {
@@ -39,22 +45,24 @@ public class GD_QuanLyDichVu extends JFrame {
 	private JTextField txtID;
 	private JTextField txtQuantity;
 	private JTextField txtName;
-	private JTextField textField_1;
 	private JButton btnChoose;
 	private JPanel pnNorth;
 	private JPanel pnCenter;
 	private Box formVerticalBox;
 	private Box firstFormHorizontalBox;
 	private JTextField textField;
+	private JLabel lblTitle;
+	private JPanel pnFirstForm;
+	private JLabel lblID;
+	private JLabel lblName;
 	private JPanel pnTable;
-	private JTable table;
 	private JPanel pnSearch;
 	private DefaultTableModel modelTable;
+	private JTable table;
 	private JScrollPane scrollPane;
+	private List<DichVu> ds;
+	private DichVuDAO dichVuList = new DichVuDAO();
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,9 +76,6 @@ public class GD_QuanLyDichVu extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public GD_QuanLyDichVu() throws IOException {
 		initGUI();
 	}
@@ -117,7 +122,7 @@ public class GD_QuanLyDichVu extends JFrame {
 
 	private void addForm() {
 		pnCenter.setLayout(new BorderLayout(0, 0));
-		JPanel pnFirstForm = new JPanel();
+		pnFirstForm = new JPanel();
 		pnFirstForm.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Thông tin khách hàng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -157,7 +162,7 @@ public class GD_QuanLyDichVu extends JFrame {
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		firstFormHorizontalBox.add(horizontalStrut);
 
-		JLabel lblName = new JLabel("Tên dịch vụ:");
+		lblName = new JLabel("Tên dịch vụ:");
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblName.setPreferredSize(new Dimension(150, 20));
 		firstFormHorizontalBox.add(lblName);
@@ -182,8 +187,7 @@ public class GD_QuanLyDichVu extends JFrame {
 		txtQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		secondFormHorizontalBox.add(txtQuantity);
 
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		secondFormHorizontalBox.add(horizontalStrut_1);
+		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
 		JLabel lblType = new JLabel("Trạng thái:");
 		lblType.setPreferredSize(new Dimension(150, 20));
@@ -312,7 +316,7 @@ public class GD_QuanLyDichVu extends JFrame {
 		searchHorizontalBox.add(Box.createHorizontalStrut(20));
 
 		JButton btnSearch = new JButton("Tìm kiếm");
-		btnSearch.setBackground(new Color(107, 250, 107));
+		btnSearch.setBackground(new Color(107, 208, 107));
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
 		searchHorizontalBox.add(btnSearch);
 
@@ -320,15 +324,22 @@ public class GD_QuanLyDichVu extends JFrame {
 
 		centerForm.add(Box.createVerticalStrut(20));
 
-		String row[] = { "STT", "Mã dịch vụ", "Tên dịch vụ", "Số lượng", "Trạng thái" };
-		modelTable = new DefaultTableModel(row, 0);
+		String[] headers = { "STT", "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Mã loại dịch vụ", "Trạng thái" };
+		modelTable = new DefaultTableModel(headers, 0);
 		table = new JTable(modelTable);
 		table.setBackground(new Color(255, 255, 255));
 		table.setPreferredSize(new Dimension(460, 0));
 		table.setMinimumSize(new Dimension(90, 0));
-		scrollPane = new JScrollPane(table);
-		table.setFont(new Font("Tahoma", Font.BOLD, 14));
+		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		table.setFont(new Font("Tahoma", Font.BOLD, 24));
+		table.setDefaultEditor(Object.class, null);
 		pnSecondForm.add(scrollPane, BorderLayout.CENTER);
+
+		loadData();
+
+//		btnAdd.addActionListener(this);
+
 	}
 
 	public void addMenuBar() {
@@ -349,5 +360,24 @@ public class GD_QuanLyDichVu extends JFrame {
 
 		JMenu menuTroGiup = new JMenu("Trợ giúp");
 		menuBar.add(menuTroGiup);
+	}
+
+	private void loadData() {
+		try {
+			List<DichVu> list = dichVuList.getAllDichVu();
+			int i = 0;
+			modelTable.setRowCount(0);
+			for (DichVu s : list) {
+				String[] row = { (i++ + 1) + "", s.getMaDichVu(), s.getTenDichVu(), s.getGia().getGia() + "",
+						s.getSoLuong() + "", s.getLoaiDichVu().getMaLoaiDichVu(), s.getTrangThai() + "", };
+				System.out.println(row[1] +' '+row[2]);
+				modelTable.addRow(row);
+			}
+			modelTable.fireTableDataChanged();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+//		table.setModel(modelTable);
 	}
 }

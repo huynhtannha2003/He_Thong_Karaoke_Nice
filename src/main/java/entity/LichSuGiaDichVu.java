@@ -1,84 +1,86 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 
 public class LichSuGiaDichVu {
-	private String maLichSuGiaDichVu;
-	private Date ngayBatDau;
-	private Date ngayKetThuc;
-	private Time thoiDiemBatDau;
-	private Time thoiDiemKetThuc;
-	private Double gia;
-	private DichVu dichVu;
+    private String maLichSuGiaDichVu;
+    private Date ngayBatDau;
+    private Date ngayKetThuc;
+    private Time thoiDiemBatDau;
+    private Time thoiDiemKetThuc;
+    private Double gia;
 
-	public LichSuGiaDichVu() {
-	}
+    public LichSuGiaDichVu() {
+    }
 
-	public LichSuGiaDichVu(String maLichSuGiaDichVu, Date ngayBatDau, Date ngayKetThuc, Time thoiDiemBatDau,
-			Time thoiDiemKetThuc, Double gia, DichVu dichVu) {
-		this.maLichSuGiaDichVu = maLichSuGiaDichVu;
-		this.ngayBatDau = ngayBatDau;
-		this.ngayKetThuc = ngayKetThuc;
-		this.thoiDiemBatDau = thoiDiemBatDau;
-		this.thoiDiemKetThuc = thoiDiemKetThuc;
-		this.gia = gia;
-		this.dichVu = dichVu;
-	}
+    public LichSuGiaDichVu(String maLichSuGiaDichVu, Date ngayBatDau, Date ngayKetThuc, Time thoiDiemBatDau,
+                           Time thoiDiemKetThuc, Double gia) {
+        this.maLichSuGiaDichVu = maLichSuGiaDichVu;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.thoiDiemBatDau = thoiDiemBatDau;
+        this.thoiDiemKetThuc = thoiDiemKetThuc;
+        this.gia = gia;
+    }
 
-	public String getMaLichSuGiaDichVu() {
-		return maLichSuGiaDichVu;
-	}
+    public LichSuGiaDichVu(ResultSet rs) throws SQLException {
+        this.maLichSuGiaDichVu = rs.getString("LichSuGiaDichVu_MaLichSuGiaDichVu");
+        this.ngayBatDau = rs.getDate("LichSuGiaDichVu_NgayBatDau");
+        this.ngayKetThuc = rs.getDate("LichSuGiaDichVu_NgayKetThuc");
+        this.thoiDiemBatDau = rs.getTime("LichSuGiaDichVu_ThoiDiemBatDau");
+        this.thoiDiemKetThuc = rs.getTime("LichSuGiaDichVu_ThoiDiemKetThuc");
+        this.gia = rs.getDouble("LichSuGiaDichVu_Gia");
+    }
 
-	public void setMaLichSuGiaDichVu(String maLichSuGiaDichVu) {
-		this.maLichSuGiaDichVu = maLichSuGiaDichVu;
-	}
+    public String getMaLichSuGiaDichVu() {
+        return maLichSuGiaDichVu;
+    }
 
-	public Date getNgayBatDau() {
-		return ngayBatDau;
-	}
+    public void setMaLichSuGiaDichVu(String maLichSuGiaDichVu) {
+        this.maLichSuGiaDichVu = maLichSuGiaDichVu;
+    }
 
-	public void setNgayBatDau(Date ngayBatDau) {
-		this.ngayBatDau = ngayBatDau;
-	}
+    public Date getNgayBatDau() {
+        return ngayBatDau;
+    }
 
-	public Date getNgayKetThuc() {
-		return ngayKetThuc;
-	}
+    public void setNgayBatDau(Date ngayBatDau) {
+        this.ngayBatDau = ngayBatDau;
+    }
 
-	public void setNgayKetThuc(Date ngayKetThuc) {
-		this.ngayKetThuc = ngayKetThuc;
-	}
+    public Date getNgayKetThuc() {
+        return ngayKetThuc;
+    }
 
-	public Time getThoiDiemBatDau() {
-		return thoiDiemBatDau;
-	}
+    public void setNgayKetThuc(Date ngayKetThuc) {
+        this.ngayKetThuc = ngayKetThuc;
+    }
 
-	public void setThoiDiemBatDau(Time thoiDiemBatDau) {
-		this.thoiDiemBatDau = thoiDiemBatDau;
-	}
+    public Time getThoiDiemBatDau() {
+        return thoiDiemBatDau;
+    }
 
-	public Time getThoiDiemKetThuc() {
-		return thoiDiemKetThuc;
-	}
+    public void setThoiDiemBatDau(Time thoiDiemBatDau) {
+        this.thoiDiemBatDau = thoiDiemBatDau;
+    }
 
-	public void setThoiDiemKetThuc(Time thoiDiemKetThuc) {
-		this.thoiDiemKetThuc = thoiDiemKetThuc;
-	}
+    public Time getThoiDiemKetThuc() {
+        return thoiDiemKetThuc;
+    }
 
-	public Double getGia() {
-		return gia;
-	}
+    public void setThoiDiemKetThuc(Time thoiDiemKetThuc) {
+        this.thoiDiemKetThuc = thoiDiemKetThuc;
+    }
 
-	public void setGia(Double gia) {
-		this.gia = gia;
-	}
+    public Double getGia() {
+        return gia;
+    }
 
-	public DichVu getDichVu() {
-		return dichVu;
-	}
+    public void setGia(Double gia) {
+        this.gia = gia;
+    }
 
-	public void setDichVu(DichVu dichVu) {
-		this.dichVu = dichVu;
-	}
 }

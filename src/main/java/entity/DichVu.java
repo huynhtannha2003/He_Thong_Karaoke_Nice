@@ -11,13 +11,13 @@ public class DichVu {
 	private int soLuong;
 	private TrangThaiDichVu trangThai;
 	private LoaiDichVu loaiDichVu;
-	private double gia;
+	private LichSuGiaDichVu gia;
 
 	public DichVu() {
 	}
 
 	public DichVu(String maDichVu, String tenDichVu, int soLuong, TrangThaiDichVu trangThai, LoaiDichVu loaiDichVu,
-			double gia) {
+			LichSuGiaDichVu gia) {
 		this.maDichVu = maDichVu;
 		this.tenDichVu = tenDichVu;
 		this.soLuong = soLuong;
@@ -30,7 +30,7 @@ public class DichVu {
 		this.maDichVu = rs.getString("DichVu_MaDichVu");
 		this.tenDichVu = rs.getString("DichVu_TenDichVu");
 		this.soLuong = rs.getInt("DichVu_SoLuong");
-		this.gia = rs.getDouble("LichSuGiaDichVu_Gia");
+		this.gia = new LichSuGiaDichVu(rs);
 		this.trangThai = TrangThaiDichVu.values()[rs.getInt("DichVu_TrangThai")];
 		this.loaiDichVu = new LoaiDichVu(rs);
 	}
@@ -75,11 +75,11 @@ public class DichVu {
 		this.loaiDichVu = loaiDichVu;
 	}
 
-	public double getGia() {
+	public LichSuGiaDichVu getGia() {
 		return gia;
 	}
 
-	public void setGia(double gia) {
+	public void setGia(LichSuGiaDichVu gia) {
 		this.gia = gia;
 	}
 

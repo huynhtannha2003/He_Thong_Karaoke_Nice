@@ -35,7 +35,7 @@ import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
 import utils.RoomPanelUtil;
 
-public class GD_DatTruocCho extends JFrame {
+public class GD_DatPhongCho extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNumber;
@@ -56,7 +56,7 @@ public class GD_DatTruocCho extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GD_DatTruocCho frame = new GD_DatTruocCho();
+					GD_DatPhongCho frame = new GD_DatPhongCho();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,11 +64,10 @@ public class GD_DatTruocCho extends JFrame {
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
-	public GD_DatTruocCho() throws IOException {
+	public GD_DatPhongCho() throws IOException {
 		initGUI();
 	}
 
