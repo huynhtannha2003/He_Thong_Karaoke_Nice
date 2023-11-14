@@ -10,6 +10,7 @@ import java.util.List;
 import connectDB.ConnectDB;
 import entity.DichVu;
 
+import entity.LichSuGiaDichVu;
 import entity.LoaiDichVu;
 import enums.TrangThaiDichVu;
 
@@ -30,6 +31,8 @@ public class DichVuDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				DichVu dichVu = new DichVu(resultSet);
+				LichSuGiaDichVu lichSuGiaDichVu = new LichSuGiaDichVu(resultSet);
+				dichVu.setLichSuGiaDichVuList(List.of(lichSuGiaDichVu));
 				dichVuList.add(dichVu);
 			}
 		} catch (SQLException e) {

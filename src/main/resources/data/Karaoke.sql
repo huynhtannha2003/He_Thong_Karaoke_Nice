@@ -412,6 +412,7 @@ FROM DichVu DV
          JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu
          JOIN LoaiDichVu LDV ON DV.maLoaiDichVu = LDV.maLoaiDichVu
 WHERE LGDV.ngayKetThuc IS NULL;
+SELECT * FROM DichVuLichSuGiaByConditionTimeView
 GO
 
 CREATE VIEW DichVuLichSuGiaView AS
