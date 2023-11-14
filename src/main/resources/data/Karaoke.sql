@@ -1,6 +1,6 @@
 USE master
-GO
-DROP DATABASE Karaoke
+--GO
+--DROP DATABASE Karaoke
 GO
 CREATE DATABASE Karaoke
 GO
@@ -70,6 +70,7 @@ CREATE TABLE DichVu
     soLuong      INT,
     maLoaiDichVu VARCHAR(6),
     trangThai    TINYINT,
+	hinhAnh image,
     FOREIGN KEY (maLoaiDichVu) REFERENCES LoaiDichVu (maLoaiDichVu)
 );
 GO
@@ -189,16 +190,16 @@ VALUES ('LDV001', N'Thực phẩm', 1),
 GO
 
 INSERT INTO DichVu
-VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1),
-       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1),
-       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1),
-       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1),
-       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1),
-       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1),
-       ('DV.002.002', N'Heniken', 320, 'LDV002', 1),
-       ('DV.002.003', N'Sting', 100, 'LDV002', 1),
-       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1),
-       ('DV.002.005', N'Wine', 30, 'LDV002', 1)
+VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1,null),
+       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1,null),
+       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1,null),
+       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1,null),
+       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1,null),
+       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1,null),
+       ('DV.002.002', N'Heniken', 320, 'LDV002', 1,null),
+       ('DV.002.003', N'Sting', 100, 'LDV002', 1,null),
+       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1,null),
+       ('DV.002.005', N'Wine', 30, 'LDV002', 1,null)
 GO
 
 INSERT INTO LichSuGiaDichVu
@@ -376,7 +377,8 @@ SELECT maDichVu     AS DichVu_MaDichVu,
        tenDichVu    AS DichVu_TenDichVu,
        soLuong      AS DichVu_SoLuong,
        maLoaiDichVu AS DichVu_MaLoaiDichVu,
-       trangThai    AS DichVu_TrangThai
+       trangThai    AS DichVu_TrangThai,
+	   hinhAnh		AS DichVu_HinhAnh
 FROM DichVu;
 GO
 
@@ -728,11 +730,13 @@ CREATE PROCEDURE InsertIntoDichVu @maDichVu VARCHAR(10),
                                   @tenDichVu NVARCHAR(255),
                                   @soLuong INT,
                                   @maLoaiDichVu VARCHAR(6),
-                                  @trangThai TINYINT
+                                  @trangThai TINYINT,
+								  @hinhAnh IMAGE
+
 AS
 BEGIN
-    INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai)
-    VALUES (@maDichVu, @tenDichVu, @soLuong, @maLoaiDichVu, @trangThai)
+    INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai,hinhAnh)
+    VALUES (@maDichVu, @tenDichVu, @soLuong, @maLoaiDichVu, @trangThai, @hinhAnh)
 END;
 GO
 
