@@ -127,7 +127,7 @@ public class GD_DatDichVu extends JFrame {
 		spOrderedServices.setBounds(10, 58, 327, 479);
 		panel.add(spOrderedServices);
 
-		initData();
+//		initData();
 		
 		JPanel services = new JPanel();
 		JScrollPane spServices = new JScrollPane(services);
@@ -174,11 +174,11 @@ public class GD_DatDichVu extends JFrame {
 		btnApply.setBounds(855, 570, 120, 25);
 		panel.add(btnApply);
 	}
-	
-	public void initData() {
-		LoaiDichVu loaiDichVu = new LoaiDichVu("001", "Loại Dịch Vụ 1", TrangThaiLoaiDichVu.HIEU_LUC);
-	    for (int i = 0; i < 10; i++) {
-	        listDichVu.add(new DichVu("00" + (i + 1), "Dịch Vụ " + (i + 1), 5, TrangThaiDichVu.HIEU_LUC, loaiDichVu, 1));
-	    }
-	}
+//	
+//	public void initData() {
+//		LoaiDichVu loaiDichVu = new LoaiDichVu("001", "Loại Dịch Vụ 1", TrangThaiLoaiDichVu.HIEU_LUC);
+//	    for (int i = 0; i < 10; i++) {
+//	        listDichVu.add(new DichVu("00" + (i + 1), "Dịch Vụ " + (i + 1), 5, TrangThaiDichVu.HIEU_LUC, loaiDichVu, 1));
+//	    }
+//	}
 }
