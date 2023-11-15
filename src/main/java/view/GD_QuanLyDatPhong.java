@@ -1,9 +1,9 @@
 package view;
 
+import dao.HoaDonDAO;
+import dao.LoaiPhongDAO;
 import dao.PhongDAO;
-import entity.LoaiPhong;
-import entity.NhanVien;
-import entity.Phong;
+import entity.*;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
@@ -12,26 +12,30 @@ import utils.RoomPanelUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener, ActionListener {
 
+    private final LoaiPhongDAO loaiPhongDAO;
+    private final HoaDonDAO hoaDonDAO;
     private JPanel contentPane;
-    private JTextField txtName, txtCapacity;
+    private JTextField txtName;
     private JPanel pnCenter;
     private List<Phong> listPhong;
+    private List<LoaiPhong> loaiPhongList;
     private JPanel pnListRoom;
     private JPanel pnNote;
     private JComboBox cbStatus;
     private JComboBox cbType;
     private Phong phongSelected;
-    private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan;
-    private PhongDAO phongDAO;
+    private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear;
+    private final PhongDAO phongDAO;
     private NhanVien nhanVien;
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -48,6 +52,8 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
     public GD_QuanLyDatPhong(NhanVien currentNhanVien) throws IOException {
         nhanVien = currentNhanVien;
         phongDAO = new PhongDAO();
+        loaiPhongDAO = new LoaiPhongDAO();
+        hoaDonDAO = new HoaDonDAO();
         initGUI();
     }
 
@@ -78,11 +84,10 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
 
         addForm();
 
-        initData();
-
         addPanelRoom();
 
         addNotePanel();
+
     }
 
     private void addNotePanel() {
@@ -120,12 +125,12 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         pnListRoom.setLayout(new GridLayout(0, 5, 0, 0));
         pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong, this);
-        phongPanels.forEach(pnListRoom::add);
+        getAllRoom();
     }
 
-    private void initData() {
+    private void getAllRoom() {
         listPhong = phongDAO.getPhongLoaiPhongLichSuaGiaByConditionTime();
+        loadRooms(listPhong);
     }
 
     private void loadRooms(List<Phong> newRooms) {
@@ -162,7 +167,12 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
         cbStatus = new JComboBox();
-        cbStatus.setModel(new DefaultComboBoxModel<>(TrangThaiPhong.values()));
+        cbStatus.addItem("Tất cả");
+
+        List.of(Arrays.stream(TrangThaiPhong.values())
+                .map(TrangThaiPhong::getCustomName)
+                .toArray(String[]::new)).forEach(cbStatus::addItem);
+
         cbStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
         firstFormHorizontalBox.add(cbStatus);
 
@@ -176,16 +186,18 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
         cbType = new JComboBox();
-        //please change in future
-        cbType.setModel(new DefaultComboBoxModel(new String[]{"Phòng vip", "Phòng thường"}));
+        cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
+        loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
         cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
         firstFormHorizontalBox.add(cbType);
 
         firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-        JButton btnFind = new JButton("Tìm kiếm");
+        btnFind = new JButton("Tìm kiếm");
         btnFind.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnFind.setBackground(new Color(107, 208, 107));
+        btnFind.addActionListener(this);
+
         firstFormHorizontalBox.add(btnFind);
 
         firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
@@ -213,28 +225,15 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
 
         secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-        JLabel lblCapacity = new JLabel("Sức chứa");
-        lblCapacity.setPreferredSize(lblStatus.getPreferredSize());
-        lblCapacity.setFont(new Font("Tahoma", Font.BOLD, 14));
-        secondFormHorizontalBox.add(lblCapacity);
-
-        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
-
-        txtCapacity = new JTextField();
-        txtCapacity.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        secondFormHorizontalBox.add(txtCapacity);
-        txtCapacity.setColumns(10);
-
-        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
-
-        JButton btnNewButton = new JButton("Xóa trắng");
-        btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnNewButton.setBackground(new Color(107, 208, 107));
-        btnNewButton.addActionListener(new ActionListener() {
+        btnClear = new JButton("Xóa trắng");
+        btnClear.addActionListener(this);
+        btnClear.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnClear.setBackground(new Color(107, 208, 107));
+        btnClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             }
         });
-        secondFormHorizontalBox.add(btnNewButton);
+        secondFormHorizontalBox.add(btnClear);
 
         secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
     }
@@ -288,15 +287,15 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         btnChuyenPhong.setBackground(new Color(107, 208, 107));
         pnLeftButton.add(btnChuyenPhong);
 
-        btnHuyDatPhong = new JButton("Hủy Đặt Phòng");
-        btnHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnHuyDatPhong.setBackground(new Color(107, 208, 107));
-        pnLeftButton.add(btnHuyDatPhong);
-
         btnDatPhongCho = new JButton("Đặt Phòng Chờ");
         btnDatPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnDatPhongCho.setBackground(new Color(107, 208, 107));
         pnLeftButton.add(btnDatPhongCho);
+
+        btnHuyDatPhong = new JButton("Hủy Đặt Phòng Chờ");
+        btnHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnHuyDatPhong.setBackground(new Color(107, 208, 107));
+//        pnLeftButton.add(btnHuyDatPhong);
 
         btnNhanPhongCho = new JButton("Nhận Phòng Chợ");
         btnNhanPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -345,36 +344,80 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
     @Override
     public void onPhongPanelClicked(Phong phong) {
         txtName.setText(phong.getTenPhong());
-        txtCapacity.setText(String.valueOf(phong.getSucChua()));
-        cbType.setSelectedItem(phong.getLoaiPhong().getTenLoaiPhong());
-        cbStatus.setSelectedItem(phong.getTrangThai());
+        cbType.setSelectedItem(phong.getLoaiPhong());
+        cbStatus.setSelectedIndex(phong.getTrangThai().getValue() + 1);
         phongSelected = phong;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (phongSelected == null) {
+        if (phongSelected == null && source != btnFind && source != btnClear) {
             JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (source == btnDatPhong) {
-            GD_DatPhong gdDatPhong = new GD_DatPhong(phongSelected, nhanVien);
-            gdDatPhong.setVisible(true);
-        } else if (source == btnChuyenPhong) {
-            GD_ChuyenPhong gdChuyenPhong = new GD_ChuyenPhong(phongSelected);
-        } else if (source == btnHuyDatPhong) {
 
-        } else if (source == btnDatPhongCho) {
-
-        } else if (source == btnNhanPhongCho) {
-
-        } else if (source == btnXemChiTiet) {
-
-        } else if (source == btnDichVu) {
-
-        } else if (source == btnThanhToan) {
-
+        if (source.equals(btnDatPhong)) {
+            openDatPhongWindow();
+        } else if (source.equals(btnChuyenPhong)) {
+            openChuyenPhongWindow();
+        } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
+        } else if (source.equals(btnDatPhongCho)) {// Handle DatPhongCho action
+        } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
+        } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
+        } else if (source.equals(btnDichVu)) {
+            GD_DatDichVu gdDatDichVu = new GD_DatDichVu();
+            gdDatDichVu.setVisible(true);
+        } else if (source.equals(btnThanhToan)) {
+            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
+            GD_ThanhToan gdThanhToan = new GD_ThanhToan(hoaDon);
+            gdThanhToan.setVisible(true);
+        } else if (source.equals(btnFind)) {
+            handleFindAction();
+        } else if (source.equals(btnClear)) {
+            handleClearAction();
         }
+    }
+
+    private void openDatPhongWindow() {
+        if (phongSelected != null && phongSelected.getTrangThai() == TrangThaiPhong.PHONG_TRONG) {
+            GD_DatPhong gdDatPhong = new GD_DatPhong(phongSelected, nhanVien);
+            gdDatPhong.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    getAllRoom();
+                }
+            });
+            gdDatPhong.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Chọn một phòng trống để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void openChuyenPhongWindow() {
+        if (phongSelected != null) {
+            GD_ChuyenPhong gdChuyenPhong = new GD_ChuyenPhong(phongSelected);
+            gdChuyenPhong.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    // Handle ChuyenPhong window closed event
+                }
+            });
+        }
+    }
+
+    private void handleFindAction() {
+        listPhong = phongDAO.getPhongByCondition(
+                cbStatus.getSelectedIndex() - 1,
+                ((LoaiPhong) cbType.getSelectedItem()).getMaLoaiPhong(),
+                txtName.getText()
+        );
+        loadRooms(listPhong);
+    }
+
+    private void handleClearAction() {
+        cbType.setSelectedIndex(0);
+        cbStatus.setSelectedIndex(0);
+        txtName.setText("");
     }
 }

@@ -11,6 +11,7 @@ public class DichVu {
     private String maDichVu;
     private String tenDichVu;
     private int soLuong;
+    private String hinhAnh;
     private TrangThaiDichVu trangThai;
     private LoaiDichVu loaiDichVu;
     private List<LichSuGiaDichVu> lichSuGiaDichVuList;
@@ -18,11 +19,11 @@ public class DichVu {
     public DichVu() {
     }
 
-    public DichVu(String maDichVu, String tenDichVu, int soLuong, TrangThaiDichVu trangThai, LoaiDichVu loaiDichVu,
-                  double gia) {
+    public DichVu(String maDichVu, String tenDichVu, int soLuong, String hinhAnh, TrangThaiDichVu trangThai, LoaiDichVu loaiDichVu) {
         this.maDichVu = maDichVu;
         this.tenDichVu = tenDichVu;
         this.soLuong = soLuong;
+        this.hinhAnh = hinhAnh;
         this.trangThai = trangThai;
         this.loaiDichVu = loaiDichVu;
     }
@@ -41,6 +42,7 @@ public class DichVu {
         this.tenDichVu = rs.getString("DichVu_TenDichVu");
         this.soLuong = rs.getInt("DichVu_SoLuong");
         this.trangThai = TrangThaiDichVu.values()[rs.getInt("DichVu_TrangThai")];
+        this.hinhAnh = rs.getString("DichVu_HinhAnh");
         this.loaiDichVu = new LoaiDichVu(rs);
         this.lichSuGiaDichVuList = new ArrayList<LichSuGiaDichVu>();
     }

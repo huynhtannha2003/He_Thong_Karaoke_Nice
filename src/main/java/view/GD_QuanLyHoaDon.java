@@ -43,9 +43,6 @@ public class GD_QuanLyHoaDon extends JFrame implements ActionListener {
     private Box horizontalBox;
     private JLabel lblSelect;
     private JComboBox<String> cbSelect;
-    private Component horizontalStrut_2;
-    private Component horizontalStrut_3;
-    private Component horizontalStrut_4;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

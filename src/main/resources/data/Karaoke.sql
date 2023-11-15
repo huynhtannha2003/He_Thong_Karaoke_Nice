@@ -190,16 +190,16 @@ VALUES ('LDV001', N'Thực phẩm', 1),
 GO
 
 INSERT INTO DichVu
-VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1, null),
-       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1, null),
-       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1, null),
-       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1, null),
-       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1, null),
-       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1, null),
-       ('DV.002.002', N'Heniken', 320, 'LDV002', 1, null),
-       ('DV.002.003', N'Sting', 100, 'LDV002', 1, null),
-       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1, null),
-       ('DV.002.005', N'Wine', 30, 'LDV002', 1, null)
+VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1, '/image/dichVu/traicay.png'),
+       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1, '/image/dichVu/myxao.png'),
+       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1, '/image/dichVu/caDieuHong.png'),
+       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1, '/image/dichVu/banhNgot.png'),
+       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1, '/image/dichVu/banhKem.png'),
+       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1, '/image/dichVu/cocaCola.png'),
+       ('DV.002.002', N'Heniken', 320, 'LDV002', 1, '/image/dichVu/heineiken.png'),
+       ('DV.002.003', N'Sting', 100, 'LDV002', 1, '/image/dichVu/sting.png'),
+       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1, '/image/dichVu/traOLong.png'),
+       ('DV.002.005', N'Wine', 30, 'LDV002', 1, '/image/dichVu/wine.png')
 GO
 
 INSERT INTO LichSuGiaDichVu
@@ -432,6 +432,7 @@ SELECT DV.maDichVu            AS DichVu_MaDichVu,
        DV.soLuong             AS DichVu_SoLuong,
        DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
        DV.trangThai           AS DichVu_TrangThai,
+       DV.hinhAnh             AS DichVu_HinhAnh,
        LGDV.maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
        LGDV.ngayBatDau        AS LichSuGiaDichVu_NgayBatDau,
        LGDV.ngayKetThuc       AS LichSuGiaDichVu_NgayKetThuc,
@@ -453,6 +454,7 @@ SELECT DV.maDichVu            AS DichVu_MaDichVu,
        DV.soLuong             AS DichVu_SoLuong,
        DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
        DV.trangThai           AS DichVu_TrangThai,
+       DV.hinhAnh             AS DichVu_HinhAnh,
        LGDV.maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
        LGDV.ngayBatDau        AS LichSuGiaDichVu_NgayBatDau,
        LGDV.ngayKetThuc       AS LichSuGiaDichVu_NgayKetThuc,
@@ -556,6 +558,7 @@ SELECT HD.maHoaDon            AS HoaDon_MaHoaDon,
        DV.soLuong             AS DichVu_SoLuong,
        DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
        DV.trangThai           AS DichVu_TrangThai,
+       DV.hinhAnh             AS DichVu_HinhAnh,
        LDV.maLoaiDichVu       AS LoaiDichVu_MaLoaiDichVu,
        LDV.tenLoaiDichVu      AS LoaiDichVu_TenLoaiDichVu,
        LDV.trangThai          AS LoaiDichVu_TrangThai,
@@ -585,6 +588,7 @@ SELECT HD.maHoaDon         AS HoaDon_MaHoaDon,
        DV.soLuong          AS DichVu_SoLuong,
        DV.maLoaiDichVu     AS DichVu_MaLoaiDichVu,
        DV.trangThai        AS DichVu_TrangThai,
+       DV.hinhAnh          AS DichVu_HinhAnh,
        LDV.maLoaiDichVu    AS LoaiDichVu_MaLoaiDichVu,
        LDV.tenLoaiDichVu   AS LoaiDichVu_TenLoaiDichVu,
        LDV.trangThai       AS LoaiDichVu_TrangThai,
@@ -627,6 +631,44 @@ FROM HoaDon HD
          LEFT JOIN KhachHang KH ON HD.maKhachHang = KH.maKhachHang
          LEFT JOIN NhanVien NV ON HD.maNhanVien = NV.maNhanVien
          LEFT JOIN KhuyenMai KM ON HD.maKhuyenMai = KM.maKhuyenMai;
+GO
+
+CREATE VIEW HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView AS
+SELECT HD.maHoaDon          AS HoaDon_MaHoaDon,
+       HD.tongTien          AS HoaDon_TongTien,
+       HD.NgayThanhToan     AS HoaDon_NgayThanhToan,
+       HD.thoiDiemThanhToan AS HoaDon_ThoiDiemThanhToan,
+       HD.maKhachHang       AS HoaDon_MaKhachHang,
+       HD.maNhanVien        AS HoaDon_MaNhanVien,
+       HD.maKhuyenMai       AS HoaDon_MaKhuyenMai,
+       PDP.maPhieuDatPhong  AS PhieuDatPhong_MaPhieuDatPhong,
+       PDP.thoiGianBatDau   AS PhieuDatPhong_ThoiGianBatDau,
+       PDP.thoiGianKetThuc  AS PhieuDatPhong_ThoiGianKetThuc,
+       PDP.maPhong          AS PhieuDatPhong_MaPhong,
+       NV.maNhanVien        AS NhanVien_MaNhanVien,
+       NV.ten               AS NhanVien_Ten,
+       NV.chucVu            AS NhanVien_ChucVu,
+       NV.sdt               AS NhanVien_SDT,
+       NV.email             AS NhanVien_Email,
+       NV.diaChi            AS NhanVien_DiaChi,
+       NV.trangThai         AS NhanVien_TrangThai,
+       KH.maKhachHang       AS KhachHang_MaKhachHang,
+       KH.tenKhachHang      AS KhachHang_TenKhachHang,
+       KH.sdt               AS KhachHang_SDT,
+       KM.maKhuyenMai       AS KhuyenMai_MaKhuyenMai,
+       KM.tenKhuyenMai      AS KhuyenMai_TenKhuyenMai,
+       KM.phanTram          AS KhuyenMai_PhanTram,
+       KM.gioiHan           AS KhuyenMai_GioiHan,
+       KM.ngayBatDau        AS KhuyenMai_NgayBatDau,
+       KM.ngayKetThuc       AS KhuyenMai_NgayKetThuc,
+       KM.thoiDiemBatDau    AS KhuyenMai_ThoiDiemBatDau,
+       KM.thoiDiemKetThuc   AS KhuyenMai_ThoiDiemKetThuc
+FROM HoaDon HD
+         JOIN PhieuDatPhong PDP ON HD.maHoaDon = PDP.maHoaDon
+         JOIN Phong P ON PDP.maPhong = P.maPhong
+         LEFT JOIN NhanVien NV ON HD.maNhanVien = NV.maNhanVien
+         LEFT JOIN KhachHang KH ON HD.maKhachHang = KH.maKhachHang
+         LEFT JOIN KhuyenMai KM on HD.maKhuyenMai = KM.maKhuyenMai;
 GO
 
 CREATE PROCEDURE GetPhieuDatPhongByMaHoaDon @MaHoaDon VARCHAR(255)
@@ -850,6 +892,41 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE GetNewHoaDonByMaPhong(@MaPhong VARCHAR(7))
+AS
+BEGIN
+    SELECT HoaDon_MaHoaDon,
+           HoaDon_TongTien,
+           HoaDon_NgayThanhToan,
+           HoaDon_ThoiDiemThanhToan,
+           HoaDon_MaKhachHang,
+           HoaDon_MaNhanVien,
+           HoaDon_MaKhuyenMai,
+           NhanVien_MaNhanVien,
+           NhanVien_Ten,
+           NhanVien_ChucVu,
+           NhanVien_DiaChi,
+           NhanVien_Email,
+           NhanVien_Email,
+           NhanVien_SDT,
+           NhanVien_TrangThai,
+           KhachHang_MaKhachHang,
+           KhachHang_TenKhachHang,
+           KhachHang_SDT,
+           KhuyenMai_MaKhuyenMai,
+           KhuyenMai_TenKhuyenMai,
+           KhuyenMai_PhanTram,
+           KhuyenMai_GioiHan,
+           KhuyenMai_NgayBatDau,
+           KhuyenMai_NgayKetThuc,
+           KhuyenMai_ThoiDiemBatDau,
+           KhuyenMai_ThoiDiemKetThuc
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE PhieuDatPhong_MaPhong = @MaPhong
+      AND HoaDon_NgayThanhToan IS NULL;
+END;
+GO
+
 CREATE PROCEDURE GetHoaDonPaged @PageNumber INT,
                                 @RowsPerPage INT
 AS
@@ -946,6 +1023,18 @@ BEGIN
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
 END;
 GO
+
+CREATE TRIGGER UpdateTrangThaiAfterInsert
+    ON PhieuDatPhong
+    AFTER INSERT
+    AS
+BEGIN
+    UPDATE Phong
+    SET trangThai = 1
+    WHERE maPhong IN (SELECT maPhong FROM inserted);
+END;
+GO
+
 CREATE PROCEDURE BookKaraokeRoom(
     @maKhachHang VARCHAR(13),
     @maNhanVien VARCHAR(8),
@@ -957,12 +1046,10 @@ BEGIN
     DECLARE @maHoaDon VARCHAR(13);
     DECLARE @maPhieuDatPhong VARCHAR(15);
 
-    -- Generate date components
     DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
     DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
     DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
 
-    -- Generate maHoaDon with sequential number
     DECLARE @soThuTuHoaDon INT;
     SELECT @soThuTuHoaDon = ISNULL(MAX(CAST(SUBSTRING(maHoaDon, 11, 3) AS INT)), 0) + 1
     FROM HoaDon
@@ -970,20 +1057,17 @@ BEGIN
 
     SET @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
 
-    -- Insert a record into HoaDon
     INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien)
     VALUES (@maHoaDon, @maKhachHang, @maNhanVien);
 
-    -- Generate maPhieuDatPhong with sequential number
     DECLARE @soThuTuPhieuDatPhong INT;
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
     FROM PhieuDatPhong
     WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
-    SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
+    SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
+                           RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
 
-    -- Insert a record into PhieuDatPhong
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
 END;
 GO
-SELECT * FROM PhieuDatPhong

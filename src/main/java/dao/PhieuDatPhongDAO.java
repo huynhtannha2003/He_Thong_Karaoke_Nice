@@ -35,8 +35,6 @@ public class PhieuDatPhongDAO {
         }
     }
 
-
-
     public List<PhieuDatPhong> getPhieuDatPhongByMaHoaDon(String maHoaDon) {
         List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
         Connection connection = connectDB.getConnection();

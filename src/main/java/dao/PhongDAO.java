@@ -97,4 +97,28 @@ public class PhongDAO {
 
 		return phongList;
 	}
+
+	public List<Phong> getPhongByCondition(int trangThai, String maLoaiPhong, String tenPhong) {
+		List<Phong> rooms = new ArrayList<>();
+		Connection connection = connectDB.getConnection();
+		String storedProcedure = "{call GetPhongByCondition(?, ?, ?)}";
+
+		try (CallableStatement statement = connection.prepareCall(storedProcedure)) {
+			statement.setInt(1, trangThai);
+			statement.setString(2, maLoaiPhong);
+			statement.setString(3, tenPhong);
+
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Phong room = new Phong(resultSet);
+				LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
+				room.getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
+				rooms.add(room);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rooms;
+	}
 }

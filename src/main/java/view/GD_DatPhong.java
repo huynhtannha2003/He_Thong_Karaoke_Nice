@@ -189,7 +189,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
     private void exitButton() {
         int key = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn hủy không ?", "Thoát", JOptionPane.YES_NO_OPTION);
         if (key == JOptionPane.YES_OPTION) {
-            setVisible(false);
+            dispose();
         }
     }
 
@@ -223,7 +223,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
             }
-            setVisible(false);
+            dispose();
         }
 
     }

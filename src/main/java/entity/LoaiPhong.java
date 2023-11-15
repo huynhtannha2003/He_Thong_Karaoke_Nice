@@ -3,6 +3,7 @@ package entity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 import enums.TrangThaiLoaiPhong;
 
@@ -11,6 +12,19 @@ public class LoaiPhong {
 	private String tenLoaiPhong;
 	private TrangThaiLoaiPhong trangThai;
 	List<LichSuGiaPhong> lichSuGiaPhongList;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		LoaiPhong loaiPhong = (LoaiPhong) o;
+		return Objects.equals(maLoaiPhong, loaiPhong.maLoaiPhong);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maLoaiPhong);
+	}
 
 	public LoaiPhong() {
 	}
