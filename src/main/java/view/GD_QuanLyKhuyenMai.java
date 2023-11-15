@@ -322,8 +322,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		btnThem.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnThem);
 
-		horizontalStrut = Box.createHorizontalStrut(20);
-		BoxThongTin3.add(horizontalStrut);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
 		btnCapNhat = new JButton("Cập nhật");
 		btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
@@ -331,8 +330,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		btnCapNhat.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnCapNhat);
 
-		horizontalStrut_1 = Box.createHorizontalStrut(20);
-		BoxThongTin3.add(horizontalStrut_1);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
 		btnXoaTrangThongTin = new JButton("Xóa trắng");
 		btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
