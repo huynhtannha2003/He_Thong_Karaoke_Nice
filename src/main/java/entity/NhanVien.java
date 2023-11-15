@@ -1,5 +1,8 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import enums.TrangThaiNhanVien;
 
 public class NhanVien {
@@ -17,7 +20,6 @@ public class NhanVien {
 
 	public NhanVien(String maNhanVien, String ten, String chucVu, String sdt, String email, String diaChi,
 			TrangThaiNhanVien trangThai) {
-		super();
 		this.maNhanVien = maNhanVien;
 		this.ten = ten;
 		this.chucVu = chucVu;
@@ -27,8 +29,6 @@ public class NhanVien {
 		this.trangThai = trangThai;
 	}
 
-<<<<<<< Updated upstream
-=======
 	public NhanVien(ResultSet rs) throws SQLException {
 		this.maNhanVien = rs.getString("NhanVien_MaNhanVien");
 		this.ten = rs.getString("NhanVien_Ten");
@@ -38,8 +38,6 @@ public class NhanVien {
 		this.diaChi = rs.getString("NhanVien_DiaChi");
 		this.trangThai = TrangThaiNhanVien.values()[rs.getInt("NhanVien_TrangThai")];
 	}
-
->>>>>>> Stashed changes
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}

@@ -1,12 +1,14 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 
 public class HoaDon {
 	private String maHoaDon;
 	private double tongTien;
-	private Date NgayThanhToan;
+	private Date ngayThanhToan;
 	private Time thoiDiemThanhToan;
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
@@ -19,13 +21,23 @@ public class HoaDon {
 			NhanVien nhanVien, KhuyenMai khuyenMai) {
 		this.maHoaDon = maHoaDon;
 		this.tongTien = tongTien;
-		NgayThanhToan = ngayThanhToan;
+		this.ngayThanhToan = ngayThanhToan;
 		this.thoiDiemThanhToan = thoiDiemThanhToan;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
 		this.khuyenMai = khuyenMai;
 	}
 
+	public HoaDon(ResultSet rs) throws SQLException {
+		this.maHoaDon = rs.getString("HoaDon_MaHoaDon");
+        this.tongTien = rs.getDouble("HoaDon_TongTien");
+        this.ngayThanhToan = rs.getDate("HoaDon_NgayThanhToan");
+        this.thoiDiemThanhToan = rs.getTime("HoaDon_ThoiDiemThanhToan");
+        this.khachHang = new KhachHang(rs);
+        this.nhanVien = new NhanVien(rs);
+        this.khuyenMai= new KhuyenMai(rs);
+	}
+	
 	public String getMaHoaDon() {
 		return maHoaDon;
 	}
@@ -43,11 +55,11 @@ public class HoaDon {
 	}
 
 	public Date getNgayThanhToan() {
-		return NgayThanhToan;
+		return ngayThanhToan;
 	}
 
 	public void setNgayThanhToan(Date ngayThanhToan) {
-		NgayThanhToan = ngayThanhToan;
+		this.ngayThanhToan = ngayThanhToan;
 	}
 
 	public Time getThoiDiemThanhToan() {

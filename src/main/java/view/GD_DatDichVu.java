@@ -178,7 +178,7 @@ public class GD_DatDichVu extends JFrame {
 	public void initData() {
 		LoaiDichVu loaiDichVu = new LoaiDichVu("001", "Loại Dịch Vụ 1", TrangThaiLoaiDichVu.HIEU_LUC);
 	    for (int i = 0; i < 10; i++) {
-	        listDichVu.add(new DichVu("00" + (i + 1), "Dịch Vụ " + (i + 1), 5, TrangThaiDichVu.HIEU_LUC, loaiDichVu));
+	        listDichVu.add(new DichVu("00" + (i + 1), "Dịch Vụ " + (i + 1), 5, TrangThaiDichVu.HIEU_LUC, loaiDichVu, 1));
 	    }
 	}
 }
