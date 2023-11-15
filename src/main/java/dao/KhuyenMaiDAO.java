@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,16 +87,25 @@ public class KhuyenMaiDAO {
 		return true;
 	}
 
-	public List<NhanVien> TimKiem(String ma, Date ngayBatDau, Date ngayKetThuc) throws SQLException {
+	public List<KhuyenMai> TimKiem(String ma, Date ngayBatDau, Date ngayKetThuc) throws SQLException {
 		Connection con = connectDB.getConnection();
-		ArrayList<NhanVien> ds = new ArrayList<NhanVien>();
+		ArrayList<KhuyenMai> ds = new ArrayList<KhuyenMai>();
 		try {
-			String query = "SELECT * FROM KhuyenMaiView WHERE KhuyenMai_MaKhuyenMai = ? or between KhuyenMai_ngayBatDau and KhuyenMai_NgayKetThuc or KhuyenMai_NgayKetThuc < GETDATE()";
+			String query = "SELECT * FROM KhuyenMaiView WHERE (KhuyenMai_MaKhuyenMai LIKE ? OR ? IS NULL) AND (KhuyenMai_NgayBatDau = ? OR ? IS NULL) AND (KhuyenMai_NgayKetThuc = ? OR ? IS NULL) AND ( (KhuyenMai_NgayBatDau >= ? AND KhuyenMai_NgayKetThuc <= ?) OR (? IS NULL AND ? IS NULL))";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, "%" + ma + "%");
+			pst.setString(2, ma);
+			pst.setDate(3, ngayBatDau);
+			pst.setDate(4, ngayBatDau);
+			pst.setDate(5, ngayKetThuc);
+			pst.setDate(6, ngayKetThuc);
+			pst.setDate(7, ngayBatDau);
+			pst.setDate(8, ngayKetThuc);
+			pst.setDate(9, ngayBatDau);
+			pst.setDate(10, ngayKetThuc);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
-				NhanVien nv = new NhanVien(rs);
+				KhuyenMai nv = new KhuyenMai(rs);
 				ds.add(nv);
 			}
 		} catch (SQLException e) {
