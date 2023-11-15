@@ -17,7 +17,27 @@ public class PhieuDatPhongDAO {
 		this.connectDB = ConnectDB.getInstance();
 	}
 
-	public List<PhieuDatPhong> getPhieuDatPhongByMaHoaDon(String maHoaDon) {
+    public boolean bookKaraokeRoom(String maKhachHang, String maNhanVien, String maPhong, String thoiGianBatDau) {
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL BookKaraokeRoom(?, ?, ?, ?)}";
+
+        try (CallableStatement statement = connection.prepareCall(query)) {
+            statement.setString(1, maKhachHang);
+            statement.setString(2, maNhanVien);
+            statement.setString(3, maPhong);
+            statement.setString(4, thoiGianBatDau);
+
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    public List<PhieuDatPhong> getPhieuDatPhongByMaHoaDon(String maHoaDon) {
         List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
         Connection connection = connectDB.getConnection();
         String query = "{CALL GetPhieuDatPhongByMaHoaDon(?)}";

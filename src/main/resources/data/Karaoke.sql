@@ -1,6 +1,6 @@
 USE master
---GO
---DROP DATABASE Karaoke
+GO
+DROP DATABASE Karaoke
 GO
 CREATE DATABASE Karaoke
 GO
@@ -70,7 +70,7 @@ CREATE TABLE DichVu
     soLuong      INT,
     maLoaiDichVu VARCHAR(6),
     trangThai    TINYINT,
-	hinhAnh image,
+    hinhAnh      image,
     FOREIGN KEY (maLoaiDichVu) REFERENCES LoaiDichVu (maLoaiDichVu)
 );
 GO
@@ -107,7 +107,7 @@ CREATE TABLE KhachHang
 GO
 CREATE TABLE HoaDon
 (
-    maHoaDon          VARCHAR(14) PRIMARY KEY,
+    maHoaDon          VARCHAR(13) PRIMARY KEY,
     tongTien          FLOAT,
     NgayThanhToan     DATE,
     thoiDiemThanhToan TIME,
@@ -121,10 +121,10 @@ CREATE TABLE HoaDon
 GO
 CREATE TABLE PhieuDatPhong
 (
-    maPhieuDatPhong VARCHAR(14) PRIMARY KEY,
+    maPhieuDatPhong VARCHAR(15) PRIMARY KEY,
     thoiGianBatDau  TIME,
     thoiGianKetThuc TIME,
-    maHoaDon        VARCHAR(14),
+    maHoaDon        VARCHAR(13),
     maPhong         VARCHAR(7),
     FOREIGN KEY (maHoaDon) REFERENCES HoaDon (maHoaDon),
     FOREIGN KEY (maPhong) REFERENCES Phong (maPhong)
@@ -132,7 +132,7 @@ CREATE TABLE PhieuDatPhong
 GO
 CREATE TABLE ChiTietDatDichVu
 (
-    maPhieuDatPhong VARCHAR(14),
+    maPhieuDatPhong VARCHAR(15),
     maDichVu        VARCHAR(10),
     soLuong         INT,
     PRIMARY KEY (maPhieuDatPhong, maDichVu),
@@ -142,8 +142,8 @@ CREATE TABLE ChiTietDatDichVu
 
 
 INSERT INTO LoaiPhong
-VALUES ('LP001', N'Phòng thường', 1),
-       ('LP002', N'Phòng vip', 1)
+VALUES ('LP001', N'Thường', 1),
+       ('LP002', N'Vip', 1)
 GO
 
 INSERT INTO Phong
@@ -162,8 +162,8 @@ VALUES ('P0201', '02.001', 10, 'LP002', 0),
 GO
 
 INSERT INTO LichSuGiaPhong
-VALUES ('GP.041123.01', '2018-01-01', '2023-11-10', '6:00', '12:00', 100000, 'LP001'),
-       ('GP.041123.02', '2018-01-01', '2023-11-20', '18:00', '23:00', 100000, 'LP002')
+VALUES ('GP.041123.01', '2018-01-01', NULL, '6:00', '12:00', 100000, 'LP001'),
+       ('GP.041123.02', '2018-01-01', NULL, '18:00', '23:00', 200000, 'LP002')
 GO
 
 INSERT INTO NhanVien
@@ -190,16 +190,16 @@ VALUES ('LDV001', N'Thực phẩm', 1),
 GO
 
 INSERT INTO DichVu
-VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1,null),
-       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1,null),
-       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1,null),
-       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1,null),
-       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1,null),
-       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1,null),
-       ('DV.002.002', N'Heniken', 320, 'LDV002', 1,null),
-       ('DV.002.003', N'Sting', 100, 'LDV002', 1,null),
-       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1,null),
-       ('DV.002.005', N'Wine', 30, 'LDV002', 1,null)
+VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1, null),
+       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1, null),
+       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1, null),
+       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1, null),
+       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1, null),
+       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1, null),
+       ('DV.002.002', N'Heniken', 320, 'LDV002', 1, null),
+       ('DV.002.003', N'Sting', 100, 'LDV002', 1, null),
+       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1, null),
+       ('DV.002.005', N'Wine', 30, 'LDV002', 1, null)
 GO
 
 INSERT INTO LichSuGiaDichVu
@@ -246,50 +246,50 @@ VALUES ('HD.040123.001', 800000, '2023-01-04', '18:00', 'KH.041123.001', 'NV2300
 GO
 
 INSERT INTO PhieuDatPhong
-VALUES ('PDP.040123.001', '15:00', '18:00', 'HD.040123.001', 'P0101'),
-       ('PDP.040123.002', '10:00', '12:00', 'HD.040123.002', 'P0203'),
-       ('PDP.050123.001', '8:00', '9:00', 'HD.050123.001', 'P0102'),
-       ('PDP.050523.001', '15:00', '22:00', 'HD.050523.002', 'P0202'),
-       ('PDP.060523.001', '18:00', '21:00', 'HD.060523.001', 'P0101'),
-       ('PDP.060523.002', '12:00', '15:00', 'HD.060523.002', 'P0204'),
-       ('PDP.060723.001', '8:00', '10:00', 'HD.060723.001', 'P0205'),
-       ('PDP.070723.001', '10:00', '15:00', 'HD.070723.001', 'P0105')
+VALUES ('PDP.040123.0001', '15:00', '18:00', 'HD.040123.001', 'P0101'),
+       ('PDP.040123.0002', '10:00', '12:00', 'HD.040123.002', 'P0203'),
+       ('PDP.050123.0001', '8:00', '9:00', 'HD.050123.001', 'P0102'),
+       ('PDP.050523.0001', '15:00', '22:00', 'HD.050523.002', 'P0202'),
+       ('PDP.060523.0001', '18:00', '21:00', 'HD.060523.001', 'P0101'),
+       ('PDP.060523.0002', '12:00', '15:00', 'HD.060523.002', 'P0204'),
+       ('PDP.060723.0001', '8:00', '10:00', 'HD.060723.001', 'P0205'),
+       ('PDP.070723.0001', '10:00', '15:00', 'HD.070723.001', 'P0105')
 GO
 
 INSERT INTO ChiTietDatDichVu
-VALUES ('PDP.040123.001', 'DV.001.001', 1),
-       ('PDP.040123.001', 'DV.001.002', 2),
-       ('PDP.040123.001', 'DV.001.003', 3),
-       ('PDP.040123.002', 'DV.001.004', 4),
-       ('PDP.040123.002', 'DV.001.005', 5),
-       ('PDP.040123.002', 'DV.002.001', 1),
-       ('PDP.040123.002', 'DV.002.002', 2),
-       ('PDP.040123.002', 'DV.002.003', 3),
-       ('PDP.050123.001', 'DV.002.004', 4),
-       ('PDP.050123.001', 'DV.002.005', 5),
-       ('PDP.050123.001', 'DV.001.001', 1),
-       ('PDP.050123.001', 'DV.001.002', 2),
-       ('PDP.050523.001', 'DV.001.003', 3),
-       ('PDP.050523.001', 'DV.001.004', 4),
-       ('PDP.050523.001', 'DV.001.005', 5),
-       ('PDP.050523.001', 'DV.002.001', 1),
-       ('PDP.050523.001', 'DV.002.002', 2),
-       ('PDP.050523.001', 'DV.002.003', 3),
-       ('PDP.060523.001', 'DV.002.004', 4),
-       ('PDP.060523.001', 'DV.002.005', 5),
-       ('PDP.060523.001', 'DV.001.001', 1),
-       ('PDP.060523.001', 'DV.001.002', 2),
-       ('PDP.060523.001', 'DV.001.003', 3),
-       ('PDP.060523.001', 'DV.001.004', 4),
-       ('PDP.060523.002', 'DV.001.005', 5),
-       ('PDP.060523.002', 'DV.002.001', 1),
-       ('PDP.060523.002', 'DV.002.002', 2),
-       ('PDP.060523.002', 'DV.002.003', 3),
-       ('PDP.060723.001', 'DV.002.004', 4),
-       ('PDP.060723.001', 'DV.002.005', 5),
-       ('PDP.060723.001', 'DV.001.001', 1),
-       ('PDP.070723.001', 'DV.001.002', 2),
-       ('PDP.070723.001', 'DV.001.003', 3)
+VALUES ('PDP.040123.0001', 'DV.001.001', 1),
+       ('PDP.040123.0001', 'DV.001.002', 2),
+       ('PDP.040123.0001', 'DV.001.003', 3),
+       ('PDP.040123.0002', 'DV.001.004', 4),
+       ('PDP.040123.0002', 'DV.001.005', 5),
+       ('PDP.040123.0002', 'DV.002.001', 1),
+       ('PDP.040123.0002', 'DV.002.002', 2),
+       ('PDP.040123.0002', 'DV.002.003', 3),
+       ('PDP.050123.0001', 'DV.002.004', 4),
+       ('PDP.050123.0001', 'DV.002.005', 5),
+       ('PDP.050123.0001', 'DV.001.001', 1),
+       ('PDP.050123.0001', 'DV.001.002', 2),
+       ('PDP.050523.0001', 'DV.001.003', 3),
+       ('PDP.050523.0001', 'DV.001.004', 4),
+       ('PDP.050523.0001', 'DV.001.005', 5),
+       ('PDP.050523.0001', 'DV.002.001', 1),
+       ('PDP.050523.0001', 'DV.002.002', 2),
+       ('PDP.050523.0001', 'DV.002.003', 3),
+       ('PDP.060523.0001', 'DV.002.004', 4),
+       ('PDP.060523.0001', 'DV.002.005', 5),
+       ('PDP.060523.0001', 'DV.001.001', 1),
+       ('PDP.060523.0001', 'DV.001.002', 2),
+       ('PDP.060523.0001', 'DV.001.003', 3),
+       ('PDP.060523.0001', 'DV.001.004', 4),
+       ('PDP.060523.0002', 'DV.001.005', 5),
+       ('PDP.060523.0002', 'DV.002.001', 1),
+       ('PDP.060523.0002', 'DV.002.002', 2),
+       ('PDP.060523.0002', 'DV.002.003', 3),
+       ('PDP.060723.0001', 'DV.002.004', 4),
+       ('PDP.060723.0001', 'DV.002.005', 5),
+       ('PDP.060723.0001', 'DV.001.001', 1),
+       ('PDP.070723.0001', 'DV.001.002', 2),
+       ('PDP.070723.0001', 'DV.001.003', 3)
 GO
 
 CREATE VIEW LoaiPhongView AS
@@ -310,6 +310,27 @@ SELECT P.maPhong       AS Phong_MaPhong,
        LP.trangThai    AS LoaiPhong_TrangThai
 FROM Phong P
          JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
+GO
+
+CREATE VIEW PhongLoaiPhongLichSuaGiaByConditionTimeView AS
+SELECT P.maPhong            AS Phong_MaPhong,
+       P.tenPhong           AS Phong_TenPhong,
+       P.sucChua            AS Phong_SucChua,
+       P.maLoaiPhong        AS Phong_MaLoaiPhong,
+       P.trangThai          AS Phong_TrangThai,
+       LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
+       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai         AS LoaiPhong_TrangThai,
+       LSGP.maLoaiPhong     AS LichSuGiaPhong_MaLoaiPhong,
+       LSGP.ngayBatDau      AS LichSuGiaPhong_NgayBatDau,
+       LSGP.ngayKetThuc     AS LichSuGiaPhong_NgayKetThuc,
+       LSGP.thoiDiemBatDau  AS LichSuGiaPhong_ThoiDiemBatDau,
+       LSGP.thoiDiemKetThuc AS LichSuGiaPhong_ThoiDiemKetThuc,
+       LSGP.gia             AS LichSuGiaPhong_Gia
+FROM Phong P
+         JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
+         JOIN LichSuGiaPhong LSGP on LP.maLoaiPhong = LSGP.maLoaiPhong
+WHERE LSGP.ngayKetThuc IS NULL;
 GO
 
 CREATE VIEW PhongTrongView AS
@@ -335,6 +356,18 @@ SELECT maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
        gia              AS LichSuGiaPhong_Gia,
        maLoaiPhong      AS LichSuGiaPhong_MaLoaiPhong
 FROM LichSuGiaPhong;
+GO
+
+CREATE VIEW LichSuGiaPhongByConditionTimeyView AS
+SELECT maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
+       ngayBatDau       AS LichSuGiaPhong_NgayBatDau,
+       ngayKetThuc      AS LichSuGiaPhong_NgayKetThuc,
+       thoiDiemBatDau   AS LichSuGiaPhong_ThoiDiemBatDau,
+       thoiDiemKetThuc  AS LichSuGiaPhong_ThoiDiemKetThuc,
+       gia              AS LichSuGiaPhong_Gia,
+       maLoaiPhong      AS LichSuGiaPhong_MaLoaiPhong
+FROM LichSuGiaPhong
+WHERE ngayKetThuc IS NULL;
 GO
 
 CREATE VIEW NhanVienView AS
@@ -378,7 +411,7 @@ SELECT maDichVu     AS DichVu_MaDichVu,
        soLuong      AS DichVu_SoLuong,
        maLoaiDichVu AS DichVu_MaLoaiDichVu,
        trangThai    AS DichVu_TrangThai,
-	   hinhAnh		AS DichVu_HinhAnh
+       hinhAnh      AS DichVu_HinhAnh
 FROM DichVu;
 GO
 
@@ -412,7 +445,6 @@ FROM DichVu DV
          JOIN LichSuGiaDichVu LGDV ON DV.maDichVu = LGDV.maDichVu
          JOIN LoaiDichVu LDV ON DV.maLoaiDichVu = LDV.maLoaiDichVu
 WHERE LGDV.ngayKetThuc IS NULL;
-SELECT * FROM DichVuLichSuGiaByConditionTimeView
 GO
 
 CREATE VIEW DichVuLichSuGiaView AS
@@ -732,11 +764,10 @@ CREATE PROCEDURE InsertIntoDichVu @maDichVu VARCHAR(10),
                                   @soLuong INT,
                                   @maLoaiDichVu VARCHAR(6),
                                   @trangThai TINYINT,
-								  @hinhAnh IMAGE
-
+                                  @hinhAnh IMAGE
 AS
 BEGIN
-    INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai,hinhAnh)
+    INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai, hinhAnh)
     VALUES (@maDichVu, @tenDichVu, @soLuong, @maLoaiDichVu, @trangThai, @hinhAnh)
 END;
 GO
@@ -832,10 +863,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetHoaDonPagedByMaHoaDon
-    @MaHoaDon VARCHAR(20),
-    @PageNumber INT,
-    @RowsPerPage INT
+CREATE PROCEDURE GetHoaDonPagedByMaHoaDon @MaHoaDon VARCHAR(20),
+                                          @PageNumber INT,
+                                          @RowsPerPage INT
 AS
 BEGIN
     DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
@@ -847,10 +877,9 @@ BEGIN
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
 END;
 GO
-CREATE PROCEDURE GetHoaDonPagedByTenKhachHangLike
-    @TenKhachHang NVARCHAR(255),
-    @PageNumber INT,
-    @RowsPerPage INT
+CREATE PROCEDURE GetHoaDonPagedByTenKhachHangLike @TenKhachHang NVARCHAR(255),
+                                                  @PageNumber INT,
+                                                  @RowsPerPage INT
 AS
 BEGIN
     DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
@@ -863,11 +892,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetHoaDonPagedByDateRange
-    @FromDay DATE,
-    @ToDay DATE,
-    @PageNumber INT,
-    @RowsPerPage INT
+CREATE PROCEDURE GetHoaDonPagedByDateRange @FromDay DATE,
+                                           @ToDay DATE,
+                                           @PageNumber INT,
+                                           @RowsPerPage INT
 AS
 BEGIN
     DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
@@ -917,3 +945,45 @@ BEGIN
     ORDER BY maKhachHang
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
 END;
+GO
+CREATE PROCEDURE BookKaraokeRoom(
+    @maKhachHang VARCHAR(13),
+    @maNhanVien VARCHAR(8),
+    @maPhong VARCHAR(7),
+    @thoiGianBatDau TIME
+)
+AS
+BEGIN
+    DECLARE @maHoaDon VARCHAR(13);
+    DECLARE @maPhieuDatPhong VARCHAR(15);
+
+    -- Generate date components
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+
+    -- Generate maHoaDon with sequential number
+    DECLARE @soThuTuHoaDon INT;
+    SELECT @soThuTuHoaDon = ISNULL(MAX(CAST(SUBSTRING(maHoaDon, 11, 3) AS INT)), 0) + 1
+    FROM HoaDon
+    WHERE SUBSTRING(maHoaDon, 4, 6) = @ngayTao + @thangTao + @namTao;
+
+    SET @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
+
+    -- Insert a record into HoaDon
+    INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien)
+    VALUES (@maHoaDon, @maKhachHang, @maNhanVien);
+
+    -- Generate maPhieuDatPhong with sequential number
+    DECLARE @soThuTuPhieuDatPhong INT;
+    SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
+    FROM PhieuDatPhong
+    WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
+    SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
+
+    -- Insert a record into PhieuDatPhong
+    INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
+    VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
+END;
+GO
+SELECT * FROM PhieuDatPhong

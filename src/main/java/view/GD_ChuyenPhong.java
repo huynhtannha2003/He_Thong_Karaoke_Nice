@@ -31,20 +31,21 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	private JButton btnFind;
 	private JButton btnApply;
 	private JPanel pnRoomScrollPane;
-
+	private Phong phong;
 	public static void main(String[] args) {
 		try {
-			GD_ChuyenPhong dialog = new GD_ChuyenPhong();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			GD_ChuyenPhong dialog = new GD_ChuyenPhong(new Phong());
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public GD_ChuyenPhong() {
+	public GD_ChuyenPhong(Phong selectedPhong) {
+		phong = selectedPhong;
 		loaiPhongDao = new LoaiPhongDAO();
-		
+
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		setSize(784, 600);
 		setLocationRelativeTo(null);
@@ -285,12 +286,11 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 		pnRoomScrollPane.removeAll();
 		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(newRooms, this);
 	    roomPanels.forEach(pnRoomScrollPane::add);
-	    
+
 	    pnRoomScrollPane.revalidate();
 	    pnRoomScrollPane.repaint();
-
 	}
-	
+
 	private void addFormPanel() {
 		JPanel pnForm = new JPanel();
 		pnForm.setBackground(new Color(255, 255, 255));
