@@ -37,7 +37,6 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 	private JTextField txtTenKhuyenMai;
 	private JTable table;
 	private JTextField txtMaTimKiem;
-	private JLabel lbPhanTram;
 	private JMenuBar menuBar;
 	private JMenu MenuHeThong;
 	private JMenu MenuDanhMuc;
@@ -51,38 +50,25 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 	private JMenu MenuThongKe;
 	private JMenuItem MenuItemTKDoanhThu;
 	private JMenu MenuTroGiup;
-	private JLabel lbMaKhuyenMai;
 	private JTextField txtMaKhachHang;
-	private JLabel lbTenKhuyenMai;
-	private JLabel lbTimKiemMaKM;
-	private JLabel lbTimKiemTrangThai;
 	private JButton btnTimKiem;
 	private JScrollPane scrollPane;
 	private DefaultTableModel modelTable;
 	private Box horizontalBox;
 	private Box horizontalBox_1;
-	private Component verticalStrut_6;
-	private JLabel lbNgayBatDau;
 	private JDateChooser txtNgayBatDau;
-	private JLabel lbTrangThai;
 	private JComboBox cbTrangThai;
-	private JLabel lbNgayKetThuc;
 	private JDateChooser txtNgayKetThuc;
-	private JLabel lbGioiHan;
 	private JTextField txtGioiHan;
 	private Box BoxThongTin3;
 	private JButton btnThem;
-	private Component horizontalStrut;
 	private JButton btnCapNhat;
-	private Component horizontalStrut_1;
 	private JButton btnXoaTrangThongTin;
 	private JComboBox cbPhanTram;
 	private Component horizontalStrut_2;
 	private Component horizontalStrut_6;
 	private Box horizontalBox_2;
-	private JLabel lbTimKiemNgayBatDau;
 	private JDateChooser txtTimKiemNgayBatDau;
-	private JLabel lbTimKiemNgayKetThuc;
 	private JDateChooser txtTimKiemNgayKetThuc;
 	private JComboBox cbTacVuTrangThai;
 	private JButton btnXoaTrangTacVu;
@@ -92,9 +78,6 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 	private Component horizontalStrut_10;
 	private Component horizontalStrut_11;
 	private Component horizontalStrut_12;
-	private Component verticalStrut_5;
-	private Component verticalStrut_7;
-	private Component verticalStrut_8;
 	private Component horizontalStrut_13;
 	private JMenuItem MenuItemTrangChu;
 	private JMenuItem MenuItemTaiKhoan;
@@ -218,13 +201,13 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		Box BoxThongTin1 = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(BoxThongTin1);
 
-		lbPhanTram = new JLabel("Phần trăm :");
+		JLabel lbPhanTram = new JLabel("Phần trăm :");
 		lbPhanTram.setPreferredSize(new Dimension(120, 30));
 
 		horizontalStrut_9 = Box.createHorizontalStrut(20);
 		BoxThongTin1.add(horizontalStrut_9);
 
-		lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
+		JLabel lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
 		lbMaKhuyenMai.setPreferredSize(new Dimension(120, 30));
 		lbMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbMaKhuyenMai.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -238,7 +221,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
 		BoxThongTin1.add(horizontalStrut_5);
 
-		lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
+		JLabel lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
 		lbTenKhuyenMai.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		BoxThongTin1.add(lbTenKhuyenMai);
@@ -268,7 +251,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalStrut_2 = Box.createHorizontalStrut(20);
 		BoxThongTin2.add(horizontalStrut_2);
 
-		lbGioiHan = new JLabel("Giới hạn:");
+		JLabel lbGioiHan = new JLabel("Giới hạn:");
 		lbGioiHan.setPreferredSize(new Dimension(70, 30));
 		lbGioiHan.setFont(new Font("Tahoma", Font.BOLD, 14));
 		BoxThongTin2.add(lbGioiHan);
@@ -287,7 +270,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalStrut_11 = Box.createHorizontalStrut(20);
 		horizontalBox.add(horizontalStrut_11);
 
-		lbNgayBatDau = new JLabel("Ngày bắt đầu:");
+		JLabel lbNgayBatDau = new JLabel("Ngày bắt đầu:");
 		lbNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(lbNgayBatDau);
@@ -300,7 +283,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalStrut_6 = Box.createHorizontalStrut(20);
 		horizontalBox.add(horizontalStrut_6);
 
-		lbTrangThai = new JLabel("Trạng thái:");
+		JLabel lbTrangThai = new JLabel("Trạng thái:");
 		lbTrangThai.setPreferredSize(new Dimension(90, 30));
 		lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(lbTrangThai);
@@ -310,8 +293,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		cbTrangThai.setModel(new DefaultComboBoxModel(new String[] { "Còn hiệu lực", "Hết hiệu lực" }));
 		horizontalBox.add(cbTrangThai);
 
-		verticalStrut_6 = Box.createVerticalStrut(20);
-		BoxVerticalThongTin.add(verticalStrut_6);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
 		horizontalBox_1 = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(horizontalBox_1);
@@ -319,7 +301,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalStrut_12 = Box.createHorizontalStrut(20);
 		horizontalBox_1.add(horizontalStrut_12);
 
-		lbNgayKetThuc = new JLabel("Ngày kết thúc:");
+		JLabel lbNgayKetThuc = new JLabel("Ngày kết thúc:");
 		lbNgayKetThuc.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_1.add(lbNgayKetThuc);
@@ -328,8 +310,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		lbNgayKetThuc.setLabelFor(txtNgayKetThuc);
 		horizontalBox_1.add(txtNgayKetThuc);
 
-		verticalStrut_5 = Box.createVerticalStrut(20);
-		BoxVerticalThongTin.add(verticalStrut_5);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
 		BoxThongTin3 = Box.createHorizontalBox();
 		BoxThongTin3.setAlignmentX(1.0f);
@@ -341,8 +322,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		btnThem.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnThem);
 
-		horizontalStrut = Box.createHorizontalStrut(20);
-		BoxThongTin3.add(horizontalStrut);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
 		btnCapNhat = new JButton("Cập nhật");
 		btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
@@ -350,8 +330,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		btnCapNhat.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnCapNhat);
 
-		horizontalStrut_1 = Box.createHorizontalStrut(20);
-		BoxThongTin3.add(horizontalStrut_1);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
 		btnXoaTrangThongTin = new JButton("Xóa trắng");
 		btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
@@ -359,8 +338,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnXoaTrangThongTin);
 
-		verticalStrut_7 = Box.createVerticalStrut(10);
-		BoxVerticalThongTin.add(verticalStrut_7);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
 		JPanel ContentPane = new JPanel();
 		ContentPanel.add(ContentPane, BorderLayout.CENTER);
@@ -385,7 +363,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		Box BoxTacVu = Box.createHorizontalBox();
 		BoxVerticalTacVu.add(BoxTacVu);
 
-		lbTimKiemMaKM = new JLabel("Mã khuyến mãi:");
+		JLabel lbTimKiemMaKM = new JLabel("Mã khuyến mãi:");
 		lbTimKiemMaKM.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTimKiemMaKM.setAlignmentX(Component.CENTER_ALIGNMENT);
 		BoxTacVu.add(lbTimKiemMaKM);
@@ -399,7 +377,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		Component horizontalStrut_8_1_1_1 = Box.createHorizontalStrut(20);
 		BoxTacVu.add(horizontalStrut_8_1_1_1);
 
-		lbTimKiemTrangThai = new JLabel("Trạng thái:");
+		JLabel lbTimKiemTrangThai = new JLabel("Trạng thái:");
 		lbTimKiemTrangThai.setPreferredSize(new Dimension(90, 30));
 		lbTimKiemTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTimKiemTrangThai.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -429,7 +407,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalBox_2 = Box.createHorizontalBox();
 		BoxVerticalTacVu.add(horizontalBox_2);
 
-		lbTimKiemNgayBatDau = new JLabel("Ngày bắt đầu:");
+		JLabel lbTimKiemNgayBatDau = new JLabel("Ngày bắt đầu:");
 		lbTimKiemNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbTimKiemNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(lbTimKiemNgayBatDau);
@@ -441,7 +419,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalStrut_8 = Box.createHorizontalStrut(20);
 		horizontalBox_2.add(horizontalStrut_8);
 
-		lbTimKiemNgayKetThuc = new JLabel("Ngày kết thúc:");
+		JLabel lbTimKiemNgayKetThuc = new JLabel("Ngày kết thúc:");
 		lbTimKiemNgayKetThuc.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbTimKiemNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(lbTimKiemNgayKetThuc);
@@ -462,8 +440,7 @@ public class GD_QuanLyKhuyenMai extends JFrame {
 		horizontalStrut_13 = Box.createHorizontalStrut(20);
 		horizontalBox_2.add(horizontalStrut_13);
 
-		verticalStrut_8 = Box.createVerticalStrut(10);
-		BoxVerticalTacVu.add(verticalStrut_8);
+		BoxVerticalTacVu.add(Box.createVerticalStrut(20));
 
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
 		PaneTacVu.add(horizontalStrut_4);

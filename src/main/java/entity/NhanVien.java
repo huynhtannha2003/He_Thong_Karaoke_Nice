@@ -1,5 +1,8 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import enums.TrangThaiNhanVien;
 
 public class NhanVien {
@@ -10,13 +13,13 @@ public class NhanVien {
 	private String email;
 	private String diaChi;
 	private TrangThaiNhanVien trangThai;
+	private String hinhAnh;
 
 	public NhanVien() {
 	}
 
 	public NhanVien(String maNhanVien, String ten, String chucVu, String sdt, String email, String diaChi,
 			TrangThaiNhanVien trangThai) {
-		super();
 		this.maNhanVien = maNhanVien;
 		this.ten = ten;
 		this.chucVu = chucVu;
@@ -35,7 +38,6 @@ public class NhanVien {
 		this.diaChi = rs.getString("NhanVien_DiaChi");
 		this.trangThai = TrangThaiNhanVien.values()[rs.getInt("NhanVien_TrangThai")];
 	}
-	
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}
