@@ -44,6 +44,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener{
 	private ButtonGroup group;
 	private JComboBox<String> cbMin, cbHours;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

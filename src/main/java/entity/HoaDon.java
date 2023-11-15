@@ -4,93 +4,106 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HoaDon {
-	private String maHoaDon;
-	private double tongTien;
-	private Date ngayThanhToan;
-	private Time thoiDiemThanhToan;
-	private KhachHang khachHang;
-	private NhanVien nhanVien;
-	private KhuyenMai khuyenMai;
-	
-	public HoaDon() {
-	}
+    private String maHoaDon;
+    private double tongTien;
+    private Date ngayThanhToan;
+    private Time thoiDiemThanhToan;
+    private KhachHang khachHang;
+    private NhanVien nhanVien;
+    private KhuyenMai khuyenMai;
+    List<PhieuDatPhong> phieuDatPhongList;
 
-	public HoaDon(String maHoaDon, double tongTien, Date ngayThanhToan, Time thoiDiemThanhToan, KhachHang khachHang,
-			NhanVien nhanVien, KhuyenMai khuyenMai) {
-		this.maHoaDon = maHoaDon;
-		this.tongTien = tongTien;
-		this.ngayThanhToan = ngayThanhToan;
-		this.thoiDiemThanhToan = thoiDiemThanhToan;
-		this.khachHang = khachHang;
-		this.nhanVien = nhanVien;
-		this.khuyenMai = khuyenMai;
-	}
+    public HoaDon() {
+    }
 
-	public HoaDon(ResultSet rs) throws SQLException {
-		this.maHoaDon = rs.getString("HoaDon_MaHoaDon");
+    public HoaDon(String maHoaDon, double tongTien, Date ngayThanhToan, Time thoiDiemThanhToan, KhachHang khachHang,
+                  NhanVien nhanVien, KhuyenMai khuyenMai) {
+        this.maHoaDon = maHoaDon;
+        this.tongTien = tongTien;
+        this.ngayThanhToan = ngayThanhToan;
+        this.thoiDiemThanhToan = thoiDiemThanhToan;
+        this.khachHang = khachHang;
+        this.nhanVien = nhanVien;
+        this.khuyenMai = khuyenMai;
+        this.phieuDatPhongList = new ArrayList<>();
+    }
+
+    public HoaDon(ResultSet rs) throws SQLException {
+        this.maHoaDon = rs.getString("HoaDon_MaHoaDon");
         this.tongTien = rs.getDouble("HoaDon_TongTien");
         this.ngayThanhToan = rs.getDate("HoaDon_NgayThanhToan");
         this.thoiDiemThanhToan = rs.getTime("HoaDon_ThoiDiemThanhToan");
         this.khachHang = new KhachHang(rs);
         this.nhanVien = new NhanVien(rs);
-        this.khuyenMai= new KhuyenMai(rs);
-	}
-	
-	public String getMaHoaDon() {
-		return maHoaDon;
-	}
+        this.khuyenMai = new KhuyenMai(rs);
+        this.phieuDatPhongList = new ArrayList<>();
+    }
 
-	public void setMaHoaDon(String maHoaDon) {
-		this.maHoaDon = maHoaDon;
-	}
+    public String getMaHoaDon() {
+        return maHoaDon;
+    }
 
-	public double getTongTien() {
-		return tongTien;
-	}
+    public void setMaHoaDon(String maHoaDon) {
+        this.maHoaDon = maHoaDon;
+    }
 
-	public void setTongTien(double tongTien) {
-		this.tongTien = tongTien;
-	}
+    public double getTongTien() {
+        return tongTien;
+    }
 
-	public Date getNgayThanhToan() {
-		return ngayThanhToan;
-	}
+    public void setTongTien(double tongTien) {
+        this.tongTien = tongTien;
+    }
 
-	public void setNgayThanhToan(Date ngayThanhToan) {
-		this.ngayThanhToan = ngayThanhToan;
-	}
+    public Date getNgayThanhToan() {
+        return ngayThanhToan;
+    }
 
-	public Time getThoiDiemThanhToan() {
-		return thoiDiemThanhToan;
-	}
+    public void setNgayThanhToan(Date ngayThanhToan) {
+        this.ngayThanhToan = ngayThanhToan;
+    }
 
-	public void setThoiDiemThanhToan(Time thoiDiemThanhToan) {
-		this.thoiDiemThanhToan = thoiDiemThanhToan;
-	}
+    public Time getThoiDiemThanhToan() {
+        return thoiDiemThanhToan;
+    }
 
-	public KhachHang getKhachHang() {
-		return khachHang;
-	}
+    public void setThoiDiemThanhToan(Time thoiDiemThanhToan) {
+        this.thoiDiemThanhToan = thoiDiemThanhToan;
+    }
 
-	public void setKhachHang(KhachHang khachHang) {
-		this.khachHang = khachHang;
-	}
+    public KhachHang getKhachHang() {
+        return khachHang;
+    }
 
-	public NhanVien getNhanVien() {
-		return nhanVien;
-	}
+    public void setKhachHang(KhachHang khachHang) {
+        this.khachHang = khachHang;
+    }
 
-	public void setNhanVien(NhanVien nhanVien) {
-		this.nhanVien = nhanVien;
-	}
+    public NhanVien getNhanVien() {
+        return nhanVien;
+    }
 
-	public KhuyenMai getKhuyenMai() {
-		return khuyenMai;
-	}
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
+    }
 
-	public void setKhuyenMai(KhuyenMai khuyenMai) {
-		this.khuyenMai = khuyenMai;
-	}
+    public KhuyenMai getKhuyenMai() {
+        return khuyenMai;
+    }
+
+    public void setKhuyenMai(KhuyenMai khuyenMai) {
+        this.khuyenMai = khuyenMai;
+    }
+
+    public List<PhieuDatPhong> getPhieuDatPhongList() {
+        return phieuDatPhongList;
+    }
+
+    public void setPhieuDatPhongList(List<PhieuDatPhong> phieuDatPhongList) {
+        this.phieuDatPhongList = phieuDatPhongList;
+    }
 }

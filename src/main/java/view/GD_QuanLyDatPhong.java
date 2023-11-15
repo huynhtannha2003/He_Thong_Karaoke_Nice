@@ -1,353 +1,423 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
-import entity.LoaiPhong;
-import entity.Phong;
+import dao.HoaDonDAO;
+import dao.LoaiPhongDAO;
+import dao.PhongDAO;
+import entity.*;
 import enums.TrangThaiLoaiPhong;
 import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.ResizeImageUtil;
 import utils.RoomPanelUtil;
-import javax.swing.DefaultComboBoxModel;
-
-public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener {
-
-	private JPanel contentPane;
-	private JTextField txtName, txtCapacity;
-	private JPanel pnCenter;
-	private List<Phong> listPhong;
-	private JPanel pnListRoom;
-	private JPanel pnNote;
-	private JComboBox cbStatus;
-	private JComboBox cbType;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GD_QuanLyDatPhong frame = new GD_QuanLyDatPhong();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public GD_QuanLyDatPhong() throws IOException {
-		initGUI();
-	}
-
-	private void setupFrame() {
-		getContentPane().setBackground(Color.WHITE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1000, 700);
-		setLocationRelativeTo(null);
-	}
 
-	private void initGUI() throws IOException {
-		setupFrame();
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener, ActionListener {
+
+    private final LoaiPhongDAO loaiPhongDAO;
+    private final HoaDonDAO hoaDonDAO;
+    private JPanel contentPane;
+    private JTextField txtName;
+    private JPanel pnCenter;
+    private List<Phong> listPhong;
+    private List<LoaiPhong> loaiPhongList;
+    private JPanel pnListRoom;
+    private JPanel pnNote;
+    private JComboBox cbStatus;
+    private JComboBox cbType;
+    private Phong phongSelected;
+    private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear;
+    private final PhongDAO phongDAO;
+    private NhanVien nhanVien;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GD_QuanLyDatPhong frame = new GD_QuanLyDatPhong(new NhanVien("NV230001", "", "", "", "", "", null));
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public GD_QuanLyDatPhong(NhanVien currentNhanVien) throws IOException {
+        nhanVien = currentNhanVien;
+        phongDAO = new PhongDAO();
+        loaiPhongDAO = new LoaiPhongDAO();
+        hoaDonDAO = new HoaDonDAO();
+        initGUI();
+    }
+
+    private void setupFrame() {
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+    }
+
+    private void initGUI() throws IOException {
+        setupFrame();
+
+        addMenuBar();
+
+        addPanelNorth();
+
+        addLeftPanelButton();
+
+        addPanelCenter();
+    }
+
+    private void addPanelCenter() throws IOException {
+        pnCenter = new JPanel();
+        pnCenter.setBackground(new Color(255, 255, 255));
+        getContentPane().add(pnCenter, BorderLayout.CENTER);
+        pnCenter.setLayout(new BorderLayout(0, 0));
+
+        addForm();
+
+        addPanelRoom();
 
-		addMenuBar();
+        addNotePanel();
+
+    }
+
+    private void addNotePanel() {
+        pnNote = new JPanel();
+        pnNote.setBackground(new Color(255, 255, 255));
+        pnCenter.add(pnNote, BorderLayout.SOUTH);
+
+        pnNote.setLayout(new GridLayout(0, 4, 0, 0));
+
+        TrangThaiPhong[] dsTrangThaiPhong = TrangThaiPhong.values();
+        for (TrangThaiPhong currentTrangThaiPhong : dsTrangThaiPhong) {
+            JPanel pnNotePhong = new JPanel();
+            pnNotePhong.setBackground(new Color(255, 255, 255));
 
-		addPanelNorth();
+            JLabel imageLabel = new JLabel(ResizeImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
+            pnNotePhong.add(imageLabel);
+            imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		addLeftPanelButton();
-
-		addPanelCenter();
-	}
+            JLabel lblPhongTrong = new JLabel(currentTrangThaiPhong.getCustomName());
+            lblPhongTrong.setFont(new Font("Tahoma", Font.PLAIN, 13));
+            pnNotePhong.add(lblPhongTrong);
 
-	private void addPanelCenter() throws IOException {
-		pnCenter = new JPanel();
-		pnCenter.setBackground(new Color(255, 255, 255));
-		getContentPane().add(pnCenter, BorderLayout.CENTER);
-		pnCenter.setLayout(new BorderLayout(0, 0));
+            pnNote.add(pnNotePhong);
+        }
+    }
 
-		addForm();
+    private void addPanelRoom() throws IOException {
+        pnListRoom = new JPanel();
+        pnListRoom.setBackground(new Color(255, 255, 255));
+        JScrollPane scrollPane = new JScrollPane(pnListRoom);
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setUnitIncrement(16);
+        pnCenter.add(scrollPane, BorderLayout.CENTER);
 
-		initData();
+        pnListRoom.setLayout(new GridLayout(0, 5, 0, 0));
+        pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		addPanelRoom();
+        getAllRoom();
+    }
 
-		addNotePanel();
-	}
+    private void getAllRoom() {
+        listPhong = phongDAO.getPhongLoaiPhongLichSuaGiaByConditionTime();
+        loadRooms(listPhong);
+    }
 
-	private void addNotePanel() {
-		pnNote = new JPanel();
-		pnNote.setBackground(new Color(255, 255, 255));
-		pnCenter.add(pnNote, BorderLayout.SOUTH);
+    private void loadRooms(List<Phong> newRooms) {
+        pnListRoom.removeAll();
+        List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(newRooms, this);
+        roomPanels.forEach(pnListRoom::add);
 
-		pnNote.setLayout(new GridLayout(0, 4, 0, 0));
+        pnListRoom.revalidate();
+        pnListRoom.repaint();
 
-		TrangThaiPhong[] dsTrangThaiPhong = TrangThaiPhong.values();
-		for (TrangThaiPhong currentTrangThaiPhong : dsTrangThaiPhong) {
-			JPanel pnNotePhong = new JPanel();
-			pnNotePhong.setBackground(new Color(255, 255, 255));
+    }
 
-			JLabel imageLabel = new JLabel(ResizeImageUtil.getImageByTypePhong(currentTrangThaiPhong, 40, 40));
-			pnNotePhong.add(imageLabel);
-			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    private void addForm() {
+        JPanel pnForm = new JPanel();
+        pnForm.setBackground(new Color(255, 255, 255));
+        pnCenter.add(pnForm, BorderLayout.NORTH);
+        pnForm.setLayout(new BoxLayout(pnForm, BoxLayout.X_AXIS));
 
-			JLabel lblPhongTrong = new JLabel(currentTrangThaiPhong.getCustomName());
-			lblPhongTrong.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			pnNotePhong.add(lblPhongTrong);
+        Box formVerticalBox = Box.createVerticalBox();
 
-			pnNote.add(pnNotePhong);
-		}
-	}
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-	private void addPanelRoom() throws IOException {
-		pnListRoom = new JPanel();
-		pnListRoom.setBackground(new Color(255, 255, 255));
-		JScrollPane scrollPane = new JScrollPane(pnListRoom);
-		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-		verticalScrollBar.setUnitIncrement(16);
-		pnCenter.add(scrollPane, BorderLayout.CENTER);
+        pnForm.add(formVerticalBox);
 
-		pnListRoom.setLayout(new GridLayout(0, 5, 0, 0));
-		pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
+        Box firstFormHorizontalBox = Box.createHorizontalBox();
+        formVerticalBox.add(firstFormHorizontalBox);
 
-		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong, this);
-		phongPanels.forEach(pnListRoom::add);
-	}
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-	private void initData() {
-		listPhong = new ArrayList<Phong>();
-		LoaiPhong loaiPhong = new LoaiPhong("001", "Phòng thường", TrangThaiLoaiPhong.HIEU_LUC);
-		for (int i = 0; i < 18; i++) {
-			listPhong.add(new Phong("00" + (i + 1), loaiPhong, "00" + (i + 1), 5, TrangThaiPhong.PHONG_TRONG));
-		}
-	}
+        JLabel lblStatus = new JLabel("Trạng thái phòng");
+        lblStatus.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstFormHorizontalBox.add(lblStatus);
 
-	private void addForm() {
-		JPanel pnForm = new JPanel();
-		pnForm.setBackground(new Color(255, 255, 255));
-		pnCenter.add(pnForm, BorderLayout.NORTH);
-		pnForm.setLayout(new BoxLayout(pnForm, BoxLayout.X_AXIS));
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		Box formVerticalBox = Box.createVerticalBox();
+        cbStatus = new JComboBox();
+        cbStatus.addItem("Tất cả");
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        List.of(Arrays.stream(TrangThaiPhong.values())
+                .map(TrangThaiPhong::getCustomName)
+                .toArray(String[]::new)).forEach(cbStatus::addItem);
 
-		pnForm.add(formVerticalBox);
+        cbStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        firstFormHorizontalBox.add(cbStatus);
 
-		Box firstFormHorizontalBox = Box.createHorizontalBox();
-		formVerticalBox.add(firstFormHorizontalBox);
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        JLabel lblType = new JLabel("Loại phòng");
+        lblType.setPreferredSize(lblStatus.getPreferredSize());
+        lblType.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstFormHorizontalBox.add(lblType);
 
-		JLabel lblStatus = new JLabel("Trạng thái phòng");
-		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstFormHorizontalBox.add(lblStatus);
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        cbType = new JComboBox();
+        cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
+        loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
+        cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        firstFormHorizontalBox.add(cbType);
 
-		cbStatus = new JComboBox();
-		cbStatus.setModel(new DefaultComboBoxModel<>(TrangThaiPhong.values()));
-		cbStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		firstFormHorizontalBox.add(cbStatus);
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        btnFind = new JButton("Tìm kiếm");
+        btnFind.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnFind.setBackground(new Color(107, 208, 107));
+        btnFind.addActionListener(this);
 
-		JLabel lblType = new JLabel("Loại phòng");
-		lblType.setPreferredSize(lblStatus.getPreferredSize());
-		lblType.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstFormHorizontalBox.add(lblType);
+        firstFormHorizontalBox.add(btnFind);
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		cbType = new JComboBox();
-		//please change in future
-		cbType.setModel(new DefaultComboBoxModel(new String[] {"Phòng vip", "Phòng thường"}));
-		cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		firstFormHorizontalBox.add(cbType);
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        Box secondFormHorizontalBox = Box.createHorizontalBox();
+        formVerticalBox.add(secondFormHorizontalBox);
 
-		JButton btnFind = new JButton("Tìm kiếm");
-		btnFind.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnFind.setBackground(new Color(107, 208, 107));
-		firstFormHorizontalBox.add(btnFind);
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        JLabel lblName = new JLabel("Tên phòng");
+        lblName.setPreferredSize(lblStatus.getPreferredSize());
+        lblName.setFont(new Font("Tahoma", Font.BOLD, 14));
+        secondFormHorizontalBox.add(lblName);
 
-		Box secondFormHorizontalBox = Box.createHorizontalBox();
-		formVerticalBox.add(secondFormHorizontalBox);
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        txtName = new JTextField();
+        txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        secondFormHorizontalBox.add(txtName);
+        txtName.setColumns(10);
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		JLabel lblName = new JLabel("Tên phòng");
-		lblName.setPreferredSize(lblStatus.getPreferredSize());
-		lblName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondFormHorizontalBox.add(lblName);
+        btnClear = new JButton("Xóa trắng");
+        btnClear.addActionListener(this);
+        btnClear.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnClear.setBackground(new Color(107, 208, 107));
+        btnClear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        secondFormHorizontalBox.add(btnClear);
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+    }
 
-		txtName = new JTextField();
-		txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		secondFormHorizontalBox.add(txtName);
-		txtName.setColumns(10);
+    private void addPanelNorth() {
+        JPanel pnNorth = new JPanel();
+        pnNorth.setBackground(new Color(97, 250, 204));
+        getContentPane().add(pnNorth, BorderLayout.NORTH);
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        JLabel lblTitle = new JLabel("Quản lý đặt phòng");
+        lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
+        pnNorth.add(lblTitle);
+    }
 
-		JLabel lblCapacity = new JLabel("Sức chứa");
-		lblCapacity.setPreferredSize(lblStatus.getPreferredSize());
-		lblCapacity.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondFormHorizontalBox.add(lblCapacity);
+    public void addMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        JMenu menuHeThong = new JMenu("Hệ thống");
+        menuBar.add(menuHeThong);
+
+        JMenu menuDanhMuc = new JMenu("Danh mục");
+        menuBar.add(menuDanhMuc);
 
-		txtCapacity = new JTextField();
-		txtCapacity.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		secondFormHorizontalBox.add(txtCapacity);
-		txtCapacity.setColumns(10);
-
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		JButton btnNewButton = new JButton("Xóa trắng");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton.setBackground(new Color(107, 208, 107));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		secondFormHorizontalBox.add(btnNewButton);
-
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
-	}
-
-	private void addPanelNorth() {
-		JPanel pnNorth = new JPanel();
-		pnNorth.setBackground(new Color(97, 250, 204));
-		getContentPane().add(pnNorth, BorderLayout.NORTH);
-
-		JLabel lblTitle = new JLabel("Quản lý đặt phòng");
-		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
-		pnNorth.add(lblTitle);
-	}
-
-	public void addMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		JMenu menuHeThong = new JMenu("Hệ thống");
-		menuBar.add(menuHeThong);
-
-		JMenu menuDanhMuc = new JMenu("Danh mục");
-		menuBar.add(menuDanhMuc);
-
-		JMenu menuXuLy = new JMenu("Xử lý");
-		menuBar.add(menuXuLy);
-
-		JMenu menuThongKe = new JMenu("Thống kê");
-		menuBar.add(menuThongKe);
-
-		JMenu menuTroGiup = new JMenu("Trợ giúp");
-		menuBar.add(menuTroGiup);
-	}
-
-	private void addLeftPanelButton() {
-		JPanel pnLeft = new JPanel();
-		pnLeft.setBackground(new Color(255, 255, 255));
-		getContentPane().add(pnLeft, BorderLayout.WEST);
-
-		JPanel pnLeftButton = new JPanel();
-		pnLeftButton.setBackground(new Color(255, 255, 255));
-		pnLeftButton.setLayout(new GridLayout(0, 1, 20, 30));
-
-		JButton btnDatPhong = new JButton("Đặt Phòng");
-		btnDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnDatPhong.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnDatPhong);
-
-		JButton btnChuyenPhong = new JButton("Chuyển Phòng");
-		btnChuyenPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnChuyenPhong.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnChuyenPhong);
-
-		JButton btnHuyDatPhong = new JButton("Hủy Đặt Phòng");
-		btnHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnHuyDatPhong.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnHuyDatPhong);
-
-		JButton btnDatPhongCho = new JButton("Đặt Phòng Chờ");
-		btnDatPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnDatPhongCho.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnDatPhongCho);
-
-		JButton btnNhanPhongCho = new JButton("Nhận Phòng Chợ");
-		btnNhanPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNhanPhongCho.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnNhanPhongCho);
-
-		JButton btnXemChiTiet = new JButton("Xem Chi Tiết");
-		btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXemChiTiet.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnXemChiTiet);
-
-		JButton btnDichVu = new JButton("Đặt Dịch Vụ");
-		btnDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnDichVu.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnDichVu);
-
-		JButton btnThanhToan = new JButton("Thanh Toán");
-		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnThanhToan.setBackground(new Color(107, 208, 107));
-		pnLeftButton.add(btnThanhToan);
-
-		pnLeft.setBorder(BorderFactory.createLineBorder(Color.black));
-		pnLeft.setLayout(new BoxLayout(pnLeft, BoxLayout.Y_AXIS));
-
-		Box verticalBox = Box.createVerticalBox();
-		verticalBox.add(pnLeftButton);
-
-		Box horizontalBox = Box.createHorizontalBox();
-		horizontalBox.add(Box.createHorizontalStrut(20));
-		horizontalBox.add(verticalBox);
-		horizontalBox.add(Box.createHorizontalStrut(20));
-
-		pnLeft.add(Box.createVerticalStrut(20));
-		pnLeft.add(horizontalBox);
-		pnLeft.add(Box.createVerticalStrut(20));
-
-	}
-
-	@Override
-	public void onPhongPanelClicked(Phong phong) {
-		txtName.setText(phong.getTenPhong());
-        txtCapacity.setText(String.valueOf(phong.getSucChua()));
-        System.out.println(phong.getTrangThai());
-        cbType.setSelectedItem(phong.getLoaiPhong().getTenLoaiPhong());
-        cbStatus.setSelectedItem(phong.getTrangThai());
-	}
-
+        JMenu menuXuLy = new JMenu("Xử lý");
+        menuBar.add(menuXuLy);
+
+        JMenu menuThongKe = new JMenu("Thống kê");
+        menuBar.add(menuThongKe);
+
+        JMenu menuTroGiup = new JMenu("Trợ giúp");
+        menuBar.add(menuTroGiup);
+    }
+
+    private void addLeftPanelButton() {
+        JPanel pnLeft = new JPanel();
+        pnLeft.setBackground(new Color(255, 255, 255));
+        getContentPane().add(pnLeft, BorderLayout.WEST);
+
+        JPanel pnLeftButton = new JPanel();
+        pnLeftButton.setBackground(new Color(255, 255, 255));
+        pnLeftButton.setLayout(new GridLayout(0, 1, 20, 30));
+
+        btnDatPhong = new JButton("Đặt Phòng");
+        btnDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnDatPhong.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnDatPhong);
+
+        btnChuyenPhong = new JButton("Chuyển Phòng");
+        btnChuyenPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnChuyenPhong.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnChuyenPhong);
+
+        btnDatPhongCho = new JButton("Đặt Phòng Chờ");
+        btnDatPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnDatPhongCho.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnDatPhongCho);
+
+        btnHuyDatPhong = new JButton("Hủy Đặt Phòng Chờ");
+        btnHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnHuyDatPhong.setBackground(new Color(107, 208, 107));
+//        pnLeftButton.add(btnHuyDatPhong);
+
+        btnNhanPhongCho = new JButton("Nhận Phòng Chợ");
+        btnNhanPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnNhanPhongCho.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnNhanPhongCho);
+
+        btnXemChiTiet = new JButton("Xem Chi Tiết");
+        btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnXemChiTiet.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnXemChiTiet);
+
+        btnDichVu = new JButton("Đặt Dịch Vụ");
+        btnDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnDichVu.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnDichVu);
+
+        btnThanhToan = new JButton("Thanh Toán");
+        btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnThanhToan.setBackground(new Color(107, 208, 107));
+        pnLeftButton.add(btnThanhToan);
+
+        pnLeft.setBorder(BorderFactory.createLineBorder(Color.black));
+        pnLeft.setLayout(new BoxLayout(pnLeft, BoxLayout.Y_AXIS));
+
+        Box verticalBox = Box.createVerticalBox();
+        verticalBox.add(pnLeftButton);
+
+        Box horizontalBox = Box.createHorizontalBox();
+        horizontalBox.add(Box.createHorizontalStrut(20));
+        horizontalBox.add(verticalBox);
+        horizontalBox.add(Box.createHorizontalStrut(20));
+
+        pnLeft.add(Box.createVerticalStrut(20));
+        pnLeft.add(horizontalBox);
+        pnLeft.add(Box.createVerticalStrut(20));
+        btnDatPhong.addActionListener(this);
+        btnChuyenPhong.addActionListener(this);
+        btnHuyDatPhong.addActionListener(this);
+        btnDatPhongCho.addActionListener(this);
+        btnNhanPhongCho.addActionListener(this);
+        btnXemChiTiet.addActionListener(this);
+        btnDichVu.addActionListener(this);
+        btnThanhToan.addActionListener(this);
+    }
+
+    @Override
+    public void onPhongPanelClicked(Phong phong) {
+        txtName.setText(phong.getTenPhong());
+        cbType.setSelectedItem(phong.getLoaiPhong());
+        cbStatus.setSelectedIndex(phong.getTrangThai().getValue() + 1);
+        phongSelected = phong;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (phongSelected == null && source != btnFind && source != btnClear) {
+            JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (source.equals(btnDatPhong)) {
+            openDatPhongWindow();
+        } else if (source.equals(btnChuyenPhong)) {
+            openChuyenPhongWindow();
+        } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
+        } else if (source.equals(btnDatPhongCho)) {// Handle DatPhongCho action
+        } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
+        } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
+        } else if (source.equals(btnDichVu)) {
+            GD_DatDichVu gdDatDichVu = new GD_DatDichVu();
+            gdDatDichVu.setVisible(true);
+        } else if (source.equals(btnThanhToan)) {
+            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
+            GD_ThanhToan gdThanhToan = new GD_ThanhToan(hoaDon);
+            gdThanhToan.setVisible(true);
+        } else if (source.equals(btnFind)) {
+            handleFindAction();
+        } else if (source.equals(btnClear)) {
+            handleClearAction();
+        }
+    }
+
+    private void openDatPhongWindow() {
+        if (phongSelected != null && phongSelected.getTrangThai() == TrangThaiPhong.PHONG_TRONG) {
+            GD_DatPhong gdDatPhong = new GD_DatPhong(phongSelected, nhanVien);
+            gdDatPhong.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    getAllRoom();
+                }
+            });
+            gdDatPhong.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Chọn một phòng trống để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void openChuyenPhongWindow() {
+        if (phongSelected != null) {
+            GD_ChuyenPhong gdChuyenPhong = new GD_ChuyenPhong(phongSelected);
+            gdChuyenPhong.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    // Handle ChuyenPhong window closed event
+                }
+            });
+        }
+    }
+
+    private void handleFindAction() {
+        listPhong = phongDAO.getPhongByCondition(
+                cbStatus.getSelectedIndex() - 1,
+                ((LoaiPhong) cbType.getSelectedItem()).getMaLoaiPhong(),
+                txtName.getText()
+        );
+        loadRooms(listPhong);
+    }
+
+    private void handleClearAction() {
+        cbType.setSelectedIndex(0);
+        cbStatus.setSelectedIndex(0);
+        txtName.setText("");
+    }
 }

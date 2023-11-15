@@ -30,8 +30,8 @@ public class ResizeImageUtil {
 		return new ImageIcon(resizedIcon);
 	}
 
-	public static ImageIcon getResizedImage(String service, int width, int height) {
-		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource("/image/dichVu/" + service + ".png"));
+	public static ImageIcon getResizedImage(String path, int width, int height) {
+		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource(path));
 		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedIcon);
 	}

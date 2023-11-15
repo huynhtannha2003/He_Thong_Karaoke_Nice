@@ -10,6 +10,7 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.HoaDon;
+import entity.LichSuGiaPhong;
 import entity.LoaiPhong;
 import entity.Phong;
 
@@ -29,6 +30,26 @@ public class PhongDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				Phong phong = new Phong(resultSet);
+				phongList.add(phong);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return phongList;
+	}
+
+	public List<Phong> getPhongLoaiPhongLichSuaGiaByConditionTime() {
+		List<Phong> phongList = new ArrayList<>();
+		Connection connection = connectDB.getConnection();
+		String query = "SELECT * FROM PhongLoaiPhongLichSuaGiaByConditionTimeView";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Phong phong = new Phong(resultSet);
+				LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
+				phong.getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
 				phongList.add(phong);
 			}
 		} catch (SQLException e) {
@@ -75,5 +96,29 @@ public class PhongDAO {
 		}
 
 		return phongList;
+	}
+
+	public List<Phong> getPhongByCondition(int trangThai, String maLoaiPhong, String tenPhong) {
+		List<Phong> rooms = new ArrayList<>();
+		Connection connection = connectDB.getConnection();
+		String storedProcedure = "{call GetPhongByCondition(?, ?, ?)}";
+
+		try (CallableStatement statement = connection.prepareCall(storedProcedure)) {
+			statement.setInt(1, trangThai);
+			statement.setString(2, maLoaiPhong);
+			statement.setString(3, tenPhong);
+
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Phong room = new Phong(resultSet);
+				LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
+				room.getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
+				rooms.add(room);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rooms;
 	}
 }
