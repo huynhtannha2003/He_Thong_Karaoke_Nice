@@ -1,8 +1,6 @@
-<<<<<<< HEAD
+# .gitignore
+.idea
 /target/
-=======
-target/
 .classpath
 bin/
 .metadata/
->>>>>>> main

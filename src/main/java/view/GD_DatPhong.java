@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,41 +21,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import dao.KhachHangDAO;
+import entity.KhachHang;
+
+import javax.swing.JRadioButton;
+
 public class GD_DatPhong extends JFrame implements ActionListener {
 
-	private JPanel pnNorth, pnCenter, pnSouth;
-	private JLabel lblTitle;
-	private JButton btnDatPhong, btnThoat;
-	private Box box, box1, box2, box3;
-	private Box box2_2;
-	private Box box1_2;
-	private Box box_1;
-	private Box box3_1;
-	private Box box2_1;
-	private Box box1_1;
-	private JPanel pnInfoPhong;
-	private JPanel pnInfoKhach;
-	private JPanel pnInfoPhongLeft;
-	private JPanel pnInfoPhongRight;
-	private JLabel lblTenPhongTitle;
-	private JLabel lblTenPhong;
-	private JLabel lblTrangThaiTitle;
-	private JLabel lblTrangThai;
-	private JLabel lblLoaiPhongTitle;
-	private JLabel lblLoaiPhong;
-	private JLabel lblNull;
-	private JLabel lblSucChuaTitle;
-	private JLabel lblSuaChua;
-	private JLabel lblGiaTienTitle;
-	private JLabel lblGiaTien;
-	private JLabel lblSDTKhach;
-	private JTextField txtSDTKhach;
-	private JButton btnKiemTra;
-	private JLabel lblTenKH;
-	private JTextField txtTenKH;
-	private Component horizontalStrut;
-
+	private JPanel pnNorth;
+	private JLabel lblTitle, lblRoomType, lblRoomQuantity, lblRoomPrice, lblPhoneNumber, lblCustomerName;
+	private JTextField txtRoomName, txtRoomType, txtRoomQuantity, txtRoomPrice, txtPhoneNumber, txtCustomerName;
+	private ButtonGroup radioGroup;
+	private JRadioButton radioCustomer, radioVisitingCustomer;
+	private JButton btnApply, btnExit, btnCheck;
+	private KhachHangDAO khachHangDAO;
 	public GD_DatPhong() {
+		khachHangDAO = new KhachHangDAO();
 		createGUI();
 	}
 
@@ -66,177 +48,129 @@ public class GD_DatPhong extends JFrame implements ActionListener {
 		setResizable(false);
 
 		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
+
+		JPanel pnCenter = new JPanel();
+		pnCenter.setBackground(new Color(255, 255, 255));
+		getContentPane().add(pnCenter, BorderLayout.CENTER);
+		pnCenter.setLayout(null);
+
+		JLabel lblRoomName = new JLabel("Tên phòng:");
+		lblRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRoomName.setBounds(26, 30, 85, 13);
+		pnCenter.add(lblRoomName);
+
+		txtRoomName = new JTextField();
+		txtRoomName.setEditable(false);
+		txtRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtRoomName.setBounds(121, 28, 134, 16);
+		pnCenter.add(txtRoomName);
+		txtRoomName.setColumns(10);
+
+		lblRoomType = new JLabel("Loại phòng:");
+		lblRoomType.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRoomType.setBounds(26, 80, 85, 13);
+		pnCenter.add(lblRoomType);
+
+		txtRoomType = new JTextField();
+		txtRoomType.setEditable(false);
+		txtRoomType.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtRoomType.setColumns(10);
+		txtRoomType.setBounds(121, 77, 134, 19);
+		pnCenter.add(txtRoomType);
+
+		lblRoomQuantity = new JLabel("Sức chứa:");
+		lblRoomQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRoomQuantity.setBounds(297, 30, 74, 13);
+		pnCenter.add(lblRoomQuantity);
+
+		txtRoomQuantity = new JTextField();
+		txtRoomQuantity.setEditable(false);
+		txtRoomQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtRoomQuantity.setColumns(10);
+		txtRoomQuantity.setBounds(381, 27, 134, 19);
+		pnCenter.add(txtRoomQuantity);
+
+		lblRoomPrice = new JLabel("Giá tiền:");
+		lblRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRoomPrice.setBounds(297, 78, 74, 13);
+		pnCenter.add(lblRoomPrice);
+
+		txtRoomPrice = new JTextField();
+		txtRoomPrice.setEditable(false);
+		txtRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtRoomPrice.setColumns(10);
+		txtRoomPrice.setBounds(381, 75, 134, 19);
+		pnCenter.add(txtRoomPrice);
+
+		radioGroup = new ButtonGroup();
+
+		radioCustomer = new JRadioButton("Khách hàng");
+		radioGroup.add(radioCustomer);
+		radioCustomer.setSelected(true);
+		radioCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
+		radioCustomer.setBackground(new Color(255, 255, 255));
+		radioCustomer.setBounds(121, 130, 113, 21);
+		pnCenter.add(radioCustomer);
+
+		radioVisitingCustomer = new JRadioButton("Khách vãng lai");
+		radioGroup.add(radioVisitingCustomer);
+		radioVisitingCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
+		radioVisitingCustomer.setBackground(Color.WHITE);
+		radioVisitingCustomer.setBounds(275, 128, 134, 21);
+		pnCenter.add(radioVisitingCustomer);
+
+		lblPhoneNumber = new JLabel("SĐT khách hàng:");
+		lblPhoneNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPhoneNumber.setBounds(26, 180, 124, 13);
+		pnCenter.add(lblPhoneNumber);
+
+		lblCustomerName = new JLabel("Tên khách hàng");
+		lblCustomerName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCustomerName.setBounds(26, 230, 124, 13);
+		pnCenter.add(lblCustomerName);
+
+		txtPhoneNumber = new JTextField();
+		txtPhoneNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtPhoneNumber.setColumns(10);
+		txtPhoneNumber.setBounds(160, 177, 249, 19);
+		pnCenter.add(txtPhoneNumber);
+
+		txtCustomerName = new JTextField();
+		txtCustomerName.setEditable(false);
+		txtCustomerName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtCustomerName.setColumns(10);
+		txtCustomerName.setBounds(160, 227, 249, 19);
+		pnCenter.add(txtCustomerName);
+
+		btnCheck = new JButton("Kiểm tra");
+		btnCheck.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCheck.setBackground(new Color(107, 208, 107));
+		btnCheck.setBounds(419, 176, 96, 21);
+		pnCenter.add(btnCheck);
+
+		btnApply = new JButton("Đặt phòng");
+		btnApply.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnApply.setBackground(new Color(107, 208, 107));
+		btnApply.setBounds(261, 271, 110, 21);
+		pnCenter.add(btnApply);
+
+		btnExit = new JButton("Thoát");
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnExit.setBackground(new Color(236, 73, 73));
+		btnExit.setBounds(405, 271, 110, 21);
+		pnCenter.add(btnExit);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Đặt phòng"));
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
-
-		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
-		pnCenter.setLayout(new GridLayout(0, 1, 50, 30));
-
-		pnInfoPhong = new JPanel();
-		pnCenter.add(pnInfoPhong);
-		pnInfoPhong.setLayout(new GridLayout(0, 2, 0, 0));
-
-		pnInfoPhongLeft = new JPanel();
-		pnInfoPhong.add(pnInfoPhongLeft);
-		pnInfoPhongLeft.setLayout(new BoxLayout(pnInfoPhongLeft, BoxLayout.Y_AXIS));
-		pnInfoPhongLeft.add(box = Box.createVerticalBox());
-		box.add(Box.createVerticalStrut(20));
-		box.setAlignmentX(Component.CENTER_ALIGNMENT);
-		box.add(box1 = Box.createHorizontalBox());
-		box1.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box1.setAlignmentY(Component.CENTER_ALIGNMENT);
-		box.add(Box.createVerticalStrut(20));
-
-		lblTenPhongTitle = new JLabel("Tên phòng:");
-		lblTenPhongTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box1.add(Box.createHorizontalStrut(50));
-		box1.add(lblTenPhongTitle);
-
-		box1.add(Box.createHorizontalStrut(10));
-		lblTenPhong = new JLabel("001");
-		lblTenPhong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box1.add(lblTenPhong);
-
-		box.add(box2 = Box.createHorizontalBox());
-		box2.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box2.setAlignmentY(Component.CENTER_ALIGNMENT);
-		box.add(Box.createVerticalStrut(20));
-
-		lblTrangThaiTitle = new JLabel("Trạng thái:");
-		lblTrangThaiTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box2.add(Box.createHorizontalStrut(50));
-		box2.add(lblTrangThaiTitle);
-
-		box2.add(Box.createHorizontalStrut(10));
-		lblTrangThai = new JLabel("Phòng trống");
-		lblTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box2.add(lblTrangThai);
-
-		box.add(box3 = Box.createHorizontalBox());
-		box3.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box3.setAlignmentY(Component.CENTER_ALIGNMENT);
-
-		lblLoaiPhongTitle = new JLabel("Loại phòng:");
-		lblLoaiPhongTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box3.add(Box.createHorizontalStrut(50));
-		box3.add(lblLoaiPhongTitle);
-
-		box3.add(Box.createHorizontalStrut(10));
-		lblLoaiPhong = new JLabel("Phòng vip");
-		lblLoaiPhong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box3.add(lblLoaiPhong);
-
-		//
-
-		pnInfoPhongRight = new JPanel();
-		pnInfoPhong.add(pnInfoPhongRight);
-		pnInfoPhongRight.setLayout(new BoxLayout(pnInfoPhongRight, BoxLayout.X_AXIS));
-
-		pnInfoPhongRight.add(box_1 = Box.createVerticalBox());
-		box_1.add(box1_1 = Box.createHorizontalBox());
-		box1_1.setAlignmentY(Component.CENTER_ALIGNMENT);
-		box1_1.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box1_1.add(Box.createHorizontalStrut(100));
-
-		lblNull = new JLabel(" ");
-		lblNull.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		box1_1.add(lblNull);
-		box_1.add(Box.createVerticalStrut(20));
-		box_1.add(box2_1 = Box.createHorizontalBox());
-		box2_1.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box2_1.add(Box.createHorizontalStrut(90));
-
-		lblSucChuaTitle = new JLabel("Sức chứa:");
-		lblSucChuaTitle.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSucChuaTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box2_1.add(lblSucChuaTitle);
-
-		box2_1.add(Box.createHorizontalStrut(10));
-		lblSuaChua = new JLabel("05");
-		lblSuaChua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box2_1.add(lblSuaChua);
-		box_1.add(Box.createVerticalStrut(20));
-		box_1.add(box3_1 = Box.createHorizontalBox());
-		box3_1.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box3_1.add(Box.createHorizontalStrut(90));
-
-		lblGiaTienTitle = new JLabel("Giá tiền:");
-		lblGiaTienTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box3_1.add(lblGiaTienTitle);
-
-		box3_1.add(Box.createHorizontalStrut(10));
-		lblGiaTien = new JLabel("100 000 VND");
-		lblGiaTien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box3_1.add(lblGiaTien);
-
-		pnInfoKhach = new JPanel();
-		pnCenter.add(pnInfoKhach);
-		pnInfoKhach.setLayout(new BoxLayout(pnInfoKhach, BoxLayout.Y_AXIS));
-
-		pnInfoKhach.add(box = Box.createVerticalBox());
-		box.setMaximumSize(new Dimension(555, 80));
-		box.add(box1_2 = Box.createHorizontalBox());
-		box.add(Box.createVerticalStrut(20));
-		box1_2.add(Box.createHorizontalStrut(50));
-
-		lblSDTKhach = new JLabel("SĐT khách:");
-		lblSDTKhach.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box1_2.add(lblSDTKhach);
-
-		box1_2.add(Box.createHorizontalStrut(10));
-		txtSDTKhach = new JTextField();
-		txtSDTKhach.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box1_2.add(txtSDTKhach);
-		txtSDTKhach.setColumns(10);
-
-		box1_2.add(Box.createHorizontalStrut(10));
-		btnKiemTra = new JButton("Kiểm tra");
-		btnKiemTra.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box1_2.add(btnKiemTra);
-		box1_2.add(Box.createHorizontalStrut(45));
-
-		box.add(box2_2 = Box.createHorizontalBox());
-		box2_2.add(Box.createHorizontalStrut(50));
-
-		lblTenKH = new JLabel("Tên khách hàng:");
-		lblTenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box2_2.add(lblTenKH);
-
-		box2_2.add(Box.createHorizontalStrut(10));
-		txtTenKH = new JTextField();
-		txtTenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box2_2.add(txtTenKH);
-		txtTenKH.setColumns(10);
-
-		txtTenKH.setEditable(false);
-
-		horizontalStrut = Box.createHorizontalStrut(140);
-		box2_2.add(horizontalStrut);
-		lblSDTKhach.setPreferredSize(lblTenKH.getPreferredSize());
-		pnInfoKhach.setPreferredSize(box.getPreferredSize());
-
-		getContentPane().add(pnSouth = new JPanel(), BorderLayout.SOUTH);
-		FlowLayout flowLayout = (FlowLayout) pnSouth.getLayout();
-		flowLayout.setVgap(15);
-		pnSouth.add(Box.createHorizontalStrut(300));
-		pnSouth.add(btnDatPhong = new JButton("Đặt phòng"));
-		btnDatPhong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		pnSouth.add(Box.createHorizontalStrut(10));
-		pnSouth.add(btnThoat = new JButton("Thoát"));
-		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 14));
-
-		btnDatPhong.setBackground(new Color(107, 208, 107));
-		btnKiemTra.setBackground(new Color(107, 208, 107));
-		btnThoat.setBackground(new Color(236, 73, 73));
-
-		btnDatPhong.addActionListener(this);
-		btnKiemTra.addActionListener(this);
-		btnThoat.addActionListener(this);
+		btnApply.addActionListener(this);
+		btnCheck.addActionListener(this);
+		btnExit.addActionListener(this);
+		radioCustomer.addActionListener(this);
+		radioVisitingCustomer.addActionListener(this);
 	}
 
 	private void exitButton() {
-		int key = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn hủy?", "Thoát", JOptionPane.YES_NO_OPTION);
+		int key = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn hủy không ?", "Thoát", JOptionPane.YES_NO_OPTION);
 		if (key == JOptionPane.YES_OPTION) {
 			setVisible(false);
 		}
@@ -245,13 +179,25 @@ public class GD_DatPhong extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(btnThoat)) {
+		if (o.equals(btnExit)) {
 			exitButton();
+		}else if(o.equals(btnCheck)) {
+			if(txtPhoneNumber.getText().length() > 0) {
+				KhachHang khachHang = khachHangDAO.getCustomerByPhoneNumber(txtPhoneNumber.getText());
+	            if (khachHang == null) {
+	                JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo", JOptionPane.WARNING_MESSAGE);
+	            } else {
+	                txtCustomerName.setText(khachHang.getTenKhachHang());
+	            }
+			}
+		}else if(o.equals(radioCustomer)) {
+			txtPhoneNumber.setEditable(true);
+		}else if(o.equals(radioVisitingCustomer)) {
+			txtPhoneNumber.setEditable(false);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new GD_DatPhong().setVisible(true);
 	}
-
 }
