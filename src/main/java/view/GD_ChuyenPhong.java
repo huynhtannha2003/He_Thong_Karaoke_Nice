@@ -58,6 +58,8 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 
 		addPanelCenter();
 
+		initData();
+
 		setRoomMoving();
 	}
 
@@ -248,7 +250,8 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	}
 
 	private void initData() {
-		rooms = phongDao.getAllPhongTrong();
+		rooms = phongDao.getAllPhong();
+		loadRooms(rooms);
 		List<LoaiPhong> loaiPhongList = loaiPhongDao.getAllLoaiPhong();
 		cbTypeRoom.addItem((new LoaiPhong(null, "tất cả", TrangThaiLoaiPhong.HIEU_LUC)));
 		loaiPhongList.forEach(loaiPhong -> {
@@ -282,10 +285,6 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 		scrollPaneBox.add(Box.createVerticalStrut(10));
 
 		pnRooms.add(Box.createHorizontalStrut(20));
-
-		initData();
-
-		loadRooms(rooms);
 
 	}
 
@@ -370,8 +369,9 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 
 	@Override
 	public void onPhongPanelClicked(Phong phong) {
+		String Price = String.valueOf(phong.getLoaiPhong().getLichSuGiaPhongList().get(0).getGia());
 		txtFollowRoomName.setText(phong.getTenPhong());
-		txtFollowRoomPrice.setText(phong.getTenPhong());
+		txtFollowRoomPrice.setText(Price);
 		txtFollowRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
 		phongSelected = phong;
 	}
@@ -388,8 +388,9 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	}
 
 	public void setRoomMoving() {
+		String Price = String.valueOf(phong.getLoaiPhong().getLichSuGiaPhongList().get(0).getGia());
 		this.txtCurrentRoomName.setText(phong.getTenPhong());
-		this.txtCurrentRoomPrice.setText(phong.getLoaiPhong().getLichSuGiaPhongList().get(0).toString());
+		this.txtCurrentRoomPrice.setText(Price);
 		this.txtCurrentRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
 	}
 
@@ -401,7 +402,8 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	public void functionApply() {
 		phong.setTrangThai(TrangThaiPhong.PHONG_TRONG);
 		phongSelected.setTrangThai(TrangThaiPhong.PHONG_DANG_SU_DUNG);
-		phong.setTrangThai(TrangThaiPhong.PHONG_TRONG);
-		getAllRoom();
+		rooms = phongDao.getAllPhongTrong();
+		loadRooms(rooms);
+		JOptionPane.showMessageDialog(null, "Chuyển phòng thành công" + "");
 	}
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.HoaDon;
+import entity.LichSuGiaDichVu;
 import entity.LichSuGiaPhong;
 import entity.LoaiPhong;
 import entity.Phong;
@@ -24,12 +25,14 @@ public class PhongDAO {
 	public List<Phong> getAllPhong() {
 		List<Phong> phongList = new ArrayList<>();
 		Connection connection = connectDB.getConnection();
-		String query = "SELECT * FROM PhongView";
+		String query = "SELECT * FROM PhongLoaiPhongLichSuaGiaByConditionTimeView";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				Phong phong = new Phong(resultSet);
+				LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
+				phong.getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
 				phongList.add(phong);
 			}
 		} catch (SQLException e) {

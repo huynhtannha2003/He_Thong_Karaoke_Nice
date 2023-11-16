@@ -103,6 +103,9 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 	private Box horizontalBox;
 	private JButton btnChonAnh;
 	private JLabel lbImageNV;
+	private JLabel lbChucVu;
+	private JComboBox cbChucVu;
+	private Component horizontalStrut;
 
 	/**
 	 * Launch the application.
@@ -295,6 +298,20 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 		horizontalBox_6.add(txtDiaChi);
 		txtDiaChi.setColumns(10);
 
+		horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalBox_6.add(horizontalStrut);
+
+		lbChucVu = new JLabel("Chức vụ:");
+		lbChucVu.setPreferredSize(new Dimension(80, 30));
+		lbChucVu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox_6.add(lbChucVu);
+
+		cbChucVu = new JComboBox();
+		cbChucVu.setModel(new DefaultComboBoxModel(new String[] { "Nhân viên", "Người quản lý" }));
+		cbChucVu.setPreferredSize(new Dimension(120, 22));
+		cbChucVu.setFont(new Font("Tahoma", Font.BOLD, 12));
+		horizontalBox_6.add(cbChucVu);
+
 		horizontalBox_6.add(Box.createHorizontalStrut(20));
 
 		JLabel lblTrangThai = new JLabel("Trạng thái:");
@@ -430,7 +447,7 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 
 		verticalBox_1.add(Box.createVerticalStrut(20));
 
-		String row[] = { "Mã nhân viên", "Tên nhân viên", "Chức vụ", "Số điện thoại", "Email", "Địa chỉ",
+		String row[] = { "STT", "Mã nhân viên", "Tên nhân viên", "Chức vụ", "Số điện thoại", "Email", "Địa chỉ",
 				"Trạng thái" };
 		modelTable = new DefaultTableModel(row, 0);
 		table = new JTable(modelTable);
@@ -444,21 +461,29 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 		btnCapNhat.addActionListener(this);
 		btnTimKiem.addActionListener(this);
 		btnChonAnh.addActionListener(this);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.getSelectedRow();
-				txtMaNhanVien.setText(table.getValueAt(row, 0).toString());
-				txtTenNhanVien.setText(table.getValueAt(row, 1).toString());
-				txtSDT.setText(table.getValueAt(row, 3).toString());
-				txtEmail.setText(table.getValueAt(row, 4).toString());
-				txtDiaChi.setText(table.getValueAt(row, 5).toString());
-				String ttnv = table.getValueAt(row, 6).toString();
+				txtMaNhanVien.setText(table.getValueAt(row, 1).toString());
+				txtTenNhanVien.setText(table.getValueAt(row, 2).toString());
+				txtSDT.setText(table.getValueAt(row, 4).toString());
+				txtEmail.setText(table.getValueAt(row, 5).toString());
+				txtDiaChi.setText(table.getValueAt(row, 6).toString());
+				String ttnv = table.getValueAt(row, 7).toString();
 				if (ttnv.trim().equals(TrangThaiNhanVien.VO_HIEU.toString())) {
 					cbTrangThai.setSelectedItem(TrangThaiNhanVien.VO_HIEU);
 				} else {
 					cbTrangThai.setSelectedItem(TrangThaiNhanVien.HIEU_LUC);
 				}
+
+				if (table.getValueAt(row, 3).toString().equals("Người quản lý")) {
+					cbChucVu.setSelectedIndex(1);
+				} else if (table.getValueAt(row, 3).toString().equals("Nhân viên")) {
+					cbChucVu.setSelectedIndex(0);
+				}
+
 			}
 		});
 		// txtMaNhanVien.setEditable(false);
@@ -484,9 +509,10 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 	public void loadData() {
 		list = daoNV.getAllNhanVien();
 		modelTable.setRowCount(0);
+		int i = 1;
 		for (NhanVien nhanVien : list) {
-			String[] s = { nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(), nhanVien.getSdt(),
-					nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
+			String[] s = { i++ + "", nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(),
+					nhanVien.getSdt(), nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
 			modelTable.addRow(s);
 		}
 	}
@@ -512,9 +538,10 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 			list = daoNV.TimKiemTheoTrangThai(tuKhoa);
 		}
 		modelTable.setRowCount(0);
+		int i = 1;
 		for (NhanVien nhanVien : list) {
-			String[] s1 = { nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(), nhanVien.getSdt(),
-					nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
+			String[] s1 = { i++ + "", nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(),
+					nhanVien.getSdt(), nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
 			modelTable.addRow(s1);
 		}
 	}
@@ -528,15 +555,13 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 	}
 
 	public void chucNangThem() {
-		NhanVien nhanVien = createNhanVien();
-		String[] s = { nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(), nhanVien.getSdt(),
-				nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
-		modelTable.addRow(s);
+		NhanVien nhanVien = revertSPFormNhanVien();
 		daoNV.createNhanVien(nhanVien);
+		loadData();
 	}
 
 	public void chucNangCapNhat() {
-		NhanVien nv = createNhanVien();
+		NhanVien nv = revertSPFormNhanVien();
 		daoNV.updateNhanVien(nv, nv.getMaNhanVien());
 		loadData();
 	}
@@ -549,9 +574,10 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 		}
 	}
 
-	public NhanVien createNhanVien() {
-		return new NhanVien(txtMaNhanVien.getText(), txtTenNhanVien.getText(), "Nhân viên", txtSDT.getText(),
-				txtEmail.getText(), txtDiaChi.getText(), (TrangThaiNhanVien) cbTrangThai.getSelectedItem());
+	public NhanVien revertSPFormNhanVien() {
+		return new NhanVien(txtMaNhanVien.getText(), txtTenNhanVien.getText(), cbChucVu.getSelectedItem().toString(),
+				txtSDT.getText(), txtEmail.getText(), txtDiaChi.getText(),
+				(TrangThaiNhanVien) cbTrangThai.getSelectedItem());
 	}
 
 	public void loadcomboBoxTrangThai() {
