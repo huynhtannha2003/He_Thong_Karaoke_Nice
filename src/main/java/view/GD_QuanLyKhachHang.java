@@ -18,17 +18,32 @@ import java.awt.Dimension;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import connectDB.ConnectDB;
+import dao.KhachHangDAO;
+import entity.KhachHang;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import utils.*;
 
-public class GD_QuanLyKhachHang extends JFrame {
+public class GD_QuanLyKhachHang extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtkMaKhachHang;
@@ -67,8 +82,8 @@ public class GD_QuanLyKhachHang extends JFrame {
 	private JMenuItem MenuItemTaiKhoan;
 	private JMenuItem MenuItemDangXuat;
 	private JMenuItem MenuItemThoat;
-	private Component verticalStrut_5;
-	private Component horizontalStrut_2;
+	private List<KhachHang> list = new ArrayList<KhachHang>();
+	private KhachHangDAO daoKH;
 
 	/**
 	 * Launch the application.
@@ -88,15 +103,18 @@ public class GD_QuanLyKhachHang extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws SQLException
 	 */
-	public GD_QuanLyKhachHang() {
+	public GD_QuanLyKhachHang() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1002, 699);
 		setLocationRelativeTo(null);
 		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		setJMenuBar(menuBar);
-
+		ConnectDB.getInstance().connect();
+		daoKH = new KhachHangDAO();
 		MenuHeThong = new JMenu("Hệ thống");
 		MenuHeThong.setFont(new Font("Dialog", Font.BOLD, 14));
 		menuBar.add(MenuHeThong);
@@ -268,11 +286,9 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnXoaTrangThongTin.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/clear_icon.png")));
 		BoxThongTin3.add(btnXoaTrangThongTin);
 
-		verticalStrut_5 = Box.createVerticalStrut(10);
-		BoxVerticalThongTin.add(verticalStrut_5);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(10));
 
-		horizontalStrut_2 = Box.createHorizontalStrut(20);
-		PaneThongTin.add(horizontalStrut_2);
+		PaneThongTin.add(Box.createHorizontalStrut(20));
 
 		JPanel ContentPane = new JPanel();
 		ContentPanel.add(ContentPane, BorderLayout.CENTER);
@@ -284,14 +300,12 @@ public class GD_QuanLyKhachHang extends JFrame {
 		ContentPane.add(PaneTacVu, BorderLayout.NORTH);
 		PaneTacVu.setLayout(new BoxLayout(PaneTacVu, BoxLayout.X_AXIS));
 
-		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
-		PaneTacVu.add(horizontalStrut_3);
+		PaneTacVu.add(Box.createHorizontalStrut(20));
 
 		Box BoxVerticalTacVu = Box.createVerticalBox();
 		PaneTacVu.add(BoxVerticalTacVu);
 
-		Component verticalStrut_3 = Box.createVerticalStrut(10);
-		BoxVerticalTacVu.add(verticalStrut_3);
+		BoxVerticalTacVu.add(Box.createHorizontalStrut(10));
 
 		Box BoxTacVu = Box.createHorizontalBox();
 		BoxVerticalTacVu.add(BoxTacVu);
@@ -307,8 +321,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		lbTimKiemMa.setLabelFor(txtMaTimKiem);
 		BoxTacVu.add(txtMaTimKiem);
 
-		Component horizontalStrut_8_1_1_1 = Box.createHorizontalStrut(20);
-		BoxTacVu.add(horizontalStrut_8_1_1_1);
+		BoxTacVu.add(Box.createHorizontalStrut(20));
 
 		lbTimKiemTen = new JLabel("Nhập tên cần tìm:");
 		lbTimKiemTen.setPreferredSize(new Dimension(130, 30));
@@ -320,8 +333,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		lbTimKiemTen.setLabelFor(txtTenTimKiem);
 		BoxTacVu.add(txtTenTimKiem);
 
-		Component horizontalStrut_9_1_1_1 = Box.createHorizontalStrut(60);
-		BoxTacVu.add(horizontalStrut_9_1_1_1);
+		BoxTacVu.add(Box.createHorizontalStrut(60));
 
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(new Color(107, 208, 107));
@@ -329,8 +341,7 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnTimKiem.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/add_icon.png")));
 		BoxTacVu.add(btnTimKiem);
 
-		Component horizontalStrut_10_1_1_1 = Box.createHorizontalStrut(20);
-		BoxTacVu.add(horizontalStrut_10_1_1_1);
+		BoxTacVu.add(Box.createHorizontalStrut(20));
 
 		btnXoaTrangTacVu = new JButton("Xóa trắng");
 		btnXoaTrangTacVu.setBackground(new Color(107, 208, 107));
@@ -338,23 +349,97 @@ public class GD_QuanLyKhachHang extends JFrame {
 		btnXoaTrangTacVu.setIcon(new ImageIcon(GD_QuanLyKhachHang.class.getResource("/image/icon/clear_icon.png")));
 		BoxTacVu.add(btnXoaTrangTacVu);
 
-		Component verticalStrut_4 = Box.createVerticalStrut(10);
-		BoxVerticalTacVu.add(verticalStrut_4);
+		BoxVerticalTacVu.add(Box.createVerticalStrut(10));
 
-		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
-		PaneTacVu.add(horizontalStrut_4);
+		PaneTacVu.add(Box.createHorizontalStrut(20));
 
-		String row[] = { "Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email" };
+		String row[] = { "STT", "Mã khách hàng", "Tên khách hàng", "Số điện thoại" };
 		modelTable = new DefaultTableModel(row, 0);
 		table = new JTable(modelTable);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144)));
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
 		ContentPane.add(scrollPane, BorderLayout.CENTER);
-
-		String s[] = { "KH123", "Vũ Quốc Huy", "0334405617", "vuquochuy.01012003@gmail.com" };
-		modelTable.addRow(s);
-
+		initAction();
+		loadData();
 	}
 
+	public void initAction() {
+		btnCapNhat.addActionListener(this);
+		btnThem.addActionListener(this);
+		btnTimKiem.addActionListener(this);
+		btnXoaTrangTacVu.addActionListener(this);
+		btnXoaTrangThongTin.addActionListener(this);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				txtkMaKhachHang.setText(table.getValueAt(row, 1).toString());
+				txtTenKH.setText(table.getValueAt(row, 2).toString());
+				txtSDT.setText(table.getValueAt(row, 3).toString());
+			}
+		});
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnThem)) {
+			chucNangThem();
+		} else if (o.equals(btnCapNhat)) {
+			chucNangCapNhat();
+		} else if (o.equals(btnXoaTrangTacVu)) {
+			chucNangXoaTrangTacVu();
+		} else if (o.equals(btnXoaTrangThongTin)) {
+			chucNangXoaTrangThongTin();
+		} else if (o.equals(btnTimKiem)) {
+			chucNangTimKiem();
+		}
+	}
+
+	public void chucNangXoaTrangThongTin() {
+		txtTenKH.setText("");
+		txtSDT.setText("");
+	}
+
+	public void chucNangXoaTrangTacVu() {
+		txtTenTimKiem.setText("");
+		txtMaTimKiem.setText("");
+	}
+
+	public void loadData() {
+		list = daoKH.getAllKhachHang();
+		modelTable.setRowCount(0);
+		int i = 1;
+		for (KhachHang KH : list) {
+			String[] row = { i++ + "", KH.getMaKhachHang(), KH.getTenKhachHang(), KH.getSdt() };
+			modelTable.addRow(row);
+		}
+	}
+
+	public KhachHang revertSPFormKhachHang() {
+		return new KhachHang(txtkMaKhachHang.getText(), txtTenKH.getText(), txtSDT.getText());
+	}
+
+	public void chucNangThem() {
+		daoKH.createKhachHang(revertSPFormKhachHang());
+		loadData();
+	}
+
+	public void chucNangCapNhat() {
+		KhachHang kh = revertSPFormKhachHang();
+		daoKH.updateKhachHang(kh, kh.getMaKhachHang());
+		loadData();
+	}
+
+	public void chucNangTimKiem() {
+		list = daoKH.timKiem(txtMaTimKiem.getText(), txtTenTimKiem.getText());
+		modelTable.setRowCount(0);
+		int i = 1;
+		for (KhachHang KH : list) {
+			String[] row = { i++ + "", KH.getMaKhachHang(), KH.getTenKhachHang(), KH.getSdt() };
+			modelTable.addRow(row);
+		}
+	}
 }

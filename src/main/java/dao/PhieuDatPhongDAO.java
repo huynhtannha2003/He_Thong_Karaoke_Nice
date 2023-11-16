@@ -57,7 +57,8 @@ public class PhieuDatPhongDAO {
 		}
 	}
 
-	public boolean bookKaraokeRoomBefore(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau, HoaDon hd) {
+	public boolean bookKaraokeRoomBefore(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau,
+			HoaDon hd) {
 		Connection connection = connectDB.getConnection();
 		String query = "{CALL BookKaraokeRoom(?, ?, ?, ?)}";
 

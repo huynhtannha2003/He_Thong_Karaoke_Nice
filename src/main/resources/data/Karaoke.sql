@@ -1073,4 +1073,6 @@ BEGIN
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
 END;
-GO
+
+
+

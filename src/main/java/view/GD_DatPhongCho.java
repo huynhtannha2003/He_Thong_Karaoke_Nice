@@ -485,26 +485,26 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 			if (txtName.getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước");
 			} else {
-				Date time = dateChooser.getDate();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-				String formattedDate = dateFormat.format(time);
-				String selectHours = (String) cbHours.getSelectedItem();
-				String selectMin = (String) cbMin.getSelectedItem();
-				DateFormat formatter = new SimpleDateFormat("HH:mm");
-				
-				Date d1 = formatter.parse(selectMin)
-				String fullTime = formattedDate + " " + selectHours + ":" + selectMin;
-	
-				Date full = new SimpleDateFormat("yyyy-MM-dd").parse(fullTime);
-				boolean booking = phieuDatPhongDAO.bookKaraokeRoomBefore(kh.getMaKhachHang(), kh.getTenKhachHang(),
-						phong.getMaPhong(),fullTime);
-				if (booking) {
-					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
-				}
-			}
+//				Date time = dateChooser.getDate();
+//				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//				String formattedDate = dateFormat.format(time);
+//				String selectHours = (String) cbHours.getSelectedItem();
+//				String selectMin = (String) cbMin.getSelectedItem();
+//				DateFormat formatter = new SimpleDateFormat("HH:mm");
+//				
+//				Date d1 = formatter.parse(selectMin);
+//				String fullTime = formattedDate + " " + selectHours + ":" + selectMin;
+//	
+//				Date full = new SimpleDateFormat("yyyy-MM-dd").parse(fullTime);
+//				boolean booking = phieuDatPhongDAO.bookKaraokeRoomBefore(kh.getMaKhachHang(), kh.getTenKhachHang(),
+//						phong.getMaPhong(),fullTime);
+//				if (booking) {
+//					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} else {
+//					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
+//				}
+//			}
 
 		}
 

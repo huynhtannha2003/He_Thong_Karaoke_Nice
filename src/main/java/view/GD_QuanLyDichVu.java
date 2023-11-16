@@ -466,7 +466,7 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 			selectImage();
 		}
 		if (o.equals(btnSearch)) {
-			searchObject();
+//			searchObject();
 		}
 
 	}
@@ -526,16 +526,16 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 		String strAnh = fileAnh.getAbsolutePath();
 	}
 
-	private void searchObject() {
-		try {
-//			loadDataFind();
-		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
-
-//	public void loadDataFind() throws SQLException {
+//	private void searchObject() {
+//		try {
+////			loadDataFind();
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//	}
+//
+////	public void loadDataFind() throws SQLException {
 //		List<DichVu> listDichVu = null;
 //		String tuKhoa = txtKey.getText();
 //		String cbKey = cbSelectKey.getSelectedItem().toString();
@@ -587,21 +587,21 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 		}
 	}
 
-	private void search() {
-		String selectedKey = cbSelectKey.getSelectedItem().toString();
-		String inputValue = txtKey.getText().toString();
-		if (selectedKey.isEmpty() || inputValue.isEmpty()) {
-			return;
-		}
-
-		String columnName = getColumnName(selectedKey);
-		try {
-			// gọi hàm dao ra 
-		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
+//	private void search() {
+//		String selectedKey = cbSelectKey.getSelectedItem().toString();
+//		String inputValue = txtKey.getText().toString();
+//		if (selectedKey.isEmpty() || inputValue.isEmpty()) {
+//			return;
+//		}
+//
+//		String columnName = getColumnName(selectedKey);
+//		try {
+//			// gọi hàm dao ra 
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
