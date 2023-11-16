@@ -103,7 +103,7 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 		lblLoaiTK.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		box1.add(Box.createHorizontalStrut(10));
 		box1.add(cmbLoaiTK = new JComboBox());
-		cmbLoaiTK.addItem("Tất cả");
+		cmbLoaiTK.addItem("Theo tháng");
 		cmbLoaiTK.addItem("Theo thời gian");
 		cmbLoaiTK.addItem("Theo nhân viên");
 		box1.add(Box.createHorizontalStrut(20));
@@ -130,7 +130,7 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 		pnChart.setBorder(BorderFactory.createLineBorder(Color.black));
 		pnChart.setLayout(new BorderLayout(0, 0));
 
-		buildChart();
+		buildChartByThang();
 
 		btnThongKe.setBackground(new Color(107, 208, 107));
 		btnXoaTrang.setBackground(new Color(107, 208, 107));
@@ -153,10 +153,10 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		getMonthFromDAO();
+		getMonthNameFromDAO();
 	}
 
-	private void buildChart() {
+	private void buildChartByThang() {
 		getDataTheoThang();
 		try {
 			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -184,7 +184,7 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 		}
 	}
 
-	private void buildChartByTime() {
+	private void buildChartByThoiGian() {
 		ArrayList<Date> listTime = new ArrayList<>();
 		listTime = getTimeFromDate();
 		try {
@@ -198,8 +198,8 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 
 			JFreeChart chart = null;
 			for (DefaultCategoryDataset curDateset : listDataset) {
-				chart = ChartFactory.createBarChart("", "Thời gian", "Doanh thu (VND)", dataset, PlotOrientation.VERTICAL,
-						false, true, false);
+				chart = ChartFactory.createBarChart("", "Thời gian", "Doanh thu (VND)", dataset,
+						PlotOrientation.VERTICAL, false, true, false);
 			}
 
 			CategoryPlot p = chart.getCategoryPlot();
@@ -226,8 +226,8 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 
 			JFreeChart chart = null;
 			for (DefaultCategoryDataset curDateset : listDataset) {
-				chart = ChartFactory.createBarChart("", "Nhân viên", "Doanh thu (VND)", dataset, PlotOrientation.VERTICAL,
-						false, true, false);
+				chart = ChartFactory.createBarChart("", "Nhân viên", "Doanh thu (VND)", dataset,
+						PlotOrientation.VERTICAL, false, true, false);
 			}
 
 			CategoryPlot p = chart.getCategoryPlot();
@@ -241,7 +241,7 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 		}
 	}
 
-	private void getMonthFromDAO() {
+	private void getMonthNameFromDAO() {
 		listMonthName = new ArrayList<>();
 		for (Integer curMonth : listMonth) {
 			Month month = Month.of(curMonth);
@@ -320,11 +320,11 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 
 	private void xuLyThongKe() {
 		if (cmbLoaiTK.getSelectedIndex() == 0) {
-			buildChart();
+			buildChartByThang();
 		} else if (cmbLoaiTK.getSelectedIndex() == 1) {
 			getTimeFromDate();
-			buildChartByTime();
-		}else if (cmbLoaiTK.getSelectedIndex() == 2) {
+			buildChartByThoiGian();
+		} else if (cmbLoaiTK.getSelectedIndex() == 2) {
 			buildChartByNhanVien();
 		}
 	}
