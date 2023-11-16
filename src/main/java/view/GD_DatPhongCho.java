@@ -4,19 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.text.DateFormat;
+import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +34,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
 import dao.KhachHangDAO;
@@ -49,14 +49,13 @@ import entity.LoaiPhong;
 import entity.NhanVien;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
-import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
 public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, ActionListener {
 
 	private JPanel contentPane, pnCenter, pnNorth, pnSouth;
-	private JTextField txtNumber, txtCustomer, txtName;
+	private JTextField txtNumber, txtCustomer, txtNameRoom;
 	private List<Phong> listPhong;
 	private ButtonGroup group;
 	private JComboBox<String> cbMin, cbHours;
@@ -76,20 +75,19 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 	private KhachHangDAO khachHangDAO;
 	private PhieuDatPhongDAO phieuDatPhongDAO;
 	private KhachHang kh;
-	private Phong phong;
+	private Phong phongSelected;
 	private NhanVien nhanVien;
 
 	public static void main(String[] args) throws IOException {
 		try {
-			new GD_DatPhongCho(new Phong(), new NhanVien()).setVisible(true);
+			new GD_DatPhongCho(new NhanVien()).setVisible(true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public GD_DatPhongCho(Phong selected, NhanVien currentNhanVien) throws IOException {
-		phong = selected;
+	public GD_DatPhongCho(NhanVien currentNhanVien) throws IOException {
 		nhanVien = currentNhanVien;
 		phongDAO = new PhongDAO();
 		loaiPhongDAO = new LoaiPhongDAO();
@@ -272,11 +270,11 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
 		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		txtName = new JTextField();
-		txtName.setPreferredSize(new Dimension(5, 20));
-		txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		thirdFormHorizontalBox.add(txtName);
-		txtName.setColumns(10);
+		txtNameRoom = new JTextField();
+		txtNameRoom.setPreferredSize(new Dimension(5, 20));
+		txtNameRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		thirdFormHorizontalBox.add(txtNameRoom);
+		txtNameRoom.setColumns(10);
 
 		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
@@ -288,6 +286,8 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
 		cbType = new JComboBox();
 		cbType.setPreferredSize(new Dimension(100, 22));
+		cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
+		loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
 		cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		thirdFormHorizontalBox.add(cbType);
 
@@ -402,16 +402,13 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		btnCheck.addActionListener(this);
 		btnSearch.addActionListener(this);
 		btnConfirm.addActionListener(this);
+		btnPrint.addActionListener(this);
 		rbtnToday.addActionListener(this);
 	}
 
 	private void initData() {
 		listPhong = phongDAO.getAllPhongTrong();
 		List<LoaiPhong> loaiPhongList = loaiPhongDAO.getAllLoaiPhong();
-		cbType.addItem((new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC)));
-		loaiPhongList.forEach(loaiPhong -> {
-			cbType.addItem(loaiPhong);
-		});
 	}
 
 	private void loadRooms(List<Phong> newRooms) {
@@ -438,7 +435,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
 	private void inputMin() {
 		String s;
-		for (int i = 0; i < 61; i = i + 5) {
+		for (int i = 0; i < 56; i = i + 5) {
 			if (i < 10) {
 				s = "0" + i + "";
 			} else {
@@ -450,8 +447,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
 	@Override
 	public void onPhongPanelClicked(Phong phong) {
-		txtName.setText(phong.getTenPhong());
-		cbType.setSelectedItem(phong.getLoaiPhong().getTrangThai());
+		txtNameRoom.setText(phong.getTenPhong());
+		cbType.setSelectedIndex(phong.getTrangThai().getValue() + 1);
+		phongSelected = phong;
 	}
 
 	@Override
@@ -470,7 +468,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 			}
 		}
 		if (o.equals(btnSearch)) {
-			listPhong = phongDAO.GetPhongByTenAndLoaiPhong(txtName.getText(), (LoaiPhong) cbType.getSelectedItem());
+			listPhong = phongDAO.GetPhongByTenAndLoaiPhong(txtNameRoom.getText(), (LoaiPhong) cbType.getSelectedItem());
 			loadRooms(listPhong);
 		}
 		if (o.equals(rbtnToday)) {
@@ -482,36 +480,79 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 			if (txtNumber.getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Bạn cần nhập khách hàng trước");
 			}
-			if (txtName.getText().trim().equals("")) {
+			if (txtNameRoom.getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước");
 			} else {
-//				Date time = dateChooser.getDate();
-//				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//				String formattedDate = dateFormat.format(time);
-//				String selectHours = (String) cbHours.getSelectedItem();
-//				String selectMin = (String) cbMin.getSelectedItem();
-//				DateFormat formatter = new SimpleDateFormat("HH:mm");
-//				
-//				Date d1 = formatter.parse(selectMin);
-//				String fullTime = formattedDate + " " + selectHours + ":" + selectMin;
-//	
-//				Date full = new SimpleDateFormat("yyyy-MM-dd").parse(fullTime);
-//				boolean booking = phieuDatPhongDAO.bookKaraokeRoomBefore(kh.getMaKhachHang(), kh.getTenKhachHang(),
-//						phong.getMaPhong(),fullTime);
-//				if (booking) {
-//					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
-//							JOptionPane.INFORMATION_MESSAGE);
-//				} else {
-//					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
-//				}
-//			}
-
+				Date time = dateChooser.getDate();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+				String formattedDate = dateFormat.format(time);
+				String selectHours = (String) cbHours.getSelectedItem();
+				String selectMin = (String) cbMin.getSelectedItem();
+				String timeFull = formattedDate + " " + selectHours + ":" + selectMin;
+				Date full;
+				boolean booking = false;
+				try {
+					full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
+					System.out.println(full);
+					booking = phieuDatPhongDAO.bookKaraokeRoom(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
+							phongSelected.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (booking) {
+					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
+				}
+			}
+			if (o.equals(btnPrint)) {
+				Date time = dateChooser.getDate();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+				String formattedDate = dateFormat.format(time);
+				String selectHours = (String) cbHours.getSelectedItem();
+				String selectMin = (String) cbMin.getSelectedItem();
+				String timeFull = formattedDate + " " + selectHours + ":" + selectMin;
+				Date full = null;
+				try {
+					full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				String filePath = "D:\\your\\file.pdf";
+				generatePDF(filePath,txtNumber.getText(), txtCustomer.getText(), txtNameRoom.getText(),
+						cbType.getSelectedIndex(), full);
+			}
 		}
+	}
 
-		if (o.equals(btnPrint))
-			
-		{
+	public static void generatePDF(String filePath, String phoneNumber, String customerName, String roomName,
+			int roomType, Date checkInTime) {
+		Document document = new Document();
 
+		try {
+			PdfWriter.getInstance(document, new FileOutputStream("filePath"));
+			document.open();
+
+			// Add content to the PDF
+			document.add(new Paragraph("Booking Information"));
+			document.add(new Paragraph("Phone Number: " + phoneNumber));
+			document.add(new Paragraph("Customer Name: " + customerName));
+			document.add(new Paragraph("Room Name: " + roomName));
+			document.add(new Paragraph("Room Type: " + roomType));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			String formattedCheckInTime = dateFormat.format(checkInTime);
+
+			document.add(new Paragraph("Check-In Time: " + checkInTime));
+
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			document.close();
 		}
 	}
 }

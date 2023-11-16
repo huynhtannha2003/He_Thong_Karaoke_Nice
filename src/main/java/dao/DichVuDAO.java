@@ -10,7 +10,7 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.DichVu;
-
+import entity.HoaDon;
 import entity.LichSuGiaDichVu;
 import entity.LoaiDichVu;
 import enums.TrangThaiDichVu;
@@ -153,42 +153,29 @@ public class DichVuDAO {
 		}
 		return n > 0;
 	}
-	/*
-	 * Tìm dịch vụ theo mã
-	 * 
-	 */
 
-	private void searchObject(String columnName, String inputValue) {
-		Connection con = connectDB.getConnection();
+	private List<DichVu> executeGetDichVuPage(String query, String parameter) {
 		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "SELECT * FROM DichVuLichSuGiaByConditionTimeView WHERE " + columnName + " LIKE ?";
-		try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-			preparedStatement.setString(1, "%" + inputValue + "%");
-			ResultSet resultSet = preparedStatement.executeQuery(); 
-				while (resultSet.next()) {
-					DichVu dv = new DichVu(resultSet);
-					dichVuList.add(dv);
-				}
-			
+		Connection connection = connectDB.getConnection();
+
+		try (PreparedStatement preparedStatement = connection.prepareCall(query)) {
+			if (parameter != null) {
+				preparedStatement.setString(1, parameter);
+			}
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				DichVu dichVu = new DichVu(resultSet);
+				dichVuList.add(dichVu);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return dichVuList;
 	}
 
 	public List<DichVu> getDichVuTheoMa(String ma) {
-		Connection con = connectDB.getConnection();
-		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "select * from DichVuLichSuGiaByConditionTimeView where DichVu_MaDichVu = ?";
-		try {
-			PreparedStatement pre = con.prepareStatement(query);
-			ResultSet rs = pre.executeQuery();
-			DichVu dichVu = new DichVu(rs);
-			dichVuList.add(dichVu);
-		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return dichVuList;
+		return executeGetDichVuPage("select * from DichVuLichSuGiaByConditionTimeView where DichVu_MaDichVu = ?", ma);
 	}
 
 	/*
@@ -196,86 +183,29 @@ public class DichVuDAO {
 	 */
 
 	public List<DichVu> getDSDichVuTheoTen(String ten) {
-		Connection con = connectDB.getConnection();
-		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu like ?";
-		try {
-			PreparedStatement pre = con.prepareStatement(query);
-			ResultSet rs = pre.executeQuery(query);
-			pre.setString(1, "%" + ten + "%");
-
-			DichVu dichVu = new DichVu(rs);
-			dichVuList.add(dichVu);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dichVuList;
+		return executeGetDichVuPage(
+				"select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu = N'%" + ten + "%", ten);
 	}
 
 	/*
-	 * Tìm dịch vụ theo giá
+	 * Tìm dịch vụ theo loaiDichVu
 	 */
 
-	public List<DichVu> getDSDichVuTheoGia(double gia) {
-		Connection con = connectDB.getConnection();
+	private List<DichVu> getDSTheoLoai(LoaiDichVu loai) {
 		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "select * from DichVuLichSuGiaByConditionTimeView where LichSuGiaDichVu_Gia = ?";
-		try {
-			PreparedStatement pre = con.prepareStatement(query);
-			ResultSet rs = pre.executeQuery(query);
-			pre.setDouble(1, gia);
-			while (rs.next()) {
-				DichVu dichVu = new DichVu(rs);
+		Connection connection = connectDB.getConnection();
+		String query = "select * from DichVuLichSuGiaByConditionTimeView where LoaiDichVu_TenLoaiDichVu = N'%" + loai
+				+ "%";
+		try (PreparedStatement preparedStatement = connection.prepareCall(query)) {
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				DichVu dichVu = new DichVu(resultSet);
 				dichVuList.add(dichVu);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return dichVuList;
-	}
 
-	/*
-	 * Tìm dịch vụ theo số lượng
-	 */
-
-	public List<DichVu> getDSDichVuTheoSoLuong(int soLuong) {
-		Connection con = connectDB.getConnection();
-		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "select * from DichVuLichSuGiaByConditionTimeView where DichVu_SoLuong = ?";
-		try {
-			PreparedStatement pre = con.prepareStatement(query);
-			ResultSet rs = pre.executeQuery(query);
-			pre.setInt(1, soLuong);
-			while (rs.next()) {
-				DichVu dichVu = new DichVu(rs);
-				dichVuList.add(dichVu);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dichVuList;
-	}
-
-	/*
-	 * Tìm dịch vụ theo số lượng
-	 */
-
-	public List<DichVu> getDSDichVuTheoTenLoai(LoaiDichVu loai) {
-		Connection con = connectDB.getConnection();
-		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "select * from DichVuLichSuGiaByConditionTimeView where LoaiDichVu_TenLoaiDichVu like ?";
-		try {
-			PreparedStatement pre = con.prepareStatement(query);
-			ResultSet rs = pre.executeQuery(query);
-			pre.setString(1, loai.getTenLoaiDichVu());
-			while (rs.next()) {
-				DichVu dichVu = new DichVu(rs);
-				dichVuList.add(dichVu);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return dichVuList;
 	}
 
@@ -286,7 +216,7 @@ public class DichVuDAO {
 	public List<DichVu> getDSDichVuTheoTrangThai(TrangThaiDichVu trangThai) {
 		Connection con = connectDB.getConnection();
 		List<DichVu> dichVuList = new ArrayList<>();
-		String query = "select * from DichVuLichSuGiaByConditionTimeView where LoaiDichVu_TenLoaiDichVu like ?";
+		String query = "select * from DichVuLichSuGiaByConditionTimeView where LoaiDichVu_TenLoaiDichVu = ?";
 		try {
 			PreparedStatement pre = con.prepareStatement(query);
 			ResultSet rs = pre.executeQuery(query);

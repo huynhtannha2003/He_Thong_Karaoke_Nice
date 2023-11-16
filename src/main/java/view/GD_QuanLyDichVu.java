@@ -94,8 +94,11 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 	private JLabel lblSelectKey;
 	private Box searchHorizontalBox;
 	private JComboBox cbType2;
+	private List<DichVu> invoices;
 	LocalDate current = LocalDate.now();
-
+	
+	private JComboBox cbTypeTwo;
+	private JComboBox cbStatusTwo;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -376,7 +379,7 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 		searchHorizontalBox.add(Box.createHorizontalStrut(20));
 
 		centerForm.add(Box.createVerticalStrut(20));
-
+		
 		String[] headers = { "STT", "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái" };
 		modelTable = new DefaultTableModel(headers, 0);
 		table = new JTable(modelTable);
@@ -444,7 +447,7 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 	}
 
 	private void updateComboBoxKey() {
-		String[] s = { "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái" };
+		String[] s = { "Mã dịch vụ", "Tên dịch vụ", "Tên loại dịch vụ", "Trạng thái" };
 		for (String string : s) {
 			cbSelectKey.addItem(string);
 		}
@@ -466,9 +469,15 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 			selectImage();
 		}
 		if (o.equals(btnSearch)) {
-//			searchObject();
+			handleSearch();
 		}
 
+	}
+
+	private void handleSearch() {
+		int selectedOption = cbSelectKey.getSelectedIndex();
+		invoices = getColumnName(1, selectedOption);
+		loadData();
 	}
 
 	private void addObject() {
@@ -526,82 +535,34 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 		String strAnh = fileAnh.getAbsolutePath();
 	}
 
-//	private void searchObject() {
-//		try {
-////			loadDataFind();
-//		} catch (SQLException e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
-//	}
-//
-////	public void loadDataFind() throws SQLException {
-//		List<DichVu> listDichVu = null;
-//		String tuKhoa = txtKey.getText();
-//		String cbKey = cbSelectKey.getSelectedItem().toString();
-//		if (cbKey.equals("Mã dịch vụ")) {
-//			listDichVu = dichVuDAO.getDichVuTheoMa(tuKhoa);
-//		}
-////		if (s.equals("Tên dịch vụ")) {
-////			listDichVu = dichVuDAO.getDSDichVuTheoTen(tuKhoa);
-////		}
-////		if (s.equals("Giá")) {
-////			listDichVu = dichVuDAO.getDSDichVuTheoGia(tuKhoa);
-////		}
-////		if (s.equals("Số lượng")) {
-////			listDichVu = dichVuDAO.getDSDichVuTheoSoLuong(tuKhoa);
-////		}
-////		if (s.equals("Tên loại dịch vụ")) {
-////			listDichVu = dichVuDAO.getDSDichVuTheoTenLoai(tuKhoa);
-////		}
-////		if (s.equals("Trạng thái")) {
-////			searchHorizontalBox.remove(txtKey);
-////			searchHorizontalBox.add(cbType);
-////		}
-////			listDichVu = dichVuDAO.getDSDichVuTheoTrangThai(tuKhoa);
-////		}
-//		modelTable.setRowCount(0);
-//		int i = modelTable.getRowCount() + 1;
-//		for (DichVu s : listDichVu) {
-//			Object[] row = { i, s.getMaDichVu(), s.getTenDichVu(), s.getLichSuGiaDichVuList().get(0).getGia(),
-//					s.getSoLuong(), s.getLoaiDichVu().getTenLoaiDichVu(), s.getTrangThai().getName() };
-//			modelTable.addRow(row);
-//		}
-//	}
-	private String getColumnName(String selectedKey) {
+	private List<DichVu> getColumnName(int selectedKey, int selectedOption) {
 		switch (selectedKey) {
-		case "Mã dịch vụ":
-			return "maDichVu";
-		case "Tên dịch vụ":
-			return "tenDichVu";
-		case "Giá":
-			return "gia";
-		case "Số lượng":
-			return "soLuong";
-		case "Tên loại dịch vụ":
-			return "tenLoaiDichVu";
-		case "Trạng thái":
-			return "trangThai";
+		case 0:
+			return dichVuDAO.getAllDichVu();
+		case 1:
+			System.out.println(1);
+			return dichVuDAO.getDichVuTheoMa(txtKey.getText());
+		case 2:
+			return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
+		case 3:
+			searchHorizontalBox.remove(txtKey);
+			searchHorizontalBox.add(cbStatusTwo);
+			List<LoaiDichVu> list = dichVuDAO.getLoaiDichVu();
+			for (LoaiDichVu dichVu : list) {
+				cbStatusTwo.addItem(dichVu);
+			}
+//			return dichVuDAO.getDSTheoLoai(cbStatusTwo.getSelectedIndex());
+		case 4:
+			searchHorizontalBox.remove(txtKey);
+			searchHorizontalBox.add(cbTypeTwo);
+			cbTypeTwo.addItem(TrangThaiDichVu.VO_HIEU.getName());
+			cbTypeTwo.addItem(TrangThaiDichVu.HIEU_LUC.getName());
+//			return dichVuDAO;
 		default:
-			return null; // Return null if the key is not recognized
+			return new ArrayList<DichVu>();
 		}
-	}
 
-//	private void search() {
-//		String selectedKey = cbSelectKey.getSelectedItem().toString();
-//		String inputValue = txtKey.getText().toString();
-//		if (selectedKey.isEmpty() || inputValue.isEmpty()) {
-//			return;
-//		}
-//
-//		String columnName = getColumnName(selectedKey);
-//		try {
-//			// gọi hàm dao ra 
-//		} catch (SQLException e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
-//	}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -638,34 +599,4 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 
 	}
 
-//	private int taoMaDichVu() {
-//		List<DichVu> dv = dichVuDAO.getDichVu();
-//		int i = 0;
-//		while (i < dv.size()) {
-//			if(Integer.parseInt(dv.get(i).))
-//		}
-//	}
-//	
-//	public static String tạoMaLichSuGiaDichVu() {
-//		int sequenceNumber;
-//        // Lấy ngày hiện tại
-//        Date currentDate = new Date();
-//
-//        // Định dạng ngày tháng năm
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-//
-//        // Tạo chuỗi DDMMYY từ ngày hiện tại
-//        String datePart = dateFormat.format(currentDate);
-//
-//        // Tạo chuỗi số thứ tự XXX
-//        String sequencePart = String.format("%03d", sequenceNumber);
-//
-//        // Tăng số thứ tự để sử dụng cho lần sau
-//        sequenceNumber++;
-//
-//        // Tạo mã phát sinh
-//        String generatedCode = "GDV." + datePart + "." + sequencePart;
-//
-//        return generatedCode;
-//    }
 }
