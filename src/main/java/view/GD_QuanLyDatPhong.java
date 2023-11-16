@@ -305,7 +305,7 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         btnXemChiTiet = new JButton("Xem Chi Tiết");
         btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnXemChiTiet.setBackground(new Color(107, 208, 107));
-        pnLeftButton.add(btnXemChiTiet);
+//        pnLeftButton.add(btnXemChiTiet);
 
         btnDichVu = new JButton("Đặt Dịch Vụ");
         btnDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));

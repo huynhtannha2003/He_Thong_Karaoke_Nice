@@ -5,23 +5,17 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.KhuyenMai;
-import entity.LoaiPhong;
 import entity.NhanVien;
-import enums.TrangThaiNhanVien;
-import view.GD_QuanLyNhanVien;
 
 public class KhuyenMaiDAO {
 	private ConnectDB connectDB;
 
-	public KhuyenMaiDAO() throws SQLException {
+	public KhuyenMaiDAO() {
 		this.connectDB = ConnectDB.getInstance();
 	}
 
@@ -262,4 +256,26 @@ public class KhuyenMaiDAO {
 		}
 		return ds;
 	}
+
+	public KhuyenMai getKhuyenMaiByTen(String khuyenMaiName) {
+		Connection connection = connectDB.getConnection();
+		KhuyenMai khuyenMai = null;
+
+		try {
+			String query = "SELECT * FROM KhuyenMaiView WHERE KhuyenMai_TenKhuyenMai = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, khuyenMaiName);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				khuyenMai = new KhuyenMai(resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return khuyenMai;
+	}
+
 }

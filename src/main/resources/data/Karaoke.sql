@@ -501,17 +501,21 @@ SELECT PDP.maPhieuDatPhong  AS PhieuDatPhong_MaPhieuDatPhong,
        PDP.thoiGianKetThuc  AS PhieuDatPhong_ThoiGianKetThuc,
        PDP.maHoaDon         AS PhieuDatPhong_MaHoaDon,
        PDP.maPhong          AS PhieuDatPhong_MaPhong,
+       P.maPhong            AS Phong_MaPhong,
        P.tenPhong           AS Phong_TenPhong,
        P.sucChua            AS Phong_SucChua,
        P.maLoaiPhong        AS Phong_MaLoaiPhong,
+       P.trangThai          AS Phong_TrangThai,
        LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
        LP.trangThai         AS LoaiPhong_TrangThai,
+       LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
        LSG.maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
        LSG.ngayBatDau       AS LichSuGiaPhong_NgayBatDau,
        LSG.ngayKetThuc      AS LichSuGiaPhong_NgayKetThuc,
        LSG.thoiDiemBatDau   AS LichSuGiaPhong_ThoiDiemBatDau,
        LSG.thoiDiemKetThuc  AS LichSuGiaPhong_ThoiDiemKetThuc,
-       LSG.gia              AS LichSuGiaPhong_Gia
+       LSG.gia              AS LichSuGiaPhong_Gia,
+       LSG.maLoaiPhong      AS LichSuGiaPhong_MaLoaiPhong
 FROM PhieuDatPhong PDP
          LEFT JOIN Phong P ON PDP.maPhong = P.maPhong
          LEFT JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
@@ -579,20 +583,25 @@ WHERE LGDV.ngayBatDau <= HD.NgayThanhToan
 GO
 
 CREATE VIEW ChiTietDatDichVuView AS
-SELECT HD.maHoaDon         AS HoaDon_MaHoaDon,
-       CDD.maPhieuDatPhong AS ChiTietDatDichVu_MaPhieuDatPhong,
-       CDD.maDichVu        AS ChiTietDatDichVu_MaDichVu,
-       CDD.soLuong         AS ChiTietDatDichVu_SoLuong,
-       DV.maDichVu         AS DichVu_MaDichVu,
-       DV.tenDichVu        AS DichVu_TenDichVu,
-       DV.soLuong          AS DichVu_SoLuong,
-       DV.maLoaiDichVu     AS DichVu_MaLoaiDichVu,
-       DV.trangThai        AS DichVu_TrangThai,
-       DV.hinhAnh          AS DichVu_HinhAnh,
-       LDV.maLoaiDichVu    AS LoaiDichVu_MaLoaiDichVu,
-       LDV.tenLoaiDichVu   AS LoaiDichVu_TenLoaiDichVu,
-       LDV.trangThai       AS LoaiDichVu_TrangThai,
-       LGDV.gia            AS LichSuGiaDichVu_Gia
+SELECT HD.maHoaDon            AS HoaDon_MaHoaDon,
+       CDD.maPhieuDatPhong    AS ChiTietDatDichVu_MaPhieuDatPhong,
+       CDD.maDichVu           AS ChiTietDatDichVu_MaDichVu,
+       CDD.soLuong            AS ChiTietDatDichVu_SoLuong,
+       DV.maDichVu            AS DichVu_MaDichVu,
+       DV.tenDichVu           AS DichVu_TenDichVu,
+       DV.soLuong             AS DichVu_SoLuong,
+       DV.maLoaiDichVu        AS DichVu_MaLoaiDichVu,
+       DV.trangThai           AS DichVu_TrangThai,
+       DV.hinhAnh             AS DichVu_HinhAnh,
+       LDV.maLoaiDichVu       AS LoaiDichVu_MaLoaiDichVu,
+       LDV.tenLoaiDichVu      AS LoaiDichVu_TenLoaiDichVu,
+       LDV.trangThai          AS LoaiDichVu_TrangThai,
+       LGDV.maLichSuGiaDichVu AS LichSuGiaDichVu_MaLichSuGiaDichVu,
+       LGDV.ngayBatDau        AS LichSuGiaDichVu_NgayBatDau,
+       LGDV.ngayKetThuc       AS LichSuGiaDichVu_NgayKetThuc,
+       LGDV.thoiDiemBatDau    AS LichSuGiaDichVu_ThoiDiemBatDau,
+       LGDV.thoiDiemKetThuc   AS LichSuGiaDichVu_ThoiDiemKetThuc,
+       LGDV.gia               AS LichSuGiaDichVu_Gia
 FROM ChiTietDatDichVu CDD
          JOIN DichVu DV ON CDD.maDichVu = DV.maDichVu
          JOIN LoaiDichVu LDV ON DV.maLoaiDichVu = LDV.maLoaiDichVu
@@ -675,7 +684,8 @@ CREATE PROCEDURE GetPhieuDatPhongByMaHoaDon @MaHoaDon VARCHAR(255)
 AS
 BEGIN
     SELECT *
-    FROM PhieuDatPhongView
+--     FROM PhieuDatPhongView
+    FROM PhieuDatPhongConditionByTimeView
     WHERE PhieuDatPhong_MaHoaDon = @MaHoaDon;
 END;
 
@@ -687,6 +697,13 @@ BEGIN
     SELECT *
     FROM ChiTietDatDichVuByConditionTimeView
     WHERE ChiTietDatDichVu_MaPhieuDatPhong = @MaPhieuDatPhong;
+END;
+GO
+
+CREATE PROCEDURE GetChiTietDatDichVuByPhieuDatPhongNew @MaPhieuDatPhong VARCHAR(15)
+AS
+BEGIN
+    SELECT * FROM ChiTietDatDichVuView where ChiTietDatDichVu_MaPhieuDatPhong = @MaPhieuDatPhong;
 END;
 GO
 
@@ -913,7 +930,7 @@ BEGIN
            KhuyenMai_ThoiDiemKetThuc
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
     WHERE PhieuDatPhong_MaPhong = @MaPhong
-      AND HoaDon_NgayThanhToan IS NULL;
+      AND HoaDon_TongTien IS NULL;
 END;
 GO
 
@@ -1015,15 +1032,15 @@ END;
 GO
 
 CREATE TRIGGER UpdateDichVuQuantity
-ON ChiTietDatDichVu
-AFTER INSERT
-AS
+    ON ChiTietDatDichVu
+    AFTER INSERT
+    AS
 BEGIN
     SET NOCOUNT ON;
     UPDATE DichVu
     SET SoLuong = DV.SoLuong - i.SoLuong
     FROM DichVu DV
-    INNER JOIN inserted i ON DV.MaDichVu = i.MaDichVu;
+             INNER JOIN inserted i ON DV.MaDichVu = i.MaDichVu;
 END;
 GO
 
@@ -1042,7 +1059,8 @@ CREATE PROCEDURE BookKaraokeRoom(
     @maKhachHang VARCHAR(13),
     @maNhanVien VARCHAR(8),
     @maPhong VARCHAR(7),
-    @thoiGianBatDau TIME
+    @thoiGianBatDau TIME,
+    @ngayThanhToan DATE
 )
 AS
 BEGIN
@@ -1060,8 +1078,8 @@ BEGIN
 
     SET @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
 
-    INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien)
-    VALUES (@maHoaDon, @maKhachHang, @maNhanVien);
+    INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien, NgayThanhToan)
+    VALUES (@maHoaDon, @maKhachHang, @maNhanVien, @ngayThanhToan);
 
     DECLARE @soThuTuPhieuDatPhong INT;
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
@@ -1073,6 +1091,22 @@ BEGIN
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
 END;
+GO
 
+CREATE PROCEDURE UpdatePaymentDetails(
+    @hoaDonID NVARCHAR(13),
+    @tongTien FLOAT,
+    @thoiDiemThanhToan DATETIME,
+    @phieuDatPhongID NVARCHAR(15),
+    @thoiGianKetThuc DATETIME
+)
+AS
+BEGIN
+    UPDATE HoaDon SET tongTien = @tongTien, thoiDiemThanhToan = @thoiDiemThanhToan WHERE MaHoaDon = @hoaDonID;
 
+    UPDATE PhieuDatPhong SET thoiGianKetThuc = @thoiGianKetThuc WHERE MaPhieuDatPhong = @phieuDatPhongID;
 
+    UPDATE Phong
+    SET trangThai = 0
+    WHERE maPhong IN (SELECT maPhong FROM PhieuDatPhong WHERE MaPhieuDatPhong = @phieuDatPhongID);
+END;

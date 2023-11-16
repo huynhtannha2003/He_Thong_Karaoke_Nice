@@ -1,23 +1,28 @@
 package view;
 
+import dao.KhuyenMaiDAO;
+import dao.PhieuDatPhongDAO;
 import entity.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class GD_ThanhToan extends JFrame {
+public class GD_ThanhToan extends JFrame implements ActionListener {
+    private final KhuyenMaiDAO khuyenMaiDAO;
     private JPanel pnNorth, pnCenter, pnSouth, pnTable, pnSouthLeft, pnSouthRight;
     private JLabel lblTitle, lblPhoneNumTitle, lblCheckInTitle, lblCusNameTitle, lblCheckOutTitle, lblEmpNameTitle, lblTotalTimeTitle, lblTaxTitle, lblTotalTitle;
     private JLabel lblPhoneNum, lblCusName, lblEmpName, lblCheckIn, lblCheckOut, lblTotalTime, lblCouponID, lblTax, lblTotal, lblReceive, lblRefund;
@@ -38,9 +43,12 @@ public class GD_ThanhToan extends JFrame {
     private JScrollPane scrollDetail;
     private DefaultTableModel modelDetail;
     private JTable tableDetail;
+    private PhieuDatPhongDAO phieuDatPhongDao;
 
     public GD_ThanhToan(HoaDon currentHoaDon) {
         hoaDon = currentHoaDon;
+        khuyenMaiDAO = new KhuyenMaiDAO();
+        phieuDatPhongDao = new PhieuDatPhongDAO();
         nhanVien = hoaDon.getNhanVien();
         khachHang = hoaDon.getKhachHang();
         createGUI();
@@ -173,15 +181,15 @@ public class GD_ThanhToan extends JFrame {
         box.add(Box.createVerticalStrut(15));
 
         box1.add(Box.createHorizontalStrut(20));
-        box1.add(lblCouponID = new JLabel("Nhập mã khuyến mãi:"));
-        lblCouponID.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        box1.add(lblCouponID = new JLabel("Nhập mã khuyến mãi:"));
+//        lblCouponID.setFont(new Font("Tahoma", Font.PLAIN, 14));
         box1.add(Box.createHorizontalStrut(15));
-        box1.add(txtCouponID = new JTextField());
-        txtCouponID.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        box1.add(txtCouponID = new JTextField());
+//        txtCouponID.setFont(new Font("Tahoma", Font.PLAIN, 14));
         box1.add(Box.createHorizontalStrut(10));
-        box1.add(btnAdd = new JButton("Thêm"));
-        btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        btnAdd.setBackground(new Color(107, 208, 107));
+//        box1.add(btnAdd = new JButton("Thêm"));
+//        btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        btnAdd.setBackground(new Color(107, 208, 107));
 
         box2.add(Box.createHorizontalStrut(20));
         box2.add(lblReceive = new JLabel("Tiền nhận:"));
@@ -189,6 +197,21 @@ public class GD_ThanhToan extends JFrame {
         box2.add(Box.createHorizontalStrut(15));
         box2.add(txtReceive = new JTextField());
         txtReceive.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        txtReceive.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateRefundField();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateRefundField();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
 
         box3.add(Box.createHorizontalStrut(20));
         box3.add(lblRefund = new JLabel("Tiền trả lại:"));
@@ -198,8 +221,8 @@ public class GD_ThanhToan extends JFrame {
         txtRefund.setFont(new Font("Tahoma", Font.PLAIN, 14));
         txtRefund.setEditable(false);
 
-        lblReceive.setPreferredSize(lblCouponID.getPreferredSize());
-        lblRefund.setPreferredSize(lblCouponID.getPreferredSize());
+//        lblReceive.setPreferredSize(lblCouponID.getPreferredSize());
+//        lblRefund.setPreferredSize(lblCouponID.getPreferredSize());
 
         GridLayout gl_pnSouthRight = new GridLayout(2, 1);
         pnSouthRight.setLayout(gl_pnSouthRight);
@@ -207,16 +230,17 @@ public class GD_ThanhToan extends JFrame {
         pnSouthThongTin = new JPanel();
         pnSouthRight.add(pnSouthThongTin);
         pnSouthThongTin.setLayout(new GridLayout(0, 2, 20, 0));
-        pnSouthThongTin.add(lblTaxTitle = new JLabel("Thuế:"));
-        lblTaxTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        lblTaxTitle.setHorizontalAlignment(SwingConstants.RIGHT);
-        pnSouthThongTin.add(lblTax = new JLabel("123456"));
-        lblTax.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        pnSouthThongTin.add(lblTaxTitle = new JLabel("Thuế:"));
+//        lblTaxTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        lblTaxTitle.setHorizontalAlignment(SwingConstants.RIGHT);
+//        pnSouthThongTin.add(lblTax = new JLabel("123456"));
+//        lblTax.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
         pnSouthThongTin.add(lblTotalTitle = new JLabel("Tổng tiến thanh toán:"));
         lblTotalTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblTotalTitle.setHorizontalAlignment(SwingConstants.RIGHT);
-        pnSouthThongTin.add(lblTotal = new JLabel("10000.00VND"));
+        pnSouthThongTin.add(lblTotal = new JLabel(""));
+        updateTotalPrice();
         lblTotal.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
         pnSouthButton = new JPanel();
@@ -234,6 +258,50 @@ public class GD_ThanhToan extends JFrame {
 
         btnPrint.setPreferredSize(new Dimension(100, 20));
 
+//        btnAdd.addActionListener(this);
+        btnPayment.addActionListener(this);
+        btnPrint.addActionListener(this);
+    }
+
+    private void updateTotalPrice() {
+        double totalPrice = calculateTotalPrice();
+        lblTotal.setText(String.format("%.2fVND", totalPrice));
+    }
+
+    private double calculateTotalPhieuDatPhongPrice() {
+        final double[] totalPrice = {0.0};
+
+        hoaDon.getPhieuDatPhongList().forEach(phieuDatPhong -> {
+            double hourlyRate = phieuDatPhong.getPhong().getLoaiPhong().getLichSuGiaPhongList().get(0).getGia();
+
+            Duration totalTime;
+            if (phieuDatPhong.getThoiGianKetThuc() != null) {
+                totalTime = calculateTotalTime(phieuDatPhong.getThoiGianBatDau(), phieuDatPhong.getThoiGianKetThuc());
+            } else {
+                totalTime = calculateTotalTime(phieuDatPhong.getThoiGianBatDau(), new Time(System.currentTimeMillis()));
+            }
+
+            double totalHours = Math.ceil(totalTime.toMinutes() / 60.0);
+            if(totalHours == 0){
+                totalHours = 1;
+            }
+            totalPrice[0] += hourlyRate * totalHours;
+        });
+
+        return totalPrice[0];
+    }
+
+    private double calculateTotalDichVuPrice() {
+        final double[] totalPrice = {0.0};
+
+        hoaDon.getPhieuDatPhongList().forEach(phieuDatPhong -> {
+            phieuDatPhong.getChiTietDatDichVuList().forEach(chiTietDatDichVu -> {
+                totalPrice[0] += chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0).getGia() *
+                        chiTietDatDichVu.getSoLuong();
+            });
+        });
+
+        return totalPrice[0];
     }
 
     private Duration calculateTotalTime(Time checkInTime, Time checkOutTime) {
@@ -314,4 +382,57 @@ public class GD_ThanhToan extends JFrame {
             modelDetail.addRow(rowData);
         }
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == btnPayment) {
+            hoaDon.setTongTien(calculateTotalPrice());
+            hoaDon.setThoiDiemThanhToan(new Time(System.currentTimeMillis()));
+
+            hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).setThoiGianKetThuc(new Time(System.currentTimeMillis())); // Set the end time
+
+            if (phieuDatPhongDao.updatePaymentDetails(hoaDon)) {
+                JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+            setVisible(false);
+        } else if (source == btnAdd) {
+            String khuyenMaiName = txtCouponID.getText();
+            if (khuyenMaiName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khuyến mãi.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByTen(khuyenMaiName);
+
+            if (khuyenMai != null) {
+                JOptionPane.showMessageDialog(this, "Đã tìm thấy khuyến mãi: " + khuyenMai.getTenKhuyenMai());
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy khuyến mãi có tên: " + khuyenMaiName, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    private double calculateTotalPrice() {
+        return calculateTotalDichVuPrice() + calculateTotalPhieuDatPhongPrice();
+    }
+
+    private void updateRefundField() {
+        try {
+            double receiveAmount = Double.parseDouble(txtReceive.getText());
+            double totalPrice = calculateTotalPrice();
+
+            if (receiveAmount >= totalPrice) {
+                double refundAmount = receiveAmount - totalPrice;
+                txtRefund.setText(String.format("%.2f", refundAmount));
+            } else {
+                txtRefund.setText("");
+            }
+        } catch (NumberFormatException ex) {
+            txtRefund.setText("");
+        }
+    }
+
 }

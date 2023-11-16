@@ -22,7 +22,7 @@ public class ChiTietDatDichVuDAO {
 	public List<ChiTietDatDichVu> getChiTietDatDichVuByPhieuDatPhong(String maPhieuDatPhong) {
 		List<ChiTietDatDichVu> chiTietDatDichVuList = new ArrayList<>();
 		Connection connection = connectDB.getConnection();
-		String query = "{CALL GetChiTietDatDichVuByPhieuDatPhong(?)}";
+		String query = "{CALL GetChiTietDatDichVuByPhieuDatPhongNew(?)}";
 
 		try (CallableStatement statement = connection.prepareCall(query)) {
 			statement.setString(1, maPhieuDatPhong);
