@@ -1,6 +1,8 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 
 public class LichSuGiaPhong {
@@ -17,7 +19,6 @@ public class LichSuGiaPhong {
 
 	public LichSuGiaPhong(String maLichSuGiaPhong, Date ngayBatDau, Date ngayKetThuc, Time thoiDiemBatDau,
 			Time thoiDiemKetThuc, double gia, LoaiPhong phong) {
-		super();
 		this.maLichSuGiaPhong = maLichSuGiaPhong;
 		this.ngayBatDau = ngayBatDau;
 		this.ngayKetThuc = ngayKetThuc;
@@ -25,6 +26,15 @@ public class LichSuGiaPhong {
 		this.thoiDiemKetThuc = thoiDiemKetThuc;
 		this.gia = gia;
 		this.phong = phong;
+	}
+
+	public LichSuGiaPhong(ResultSet rs) throws SQLException {
+		this.maLichSuGiaPhong = rs.getString("LichSuGiaPhong_MaLoaiPhong");
+		this.ngayBatDau = rs.getDate("LichSuGiaPhong_NgayBatDau");
+		this.ngayKetThuc = rs.getDate("LichSuGiaPhong_NgayKetThuc");
+		this.thoiDiemBatDau = rs.getTime("LichSuGiaPhong_ThoiDiemBatDau");
+		this.thoiDiemKetThuc = rs.getTime("LichSuGiaPhong_ThoiDiemKetThuc");
+		this.gia = rs.getDouble("LichSuGiaPhong_Gia");
 	}
 
 	public String getMaLichSuGiaPhong() {

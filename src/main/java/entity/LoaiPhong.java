@@ -2,6 +2,8 @@ package entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 
 import enums.TrangThaiLoaiPhong;
 
@@ -9,6 +11,20 @@ public class LoaiPhong {
 	private String maLoaiPhong;
 	private String tenLoaiPhong;
 	private TrangThaiLoaiPhong trangThai;
+	List<LichSuGiaPhong> lichSuGiaPhongList;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		LoaiPhong loaiPhong = (LoaiPhong) o;
+		return Objects.equals(maLoaiPhong, loaiPhong.maLoaiPhong);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maLoaiPhong);
+	}
 
 	public LoaiPhong() {
 	}
@@ -23,6 +39,13 @@ public class LoaiPhong {
 		this.maLoaiPhong = rs.getString("LoaiPhong_MaLoaiPhong");
 		this.tenLoaiPhong = rs.getString("LoaiPhong_TenLoaiPhong");
 		this.trangThai = TrangThaiLoaiPhong.values()[rs.getInt("LoaiPhong_TrangThai")];
+	}
+
+	public LoaiPhong(String maLoaiPhong, String tenLoaiPhong, TrangThaiLoaiPhong trangThai, List<LichSuGiaPhong> lichSuGiaPhongList) {
+		this.maLoaiPhong = maLoaiPhong;
+		this.tenLoaiPhong = tenLoaiPhong;
+		this.trangThai = trangThai;
+		this.lichSuGiaPhongList = lichSuGiaPhongList;
 	}
 
 	public String getMaLoaiPhong() {
@@ -48,7 +71,15 @@ public class LoaiPhong {
 	public void setTrangThai(TrangThaiLoaiPhong trangThai) {
 		this.trangThai = trangThai;
 	}
-	
+
+	public List<LichSuGiaPhong> getLichSuGiaPhongList() {
+		return lichSuGiaPhongList;
+	}
+
+	public void setLichSuGiaPhongList(List<LichSuGiaPhong> lichSuGiaPhongList) {
+		this.lichSuGiaPhongList = lichSuGiaPhongList;
+	}
+
 	@Override
 	public String toString() {
 		return tenLoaiPhong;
