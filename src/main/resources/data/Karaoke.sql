@@ -947,6 +947,21 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE GetPhongByCondition(
+    @trangThai INT,
+    @maLoaiPhong VARCHAR(5),
+    @tenPhong NVARCHAR(255)
+)
+AS
+BEGIN
+    SELECT *
+    FROM PhongLoaiPhongLichSuaGiaByConditionTimeView
+    WHERE (@trangThai = -1 OR Phong_TrangThai = @trangThai)
+      AND (@maLoaiPhong IS NULL OR Phong_MaLoaiPhong = @maLoaiPhong)
+      AND (@tenPhong IS NULL OR Phong_TenPhong LIKE '%' + @tenPhong + '%');
+END;
+GO
+
 CREATE PROCEDURE GetHoaDonPagedByMaHoaDon @MaHoaDon VARCHAR(20),
                                           @PageNumber INT,
                                           @RowsPerPage INT
@@ -1055,6 +1070,24 @@ BEGIN
 END;
 GO
 
+CREATE FUNCTION GeneratePhieuDatPhongID()
+    RETURNS VARCHAR(15)
+AS
+BEGIN
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+
+    DECLARE @soThuTuPhieuDatPhong INT;
+    SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
+    FROM PhieuDatPhong
+    WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
+
+    RETURN 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
+           RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
+END;
+GO
+
 CREATE PROCEDURE BookKaraokeRoom(
     @maKhachHang VARCHAR(13),
     @maNhanVien VARCHAR(8),
@@ -1090,6 +1123,35 @@ BEGIN
 
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
+END;
+GO
+CREATE PROCEDURE ChangeKarokeRoom(
+    @maHoaDon VARCHAR(13),
+    @maPhong VARCHAR(7)
+)
+AS
+BEGIN
+    DECLARE @currentTime TIME = FORMAT(GETDATE(), 'HH:mm:ss');
+    DECLARE @maPhieuDatPhong VARCHAR(15);
+    DECLARE @oldPhongID VARCHAR(7);
+
+    SELECT @oldPhongID = pdp.maPhong
+    FROM PhieuDatPhong pdp
+    WHERE pdp.maHoaDon = @maHoaDon
+      AND pdp.thoiGianKetThuc IS NULL;
+
+    UPDATE Phong
+    SET trangThai = 0
+    WHERE maPhong = @oldPhongID;
+
+    UPDATE PhieuDatPhong
+    SET thoiGianKetThuc = @currentTime
+    WHERE maHoaDon = @maHoaDon
+      AND thoiGianKetThuc IS NULL;
+
+    SET @maPhieuDatPhong = dbo.GeneratePhieuDatPhongID();
+    INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
+    VALUES (@maPhieuDatPhong, @currentTime, @maHoaDon, @maPhong);
 END;
 GO
 

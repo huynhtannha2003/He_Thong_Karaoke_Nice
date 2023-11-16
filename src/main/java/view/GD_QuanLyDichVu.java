@@ -2,46 +2,32 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -52,11 +38,8 @@ import entity.DichVu;
 import entity.LichSuGiaDichVu;
 import entity.LoaiDichVu;
 import enums.TrangThaiDichVu;
-import enums.TrangThaiLoaiDichVu;
 
-import javax.swing.border.EtchedBorder;
-
-public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseListener {
+public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseListener {
 
 	private JTextField txtID;
 	private JTextField txtQuantity;
@@ -96,32 +79,18 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 	private JComboBox cbType2;
 	private List<DichVu> invoices;
 	LocalDate current = LocalDate.now();
-	
-	private JComboBox cbTypeTwo;
-	private JComboBox cbStatusTwo;
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GD_QuanLyDichVu frame = new GD_QuanLyDichVu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private JComboBox cbTypeTwo;
+    private JComboBox cbStatusTwo;
 
-	public GD_QuanLyDichVu() throws IOException {
+	public GD_QuanLyDichVu()  {
 		dichVuDAO = new DichVuDAO();
 		lichSuGiaGiaoDichDAO = new LichSuGiaDichVuDAO();
 		initGUI();
 	}
 
-	private void initGUI() throws IOException {
+	private void initGUI()  {
 		setupFrame();
 
-		addMenuBar();
 
 		addPanelNorth();
 
@@ -130,17 +99,16 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 	}
 
 	private void setupFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
-		setLocationRelativeTo(null);
 		setBackground(new Color(255, 255, 255));
 	}
 
 	private void addPanelNorth() {
+		setLayout(new BorderLayout(0, 0));
 		pnNorth = new JPanel();
 		pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnNorth.setBackground(new Color(97, 250, 204));
-		getContentPane().add(pnNorth, BorderLayout.NORTH);
+		add(pnNorth);
 		pnNorth.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JLabel lblTitle = new JLabel("Quản lý dịch vụ");
@@ -153,7 +121,7 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 	private void addPanelCenter() {
 		pnCenter = new JPanel();
 		pnCenter.setBackground(new Color(255, 255, 255));
-		getContentPane().add(pnCenter, BorderLayout.CENTER);
+		add(pnCenter);
 
 		addForm();
 	}
@@ -379,7 +347,7 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 		searchHorizontalBox.add(Box.createHorizontalStrut(20));
 
 		centerForm.add(Box.createVerticalStrut(20));
-		
+
 		String[] headers = { "STT", "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái" };
 		modelTable = new DefaultTableModel(headers, 0);
 		table = new JTable(modelTable);
@@ -401,25 +369,6 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 		updateComboBoxKey();
 	}
 
-	public void addMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		JMenu menuHeThong = new JMenu("Hệ thống");
-		menuBar.add(menuHeThong);
-
-		JMenu menuDanhMuc = new JMenu("Danh mục");
-		menuBar.add(menuDanhMuc);
-
-		JMenu menuXuLy = new JMenu("Xử lý");
-		menuBar.add(menuXuLy);
-
-		JMenu menuThongKe = new JMenu("Thống kê");
-		menuBar.add(menuThongKe);
-
-		JMenu menuTroGiup = new JMenu("Trợ giúp");
-		menuBar.add(menuTroGiup);
-	}
 
 	private void loadData() {
 //		DecimalFormat df = new DecimalFormat("#,##0đ");
@@ -447,7 +396,7 @@ public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseList
 	}
 
 	private void updateComboBoxKey() {
-		String[] s = { "Mã dịch vụ", "Tên dịch vụ", "Tên loại dịch vụ", "Trạng thái" };
+		String[] s = { "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái" };
 		for (String string : s) {
 			cbSelectKey.addItem(string);
 		}

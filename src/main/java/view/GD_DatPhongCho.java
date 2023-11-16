@@ -78,16 +78,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 	private Phong phongSelected;
 	private NhanVien nhanVien;
 
-	public static void main(String[] args) throws IOException {
-		try {
-			new GD_DatPhongCho(new NhanVien()).setVisible(true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public GD_DatPhongCho(NhanVien currentNhanVien) throws IOException {
+	public GD_DatPhongCho(NhanVien currentNhanVien) {
 		nhanVien = currentNhanVien;
 		phongDAO = new PhongDAO();
 		loaiPhongDAO = new LoaiPhongDAO();
@@ -103,7 +94,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		setBackground(new Color(255, 255, 255));
 	}
 
-	private void initGUI() throws IOException {
+	private void initGUI() {
 		setupFrame();
 
 		addMenuBar();
@@ -115,7 +106,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		addPanelSouth();
 	}
 
-	private void addPanelCenter() throws IOException {
+	private void addPanelCenter()  {
 		pnCenter = new JPanel();
 		pnCenter.setBackground(new Color(255, 255, 255));
 		getContentPane().add(pnCenter, BorderLayout.CENTER);
@@ -149,7 +140,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		menuBar.add(menuTroGiup);
 	}
 
-	private void addPanelRoom() throws IOException {
+	private void addPanelRoom()  {
 
 		pnRoomScrollPane = new JPanel();
 		pnRoomScrollPane.setBackground(new Color(255, 255, 255));
@@ -506,6 +497,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 				} else {
 					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
 				}
+				setVisible(false);
 			}
 			if (o.equals(btnPrint)) {
 				Date time = dateChooser.getDate();
