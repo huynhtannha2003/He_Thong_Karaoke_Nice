@@ -2,6 +2,7 @@ package dao;
 
 import connectDB.ConnectDB;
 import entity.HoaDon;
+import entity.NhanVien;
 import entity.PhieuDatPhong;
 
 import java.sql.*;
@@ -107,6 +108,7 @@ public class HoaDonDAO {
             ResultSet resultSet = callableStatement.executeQuery();
             if (resultSet.next()) {
                 hoaDon = new HoaDon(resultSet);
+                hoaDon.setNhanVien(new NhanVien(resultSet));
                 List<PhieuDatPhong> phieuDatPhongList = phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(hoaDon.getMaHoaDon());
                 phieuDatPhongList.forEach(hoaDon.getPhieuDatPhongList()::add);
                 hoaDon.getPhieuDatPhongList().forEach(currentPhieuDatPhong ->

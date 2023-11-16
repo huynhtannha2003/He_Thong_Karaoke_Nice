@@ -2,6 +2,7 @@ package entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,7 @@ public class LoaiPhong {
 		this.maLoaiPhong = rs.getString("LoaiPhong_MaLoaiPhong");
 		this.tenLoaiPhong = rs.getString("LoaiPhong_TenLoaiPhong");
 		this.trangThai = TrangThaiLoaiPhong.values()[rs.getInt("LoaiPhong_TrangThai")];
+		lichSuGiaPhongList = new ArrayList<>();
 	}
 
 	public LoaiPhong(String maLoaiPhong, String tenLoaiPhong, TrangThaiLoaiPhong trangThai, List<LichSuGiaPhong> lichSuGiaPhongList) {

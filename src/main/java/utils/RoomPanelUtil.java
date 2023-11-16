@@ -2,6 +2,7 @@ package utils;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -52,19 +53,19 @@ public class RoomPanelUtil {
 			panels.add(phongPanel);
 			
 			phongPanel.addMouseListener(new MouseListener() {
-				
+
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public void mousePressed(MouseEvent e) {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					phongPanel.setBackground(new Color(255, 255, 255));
@@ -85,7 +86,7 @@ public class RoomPanelUtil {
 		return panels;
 	}
 	
-	public static List<JPanel> createDichVuPanels(List<DichVu> listDichVu) {
+	public static List<JPanel> createDichVuPanels(List<DichVu> listDichVu, DichVuPanelClickListener listener) {
         List<JPanel> panels = new ArrayList<>();
 
         for (DichVu dichVu : listDichVu) {
@@ -95,7 +96,7 @@ public class RoomPanelUtil {
 
             dichVuPanel.add(Box.createVerticalStrut(15));
 
-             JLabel imageLabel = new JLabel(ResizeImageUtil.getResizedImage("phongTrong", 110, 110));
+             JLabel imageLabel = new JLabel(ResizeImageUtil.getResizedImage(dichVu.getHinhAnh(), 110, 110));
              imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
              dichVuPanel.add(imageLabel);
 
@@ -117,6 +118,22 @@ public class RoomPanelUtil {
 
             dichVuPanel.add(Box.createVerticalStrut(15));
 
+			dichVuPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					listener.onDichVuPanelClicked(dichVu);
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					dichVuPanel.setBackground(new Color(200, 200, 200));
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					dichVuPanel.setBackground(new Color(255, 255, 255));
+				}
+			});
             panels.add(dichVuPanel);
         }
         return panels;

@@ -286,6 +286,9 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 
 		pnRooms.add(Box.createHorizontalStrut(20));
 
+		initData();
+
+		loadRooms(rooms);
 	}
 
 	private void loadRooms(List<Phong> newRooms) {

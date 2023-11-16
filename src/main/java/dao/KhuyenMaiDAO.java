@@ -14,15 +14,12 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.KhuyenMai;
-import entity.LoaiPhong;
 import entity.NhanVien;
-import enums.TrangThaiNhanVien;
-import view.GD_QuanLyNhanVien;
 
 public class KhuyenMaiDAO {
 	private ConnectDB connectDB;
 
-	public KhuyenMaiDAO() throws SQLException {
+	public KhuyenMaiDAO() {
 		this.connectDB = ConnectDB.getInstance();
 	}
 
@@ -88,11 +85,11 @@ public class KhuyenMaiDAO {
 		return true;
 	}
 
-	public List<KhuyenMai> TimKiem(String ma, java.sql.Date ngayBatDau, java.sql.Date ngayKetThuc) throws SQLException {
+	public List<KhuyenMai> TimKiem(String ma, Date ngayBatDau, Date ngayKetThuc) throws SQLException {
 		Connection con = connectDB.getConnection();
 		ArrayList<KhuyenMai> ds = new ArrayList<KhuyenMai>();
 		try {
-			String query = "SELECT * FROM KhuyenMaiView WHERE (KhuyenMai_MaKhuyenMai LIKE ?) AND (KhuyenMai_NgayBatDau = ? ) AND (KhuyenMai_NgayKetThuc = ?) AND ( KhuyenMai_NgayBatDau >= ? AND KhuyenMai_NgayKetThuc <= ?)";
+			String query = "SELECT * FROM KhuyenMaiView WHERE (KhuyenMai_MaKhuyenMai LIKE ? OR ? IS NULL) AND (KhuyenMai_NgayBatDau = ? OR ? IS NULL) AND (KhuyenMai_NgayKetThuc = ? OR ? IS NULL) AND ( (KhuyenMai_NgayBatDau >= ? AND KhuyenMai_NgayKetThuc <= ?) OR (? IS NULL AND ? IS NULL))";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, "%" + ma + "%");
 			pst.setDate(2, ngayBatDau);
@@ -130,4 +127,26 @@ public class KhuyenMaiDAO {
 		}
 		return km;
 	}
+
+	public KhuyenMai getKhuyenMaiByTen(String khuyenMaiName) {
+		Connection connection = connectDB.getConnection();
+		KhuyenMai khuyenMai = null;
+
+		try {
+			String query = "SELECT * FROM KhuyenMaiView WHERE KhuyenMai_TenKhuyenMai = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, khuyenMaiName);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				khuyenMai = new KhuyenMai(resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return khuyenMai;
+	}
+
 }

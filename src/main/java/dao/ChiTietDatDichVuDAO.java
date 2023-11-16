@@ -9,6 +9,7 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.ChiTietDatDichVu;
+import entity.DichVu;
 import entity.LichSuGiaDichVu;
 
 public class ChiTietDatDichVuDAO {
@@ -21,7 +22,7 @@ public class ChiTietDatDichVuDAO {
 	public List<ChiTietDatDichVu> getChiTietDatDichVuByPhieuDatPhong(String maPhieuDatPhong) {
 		List<ChiTietDatDichVu> chiTietDatDichVuList = new ArrayList<>();
 		Connection connection = connectDB.getConnection();
-		String query = "{CALL GetChiTietDatDichVuByPhieuDatPhong(?)}";
+		String query = "{CALL GetChiTietDatDichVuByPhieuDatPhongNew(?)}";
 
 		try (CallableStatement statement = connection.prepareCall(query)) {
 			statement.setString(1, maPhieuDatPhong);
@@ -38,6 +39,34 @@ public class ChiTietDatDichVuDAO {
 		}
 
 		return chiTietDatDichVuList;
+	}
+
+	public boolean insertChiTietDatDichVu(String maPhieuDatPhong, List<DichVu> selectedDichVuList) {
+		Connection connection = connectDB.getConnection();
+		String query = "INSERT INTO ChiTietDatDichVu VALUES (?, ?,?)";
+
+		try (CallableStatement statement = connection.prepareCall(query)) {
+			for (DichVu dichVu : selectedDichVuList) {
+				statement.setString(1, maPhieuDatPhong);
+				statement.setString(2, dichVu.getMaDichVu());
+				statement.setInt(3, dichVu.getSoLuong());
+
+				statement.addBatch();
+			}
+
+			int[] updateCounts = statement.executeBatch();
+
+			for (int updateCount : updateCounts) {
+				if (updateCount <= 0) {
+					return false;
+				}
+			}
+
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
