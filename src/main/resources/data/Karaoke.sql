@@ -70,7 +70,7 @@ CREATE TABLE DichVu
     soLuong      INT,
     maLoaiDichVu VARCHAR(6),
     trangThai    TINYINT,
-    hinhAnh      image,
+    hinhAnh      VARCHAR(255),
     FOREIGN KEY (maLoaiDichVu) REFERENCES LoaiDichVu (maLoaiDichVu)
 );
 GO
@@ -806,7 +806,7 @@ CREATE PROCEDURE InsertIntoDichVu @maDichVu VARCHAR(10),
                                   @soLuong INT,
                                   @maLoaiDichVu VARCHAR(6),
                                   @trangThai TINYINT,
-                                  @hinhAnh IMAGE
+                                  @hinhAnh VARCHAR(255)
 AS
 BEGIN
     INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai, hinhAnh)
@@ -879,16 +879,6 @@ AS
 BEGIN
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, thoiGianKetThuc, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @thoiGianKetThuc, @maHoaDon, @maPhong)
-END;
-GO
-
-CREATE PROCEDURE InsertIntoChiTietDatDichVu @maPhieuDatPhong VARCHAR(14),
-                                            @maDichVu VARCHAR(10),
-                                            @soLuong INT
-AS
-BEGIN
-    INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
-    VALUES (@maPhieuDatPhong, @maDichVu, @soLuong)
 END;
 GO
 
@@ -1021,6 +1011,19 @@ BEGIN
     FROM KhachHang
     ORDER BY maKhachHang
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
+END;
+GO
+
+CREATE TRIGGER UpdateDichVuQuantity
+ON ChiTietDatDichVu
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE DichVu
+    SET SoLuong = DV.SoLuong - i.SoLuong
+    FROM DichVu DV
+    INNER JOIN inserted i ON DV.MaDichVu = i.MaDichVu;
 END;
 GO
 

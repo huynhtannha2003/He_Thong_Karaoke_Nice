@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import enums.TrangThaiDichVu;
 
@@ -45,6 +46,19 @@ public class DichVu {
         this.hinhAnh = rs.getString("DichVu_HinhAnh");
         this.loaiDichVu = new LoaiDichVu(rs);
         this.lichSuGiaDichVuList = new ArrayList<LichSuGiaDichVu>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DichVu dichVu = (DichVu) o;
+        return Objects.equals(maDichVu, dichVu.maDichVu);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(maDichVu);
     }
 
     public String getMaDichVu() {
@@ -93,5 +107,13 @@ public class DichVu {
 
     public void setLichSuGiaDichVuList(List<LichSuGiaDichVu> lichSuGiaDichVuList) {
         this.lichSuGiaDichVuList = lichSuGiaDichVuList;
+    }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 }

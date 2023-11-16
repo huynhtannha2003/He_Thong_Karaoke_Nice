@@ -366,7 +366,8 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
-            GD_DatDichVu gdDatDichVu = new GD_DatDichVu();
+            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
+            GD_DatDichVu gdDatDichVu = new GD_DatDichVu(hoaDon);
             gdDatDichVu.setVisible(true);
         } else if (source.equals(btnThanhToan)) {
             HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
