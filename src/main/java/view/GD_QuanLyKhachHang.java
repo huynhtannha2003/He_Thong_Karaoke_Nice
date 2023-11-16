@@ -401,6 +401,7 @@ public class GD_QuanLyKhachHang extends JFrame implements ActionListener {
 	public void chucNangXoaTrangThongTin() {
 		txtTenKH.setText("");
 		txtSDT.setText("");
+		txtkMaKhachHang.setText("");
 	}
 
 	public void chucNangXoaTrangTacVu() {

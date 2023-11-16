@@ -423,11 +423,10 @@ public class GD_QuanLyKhuyenMai extends JFrame implements ActionListener {
 
 		cbTacVuTrangThai = new JComboBox();
 		lbTimKiemTrangThai.setLabelFor(cbTacVuTrangThai);
-		cbTacVuTrangThai.setModel(new DefaultComboBoxModel(new String[] { "Còn hiệu lực", "Hết hiệu lực" }));
+		cbTacVuTrangThai.setModel(new DefaultComboBoxModel(new String[] { "Hiệu lực", "Vô hiệu" }));
 		BoxTacVu.add(cbTacVuTrangThai);
 
-		Component horizontalStrut_9_1_1_1 = Box.createHorizontalStrut(60);
-		BoxTacVu.add(horizontalStrut_9_1_1_1);
+		BoxTacVu.add(Box.createHorizontalStrut(60));
 
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setPreferredSize(new Dimension(127, 30));
@@ -436,11 +435,9 @@ public class GD_QuanLyKhuyenMai extends JFrame implements ActionListener {
 		btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
 		BoxTacVu.add(btnTimKiem);
 
-		Component horizontalStrut_10_1_1_1 = Box.createHorizontalStrut(20);
-		BoxTacVu.add(horizontalStrut_10_1_1_1);
+		BoxTacVu.add(Box.createHorizontalStrut(20));
 
-		Component verticalStrut_4 = Box.createVerticalStrut(20);
-		BoxVerticalTacVu.add(verticalStrut_4);
+		BoxVerticalTacVu.add(Box.createVerticalStrut(20));
 
 		horizontalBox_2 = Box.createHorizontalBox();
 		BoxVerticalTacVu.add(horizontalBox_2);
@@ -451,6 +448,7 @@ public class GD_QuanLyKhuyenMai extends JFrame implements ActionListener {
 		horizontalBox_2.add(lbTimKiemNgayBatDau);
 
 		txtTimKiemNgayBatDau = new JDateChooser();
+		txtTimKiemNgayBatDau.setDateFormatString("yyyy-MM-dd");
 		lbTimKiemNgayBatDau.setLabelFor(txtTimKiemNgayBatDau);
 		horizontalBox_2.add(txtTimKiemNgayBatDau);
 
@@ -462,6 +460,7 @@ public class GD_QuanLyKhuyenMai extends JFrame implements ActionListener {
 		horizontalBox_2.add(lbTimKiemNgayKetThuc);
 
 		txtTimKiemNgayKetThuc = new JDateChooser();
+		txtTimKiemNgayKetThuc.setDateFormatString("yyyy-MM-dd");
 		lbTimKiemNgayKetThuc.setLabelFor(txtTimKiemNgayKetThuc);
 		horizontalBox_2.add(txtTimKiemNgayKetThuc);
 
@@ -597,11 +596,19 @@ public class GD_QuanLyKhuyenMai extends JFrame implements ActionListener {
 
 	private void chucNangTimKiem() throws SQLException {
 		java.util.Date ngayBatDau = txtTimKiemNgayBatDau.getDate();
-		java.sql.Date sqlNgayBatDau = new java.sql.Date(ngayBatDau.getTime());
+		java.sql.Date sqlNgayBatDau = (ngayBatDau != null) ? new java.sql.Date(ngayBatDau.getTime()) : null;
 		java.util.Date ngayKetThuc = txtTimKiemNgayKetThuc.getDate();
-		java.sql.Date sqlNgayKetThuc = new java.sql.Date(ngayBatDau.getTime());
+		java.sql.Date sqlNgayKetThuc = (ngayKetThuc != null) ? new java.sql.Date(ngayKetThuc.getTime()) : null;
+
 		list = daoKM.TimKiem(txtMaTimKiem.getText(), sqlNgayBatDau, sqlNgayKetThuc);
-		loadData();
+		int i = 1;
+		modelTable.setRowCount(0);
+		for (KhuyenMai km : list) {
+			String[] row = { i++ + "", km.getMaKhuyenMai(), km.getTenKhuyenMai(), String.valueOf(km.getPhanTram()),
+					String.valueOf(km.getGioiHan()), km.getNgayBatDau().toString(), km.getNgayKetThuc().toString(),
+					km.getThoiDiemBatDau().toString(), km.getThoiDiemKetThuc().toString() };
+			modelTable.addRow(row);
+		}
 	}
 
 	private void chucNangXoaTrangTacVu() {

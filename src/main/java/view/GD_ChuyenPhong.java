@@ -2,9 +2,11 @@ package view;
 
 import dao.LoaiPhongDAO;
 import dao.PhongDAO;
+import entity.LichSuGiaPhong;
 import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
+import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
@@ -32,6 +34,8 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 	private JButton btnApply;
 	private JPanel pnRoomScrollPane;
 	private Phong phong;
+	private Phong phongSelected;
+
 	public static void main(String[] args) {
 		try {
 			GD_ChuyenPhong dialog = new GD_ChuyenPhong(new Phong());
@@ -53,6 +57,8 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 		addPanelNorth();
 
 		addPanelCenter();
+
+		setRoomMoving();
 	}
 
 	private void addPanelCenter() {
@@ -280,15 +286,16 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 		initData();
 
 		loadRooms(rooms);
+
 	}
 
 	private void loadRooms(List<Phong> newRooms) {
 		pnRoomScrollPane.removeAll();
 		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(newRooms, this);
-	    roomPanels.forEach(pnRoomScrollPane::add);
+		roomPanels.forEach(pnRoomScrollPane::add);
 
-	    pnRoomScrollPane.revalidate();
-	    pnRoomScrollPane.repaint();
+		pnRoomScrollPane.revalidate();
+		pnRoomScrollPane.repaint();
 	}
 
 	private void addFormPanel() {
@@ -366,6 +373,7 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 		txtFollowRoomName.setText(phong.getTenPhong());
 		txtFollowRoomPrice.setText(phong.getTenPhong());
 		txtFollowRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
+		phongSelected = phong;
 	}
 
 	@Override
@@ -374,7 +382,26 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 		if (o.equals(btnFind)) {
 			rooms = phongDao.GetPhongByTenAndLoaiPhong(txtRoomName.getText(), (LoaiPhong) cbTypeRoom.getSelectedItem());
 			loadRooms(rooms);
+		} else if (o.equals(btnApply)) {
+			functionApply();
 		}
 	}
 
+	public void setRoomMoving() {
+		this.txtCurrentRoomName.setText(phong.getTenPhong());
+		this.txtCurrentRoomPrice.setText(phong.getLoaiPhong().getLichSuGiaPhongList().get(0).toString());
+		this.txtCurrentRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
+	}
+
+	private void getAllRoom() {
+		rooms = phongDao.getAllPhongTrong();
+		loadRooms(rooms);
+	}
+
+	public void functionApply() {
+		phong.setTrangThai(TrangThaiPhong.PHONG_TRONG);
+		phongSelected.setTrangThai(TrangThaiPhong.PHONG_DANG_SU_DUNG);
+		phong.setTrangThai(TrangThaiPhong.PHONG_TRONG);
+		getAllRoom();
+	}
 }

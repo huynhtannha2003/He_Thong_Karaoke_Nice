@@ -10,6 +10,7 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.KhachHang;
+import entity.KhuyenMai;
 import entity.NhanVien;
 import enums.TrangThaiNhanVien;
 
@@ -95,7 +96,7 @@ public class KhachHangDAO {
 		Connection con = connectDB.getConnection();
 		ArrayList<KhachHang> ds = new ArrayList<KhachHang>();
 		try {
-			String query = "SELECT * FROM KhachHangView WHERE KhachHang_MaKhachHang LIKE ? OR KhachHang_TenKhachHang LIKE ? ";
+			String query = "SELECT * FROM KhachHangView WHERE KhachHang_MaKhachHang LIKE ? AND KhachHang_TenKhachHang LIKE ? ";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, "%" + maKhachHang + "%");
 			pst.setString(2, "%" + tenKhachHang + "%");
@@ -109,4 +110,5 @@ public class KhachHangDAO {
 		}
 		return ds;
 	}
+
 }

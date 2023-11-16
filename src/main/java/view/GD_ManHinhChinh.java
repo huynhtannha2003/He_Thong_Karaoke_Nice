@@ -52,7 +52,6 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener{
 	}
 
 	public GD_ManHinhChinh() {
-		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
 		setLocationRelativeTo(null);
