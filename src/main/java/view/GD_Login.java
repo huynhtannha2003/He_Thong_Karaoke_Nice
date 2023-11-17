@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.TaiKhoanDAO;
+import entity.NhanVien;
+import entity.TaiKhoan;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -19,11 +24,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import utils.*;
 
-public class GD_Login extends JFrame {
+public class GD_Login extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtTenDangNhap;
 	private JPasswordField txtMatKhau;
+	private JButton btnDangNhap;
+
+	private TaiKhoanDAO dao;
+	private TaiKhoan taiKhoan;
 
 	/**
 	 * Launch the application.
@@ -45,6 +54,7 @@ public class GD_Login extends JFrame {
 	 * Create the frame.
 	 */
 	public GD_Login() {
+		dao = new TaiKhoanDAO();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(700, 700);
@@ -61,14 +71,11 @@ public class GD_Login extends JFrame {
 		MainPane.setLayout(null);
 		contentPane.add(MainPane);
 
-		JButton btnDangNhap = new JButton("Đăng nhập");
+		btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.setForeground(new Color(255, 255, 255));
 		btnDangNhap.setBackground(new Color(31, 141, 242));
 		btnDangNhap.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnDangNhap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnDangNhap.addActionListener(this);
 
 		JLabel lbShowPassword = new JLabel("");
 		lbShowPassword.setIcon(new ImageIcon(GD_Login.class.getResource("/image/icon/hide_icon.png")));
@@ -119,4 +126,16 @@ public class GD_Login extends JFrame {
 		lbBackGroundKaraoke.setPreferredSize(new Dimension(684, 661));
 		MainPane.add(lbBackGroundKaraoke);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnDangNhap)) {
+			String pwd = new String(txtMatKhau.getPassword());
+			taiKhoan = dao.getTaiKhoan(txtTenDangNhap.getText(), pwd);
+			new GD_ManHinhChinh(taiKhoan.getNhanVien());
+//			System.out.println(taiKhoan);
+		}
+	}
+
 }

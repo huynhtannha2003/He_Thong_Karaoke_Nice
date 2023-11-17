@@ -143,7 +143,8 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 		listMonth = new ArrayList<>();
 		listScore = new ArrayList<>();
 		Connection connection = connectDB.getConnection();
-		String query = "SELECT * FROM DuLieuThongKeTheoThangView";
+		String query = "SELECT MONTH(NgayThanhToan) AS Thang, SUM(tongTien) AS TongTien \r\n"
+				+ "FROM HoaDon GROUP BY MONTH(HoaDon.NgayThanhToan)";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {

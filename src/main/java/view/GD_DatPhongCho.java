@@ -506,12 +506,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 //				}
 //			}
 
-		}
+			}
 
-		if (o.equals(btnPrint))
-			
-		{
-
+//		if (o.equals(btnPrint))
 		}
 	}
 }
