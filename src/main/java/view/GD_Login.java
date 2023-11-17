@@ -133,8 +133,9 @@ public class GD_Login extends JFrame implements ActionListener {
 		if (o.equals(btnDangNhap)) {
 			String pwd = new String(txtMatKhau.getPassword());
 			taiKhoan = dao.getTaiKhoan(txtTenDangNhap.getText(), pwd);
-			new GD_ManHinhChinh(taiKhoan.getNhanVien());
-//			System.out.println(taiKhoan);
+			new GD_ManHinhChinh(taiKhoan.getNhanVien()).setVisible(true);
+			System.out.println(taiKhoan.getNhanVien());
+			this.setVisible(false);
 		}
 	}
 

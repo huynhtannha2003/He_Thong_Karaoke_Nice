@@ -42,6 +42,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         loaiPhongDAO = new LoaiPhongDAO();
         hoaDonDAO = new HoaDonDAO();
         initGUI();
+        System.out.println(nhanVien);
     }
 
     private void setupFrame() {

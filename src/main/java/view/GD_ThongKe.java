@@ -43,7 +43,7 @@ import com.toedter.calendar.JDateChooser;
 import connectDB.ConnectDB;
 import entity.NhanVien;
 
-public class GD_ThongKe extends JFrame implements ActionListener {
+public class GD_ThongKe extends JPanel implements ActionListener {
 	private JPanel pnNorth, pnCenter, pnSouth, pnInfo, pnChart;
 	private JLabel lblTitle, lblNgayBD, lblNgayKT, lblLoaiTK;
 	private JDateChooser ngayBatDau, ngayKetThuc;
@@ -66,17 +66,18 @@ public class GD_ThongKe extends JFrame implements ActionListener {
 	}
 
 	private void createGUI() {
-		setTitle("Thống kê");
+//		setTitle("Thống kê");
 		setSize(1000, 700);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(this);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setLocationRelativeTo(this);
+		setLayout(new BorderLayout());
 
-		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
+		add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Thống kê"));
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 
-		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
+		add(pnCenter = new JPanel(), BorderLayout.CENTER);
 
 		pnCenter.add(pnInfo = new JPanel());
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));

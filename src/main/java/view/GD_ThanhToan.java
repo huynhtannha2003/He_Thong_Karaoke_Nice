@@ -44,6 +44,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
     private DefaultTableModel modelDetail;
     private JTable tableDetail;
     private PhieuDatPhongDAO phieuDatPhongDao;
+    private NhanVien nhanVien2;
 
     public GD_ThanhToan(HoaDon currentHoaDon) {
         hoaDon = currentHoaDon;
