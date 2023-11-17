@@ -1,5 +1,7 @@
 package view;
 
+import entity.NhanVien;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -15,132 +17,129 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class GD_ManHinhChinh extends JFrame implements ActionListener{
+public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
-	private JMenuBar menuBar;
-	private JMenu menuHeThong;
-	private JMenu menuDanhMuc;
-	private JMenuItem menuItemPhong;
-	private JMenuItem menuItemNhanVien;
-	private JMenuItem menuItemDichVu;
-	private JMenuItem menuItemKhachHang;
-	private JMenuItem menuItemKhuyenMai;
-	private JMenu menuXuLy;
-	private JMenuItem menuItemDatPhong;
-	private JMenu menuThongKe;
-	private JMenuItem menuItemTKDoanhThu;
-	private JPanel contentPane;
-	private JMenuItem menuItemThoat;
-	private JMenuItem menuItemDangXuat;
-	private JMenuItem menuItemTaiKhoan;
-	private JMenuItem menuItemTrangChu;
-	private JLabel lbBackGroundKaraoke;
-	private JMenuItem menuItemTroGiup;
-	private JMenuItem menuItemHoaDon;
+    private JMenuBar menuBar;
+    private JMenu menuHeThong;
+    private JMenu menuDanhMuc;
+    private JMenuItem menuItemPhong;
+    private JMenuItem menuItemNhanVien;
+    private JMenuItem menuItemDichVu;
+    private JMenuItem menuItemKhachHang;
+    private JMenuItem menuItemKhuyenMai;
+    private JMenu menuXuLy;
+    private JMenuItem menuItemDatPhong;
+    private JMenu menuThongKe;
+    private JMenuItem menuItemTKDoanhThu;
+    private JPanel contentPane;
+    private JMenuItem menuItemThoat;
+    private JMenuItem menuItemDangXuat;
+    private JMenuItem menuItemTaiKhoan;
+    private JMenuItem menuItemTrangChu;
+    private JLabel lbBackGroundKaraoke;
+    private JMenuItem menuItemTroGiup;
+    private JMenuItem menuItemHoaDon;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GD_ManHinhChinh frame = new GD_ManHinhChinh();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GD_ManHinhChinh frame = new GD_ManHinhChinh();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	public GD_ManHinhChinh() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 700);
-		setLocationRelativeTo(null);
-		
-		menuBar = new JMenuBar();
-		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
-		setJMenuBar(menuBar);
+    public GD_ManHinhChinh() {
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
 
-		menuHeThong = new JMenu("Hệ thống");
-		menuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(menuHeThong);
+        menuBar = new JMenuBar();
+        menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
+        setJMenuBar(menuBar);
 
-		menuItemTrangChu = new JMenuItem("Trang chủ");
-		menuItemTrangChu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemTrangChu);
+        menuHeThong = new JMenu("Hệ thống");
+        menuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuBar.add(menuHeThong);
 
-		menuItemTaiKhoan = new JMenuItem("Tài khoản ");
-		menuItemTaiKhoan.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemTaiKhoan);
+        menuItemTrangChu = new JMenuItem("Trang chủ");
+        menuItemTrangChu.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuHeThong.add(menuItemTrangChu);
 
-		menuItemTroGiup = new JMenuItem("Trợ giúp");
-		menuItemTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemTroGiup);
+        menuItemTaiKhoan = new JMenuItem("Tài khoản ");
+        menuItemTaiKhoan.setFont(new Font("Tahoma", Font.BOLD, 14));
+//        menuHeThong.add(menuItemTaiKhoan);
 
-		menuItemDangXuat = new JMenuItem("Đăng xuất");
-		menuItemDangXuat.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemDangXuat);
+        menuItemTroGiup = new JMenuItem("Trợ giúp");
+        menuItemTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
+//        menuHeThong.add(menuItemTroGiup);
 
-		menuItemThoat = new JMenuItem("Thoát");
-		menuItemThoat.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemThoat);
+        menuItemDangXuat = new JMenuItem("Đăng xuất");
+        menuItemDangXuat.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuHeThong.add(menuItemDangXuat);
 
-		menuDanhMuc = new JMenu("Danh mục");
-		menuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(menuDanhMuc);
+        menuItemThoat = new JMenuItem("Thoát");
+        menuItemThoat.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuHeThong.add(menuItemThoat);
 
-		menuItemPhong = new JMenuItem("Phòng");
-		menuItemPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuDanhMuc.add(menuItemPhong);
+        menuDanhMuc = new JMenu("Danh mục");
+        menuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuBar.add(menuDanhMuc);
 
-		menuItemNhanVien = new JMenuItem("Nhân viên");
-		menuItemNhanVien.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuDanhMuc.add(menuItemNhanVien);
+        menuItemPhong = new JMenuItem("Phòng");
+        menuItemPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuDanhMuc.add(menuItemPhong);
 
-		menuItemDichVu = new JMenuItem("Dịch vụ");
-		menuItemDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuDanhMuc.add(menuItemDichVu);
+        menuItemNhanVien = new JMenuItem("Nhân viên");
+        menuItemNhanVien.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuDanhMuc.add(menuItemNhanVien);
 
-		menuItemKhachHang = new JMenuItem("Khách hàng");
-		menuItemKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuDanhMuc.add(menuItemKhachHang);
+        menuItemDichVu = new JMenuItem("Dịch vụ");
+        menuItemDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuDanhMuc.add(menuItemDichVu);
 
-		menuItemKhuyenMai = new JMenuItem("Khuyến mãi");
-		menuItemKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuDanhMuc.add(menuItemKhuyenMai);
+        menuItemKhachHang = new JMenuItem("Khách hàng");
+        menuItemKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuDanhMuc.add(menuItemKhachHang);
 
-		menuItemHoaDon = new JMenuItem("Hóa đơn");
-		menuItemHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuDanhMuc.add(menuItemHoaDon);
+        menuItemKhuyenMai = new JMenuItem("Khuyến mãi");
+        menuItemKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuDanhMuc.add(menuItemKhuyenMai);
 
-		menuXuLy = new JMenu("Xử lý");
-		menuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(menuXuLy);
+        menuItemHoaDon = new JMenuItem("Hóa đơn");
+        menuItemHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuDanhMuc.add(menuItemHoaDon);
 
-		menuItemDatPhong = new JMenuItem("Đặt phòng");
-		menuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuXuLy.add(menuItemDatPhong);
+        menuXuLy = new JMenu("Xử lý");
+        menuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuBar.add(menuXuLy);
 
-		menuThongKe = new JMenu("Thống kê");
-		menuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(menuThongKe);
+        menuItemDatPhong = new JMenuItem("Đặt phòng");
+        menuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuXuLy.add(menuItemDatPhong);
 
-		menuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
-		menuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuThongKe.add(menuItemTKDoanhThu);
+        menuThongKe = new JMenu("Thống kê");
+        menuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuBar.add(menuThongKe);
 
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        menuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
+        menuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuThongKe.add(menuItemTKDoanhThu);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		lbBackGroundKaraoke = new JLabel("");
-		lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
-		lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
-		contentPane.add(lbBackGroundKaraoke);
-		
-		menuItemTrangChu.addActionListener(this);
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        init();
+        
+        menuItemTrangChu.addActionListener(this);
         menuItemTaiKhoan.addActionListener(this);
         menuItemTroGiup.addActionListener(this);
         menuItemDangXuat.addActionListener(this);
@@ -153,30 +152,54 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener{
         menuItemDatPhong.addActionListener(this);
         menuItemTKDoanhThu.addActionListener(this);
         menuItemHoaDon.addActionListener(this);
+    }
+
+    private void init() {
+    	lbBackGroundKaraoke = new JLabel("");
+        lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
+        lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
+        contentPane.add(lbBackGroundKaraoke);		
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        JPanel simplePanel = null;
         if (source == menuItemTrangChu) {
-
+            setContentPane(contentPane);
+            return;
         } else if (source == menuItemTaiKhoan) {
             JOptionPane.showMessageDialog(null, "Tài Khoản Clicked");
         } else if (source == menuItemTroGiup) {
             JOptionPane.showMessageDialog(null, "Trợ Giúp Clicked");
         } else if (source == menuItemDangXuat) {
-            JOptionPane.showMessageDialog(null, "Đăng Xuất Clicked");
+            GD_Login gdLogin = new GD_Login();
+            gdLogin.setVisible(true);
+            setVisible(false);
+            return;
         } else if (source == menuItemThoat) {
-            JOptionPane.showMessageDialog(null, "Thoát Clicked");
+            setVisible(false);
         } else if (source == menuItemPhong) {
-            JOptionPane.showMessageDialog(null, "Phòng Clicked");
+            simplePanel = new GD_QuanLyPhong();
         } else if (source == menuItemNhanVien) {
-            JOptionPane.showMessageDialog(null, "Nhân Viên Clicked");
-        } else if(source == menuItemHoaDon) {
-//        	JPanel simplePanel = new GD_QuanLyHoaDon();
-//          setContentPane(simplePanel);
-//          validate();
-//          repaint();
+            simplePanel = new GD_QuanLyNhanVien();
+        } else if (source == menuItemHoaDon) {
+            simplePanel = new GD_QuanLyHoaDon();
+        } else if (source == menuItemKhachHang) {
+            simplePanel = new GD_QuanLyKhachHang();
+        } else if (source == menuItemKhuyenMai) {
+            simplePanel = new GD_QuanLyKhuyenMai();
+        } else if (source == menuItemDichVu) {
+            simplePanel = new GD_QuanLyDichVu();
+        }else if(source == menuThongKe){
+
+        }else if(source == menuItemDatPhong){
+            simplePanel = new GD_QuanLyDatPhong(
+                    new NhanVien("NV230001", "", "", "", "", "", null)
+            );
         }
-	}
+        setContentPane(simplePanel);
+        validate();
+        repaint();
+    }
 }

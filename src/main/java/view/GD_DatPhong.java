@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -217,7 +218,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             String currentTimeString = currentTime.format(formatter);
 
-            boolean bookingResult = phieuDatPhongDAO.bookKaraokeRoom(currentKhachHang.getMaKhachHang(), nhanVien.getMaNhanVien(), phong.getMaPhong(), currentTimeString, new Date(System.currentTimeMillis()));
+            boolean bookingResult = phieuDatPhongDAO.bookKaraokeRoom(currentKhachHang.getMaKhachHang(), nhanVien.getMaNhanVien(), phong.getMaPhong(), Time.valueOf(currentTimeString), new Date(System.currentTimeMillis()));
 
             if (bookingResult) {
                 JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

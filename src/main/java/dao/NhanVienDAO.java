@@ -17,7 +17,7 @@ import view.GD_QuanLyNhanVien;
 public class NhanVienDAO {
 	private ConnectDB connectDB;
 
-	public NhanVienDAO() throws SQLException {
+	public NhanVienDAO() {
 		this.connectDB = ConnectDB.getInstance();
 	}
 

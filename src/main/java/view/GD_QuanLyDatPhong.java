@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener, ActionListener {
+public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener, ActionListener {
 
     private final LoaiPhongDAO loaiPhongDAO;
     private final HoaDonDAO hoaDonDAO;
@@ -35,21 +35,8 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
     private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear;
     private final PhongDAO phongDAO;
     private NhanVien nhanVien;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GD_QuanLyDatPhong frame = new GD_QuanLyDatPhong(new NhanVien("NV230001", "", "", "", "", "", null));
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public GD_QuanLyDatPhong(NhanVien currentNhanVien) throws IOException {
+    
+    public GD_QuanLyDatPhong(NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
         phongDAO = new PhongDAO();
         loaiPhongDAO = new LoaiPhongDAO();
@@ -58,16 +45,11 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
     }
 
     private void setupFrame() {
-        getContentPane().setBackground(Color.WHITE);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 700);
-        setLocationRelativeTo(null);
     }
 
-    private void initGUI() throws IOException {
+    private void initGUI()  {
         setupFrame();
-
-        addMenuBar();
 
         addPanelNorth();
 
@@ -76,10 +58,10 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         addPanelCenter();
     }
 
-    private void addPanelCenter() throws IOException {
+    private void addPanelCenter()  {
         pnCenter = new JPanel();
         pnCenter.setBackground(new Color(255, 255, 255));
-        getContentPane().add(pnCenter, BorderLayout.CENTER);
+        add(pnCenter);
         pnCenter.setLayout(new BorderLayout(0, 0));
 
         addForm();
@@ -114,7 +96,7 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         }
     }
 
-    private void addPanelRoom() throws IOException {
+    private void addPanelRoom()  {
         pnListRoom = new JPanel();
         pnListRoom.setBackground(new Color(255, 255, 255));
         JScrollPane scrollPane = new JScrollPane(pnListRoom);
@@ -239,39 +221,20 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
     }
 
     private void addPanelNorth() {
+        setLayout(new BorderLayout(0, 0));
         JPanel pnNorth = new JPanel();
         pnNorth.setBackground(new Color(97, 250, 204));
-        getContentPane().add(pnNorth, BorderLayout.NORTH);
+        add(pnNorth, BorderLayout.NORTH);
 
         JLabel lblTitle = new JLabel("Quản lý đặt phòng");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
         pnNorth.add(lblTitle);
     }
 
-    public void addMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        JMenu menuHeThong = new JMenu("Hệ thống");
-        menuBar.add(menuHeThong);
-
-        JMenu menuDanhMuc = new JMenu("Danh mục");
-        menuBar.add(menuDanhMuc);
-
-        JMenu menuXuLy = new JMenu("Xử lý");
-        menuBar.add(menuXuLy);
-
-        JMenu menuThongKe = new JMenu("Thống kê");
-        menuBar.add(menuThongKe);
-
-        JMenu menuTroGiup = new JMenu("Trợ giúp");
-        menuBar.add(menuTroGiup);
-    }
-
     private void addLeftPanelButton() {
         JPanel pnLeft = new JPanel();
         pnLeft.setBackground(new Color(255, 255, 255));
-        getContentPane().add(pnLeft, BorderLayout.WEST);
+        add(pnLeft, BorderLayout.WEST);
 
         JPanel pnLeftButton = new JPanel();
         pnLeftButton.setBackground(new Color(255, 255, 255));
@@ -300,7 +263,7 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         btnNhanPhongCho = new JButton("Nhận Phòng Chợ");
         btnNhanPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnNhanPhongCho.setBackground(new Color(107, 208, 107));
-        pnLeftButton.add(btnNhanPhongCho);
+//        pnLeftButton.add(btnNhanPhongCho);
 
         btnXemChiTiet = new JButton("Xem Chi Tiết");
         btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -362,7 +325,9 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         } else if (source.equals(btnChuyenPhong)) {
             openChuyenPhongWindow();
         } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
-        } else if (source.equals(btnDatPhongCho)) {// Handle DatPhongCho action
+        } else if (source.equals(btnDatPhongCho)) {
+            GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
+            gdDatPhongCho.setVisible(true);
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
@@ -397,13 +362,15 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
 
     private void openChuyenPhongWindow() {
         if (phongSelected != null) {
-            GD_ChuyenPhong gdChuyenPhong = new GD_ChuyenPhong(phongSelected);
+            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
+            GD_ChuyenPhong gdChuyenPhong = new GD_ChuyenPhong(hoaDon, phongSelected);
             gdChuyenPhong.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    // Handle ChuyenPhong window closed event
+                    getAllRoom();
                 }
             });
+            gdChuyenPhong.setVisible(true);
         }
     }
 
