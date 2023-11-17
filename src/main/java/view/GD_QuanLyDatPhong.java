@@ -327,7 +327,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openChuyenPhongWindow();
         } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
         } else if (source.equals(btnDatPhongCho)) {
-            GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
+            GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(phongSelected,nhanVien);
             gdDatPhongCho.setVisible(true);
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action

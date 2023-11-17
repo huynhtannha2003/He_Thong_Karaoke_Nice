@@ -1172,3 +1172,46 @@ BEGIN
     SET trangThai = 0
     WHERE maPhong IN (SELECT maPhong FROM PhieuDatPhong WHERE MaPhieuDatPhong = @phieuDatPhongID);
 END;
+GO
+
+CREATE PROCEDURE [dbo].[BookRoomBefore](
+    @maKhachHang VARCHAR(13),
+    @maNhanVien VARCHAR(8),
+    @maPhong VARCHAR(7),
+    @thoiGianBatDau TIME,
+    @ngayThanhToan DATE
+)
+AS
+BEGIN
+    DECLARE @maHoaDon VARCHAR(13);
+    DECLARE @maPhieuDatPhong VARCHAR(15);
+
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+
+    DECLARE @soThuTuHoaDon INT;
+    SELECT @soThuTuHoaDon = ISNULL(MAX(CAST(SUBSTRING(maHoaDon, 11, 3) AS INT)), 0) + 1
+    FROM HoaDon
+    WHERE SUBSTRING(maHoaDon, 4, 6) = @ngayTao + @thangTao + @namTao;
+
+    SET @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
+
+    INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien, NgayThanhToan)
+    VALUES (@maHoaDon, @maKhachHang, @maNhanVien, @ngayThanhToan);
+
+    DECLARE @soThuTuPhieuDatPhong INT;
+    SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
+    FROM PhieuDatPhong
+    WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
+    
+    SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
+                           RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
+
+    INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
+    VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
+
+    UPDATE Phong
+    SET trangThai = 2
+    WHERE maPhong = @maPhong;
+END;

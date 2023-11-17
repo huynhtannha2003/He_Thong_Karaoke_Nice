@@ -57,10 +57,10 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
 	public GD_ManHinhChinh(NhanVien nhanVienLogin) {
 		this.nhanVienLogin = nhanVienLogin;
-		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
 		setLocationRelativeTo(null);
+		setResizable(false);
 
 		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));

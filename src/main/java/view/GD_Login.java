@@ -34,9 +34,6 @@ public class GD_Login extends JFrame implements ActionListener {
 	private TaiKhoanDAO dao;
 	private TaiKhoan taiKhoan;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,9 +47,6 @@ public class GD_Login extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public GD_Login() {
 		dao = new TaiKhoanDAO();
 		setResizable(false);
@@ -82,7 +76,7 @@ public class GD_Login extends JFrame implements ActionListener {
 		lbShowPassword.setBounds(235, 397, 29, 19);
 		MainPane.add(lbShowPassword);
 
-		txtMatKhau = new JPasswordField();
+		txtMatKhau = new JPasswordField("Tien123456@");
 		txtMatKhau.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtMatKhau.setBounds(69, 384, 200, 40);
 		MainPane.add(txtMatKhau);
@@ -100,7 +94,7 @@ public class GD_Login extends JFrame implements ActionListener {
 		lbMatKhau.setBounds(69, 364, 61, 14);
 		MainPane.add(lbMatKhau);
 
-		txtTenDangNhap = new JTextField();
+		txtTenDangNhap = new JTextField("trantrungtien");
 		txtTenDangNhap.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtTenDangNhap.setBounds(69, 313, 200, 40);
 		MainPane.add(txtTenDangNhap);

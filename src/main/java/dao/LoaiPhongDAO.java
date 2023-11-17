@@ -34,4 +34,22 @@ public class LoaiPhongDAO {
 
 		return loaiPhongList;
 	}
+
+	public LoaiPhong getLoaiPhongByTen(String tenLoaiPhong) {
+		LoaiPhong loaiPhong = null;
+		Connection connection = connectDB.getConnection();
+		String query = "SELECT * FROM LoaiPhongView WHERE LoaiPhong_TenLoaiPhong = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+			preparedStatement.setString(1, tenLoaiPhong);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				loaiPhong = new LoaiPhong(resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return loaiPhong;
+	}
 }

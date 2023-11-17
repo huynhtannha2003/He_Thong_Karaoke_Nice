@@ -248,20 +248,20 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
         pnSouthRight.add(pnSouthButton);
         pnSouthButton.setLayout(new BoxLayout(pnSouthButton, BoxLayout.X_AXIS));
         pnSouthButton.add(Box.createHorizontalStrut(100));
-        pnSouthButton.add(btnPrint = new JButton("In hóa đơn"));
-        btnPrint.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        pnSouthButton.add(btnPrint = new JButton("In hóa đơn"));
+//        btnPrint.setFont(new Font("Tahoma", Font.PLAIN, 14));
         pnSouthButton.add(Box.createHorizontalStrut(10));
         pnSouthButton.add(btnPayment = new JButton("Thanh toán"));
         btnPayment.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-        btnPrint.setBackground(new Color(107, 208, 107));
+//        btnPrint.setBackground(new Color(107, 208, 107));
         btnPayment.setBackground(new Color(107, 208, 107));
 
-        btnPrint.setPreferredSize(new Dimension(100, 20));
+//        btnPrint.setPreferredSize(new Dimension(100, 20));
 
 //        btnAdd.addActionListener(this);
         btnPayment.addActionListener(this);
-        btnPrint.addActionListener(this);
+//        btnPrint.addActionListener(this);
     }
 
     private void updateTotalPrice() {

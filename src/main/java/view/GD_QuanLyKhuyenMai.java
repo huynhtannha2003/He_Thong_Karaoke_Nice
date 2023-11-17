@@ -24,36 +24,20 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Timer;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
-
-import connectDB.ConnectDB;
-import dao.KhuyenMaiDAO;
-import entity.KhuyenMai;
-
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import utils.*;
 
-public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
+public class GD_QuanLyKhuyenMai extends JFrame {
 
+	private JPanel contentPane;
 	private JTextField txtMaKhuyenMai;
 	private JTextField txtTenKhuyenMai;
 	private JTable table;
 	private JTextField txtMaTimKiem;
+	private JLabel lbPhanTram;
 	private JMenuBar menuBar;
 	private JMenu MenuHeThong;
 	private JMenu MenuDanhMuc;
@@ -67,36 +51,59 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private JMenu MenuThongKe;
 	private JMenuItem MenuItemTKDoanhThu;
 	private JMenu MenuTroGiup;
+	private JLabel lbMaKhuyenMai;
+	private JTextField txtMaKhachHang;
+	private JLabel lbTenKhuyenMai;
+	private JLabel lbTimKiemMaKM;
+	private JLabel lbTimKiemTrangThai;
 	private JButton btnTimKiem;
 	private JScrollPane scrollPane;
 	private DefaultTableModel modelTable;
 	private Box horizontalBox;
 	private Box horizontalBox_1;
+	private Component verticalStrut_6;
+	private JLabel lbNgayBatDau;
 	private JDateChooser txtNgayBatDau;
+	private JLabel lbTrangThai;
+	private JComboBox cbTrangThai;
+	private JLabel lbNgayKetThuc;
+	private JDateChooser txtNgayKetThuc;
+	private JLabel lbGioiHan;
 	private JTextField txtGioiHan;
 	private Box BoxThongTin3;
 	private JButton btnThem;
+	private Component horizontalStrut;
 	private JButton btnCapNhat;
+	private Component horizontalStrut_1;
 	private JButton btnXoaTrangThongTin;
 	private JComboBox cbPhanTram;
+	private Component horizontalStrut_2;
+	private Component horizontalStrut_6;
 	private Box horizontalBox_2;
+	private JLabel lbTimKiemNgayBatDau;
 	private JDateChooser txtTimKiemNgayBatDau;
+	private JLabel lbTimKiemNgayKetThuc;
 	private JDateChooser txtTimKiemNgayKetThuc;
 	private JComboBox cbTacVuTrangThai;
 	private JButton btnXoaTrangTacVu;
+	private Component horizontalStrut_7;
+	private Component horizontalStrut_8;
+	private Component horizontalStrut_9;
+	private Component horizontalStrut_10;
+	private Component horizontalStrut_11;
+	private Component horizontalStrut_12;
+	private Component verticalStrut_5;
+	private Component verticalStrut_7;
+	private Component verticalStrut_8;
+	private Component horizontalStrut_13;
 	private JMenuItem MenuItemTrangChu;
 	private JMenuItem MenuItemTaiKhoan;
 	private JMenuItem MenuItemDangXuat;
 	private JMenuItem MenuItemThoat;
-	private List<KhuyenMai> list = new ArrayList<KhuyenMai>();
-	private KhuyenMaiDAO daoKM;
-	private JLabel lbNgayKetThuc;
-	private JDateChooser txtNgayKetThuc;
-	private JLabel lbThoiDiemBatDau;
-	private JComboBox cbThoiDiemBatDau;
-	private JLabel lblNewLabel;
-	private JComboBox cbThoiDiemKetThuc;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -110,29 +117,96 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		});
 	}
 
-	public GD_QuanLyKhuyenMai()  {
-		setSize(1000, 700);
-		daoKM = new KhuyenMaiDAO();
-		setLayout(new BorderLayout(0, 0));
+	/**
+	 * Create the frame.
+	 */
+	public GD_QuanLyKhuyenMai() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(1002, 699);
+		setLocationRelativeTo(null);
+		menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		setJMenuBar(menuBar);
 
+		MenuHeThong = new JMenu("Hệ thống");
+		MenuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuHeThong);
 
+		MenuItemTrangChu = new JMenuItem("Trang chủ");
+		MenuHeThong.add(MenuItemTrangChu);
+
+		MenuItemTaiKhoan = new JMenuItem("Tài khoản ");
+		MenuHeThong.add(MenuItemTaiKhoan);
+
+		JMenuItem MenuItemTroGiup = new JMenuItem("Trợ giúp");
+		MenuHeThong.add(MenuItemTroGiup);
+
+		MenuItemDangXuat = new JMenuItem("Đăng xuất");
+		MenuHeThong.add(MenuItemDangXuat);
+
+		MenuItemThoat = new JMenuItem("Thoát");
+		MenuHeThong.add(MenuItemThoat);
+
+		MenuDanhMuc = new JMenu("Danh mục");
+		MenuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuDanhMuc);
+
+		MenuItemPhong = new JMenuItem("Phòng");
+		MenuDanhMuc.add(MenuItemPhong);
+
+		MenuItemNhanVien = new JMenuItem("Nhân viên");
+		MenuDanhMuc.add(MenuItemNhanVien);
+
+		MenuItemDichVu = new JMenuItem("Dịch vụ");
+		MenuDanhMuc.add(MenuItemDichVu);
+
+		MenuItemKhachHang = new JMenuItem("Khách hàng");
+		MenuDanhMuc.add(MenuItemKhachHang);
+
+		MenuItemKhuyenMai = new JMenuItem("Khuyến mãi");
+		MenuDanhMuc.add(MenuItemKhuyenMai);
+
+		MenuXuLy = new JMenu("Xử lý");
+		MenuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuXuLy);
+
+		MenuItemDatPhong = new JMenuItem("Đặt phòng");
+		MenuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		MenuXuLy.add(MenuItemDatPhong);
+
+		MenuThongKe = new JMenu("Thống kê");
+		MenuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuThongKe);
+
+		MenuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
+		MenuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		MenuThongKe.add(MenuItemTKDoanhThu);
+
+		MenuTroGiup = new JMenu("Trợ giúp");
+		MenuTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuTroGiup);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 5));
 
 		JPanel TitlePanel = new JPanel();
 		TitlePanel.setBackground(new Color(97, 250, 254));
-		add(TitlePanel);
+		contentPane.add(TitlePanel, BorderLayout.NORTH);
 
 		JLabel lbTitle = new JLabel("Quản lý khuyến mãi");
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		TitlePanel.add(lbTitle);
 
-		JPanel pnCenter = new JPanel();
-		add(pnCenter);
-		pnCenter.setLayout(new BorderLayout(0, 10));
+		JPanel ContentPanel = new JPanel();
+		contentPane.add(ContentPanel);
+		ContentPanel.setLayout(new BorderLayout(0, 10));
 
 		JPanel PaneThongTin = new JPanel();
 		PaneThongTin.setBorder(
 				new TitledBorder(null, "Nhập thông tin", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnCenter.add(PaneThongTin, BorderLayout.NORTH);
+		ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
 		PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
 
 		Box BoxVerticalThongTin = Box.createVerticalBox();
@@ -144,12 +218,13 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		Box BoxThongTin1 = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(BoxThongTin1);
 
-		JLabel lbPhanTram = new JLabel("Phần trăm :");
+		lbPhanTram = new JLabel("Phần trăm :");
 		lbPhanTram.setPreferredSize(new Dimension(120, 30));
 
-		BoxThongTin1.add(Box.createHorizontalStrut(20));
+		horizontalStrut_9 = Box.createHorizontalStrut(20);
+		BoxThongTin1.add(horizontalStrut_9);
 
-		JLabel lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
+		lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
 		lbMaKhuyenMai.setPreferredSize(new Dimension(120, 30));
 		lbMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbMaKhuyenMai.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -157,20 +232,18 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		BoxThongTin1.add(lbMaKhuyenMai);
 
 		txtMaKhuyenMai = new JTextField();
-		txtMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbMaKhuyenMai.setLabelFor(txtMaKhuyenMai);
 		BoxThongTin1.add(txtMaKhuyenMai);
 
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
 		BoxThongTin1.add(horizontalStrut_5);
 
-		JLabel lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
+		lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
 		lbTenKhuyenMai.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		BoxThongTin1.add(lbTenKhuyenMai);
 
 		txtTenKhuyenMai = new JTextField();
-		txtTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbTenKhuyenMai.setLabelFor(txtTenKhuyenMai);
 		BoxThongTin1.add(txtTenKhuyenMai);
 
@@ -180,29 +253,27 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		Box BoxThongTin2 = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(BoxThongTin2);
 
-		BoxThongTin2.add(Box.createHorizontalStrut(20));
+		horizontalStrut_10 = Box.createHorizontalStrut(20);
+		BoxThongTin2.add(horizontalStrut_10);
 
 		lbPhanTram.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbPhanTram.setHorizontalAlignment(SwingConstants.LEFT);
 		BoxThongTin2.add(lbPhanTram);
 
-		cbPhanTram = new JComboBox<Float>();
-		cbPhanTram.setModel(new DefaultComboBoxModel(
-				new String[] { "5.0", "10.0", "15.0", "20.0", "25.0", "30.0", "35.0", "40.0", "45.0", "50.0", "55.0",
-						"60.0", "65.0", "70.0", "75.0", "80.0", "85.0", "90.0", "95.0", "100.0" }));
-		cbPhanTram.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cbPhanTram = new JComboBox();
 		lbPhanTram.setLabelFor(cbPhanTram);
+		cbPhanTram.setModel(new DefaultComboBoxModel(new String[] { "30%", "70%", "100%" }));
 		BoxThongTin2.add(cbPhanTram);
 
-		BoxThongTin2.add(Box.createHorizontalStrut(20));
+		horizontalStrut_2 = Box.createHorizontalStrut(20);
+		BoxThongTin2.add(horizontalStrut_2);
 
-		JLabel lbGioiHan = new JLabel("Giới hạn:");
+		lbGioiHan = new JLabel("Giới hạn:");
 		lbGioiHan.setPreferredSize(new Dimension(70, 30));
 		lbGioiHan.setFont(new Font("Tahoma", Font.BOLD, 14));
 		BoxThongTin2.add(lbGioiHan);
 
 		txtGioiHan = new JTextField();
-		txtGioiHan.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbGioiHan.setLabelFor(txtGioiHan);
 		BoxThongTin2.add(txtGioiHan);
 		txtGioiHan.setColumns(10);
@@ -213,66 +284,52 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		horizontalBox = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(horizontalBox);
 
-		horizontalBox.add(Box.createHorizontalStrut(20));
+		horizontalStrut_11 = Box.createHorizontalStrut(20);
+		horizontalBox.add(horizontalStrut_11);
 
-		JLabel lbNgayBatDau = new JLabel("Ngày bắt đầu:");
+		lbNgayBatDau = new JLabel("Ngày bắt đầu:");
 		lbNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox.add(lbNgayBatDau);
 
 		txtNgayBatDau = new JDateChooser();
-		txtNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 12));
-		txtNgayBatDau.setDateFormatString("yyyy-MM-dd");
 		lbNgayBatDau.setLabelFor(txtNgayBatDau);
 		txtNgayBatDau.setPreferredSize(new Dimension(0, 20));
 		horizontalBox.add(txtNgayBatDau);
 
-		horizontalBox.add(Box.createHorizontalStrut(20));
+		horizontalStrut_6 = Box.createHorizontalStrut(20);
+		horizontalBox.add(horizontalStrut_6);
 
-		lbNgayKetThuc = new JLabel("Ngày kết thúc:");
-		lbNgayKetThuc.setPreferredSize(new Dimension(120, 30));
-		lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox.add(lbNgayKetThuc);
+		lbTrangThai = new JLabel("Trạng thái:");
+		lbTrangThai.setPreferredSize(new Dimension(90, 30));
+		lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox.add(lbTrangThai);
 
-		txtNgayKetThuc = new JDateChooser();
-		txtNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 12));
-		txtNgayKetThuc.setDateFormatString("yyyy-MM-dd");
-		horizontalBox.add(txtNgayKetThuc);
+		cbTrangThai = new JComboBox();
+		lbTrangThai.setLabelFor(cbTrangThai);
+		cbTrangThai.setModel(new DefaultComboBoxModel(new String[] { "Còn hiệu lực", "Hết hiệu lực" }));
+		horizontalBox.add(cbTrangThai);
 
-		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+		verticalStrut_6 = Box.createVerticalStrut(20);
+		BoxVerticalThongTin.add(verticalStrut_6);
 
 		horizontalBox_1 = Box.createHorizontalBox();
 		BoxVerticalThongTin.add(horizontalBox_1);
 
-		horizontalBox_1.add(Box.createHorizontalStrut(20));
+		horizontalStrut_12 = Box.createHorizontalStrut(20);
+		horizontalBox_1.add(horizontalStrut_12);
 
-		lbThoiDiemBatDau = new JLabel("Thời điểm bắt đầu:");
-		lbThoiDiemBatDau.setPreferredSize(new Dimension(150, 30));
-		lbThoiDiemBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_1.add(lbThoiDiemBatDau);
+		lbNgayKetThuc = new JLabel("Ngày kết thúc:");
+		lbNgayKetThuc.setPreferredSize(lbPhanTram.getPreferredSize());
+		lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox_1.add(lbNgayKetThuc);
 
-		cbThoiDiemBatDau = new JComboBox();
-		cbThoiDiemBatDau.setFont(new Font("Tahoma", Font.BOLD, 12));
-		cbThoiDiemBatDau.setModel(new DefaultComboBoxModel(new String[] { "8", "9", "10", "11", "12", "13", "14", "15",
-				"16", "17", "18", "19", "20", "21", "22", "23", "24" }));
-		lbThoiDiemBatDau.setLabelFor(cbThoiDiemBatDau);
-		horizontalBox_1.add(cbThoiDiemBatDau);
+		txtNgayKetThuc = new JDateChooser();
+		lbNgayKetThuc.setLabelFor(txtNgayKetThuc);
+		horizontalBox_1.add(txtNgayKetThuc);
 
-		horizontalBox_1.add(Box.createHorizontalStrut(20));
-
-		lblNewLabel = new JLabel("Thời điểm kết thúc:");
-		lblNewLabel.setPreferredSize(new Dimension(150, 30));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		horizontalBox_1.add(lblNewLabel);
-
-		cbThoiDiemKetThuc = new JComboBox();
-		cbThoiDiemKetThuc.setFont(new Font("Tahoma", Font.BOLD, 12));
-		cbThoiDiemKetThuc.setModel(new DefaultComboBoxModel(new String[] { "8", "9", "10", "11", "12", "13", "14", "15",
-				"16", "17", "18", "19", "20", "21", "22", "23", "24" }));
-		lblNewLabel.setLabelFor(cbThoiDiemKetThuc);
-		horizontalBox_1.add(cbThoiDiemKetThuc);
-
-		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+		verticalStrut_5 = Box.createVerticalStrut(20);
+		BoxVerticalThongTin.add(verticalStrut_5);
 
 		BoxThongTin3 = Box.createHorizontalBox();
 		BoxThongTin3.setAlignmentX(1.0f);
@@ -284,7 +341,8 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnThem.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnThem);
 
-		BoxThongTin3.add(Box.createHorizontalStrut(20));
+		horizontalStrut = Box.createHorizontalStrut(20);
+		BoxThongTin3.add(horizontalStrut);
 
 		btnCapNhat = new JButton("Cập nhật");
 		btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
@@ -292,7 +350,8 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnCapNhat.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnCapNhat);
 
-		BoxThongTin3.add(Box.createHorizontalStrut(20));
+		horizontalStrut_1 = Box.createHorizontalStrut(20);
+		BoxThongTin3.add(horizontalStrut_1);
 
 		btnXoaTrangThongTin = new JButton("Xóa trắng");
 		btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
@@ -300,19 +359,18 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
 		BoxThongTin3.add(btnXoaTrangThongTin);
 
-		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+		verticalStrut_7 = Box.createVerticalStrut(10);
+		BoxVerticalThongTin.add(verticalStrut_7);
 
-		PaneThongTin.add(Box.createHorizontalStrut(20));
-
-		JPanel pnCenterInside = new JPanel();
-		pnCenter.add(pnCenterInside, BorderLayout.CENTER);
-		pnCenterInside.setLayout(new BorderLayout(0, 10));
+		JPanel ContentPane = new JPanel();
+		ContentPanel.add(ContentPane, BorderLayout.CENTER);
+		ContentPane.setLayout(new BorderLayout(0, 10));
 
 		JPanel PaneTacVu = new JPanel();
 		PaneTacVu.setBorder(new TitledBorder(null, "Ch\u1ECDn t\u00E1c v\u1EE5", TitledBorder.LEADING, TitledBorder.TOP,
 
 				null, null));
-		pnCenterInside.add(PaneTacVu, BorderLayout.NORTH);
+		ContentPane.add(PaneTacVu, BorderLayout.NORTH);
 		PaneTacVu.setLayout(new BoxLayout(PaneTacVu, BoxLayout.X_AXIS));
 
 		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
@@ -327,7 +385,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		Box BoxTacVu = Box.createHorizontalBox();
 		BoxVerticalTacVu.add(BoxTacVu);
 
-		JLabel lbTimKiemMaKM = new JLabel("Mã khuyến mãi:");
+		lbTimKiemMaKM = new JLabel("Mã khuyến mãi:");
 		lbTimKiemMaKM.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTimKiemMaKM.setAlignmentX(Component.CENTER_ALIGNMENT);
 		BoxTacVu.add(lbTimKiemMaKM);
@@ -341,7 +399,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		Component horizontalStrut_8_1_1_1 = Box.createHorizontalStrut(20);
 		BoxTacVu.add(horizontalStrut_8_1_1_1);
 
-		JLabel lbTimKiemTrangThai = new JLabel("Trạng thái:");
+		lbTimKiemTrangThai = new JLabel("Trạng thái:");
 		lbTimKiemTrangThai.setPreferredSize(new Dimension(90, 30));
 		lbTimKiemTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTimKiemTrangThai.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -371,7 +429,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		horizontalBox_2 = Box.createHorizontalBox();
 		BoxVerticalTacVu.add(horizontalBox_2);
 
-		JLabel lbTimKiemNgayBatDau = new JLabel("Ngày bắt đầu:");
+		lbTimKiemNgayBatDau = new JLabel("Ngày bắt đầu:");
 		lbTimKiemNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbTimKiemNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(lbTimKiemNgayBatDau);
@@ -380,9 +438,10 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lbTimKiemNgayBatDau.setLabelFor(txtTimKiemNgayBatDau);
 		horizontalBox_2.add(txtTimKiemNgayBatDau);
 
-		horizontalBox_2.add(Box.createHorizontalStrut(20));
+		horizontalStrut_8 = Box.createHorizontalStrut(20);
+		horizontalBox_2.add(horizontalStrut_8);
 
-		JLabel lbTimKiemNgayKetThuc = new JLabel("Ngày kết thúc:");
+		lbTimKiemNgayKetThuc = new JLabel("Ngày kết thúc:");
 		lbTimKiemNgayKetThuc.setPreferredSize(lbPhanTram.getPreferredSize());
 		lbTimKiemNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBox_2.add(lbTimKiemNgayKetThuc);
@@ -391,7 +450,8 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lbTimKiemNgayKetThuc.setLabelFor(txtTimKiemNgayKetThuc);
 		horizontalBox_2.add(txtTimKiemNgayKetThuc);
 
-		horizontalBox_2.add(Box.createHorizontalStrut(20));
+		horizontalStrut_7 = Box.createHorizontalStrut(20);
+		horizontalBox_2.add(horizontalStrut_7);
 
 		btnXoaTrangTacVu = new JButton("Xóa trắng");
 		btnXoaTrangTacVu.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
@@ -399,146 +459,25 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnXoaTrangTacVu.setBackground(new Color(107, 208, 107));
 		horizontalBox_2.add(btnXoaTrangTacVu);
 
-		horizontalBox_2.add(Box.createHorizontalStrut(20));
+		horizontalStrut_13 = Box.createHorizontalStrut(20);
+		horizontalBox_2.add(horizontalStrut_13);
 
-		BoxVerticalTacVu.add(Box.createVerticalStrut(20));
+		verticalStrut_8 = Box.createVerticalStrut(10);
+		BoxVerticalTacVu.add(verticalStrut_8);
 
-		PaneTacVu.add(Box.createHorizontalStrut(20));
+		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
+		PaneTacVu.add(horizontalStrut_4);
 
-		String row[] = { "STT", "Mã khuyến mãi", "Tên khuyến mãi", "Phần trăm", "Giới hạn", "Ngày bắt đầu",
-				"Ngày kết thúc", "Thời điểm bắt đầu", "Thời điểm kết thúc" };
+		String row[] = { "Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email" };
 		modelTable = new DefaultTableModel(row, 0);
 		table = new JTable(modelTable);
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		scrollPane = new JScrollPane(table);
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
-		pnCenterInside.add(scrollPane, BorderLayout.CENTER);
-		loadData();
-		initAction();
+		ContentPane.add(scrollPane, BorderLayout.CENTER);
+
+		String s[] = { "KH123", "Vũ Quốc Huy", "0334405617", "vuquochuy.01012003@gmail.com" };
+		modelTable.addRow(s);
+
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		if (o.equals(btnThem)) {
-			chucNangThem();
-		} else if (o.equals(btnXoaTrangThongTin)) {
-			chucNangXoaTrangThongTin();
-		} else if (o.equals(btnCapNhat)) {
-			chucNangCapNhat();
-		} else if (o.equals(btnXoaTrangTacVu)) {
-			chucNangXoaTrangTacVu();
-		} else if (o.equals(btnTimKiem)) {
-			try {
-				chucNangTimKiem();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} else if (o.equals(btnXoaTrangTacVu)) {
-			chucNangXoaTrangTacVu();
-		}
-	}
-
-	public void initAction() {
-		btnCapNhat.addActionListener(this);
-		btnThem.addActionListener(this);
-		btnTimKiem.addActionListener(this);
-		btnXoaTrangTacVu.addActionListener(this);
-		btnXoaTrangThongTin.addActionListener(this);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row = table.getSelectedRow();
-				txtMaKhuyenMai.setText(table.getValueAt(row, 1).toString());
-				txtTenKhuyenMai.setText(table.getValueAt(row, 2).toString());
-				txtGioiHan.setText(table.getValueAt(row, 4).toString());
-				cbPhanTram.setSelectedItem(table.getValueAt(row, 3).toString());
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				try {
-					java.util.Date ngayBatDau = dateFormat.parse(table.getValueAt(row, 5).toString());
-					txtNgayBatDau.setDate(new java.sql.Date(ngayBatDau.getTime()));
-					java.util.Date ngayKetThuc = dateFormat.parse(table.getValueAt(row, 6).toString());
-					txtNgayKetThuc.setDate(new java.sql.Date(ngayKetThuc.getTime()));
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-				String thoiDiemBatDau = table.getValueAt(row, 7).toString().charAt(1) + "";
-				String thoiDiemKetThuc = table.getValueAt(row, 8).toString().substring(0, 2);
-				cbThoiDiemBatDau.setSelectedItem(thoiDiemBatDau);
-				cbThoiDiemKetThuc.setSelectedItem(thoiDiemKetThuc);
-			}
-		});
-	}
-
-	public KhuyenMai revertSPFormKhuyenMai() {
-		try {
-			java.util.Date ngayBatDau = txtNgayBatDau.getDate();
-			java.sql.Date sqlNgayBatDau = new java.sql.Date(ngayBatDau.getTime());
-			java.util.Date ngayKetThuc = txtNgayKetThuc.getDate();
-			java.sql.Date sqlNgayKetThuc = new java.sql.Date(ngayBatDau.getTime());
-			String maKhuyenMai = txtMaKhuyenMai.getText();
-			String tenKhuyenMai = txtTenKhuyenMai.getText();
-			double phanTram = Double.parseDouble(cbPhanTram.getSelectedItem().toString());
-			double gioiHan = Double.parseDouble(txtGioiHan.getText());
-			int HourBatDau = Integer.parseInt(cbThoiDiemBatDau.getSelectedItem().toString());
-			int HourKetThuc = Integer.parseInt(cbThoiDiemKetThuc.getSelectedItem().toString());
-			Time thoiDiemBatDau = new java.sql.Time(HourBatDau, 0, 0);
-			Time thoiDiemKetThuc = new java.sql.Time(HourKetThuc, 0, 0);
-			return new KhuyenMai(maKhuyenMai, tenKhuyenMai, phanTram, gioiHan, sqlNgayBatDau, sqlNgayKetThuc,
-					thoiDiemBatDau, thoiDiemKetThuc);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public void loadData() {
-		list = daoKM.getAllKhuyenMai();
-		int i = 1;
-		modelTable.setRowCount(0);
-		for (KhuyenMai km : list) {
-			String[] row = { i++ + "", km.getMaKhuyenMai(), km.getTenKhuyenMai(), String.valueOf(km.getPhanTram()),
-					String.valueOf(km.getGioiHan()), km.getNgayBatDau().toString(), km.getNgayKetThuc().toString(),
-					km.getThoiDiemBatDau().toString(), km.getThoiDiemKetThuc().toString() };
-			modelTable.addRow(row);
-		}
-	}
-
-	public void chucNangThem() {
-		daoKM.createKhuyenMai(revertSPFormKhuyenMai());
-		int i = list.size();
-		loadData();
-	}
-
-	public void chucNangXoaTrangThongTin() {
-		txtTenKhuyenMai.setText("");
-		txtTenKhuyenMai.setText("");
-		txtGioiHan.setText("");
-		txtNgayBatDau.setDate(null);
-		txtNgayKetThuc.setDate(null);
-		cbThoiDiemBatDau.setSelectedIndex(0);
-		cbThoiDiemKetThuc.setSelectedIndex(0);
-		cbPhanTram.setSelectedIndex(0);
-	}
-
-	private void chucNangTimKiem() throws SQLException {
-		java.util.Date ngayBatDau = txtTimKiemNgayBatDau.getDate();
-		java.sql.Date sqlNgayBatDau = new java.sql.Date(ngayBatDau.getTime());
-		java.util.Date ngayKetThuc = txtTimKiemNgayKetThuc.getDate();
-		java.sql.Date sqlNgayKetThuc = new java.sql.Date(ngayBatDau.getTime());
-		list = daoKM.TimKiem(txtMaTimKiem.getText(), sqlNgayBatDau, sqlNgayKetThuc);
-		loadData();
-	}
-
-	private void chucNangXoaTrangTacVu() {
-		txtMaTimKiem.setText("");
-		txtTimKiemNgayBatDau.setDate(null);
-		txtTimKiemNgayKetThuc.setDate(null);
-	}
-
-	public void chucNangCapNhat() {
-		KhuyenMai km = revertSPFormKhuyenMai();
-		daoKM.updateKhuyenMai(km, km.getMaKhuyenMai());
-		loadData();
-	}
 }
