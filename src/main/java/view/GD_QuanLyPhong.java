@@ -5,12 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.awt.Panel;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,15 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
-import dao.LoaiPhongDAO;
-import dao.PhongDAO;
 import entity.LoaiPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
@@ -35,31 +27,29 @@ import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
+
 public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanelClickListener {
 	private JPanel pnNorth, pnCenter, pnSouth, pnInfo, pnFind, pnListRoom;
-	private JLabel lblTitle, lblMaPhong, lblTenPhong, lblSoLuong, lblTrangThai, lblLoaiTimKiem, lblTuKhoaTim,
-			lblLoaiPhong;
-	private JTextField txtMaPhong, txtTenPhong, txtTuKhoaTim;
+	private JLabel lblTitle, lblMaPhong, lblTenPhong, lblSoLuong, lblTrangThai, lblLoai, lblTuKhoaTim;
+	private JTextField txtMaPhong, txtTenPhong, txtTrangThai, txtTuKhoaTim;
 	private JSpinner spnSoLuong;
 	private JButton btnThem, btnCapNhat, btnXoaTrang, btnTim;
 	private Box box, box1, box2, box3;
-	private JComboBox<String> cmbLoaiTimKiem, cmbLoaiPhong, cmbTrangThai;
+	private JComboBox<String> cmbLoai;
 	private JScrollPane scroll;
-
-	private PhongDAO dao;
 	private List<Phong> listPhong;
-	private List<TrangThaiPhong> listTrangThai;
 
 	public GD_QuanLyPhong() {
 		createGUI();
 	}
 
 	private void createGUI() {
-//		setTitle("Quản lý phòng");
 		setSize(1000, 700);
-//		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		setResizable(false);
-//		setLocationRelativeTo(this);
+		setLayout(new BorderLayout());
 
 		add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
@@ -69,7 +59,6 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		add(pnCenter = new JPanel(), BorderLayout.CENTER);
 //		pnCenter.setLayout(new GridLayout(3, 1));
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
-//		pnCenter.setPreferredSize(new Dimension(500, 500));
 
 		pnCenter.add(pnInfo = new JPanel());
 		pnCenter.add(pnFind = new JPanel());
@@ -103,26 +92,18 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		box2.add(Box.createHorizontalStrut(20));
 		box2.add(lblSoLuong = new JLabel("Sức chứa:"));
 		lblSoLuong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		box2.add(Box.createHorizontalStrut(25));
+		box2.add(Box.createHorizontalStrut(20));
 		box2.add(spnSoLuong = new JSpinner());
 		spnSoLuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		box2.add(Box.createHorizontalStrut(20));
 		box2.add(lblTrangThai = new JLabel("Trạng thái:"));
 		lblTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
 		box2.add(Box.createHorizontalStrut(23));
-		box2.add(cmbTrangThai = new JComboBox<String>());
-		cmbTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		box2.add(txtTrangThai = new JTextField());
+		txtTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		box2.add(Box.createHorizontalStrut(20));
-		cmbTrangThai.setPreferredSize(new Dimension(360, 25));
 
-		box3.add(Box.createHorizontalStrut(20));
-		box3.add(lblLoaiPhong = new JLabel("Loại phòng:"));
-		lblLoaiPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		box3.add(Box.createHorizontalStrut(13));
-		box3.add(cmbLoaiPhong = new JComboBox<>());
-		cmbLoaiPhong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-
-		box3.add(Box.createHorizontalStrut(210));
+		box3.add(Box.createHorizontalStrut(670));
 		box3.add(btnThem = new JButton("Thêm"));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		box3.add(Box.createHorizontalStrut(10));
@@ -131,9 +112,8 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		box3.add(Box.createHorizontalStrut(10));
 		box3.add(btnXoaTrang = new JButton("Xóa trắng"));
 		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		box3.add(Box.createHorizontalStrut(20));
 
-		spnSoLuong.setPreferredSize(new Dimension(360, 20));
+		spnSoLuong.setPreferredSize(new Dimension(370, 20));
 		lblMaPhong.setPreferredSize(new Dimension(79, 17));
 
 		pnFind.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -145,12 +125,12 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		box.add(Box.createVerticalStrut(10));
 
 		box1.add(Box.createHorizontalStrut(20));
-		box1.add(lblLoaiTimKiem = new JLabel("Tìm kiếm theo:"));
-		lblLoaiTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		box1.add(lblLoai = new JLabel("Tìm kiếm theo:"));
+		lblLoai.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		box1.add(Box.createHorizontalStrut(10));
-		box1.add(cmbLoaiTimKiem = new JComboBox<String>());
-		cmbLoaiTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cmbLoaiTimKiem.setPreferredSize(new Dimension(300, 20));
+		box1.add(cmbLoai = new JComboBox<String>());
+		cmbLoai.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cmbLoai.setPreferredSize(new Dimension(300, 20));
 		box1.add(Box.createHorizontalStrut(20));
 		box1.add(lblTuKhoaTim = new JLabel("Nhập vào từ khóa:"));
 		lblTuKhoaTim.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -161,15 +141,6 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		box1.add(btnTim = new JButton("Tìm kiếm"));
 		btnTim.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		box1.add(Box.createHorizontalStrut(20));
-
-		cmbLoaiTimKiem.addItem("Chọn loại tìm kiếm");
-		cmbLoaiTimKiem.addItem("Tìm phòng trống");
-		cmbLoaiTimKiem.addItem("Tìm phòng đang sử dụng");
-		cmbLoaiTimKiem.addItem("Tìm phòng chờ");
-		cmbLoaiTimKiem.addItem("Tìm phòng đang bảo trì");
-		cmbLoaiTimKiem.addItem("Phong thường");
-		cmbLoaiTimKiem.addItem("Phòng vip");
-		cmbLoaiTimKiem.addItem("Tìm kiếm theo tên phòng");
 
 		initRoomData();
 		createListRoom();
@@ -184,36 +155,14 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		btnTim.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
 
-		loadTrangThaiPhong();
-		loadLoaiPhong();
-
-		btnCapNhat.setEnabled(false);
-	}
-
-	private void loadTrangThaiPhong() {
-		listTrangThai = Arrays.asList(TrangThaiPhong.values());
-		for (TrangThaiPhong trangThaiPhong : listTrangThai) {
-//			cmbTrangThai.addItem(trangThaiPhong.getTypePhong());
-		}
-	}
-
-	private void loadLoaiPhong() {
-		LoaiPhongDAO dao = new LoaiPhongDAO();
-		List<LoaiPhong> listLoaiPhong = dao.getAllLoaiPhong();
-		for (LoaiPhong loaiPhong : listLoaiPhong) {
-			cmbLoaiPhong.addItem(loaiPhong.getTenLoaiPhong());
-		}
 	}
 
 	private void initRoomData() {
 		listPhong = new ArrayList<>();
-		dao = new PhongDAO();
-		listPhong = getAllRoom();
 		LoaiPhong loaiPhong = new LoaiPhong("001", "Thường", TrangThaiLoaiPhong.HIEU_LUC);
-	}
-
-	private List<Phong> getAllRoom() {
-		return dao.getAllPhong();
+		for (int i = 0; i < 18; i++) {
+			listPhong.add(new Phong("00" + (i + 1), loaiPhong, "00" + (i + 1), 5, TrangThaiPhong.PHONG_TRONG));
+		}
 	}
 
 	private void createListRoom() {
@@ -223,30 +172,27 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 		JScrollBar verticalScrollBar = scroll.getVerticalScrollBar();
 		verticalScrollBar.setUnitIncrement(15);
 		pnCenter.add(scroll);
-		scroll.setPreferredSize(new Dimension(500, 500));
 
 		pnListRoom.setLayout(new GridLayout(0, 6, 0, 0));
 		pnListRoom.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		loadRoom(listPhong);
-	}
-
-	private void loadRoom(List<Phong> rooms) {
-		pnListRoom.removeAll();
-		List<JPanel> phongPanel = RoomPanelUtil.createPhongPanels(rooms, this);
+		List<JPanel> phongPanel = RoomPanelUtil.createPhongPanels(listPhong, this);
 		phongPanel.forEach(pnListRoom::add);
-
-		pnListRoom.revalidate();
-		pnListRoom.repaint();
 	}
 
 	private void clearInput() {
 		txtMaPhong.setText("");
 		txtTenPhong.setText("");
 		spnSoLuong.setValue(0);
-		cmbLoaiPhong.setSelectedIndex(0);
-		cmbTrangThai.setSelectedIndex(0);
-		btnCapNhat.setEnabled(false);
+		txtTrangThai.setText("");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnXoaTrang)) {
+			clearInput();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -255,83 +201,7 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
 
 	@Override
 	public void onPhongPanelClicked(Phong phong) {
-		txtMaPhong.setText(phong.getMaPhong());
-		txtTenPhong.setText(phong.getTenPhong());
-		spnSoLuong.setValue(phong.getSucChua());
-		cmbLoaiPhong.setSelectedItem(phong.getLoaiPhong().getTenLoaiPhong());
-		cmbTrangThai.setSelectedIndex(phong.getTrangThai().getValue());
-		btnCapNhat.setEnabled(true);
+
 	}
 
-	private Phong getInput() {
-		LoaiPhongDAO dao = new LoaiPhongDAO();
-		String maPhong = txtMaPhong.getText();
-		String tenPhong = txtTenPhong.getText();
-		int sucChua = (int) spnSoLuong.getValue();
-		LoaiPhong loaiPhong = dao.getLoaiPhongByTen(cmbLoaiPhong.getSelectedItem().toString());
-		TrangThaiPhong trangThai = TrangThaiPhong.values()[cmbTrangThai.getSelectedIndex()];
-
-		return new Phong(maPhong, loaiPhong, tenPhong, sucChua, trangThai);
-	}
-
-	private void capNhatPhong(Phong phong) {
-		if (dao.updatePhong(phong) != 0) {
-			List<Phong> rooms = getAllRoom();
-			loadRoom(rooms);
-			JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-		} else
-			JOptionPane.showMessageDialog(this, "Cập nhật không thành công!");
-	}
-
-	private void themPhong(Phong phong) {
-		if (dao.addNewPhong(phong) != 0) {
-			List<Phong> rooms = getAllRoom();
-			loadRoom(rooms);
-			JOptionPane.showMessageDialog(this, "Thêm thành công!");
-		} else
-			JOptionPane.showMessageDialog(this, "Thêm không thành công!");
-	}
-
-	private void timKiemPhong() {
-		LoaiPhongDAO daoLoaiPhong = new LoaiPhongDAO();
-		if (cmbLoaiTimKiem.getSelectedIndex() == 0) {
-			List<Phong> rooms = getAllRoom();
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 1) {
-			List<Phong> rooms = dao.getPhongByTrangThai(0);
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 2) {
-			List<Phong> rooms = dao.getPhongByTrangThai(1);
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 3) {
-			List<Phong> rooms = dao.getPhongByTrangThai(2);
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 4) {
-			List<Phong> rooms = dao.getPhongByTrangThai(3);
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 5) {
-			List<Phong> rooms = dao.GetPhongByLoaiPhong(daoLoaiPhong.getLoaiPhongByTen("Phòng thường"));
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 6) {
-			List<Phong> rooms = dao.GetPhongByLoaiPhong(daoLoaiPhong.getLoaiPhongByTen("Phòng vip"));
-			loadRoom(rooms);
-		} else if (cmbLoaiTimKiem.getSelectedIndex() == 7) {
-			List<Phong> rooms = dao.getPhongByTen(txtTuKhoaTim.getText());
-			loadRoom(rooms);
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		if (o.equals(btnXoaTrang)) {
-			clearInput();
-		} else if (o.equals(btnCapNhat)) {
-			capNhatPhong(getInput());
-		} else if (o.equals(btnThem)) {
-			themPhong(getInput());
-		} else if (o.equals(btnTim)) {
-			timKiemPhong();
-		}
-	}
 }

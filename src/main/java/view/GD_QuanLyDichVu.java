@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -79,8 +80,8 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	private JComboBox cbType2;
 	private List<DichVu> invoices;
 	LocalDate current = LocalDate.now();
-    private JComboBox cbTypeTwo;
-    private JComboBox cbStatusTwo;
+	private JComboBox cbTypeTwo;
+	private JComboBox cbStatusTwo;
 
 	public GD_QuanLyDichVu()  {
 		dichVuDAO = new DichVuDAO();
@@ -90,7 +91,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
 	private void initGUI()  {
 		setupFrame();
-
 
 		addPanelNorth();
 
@@ -104,11 +104,11 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	}
 
 	private void addPanelNorth() {
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout());
 		pnNorth = new JPanel();
 		pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnNorth.setBackground(new Color(97, 250, 204));
-		add(pnNorth);
+		add(pnNorth, BorderLayout.NORTH);
 		pnNorth.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JLabel lblTitle = new JLabel("Quản lý dịch vụ");
@@ -141,6 +141,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 		pnFirstForm.add(pnInfo, BorderLayout.CENTER);
 		pnInfo.setLayout(new BoxLayout(pnInfo, BoxLayout.X_AXIS));
 		Box verticalBox;
+		pnFirstForm.setBorder(new EmptyBorder(0,0,10,0));
 
 		pnInfo.add(Box.createHorizontalStrut(20));
 
@@ -486,29 +487,29 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
 	private List<DichVu> getColumnName(int selectedKey, int selectedOption) {
 		switch (selectedKey) {
-		case 0:
-			return dichVuDAO.getAllDichVu();
-		case 1:
-			System.out.println(1);
-			return dichVuDAO.getDichVuTheoMa(txtKey.getText());
-		case 2:
-			return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
-		case 3:
-			searchHorizontalBox.remove(txtKey);
-			searchHorizontalBox.add(cbStatusTwo);
-			List<LoaiDichVu> list = dichVuDAO.getLoaiDichVu();
-			for (LoaiDichVu dichVu : list) {
-				cbStatusTwo.addItem(dichVu);
-			}
+			case 0:
+				return dichVuDAO.getAllDichVu();
+			case 1:
+				System.out.println(1);
+				return dichVuDAO.getDichVuTheoMa(txtKey.getText());
+			case 2:
+				return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
+			case 3:
+				searchHorizontalBox.remove(txtKey);
+				searchHorizontalBox.add(cbStatusTwo);
+				List<LoaiDichVu> list = dichVuDAO.getLoaiDichVu();
+				for (LoaiDichVu dichVu : list) {
+					cbStatusTwo.addItem(dichVu);
+				}
 //			return dichVuDAO.getDSTheoLoai(cbStatusTwo.getSelectedIndex());
-		case 4:
-			searchHorizontalBox.remove(txtKey);
-			searchHorizontalBox.add(cbTypeTwo);
-			cbTypeTwo.addItem(TrangThaiDichVu.VO_HIEU.getName());
-			cbTypeTwo.addItem(TrangThaiDichVu.HIEU_LUC.getName());
+			case 4:
+				searchHorizontalBox.remove(txtKey);
+				searchHorizontalBox.add(cbTypeTwo);
+				cbTypeTwo.addItem(TrangThaiDichVu.VO_HIEU.getName());
+				cbTypeTwo.addItem(TrangThaiDichVu.HIEU_LUC.getName());
 //			return dichVuDAO;
-		default:
-			return new ArrayList<DichVu>();
+			default:
+				return new ArrayList<DichVu>();
 		}
 
 	}

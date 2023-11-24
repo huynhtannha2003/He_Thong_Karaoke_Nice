@@ -49,7 +49,6 @@ import entity.LoaiPhong;
 import entity.NhanVien;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
-import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
@@ -76,12 +75,11 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 	private KhachHangDAO khachHangDAO;
 	private PhieuDatPhongDAO phieuDatPhongDAO;
 	private KhachHang kh;
-	private Phong phongSelected,Phong;
+	private Phong phongSelected;
 	private NhanVien nhanVien;
 
-	public GD_DatPhongCho(Phong phongSelected,NhanVien currentNhanVien) {
+	public GD_DatPhongCho(NhanVien currentNhanVien) {
 		nhanVien = currentNhanVien;
-		Phong = phongSelected;
 		phongDAO = new PhongDAO();
 		loaiPhongDAO = new LoaiPhongDAO();
 		khachHangDAO = new KhachHangDAO();
@@ -91,13 +89,15 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
 	private void setupFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(784, 600);
+		setSize(1000, 700);
 		setLocationRelativeTo(null);
 		setBackground(new Color(255, 255, 255));
 	}
 
 	private void initGUI() {
 		setupFrame();
+
+		addMenuBar();
 
 		addPanelNorth();
 
@@ -120,6 +120,25 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
 	}
 
+	public void addMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu menuHeThong = new JMenu("Hệ thống");
+		menuBar.add(menuHeThong);
+
+		JMenu menuDanhMuc = new JMenu("Danh mục");
+		menuBar.add(menuDanhMuc);
+
+		JMenu menuXuLy = new JMenu("Xử lý");
+		menuBar.add(menuXuLy);
+
+		JMenu menuThongKe = new JMenu("Thống kê");
+		menuBar.add(menuThongKe);
+
+		JMenu menuTroGiup = new JMenu("Trợ giúp");
+		menuBar.add(menuTroGiup);
+	}
 
 	private void addPanelRoom()  {
 
@@ -192,7 +211,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
 		txtNumber = new JTextField();
-		txtNumber.setText("0345678912");
 		txtNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		firstFormHorizontalBox.add(txtNumber);
 		txtNumber.setColumns(10);
@@ -244,7 +262,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
 		txtNameRoom = new JTextField();
-		txtNameRoom.setText(Phong.getTenPhong());
 		txtNameRoom.setPreferredSize(new Dimension(5, 20));
 		txtNameRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		thirdFormHorizontalBox.add(txtNameRoom);
@@ -262,7 +279,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		cbType.setPreferredSize(new Dimension(100, 22));
 		cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
 		loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
-		cbType.setSelectedItem(Phong.getLoaiPhong());
 		cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		thirdFormHorizontalBox.add(cbType);
 
@@ -421,6 +437,13 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 	}
 
 	@Override
+	public void onPhongPanelClicked(Phong phong) {
+		txtNameRoom.setText(phong.getTenPhong());
+		cbType.setSelectedIndex(phong.getTrangThai().getValue() + 1);
+		phongSelected = phong;
+	}
+
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
@@ -430,7 +453,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 				if (kh == null) {
 					JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo",
 							JOptionPane.WARNING_MESSAGE);
-					return;
 				} else {
 					txtCustomer.setText(kh.getTenKhachHang());
 				}
@@ -462,9 +484,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 				boolean booking = false;
 				try {
 					full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
-					booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
-							Phong.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
-					
+					System.out.println(full);
+					booking = phieuDatPhongDAO.bookKaraokeRoom(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
+							phongSelected.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -473,9 +495,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
 				}
-				dispose();	
+				setVisible(false);
 			}
 			if (o.equals(btnPrint)) {
 				Date time = dateChooser.getDate();
@@ -499,7 +521,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 	}
 
 	public static void generatePDF(String filePath, String phoneNumber, String customerName, String roomName,
-			int roomType, Date checkInTime) {
+								   int roomType, Date checkInTime) {
 		Document document = new Document();
 
 		try {
@@ -524,12 +546,5 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 		}finally {
 			document.close();
 		}
-	}
-
-	@Override
-	public void onPhongPanelClicked(entity.Phong phong) {
-		// TODO Auto-generated method stub
-		txtNameRoom.setText(phong.getTenPhong());
-		cbType.setSelectedItem(phong.getLoaiPhong());
 	}
 }

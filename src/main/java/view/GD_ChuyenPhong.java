@@ -1,53 +1,60 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.border.EmptyBorder;
-
+import dao.LoaiPhongDAO;
+import dao.PhieuDatPhongDAO;
+import dao.PhongDAO;
+import entity.HoaDon;
 import entity.LoaiPhong;
+import entity.PhieuDatPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
-import enums.TrangThaiPhong;
+import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
-import javax.swing.BoxLayout;
-import java.awt.Component;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.GridLayout;
-
-public class GD_ChuyenPhong extends JDialog {
+public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, ActionListener {
 	private JTextField txtRoomName;
 	private JPanel pnCenter;
-	private ArrayList rooms;
+	private List<Phong> rooms;
+	private JTextField txtFollowRoomName;
+	private JTextField txtFollowRoomPrice;
+	private Box hBoxFollowRoomType;
+	private JTextField txtFollowRoomType;
+	private JTextField txtCurrentRoomName;
+	private JTextField txtCurrentRoomPrice;
+	private JTextField txtCurrentRoomType;
+	private PhongDAO phongDao = new PhongDAO();
+	private LoaiPhongDAO loaiPhongDao;
+	private JComboBox<LoaiPhong> cbTypeRoom;
+	private JButton btnFind;
+	private JButton btnApply;
+	private JPanel pnRoomScrollPane;
+	private Phong phong, selectedPhong;
+	private HoaDon hoaDon;
+	PhieuDatPhongDAO phieuDatPhongDAO;
 
 	public static void main(String[] args) {
 		try {
-			GD_ChuyenPhong dialog = new GD_ChuyenPhong();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			GD_ChuyenPhong dialog = new GD_ChuyenPhong(new HoaDon(), new Phong());
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public GD_ChuyenPhong() {
+	public GD_ChuyenPhong(HoaDon currentHoaDon, Phong selectedPhong) {
+		phong = selectedPhong;
+		hoaDon = currentHoaDon;
+		loaiPhongDao = new LoaiPhongDAO();
+		phieuDatPhongDAO = new PhieuDatPhongDAO();
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		setSize(784, 600);
 		setLocationRelativeTo(null);
@@ -87,24 +94,69 @@ public class GD_ChuyenPhong extends JDialog {
 
 		pnCurrentRoom.add(Box.createVerticalStrut(20));
 
-		JLabel lblCurrentRoomName = new JLabel("Tên phòng");
+		JLabel lblCurrentRoomName = new JLabel("Tên phòng:");
 		lblCurrentRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCurrentRoomName.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnCurrentRoom.add(lblCurrentRoomName);
+
+		Box hBoxCurrentRoomName = Box.createHorizontalBox();
+		pnCurrentRoom.add(hBoxCurrentRoomName);
+
+		hBoxCurrentRoomName.add(Box.createHorizontalStrut(20));
+		hBoxCurrentRoomName.add(lblCurrentRoomName);
+
+		hBoxCurrentRoomName.add(Box.createHorizontalStrut(20));
+
+		txtCurrentRoomName = new JTextField(phong.getTenPhong());
+		txtCurrentRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtCurrentRoomName.setEditable(false);
+		hBoxCurrentRoomName.add(txtCurrentRoomName);
+		txtCurrentRoomName.setColumns(10);
+
+		hBoxCurrentRoomName.add(Box.createHorizontalStrut(20));
 
 		pnCurrentRoom.add(Box.createVerticalStrut(20));
 
 		JLabel lblCurrentRoomPrice = new JLabel("Giá phòng:");
 		lblCurrentRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCurrentRoomPrice.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnCurrentRoom.add(lblCurrentRoomPrice);
+
+		Box hBoxCurrentRoomType = Box.createHorizontalBox();
+		pnCurrentRoom.add(hBoxCurrentRoomType);
+
+		hBoxCurrentRoomType.add(Box.createHorizontalStrut(20));
+		hBoxCurrentRoomType.add(lblCurrentRoomPrice);
+
+		hBoxCurrentRoomType.add(Box.createHorizontalStrut(20));
+
+		txtCurrentRoomPrice = new JTextField(phong.getLoaiPhong().getLichSuGiaPhongList().get(0).getGia() + "");
+		txtCurrentRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtCurrentRoomPrice.setEditable(false);
+		hBoxCurrentRoomType.add(txtCurrentRoomPrice);
+		txtCurrentRoomPrice.setColumns(10);
+
+		hBoxCurrentRoomType.add(Box.createHorizontalStrut(20));
 
 		pnCurrentRoom.add(Box.createVerticalStrut(20));
 
 		JLabel lblCurrentRoomType = new JLabel("Loại phòng:");
 		lblCurrentRoomType.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCurrentRoomType.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnCurrentRoom.add(lblCurrentRoomType);
+
+		Box hBoxCurrentRoomPrice = Box.createHorizontalBox();
+		pnCurrentRoom.add(hBoxCurrentRoomPrice);
+
+		hBoxCurrentRoomPrice.add(Box.createHorizontalStrut(20));
+		hBoxCurrentRoomPrice.add(lblCurrentRoomType);
+
+		hBoxCurrentRoomPrice.add(Box.createHorizontalStrut(20));
+
+		txtCurrentRoomType = new JTextField(phong.getLoaiPhong().getTenLoaiPhong());
+		txtCurrentRoomType.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtCurrentRoomType.setEditable(false);
+		hBoxCurrentRoomPrice.add(txtCurrentRoomType);
+		txtCurrentRoomType.setColumns(10);
+
+		hBoxCurrentRoomPrice.add(Box.createHorizontalStrut(20));
 
 		pnCurrentRoom.add(Box.createVerticalStrut(20));
 
@@ -121,46 +173,94 @@ public class GD_ChuyenPhong extends JDialog {
 		JLabel lblFollowRoomName = new JLabel("Tên phòng:");
 		lblFollowRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblFollowRoomName.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnFollowRoom.add(lblFollowRoomName);
+		Box hBoxFollowRoomName = Box.createHorizontalBox();
+
+		hBoxFollowRoomName.add(Box.createHorizontalStrut(20));
+		hBoxFollowRoomName.add(lblFollowRoomName);
+
+		pnFollowRoom.add(hBoxFollowRoomName);
+
+		hBoxFollowRoomName.add(Box.createHorizontalStrut(20));
+
+		txtFollowRoomName = new JTextField();
+		txtFollowRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtFollowRoomName.setEditable(false);
+		hBoxFollowRoomName.add(txtFollowRoomName);
+		txtFollowRoomName.setColumns(10);
+
+		hBoxFollowRoomName.add(Box.createHorizontalStrut(20));
 
 		pnFollowRoom.add(Box.createVerticalStrut(20));
 
-		JLabel lblFollowRoomPrice = new JLabel("Giá phòng");
+		JLabel lblFollowRoomPrice = new JLabel("Giá phòng:");
 		lblFollowRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblFollowRoomPrice.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnFollowRoom.add(lblFollowRoomPrice);
+
+		Box hBoxFollowRoomPrice = Box.createHorizontalBox();
+
+		hBoxFollowRoomPrice.add(Box.createHorizontalStrut(20));
+		hBoxFollowRoomPrice.add(lblFollowRoomPrice);
+
+		pnFollowRoom.add(hBoxFollowRoomPrice);
+
+		hBoxFollowRoomPrice.add(Box.createHorizontalStrut(20));
+
+		txtFollowRoomPrice = new JTextField();
+		txtFollowRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtFollowRoomPrice.setEditable(false);
+		hBoxFollowRoomPrice.add(txtFollowRoomPrice);
+		txtFollowRoomPrice.setColumns(10);
+
+		hBoxFollowRoomPrice.add(Box.createHorizontalStrut(20));
 
 		pnFollowRoom.add(Box.createVerticalStrut(20));
 
-		JLabel lblFollowRoomType = new JLabel("Loại phòng");
+		JLabel lblFollowRoomType = new JLabel("Loại phòng:");
 		lblFollowRoomType.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblFollowRoomType.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnFollowRoom.add(lblFollowRoomType);
+
+		hBoxFollowRoomType = Box.createHorizontalBox();
+		pnFollowRoom.add(hBoxFollowRoomType);
+
+		hBoxFollowRoomType.add(Box.createHorizontalStrut(20));
+		hBoxFollowRoomType.add(lblFollowRoomType);
+
+		hBoxFollowRoomType.add(Box.createHorizontalStrut(20));
+
+		txtFollowRoomType = new JTextField();
+		txtFollowRoomType.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtFollowRoomType.setEditable(false);
+		hBoxFollowRoomType.add(txtFollowRoomType);
+		txtFollowRoomType.setColumns(10);
+
+		hBoxFollowRoomType.add(Box.createHorizontalStrut(20));
 
 		pnFollowRoom.add(Box.createVerticalStrut(20));
 
 		horizontalBoxRoomChange.add(Box.createHorizontalStrut(20));
 
-		JButton btnApply = new JButton("Xác nhận");
+		btnApply = new JButton("Xác nhận");
 		btnApply.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnApply.setBackground(new Color(107, 208, 107));
+		btnApply.addActionListener(this);
 		horizontalBoxRoomChange.add(btnApply);
-		
+
 		horizontalBoxRoomChange.add(Box.createHorizontalStrut(20));
 
 		pnRoomChange.add(Box.createVerticalStrut(20));
 	}
 
 	private void initData() {
-		rooms = new ArrayList<>();
-		LoaiPhong loaiPhong = new LoaiPhong("001", "Thường", TrangThaiLoaiPhong.HIEU_LUC);
-		for (int i = 0; i < 18; i++) {
-			rooms.add(new Phong("00" + (i + 1), loaiPhong, "00" + (i + 1), 5, TrangThaiPhong.PHONG_TRONG));
-		}
+		rooms = phongDao.getAllPhongTrong();
+		List<LoaiPhong> loaiPhongList = loaiPhongDao.getAllLoaiPhong();
+		cbTypeRoom.addItem((new LoaiPhong(null, "tất cả", TrangThaiLoaiPhong.HIEU_LUC)));
+		loaiPhongList.forEach(loaiPhong -> {
+			cbTypeRoom.addItem(loaiPhong);
+		});
 	}
 
 	private void addRoomsPanel() {
-		JPanel pnRoomScrollPane = new JPanel();
+		pnRoomScrollPane = new JPanel();
 		pnRoomScrollPane.setBackground(new Color(255, 255, 255));
 
 		JScrollPane scrollPane = new JScrollPane(pnRoomScrollPane);
@@ -182,14 +282,22 @@ public class GD_ChuyenPhong extends JDialog {
 
 		pnRooms.add(scrollPaneBox);
 
-		scrollPaneBox.add(Box.createVerticalStrut(20));
+		scrollPaneBox.add(Box.createVerticalStrut(10));
 
 		pnRooms.add(Box.createHorizontalStrut(20));
 
 		initData();
 
-		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(rooms);
-//		roomPanels.forEach(pnRoomScrollPane::add);
+		loadRooms(rooms);
+	}
+
+	private void loadRooms(List<Phong> newRooms) {
+		pnRoomScrollPane.removeAll();
+		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(newRooms, this);
+		roomPanels.forEach(pnRoomScrollPane::add);
+
+		pnRoomScrollPane.revalidate();
+		pnRoomScrollPane.repaint();
 	}
 
 	private void addFormPanel() {
@@ -212,7 +320,7 @@ public class GD_ChuyenPhong extends JDialog {
 		horizontalBoxForm.add(Box.createHorizontalStrut(20));
 
 		txtRoomName = new JTextField();
-		txtRoomName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBoxForm.add(txtRoomName);
 		txtRoomName.setColumns(10);
 
@@ -224,9 +332,8 @@ public class GD_ChuyenPhong extends JDialog {
 
 		horizontalBoxForm.add(Box.createHorizontalStrut(20));
 
-		JComboBox cbTypeRoom = new JComboBox();
-		cbTypeRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbTypeRoom.setModel(new DefaultComboBoxModel(new String[] { "Tất cả" }));
+		cbTypeRoom = new JComboBox<LoaiPhong>();
+		cbTypeRoom.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalBoxForm.add(cbTypeRoom);
 
 		horizontalBoxForm.add(Box.createHorizontalStrut(20));
@@ -237,9 +344,11 @@ public class GD_ChuyenPhong extends JDialog {
 		pnButton.setBackground(new Color(255, 255, 255));
 		pnButton.setLayout(new BorderLayout(0, 0));
 
-		JButton btnFind = new JButton("Tìm kiếm");
+		btnFind = new JButton("Tìm kiếm");
+		btnFind.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnFind.setBackground(new Color(107, 208, 107));
 		pnButton.add(btnFind, BorderLayout.EAST);
+		btnFind.addActionListener(this);
 
 		Box horizontalBoxButton = Box.createHorizontalBox();
 		pnForm.add(horizontalBoxButton);
@@ -247,7 +356,7 @@ public class GD_ChuyenPhong extends JDialog {
 
 		horizontalBoxButton.add(Box.createHorizontalStrut(20));
 
-		pnForm.add(Box.createVerticalStrut(20));
+		pnForm.add(Box.createVerticalStrut(10));
 	}
 
 	private void addPanelNorth() {
@@ -259,6 +368,32 @@ public class GD_ChuyenPhong extends JDialog {
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		pnNorth.add(lblTitle);
 
+	}
+
+	@Override
+	public void onPhongPanelClicked(Phong phong) {
+		selectedPhong = phong;
+		txtFollowRoomName.setText(phong.getTenPhong());
+		txtFollowRoomPrice.setText(phong.getTenPhong());
+		txtFollowRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnFind)) {
+			rooms = phongDao.GetPhongByTenAndLoaiPhong(txtRoomName.getText(), (LoaiPhong) cbTypeRoom.getSelectedItem());
+			loadRooms(rooms);
+		} else if (o.equals(btnApply)) {
+			PhieuDatPhong phieuDatPhong = new PhieuDatPhong(null, Time.valueOf(LocalTime.now()), null, hoaDon, selectedPhong);
+			if(phieuDatPhongDAO.changeRoom(phieuDatPhong)){
+				JOptionPane.showMessageDialog(this, "Chuyển phòng thành công");
+			}else{
+				JOptionPane.showMessageDialog(this, "Chuyển phòng thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			}
+
+			setVisible(false);
+		}
 	}
 
 }

@@ -4,8 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -138,6 +137,27 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 
 		btnThongKe.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
+
+		cmbLoaiTK.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if (cmbLoaiTK.getSelectedIndex() == 0) {
+						ngayBatDau.setEnabled(false);
+						ngayKetThuc.setEnabled(false);
+					} else if (cmbLoaiTK.getSelectedIndex() == 1) {
+						ngayBatDau.setEnabled(true);
+						ngayKetThuc.setEnabled(true);
+					} else if (cmbLoaiTK.getSelectedIndex() == 2) {
+						ngayBatDau.setEnabled(false);
+						ngayKetThuc.setEnabled(false);
+					}
+				}
+			}
+		});
+
+		ngayBatDau.setEnabled(false);
+		ngayKetThuc.setEnabled(false);
 	}
 
 	private void getDataTheoThang() {
@@ -186,7 +206,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 		}
 	}
 
-	private void buildChartByThoiGian() {
+	private void buildChartByThoiGian() throws Exception {
 		ArrayList<Date> listTime = new ArrayList<>();
 		listTime = getTimeFromDate();
 		try {
@@ -204,11 +224,15 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 						PlotOrientation.VERTICAL, false, true, false);
 			}
 
-			CategoryPlot p = chart.getCategoryPlot();
-			p.setRangeGridlinePaint(Color.black);
-			ChartPanel chartPanel = new ChartPanel(chart);
-			pnChart.add(chartPanel);
-			pnChart.validate();
+			try {
+				CategoryPlot p = chart.getCategoryPlot();
+				p.setRangeGridlinePaint(Color.black);
+				ChartPanel chartPanel = new ChartPanel(chart);
+				pnChart.add(chartPanel);
+				pnChart.validate();
+			} catch (Exception exception) {
+
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -274,7 +298,11 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 		Date start = ngayBatDau.getDate();
 		Date end = ngayKetThuc.getDate();
 
-		getDateRange(start, end);
+		try {
+			getDateRange(start, end);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Vui lòng chọn thời gian");
+		}
 		ArrayList<Date> newListDate = new ArrayList<>();
 
 		for (Date date2 : listDate) {
@@ -320,7 +348,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 		cmbLoaiTK.setSelectedIndex(0);
 	}
 
-	private void xuLyThongKe() {
+	private void xuLyThongKe() throws Exception {
 		if (cmbLoaiTK.getSelectedIndex() == 0) {
 			buildChartByThang();
 		} else if (cmbLoaiTK.getSelectedIndex() == 1) {
@@ -335,14 +363,18 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThongKe)) {
-			xuLyThongKe();
+			try {
+				xuLyThongKe();
+			} catch (Exception exception) {
+
+			}
 		} else if (o.equals(btnXoaTrang)) {
 			clearInput();
 		}
 	}
 
-	public static void main(String[] args) {
-		new GD_ThongKe().setVisible(true);
-	}
+//    public static void main(String[] args) {
+//        new GD_ThongKe().setVisible(true);
+//    }
 
 }

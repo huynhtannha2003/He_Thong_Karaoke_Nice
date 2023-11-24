@@ -35,14 +35,13 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear;
     private final PhongDAO phongDAO;
     private NhanVien nhanVien;
-    
+
     public GD_QuanLyDatPhong(NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
         phongDAO = new PhongDAO();
         loaiPhongDAO = new LoaiPhongDAO();
         hoaDonDAO = new HoaDonDAO();
         initGUI();
-        System.out.println(nhanVien);
     }
 
     private void setupFrame() {
@@ -327,7 +326,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openChuyenPhongWindow();
         } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
         } else if (source.equals(btnDatPhongCho)) {
-            GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(phongSelected,nhanVien);
+            GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
             gdDatPhongCho.setVisible(true);
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
