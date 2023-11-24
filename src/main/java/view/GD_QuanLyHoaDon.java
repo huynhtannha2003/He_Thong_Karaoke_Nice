@@ -94,11 +94,11 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
     }
 
     private void createGUI() {
-        setLayout(new BorderLayout(0, 0));
+        setLayout(new BorderLayout());
 
         JPanel TitlePanel = new JPanel();
         TitlePanel.setBackground(new Color(97, 250, 204));
-        add(TitlePanel);
+        add(TitlePanel, BorderLayout.NORTH);
 
         JLabel lbTitle = new JLabel("Quản lý hóa đơn");
         lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));

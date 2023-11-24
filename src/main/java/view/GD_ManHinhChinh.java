@@ -138,7 +138,7 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
         contentPane.setLayout(null);
 
         init();
-        
+
         menuItemTrangChu.addActionListener(this);
         menuItemTaiKhoan.addActionListener(this);
         menuItemTroGiup.addActionListener(this);
@@ -155,18 +155,18 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
     }
 
     private void init() {
-    	lbBackGroundKaraoke = new JLabel("");
+        lbBackGroundKaraoke = new JLabel("");
         lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
         lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
-        contentPane.add(lbBackGroundKaraoke);		
-	}
+        add(lbBackGroundKaraoke);
+    }
 
-	@Override
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         JPanel simplePanel = null;
         if (source == menuItemTrangChu) {
-            setContentPane(contentPane);
+//            setContentPane(contentPane);
             return;
         } else if (source == menuItemTaiKhoan) {
             JOptionPane.showMessageDialog(null, "Tài Khoản Clicked");
@@ -191,9 +191,9 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
             simplePanel = new GD_QuanLyKhuyenMai();
         } else if (source == menuItemDichVu) {
             simplePanel = new GD_QuanLyDichVu();
-        }else if(source == menuThongKe){
-
-        }else if(source == menuItemDatPhong){
+        } else if (source == menuItemTKDoanhThu) {
+            simplePanel = new GD_ThongKe();
+        } else if (source == menuItemDatPhong) {
             simplePanel = new GD_QuanLyDatPhong(
                     new NhanVien("NV230001", "", "", "", "", "", null)
             );

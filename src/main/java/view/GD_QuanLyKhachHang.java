@@ -74,7 +74,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 	public GD_QuanLyKhachHang() {
 		setSize(1000, 700);
 		daoKH = new KhachHangDAO();
-		setLayout(new BorderLayout(0, 5));
+		setLayout(new BorderLayout());
 
 		JPanel TitlePanel = new JPanel();
 		TitlePanel.setBackground(new Color(97, 250, 254));
@@ -85,12 +85,12 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		TitlePanel.add(lbTitle);
 
-		setLayout(new BorderLayout(0, 10));
+//		setLayout(new BorderLayout(0, 10));
 
 		JPanel PaneThongTin = new JPanel();
 		PaneThongTin.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nh\u1EADp th\u00F4ng tin",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		add(PaneThongTin, BorderLayout.NORTH);
+		add(PaneThongTin, BorderLayout.CENTER);
 		PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
 
 		Box BoxVerticalThongTin = Box.createVerticalBox();
@@ -178,7 +178,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		PaneThongTin.add(Box.createHorizontalStrut(20));
 
 		JPanel pnCenter = new JPanel();
-		add(pnCenter, BorderLayout.CENTER);
+		add(pnCenter, BorderLayout.SOUTH);
 		pnCenter.setLayout(new BorderLayout(0, 10));
 
 		JPanel PaneTacVu = new JPanel();
@@ -247,7 +247,9 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144)));
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
-		pnCenter.add(scrollPane, BorderLayout.CENTER);
+		pnCenter.add(scrollPane, BorderLayout.SOUTH);
+		scrollPane.setPreferredSize(new Dimension(200, 350));
+		
 		initAction();
 		loadData();
 	}

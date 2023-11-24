@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -91,7 +92,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	private void initGUI()  {
 		setupFrame();
 
-
 		addPanelNorth();
 
 		addPanelCenter();
@@ -104,11 +104,11 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	}
 
 	private void addPanelNorth() {
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout());
 		pnNorth = new JPanel();
 		pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnNorth.setBackground(new Color(97, 250, 204));
-		add(pnNorth);
+		add(pnNorth, BorderLayout.NORTH);
 		pnNorth.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JLabel lblTitle = new JLabel("Quản lý dịch vụ");
@@ -141,6 +141,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 		pnFirstForm.add(pnInfo, BorderLayout.CENTER);
 		pnInfo.setLayout(new BoxLayout(pnInfo, BoxLayout.X_AXIS));
 		Box verticalBox;
+		pnFirstForm.setBorder(new EmptyBorder(0,0,10,0));
 
 		pnInfo.add(Box.createHorizontalStrut(20));
 

@@ -106,7 +106,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 	public GD_QuanLyNhanVien()  {
 		setSize(1000, 700);
 		daoNV = new NhanVienDAO();
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout());
 
 		JPanel TitlePanel = new JPanel();
 		TitlePanel.setBackground(new Color(97, 250, 254));
@@ -118,11 +118,10 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		TitlePanel.add(lbTitle);
 
-
 		JPanel PaneThongTin = new JPanel();
 		PaneThongTin.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nh\u1EADp th\u00F4ng tin",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		add(PaneThongTin, BorderLayout.NORTH);
+		add(PaneThongTin, BorderLayout.CENTER);
 		PaneThongTin.setLayout(new BorderLayout(0, 0));
 
 		PaneThongTinText = new JPanel();
@@ -286,7 +285,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		PaneThongTinImage.add(Box.createHorizontalStrut(20));
 
 		PaneTVandDanhSach = new JPanel();
-		add(PaneTVandDanhSach, BorderLayout.CENTER);
+		add(PaneTVandDanhSach, BorderLayout.SOUTH);
 		PaneTVandDanhSach.setLayout(new BorderLayout(0, 10));
 
 		PaneTacVu_1 = new JPanel();
@@ -345,6 +344,8 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		scrollPane = new JScrollPane(table);
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
 		PaneTVandDanhSach.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setPreferredSize(new Dimension(200,300));
+		
 		loadData();
 		loadcomboBoxTrangThai();
 		btnThem.addActionListener(this);
