@@ -1,5 +1,8 @@
 package view;
 
+import entity.NhanVien;
+import enums.TrangThaiNhanVien;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -70,11 +73,11 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
 		menuItemTaiKhoan = new JMenuItem("Tài khoản ");
 		menuItemTaiKhoan.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemTaiKhoan);
+//        menuHeThong.add(menuItemTaiKhoan);
 
 		menuItemTroGiup = new JMenuItem("Trợ giúp");
 		menuItemTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuHeThong.add(menuItemTroGiup);
+//        menuHeThong.add(menuItemTroGiup);
 
 		menuItemDangXuat = new JMenuItem("Đăng xuất");
 		menuItemDangXuat.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -134,10 +137,7 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lbBackGroundKaraoke = new JLabel("");
-		lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
-		lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
-		contentPane.add(lbBackGroundKaraoke);
+		init();
 
 		menuItemTrangChu.addActionListener(this);
 		menuItemTaiKhoan.addActionListener(this);
@@ -154,9 +154,34 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 		menuItemHoaDon.addActionListener(this);
 	}
 
+	private void init() {
+		lbBackGroundKaraoke = new JLabel("");
+		lbBackGroundKaraoke.setIcon(new ImageIcon(getClass().getResource("/image/icon/ManHinhChinh.png")));
+		lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
+		contentPane.add(lbBackGroundKaraoke);
+<<<<<<< HEAD
+
+		menuItemTrangChu.addActionListener(this);
+		menuItemTaiKhoan.addActionListener(this);
+		menuItemTroGiup.addActionListener(this);
+		menuItemDangXuat.addActionListener(this);
+		menuItemThoat.addActionListener(this);
+		menuItemPhong.addActionListener(this);
+		menuItemNhanVien.addActionListener(this);
+		menuItemDichVu.addActionListener(this);
+		menuItemKhachHang.addActionListener(this);
+		menuItemKhuyenMai.addActionListener(this);
+		menuItemDatPhong.addActionListener(this);
+		menuItemTKDoanhThu.addActionListener(this);
+		menuItemHoaDon.addActionListener(this);
+=======
+>>>>>>> main
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+<<<<<<< HEAD
 		if (source == menuItemTrangChu) {
 
 		} else if (source == menuItemTaiKhoan) {
@@ -173,5 +198,43 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Nhân Viên Clicked");
 		} else if (source == menuItemHoaDon) {
 		}
+=======
+		JPanel simplePanel = null;
+		if (source == menuItemTrangChu) {
+			setContentPane(contentPane);
+			return;
+		} else if (source == menuItemTaiKhoan) {
+			JOptionPane.showMessageDialog(null, "Tài Khoản Clicked");
+		} else if (source == menuItemTroGiup) {
+			JOptionPane.showMessageDialog(null, "Trợ Giúp Clicked");
+		} else if (source == menuItemDangXuat) {
+			GD_Login gdLogin = new GD_Login();
+			gdLogin.setVisible(true);
+			setVisible(false);
+			return;
+		} else if (source == menuItemThoat) {
+			setVisible(false);
+		} else if (source == menuItemPhong) {
+			simplePanel = new GD_QuanLyPhong();
+		} else if (source == menuItemNhanVien) {
+			simplePanel = new GD_QuanLyNhanVien();
+		} else if (source == menuItemHoaDon) {
+			simplePanel = new GD_QuanLyHoaDon();
+		} else if (source == menuItemKhachHang) {
+			simplePanel = new GD_QuanLyKhachHang();
+		} else if (source == menuItemKhuyenMai) {
+			simplePanel = new GD_QuanLyKhuyenMai();
+		} else if (source == menuItemDichVu) {
+			simplePanel = new GD_QuanLyDichVu();
+		} else if (source == menuThongKe) {
+
+		} else if (source == menuItemDatPhong) {
+			simplePanel = new GD_QuanLyDatPhong(
+					new NhanVien("NV230001", "", "", "", "", "", TrangThaiNhanVien.HIEU_LUC, null));
+		}
+		setContentPane(simplePanel);
+		validate();
+		repaint();
+>>>>>>> main
 	}
 }

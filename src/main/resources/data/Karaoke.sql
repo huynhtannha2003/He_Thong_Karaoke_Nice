@@ -44,6 +44,7 @@ CREATE TABLE NhanVien
     email      NVARCHAR(255),
     diaChi     NVARCHAR(255),
     trangThai  TINYINT,
+	hinhAnh NVARCHAR(255),
 );
 GO
 CREATE TABLE TaiKhoan
@@ -168,13 +169,13 @@ GO
 
 INSERT INTO NhanVien
 VALUES ('NV230001', N'Trần Trung Tiến', N'Người quản lý', '0986148209', N'tien@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1),
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg'),
        ('NV230002', N'La Minh Tâm', N'Người quản lý', '0886700046', N'tam@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1),
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg'),
        ('NV230003', N'Vũ Quốc Huy', N'Nhân viên', '0366895412', N'huy@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1),
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg'),
        ('NV230004', N'Lương Tấn Đạt', N'Nhân viên', '0962145578', N'dat@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1)
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg')
 GO
 
 INSERT INTO TaiKhoan
@@ -377,7 +378,8 @@ SELECT maNhanVien AS NhanVien_MaNhanVien,
        sdt        AS NhanVien_Sdt,
        email      AS NhanVien_Email,
        diaChi     AS NhanVien_DiaChi,
-       trangThai  AS NhanVien_TrangThai
+       trangThai  AS NhanVien_TrangThai,
+	   hinhAnh    AS NhanVien_HinhAnh
 FROM NhanVien;
 GO
 
@@ -788,11 +790,12 @@ CREATE PROCEDURE InsertIntoNhanVien @maNhanVien VARCHAR(8),
                                     @sdt VARCHAR(10),
                                     @email NVARCHAR(255),
                                     @diaChi NVARCHAR(255),
-                                    @trangThai TINYINT
+                                    @trangThai TINYINT,
+									@HinhAnh NVARCHAR(255)
 AS
 BEGIN
-    INSERT INTO NhanVien (maNhanVien, ten, chucVu, sdt, email, diaChi, trangThai)
-    VALUES (@maNhanVien, @ten, @chucVu, @sdt, @email, @diaChi, @trangThai)
+    INSERT INTO NhanVien (maNhanVien, ten, chucVu, sdt, email, diaChi, trangThai,hinhAnh)
+    VALUES (@maNhanVien, @ten, @chucVu, @sdt, @email, @diaChi, @trangThai,@HinhAnh)
 END;
 GO
 
@@ -947,6 +950,21 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE GetPhongByCondition(
+    @trangThai INT,
+    @maLoaiPhong VARCHAR(5),
+    @tenPhong NVARCHAR(255)
+)
+AS
+BEGIN
+    SELECT *
+    FROM PhongLoaiPhongLichSuaGiaByConditionTimeView
+    WHERE (@trangThai = -1 OR Phong_TrangThai = @trangThai)
+      AND (@maLoaiPhong IS NULL OR Phong_MaLoaiPhong = @maLoaiPhong)
+      AND (@tenPhong IS NULL OR Phong_TenPhong LIKE '%' + @tenPhong + '%');
+END;
+GO
+
 CREATE PROCEDURE GetHoaDonPagedByMaHoaDon @MaHoaDon VARCHAR(20),
                                           @PageNumber INT,
                                           @RowsPerPage INT
@@ -1055,6 +1073,24 @@ BEGIN
 END;
 GO
 
+CREATE FUNCTION GeneratePhieuDatPhongID()
+    RETURNS VARCHAR(15)
+AS
+BEGIN
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+
+    DECLARE @soThuTuPhieuDatPhong INT;
+    SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
+    FROM PhieuDatPhong
+    WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
+
+    RETURN 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
+           RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
+END;
+GO
+
 CREATE PROCEDURE BookKaraokeRoom(
     @maKhachHang VARCHAR(13),
     @maNhanVien VARCHAR(8),
@@ -1090,6 +1126,35 @@ BEGIN
 
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
+END;
+GO
+CREATE PROCEDURE ChangeKarokeRoom(
+    @maHoaDon VARCHAR(13),
+    @maPhong VARCHAR(7)
+)
+AS
+BEGIN
+    DECLARE @currentTime TIME = FORMAT(GETDATE(), 'HH:mm:ss');
+    DECLARE @maPhieuDatPhong VARCHAR(15);
+    DECLARE @oldPhongID VARCHAR(7);
+
+    SELECT @oldPhongID = pdp.maPhong
+    FROM PhieuDatPhong pdp
+    WHERE pdp.maHoaDon = @maHoaDon
+      AND pdp.thoiGianKetThuc IS NULL;
+
+    UPDATE Phong
+    SET trangThai = 0
+    WHERE maPhong = @oldPhongID;
+
+    UPDATE PhieuDatPhong
+    SET thoiGianKetThuc = @currentTime
+    WHERE maHoaDon = @maHoaDon
+      AND thoiGianKetThuc IS NULL;
+
+    SET @maPhieuDatPhong = dbo.GeneratePhieuDatPhongID();
+    INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
+    VALUES (@maPhieuDatPhong, @currentTime, @maHoaDon, @maPhong);
 END;
 GO
 
