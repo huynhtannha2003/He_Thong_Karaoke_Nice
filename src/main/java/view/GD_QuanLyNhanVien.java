@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -46,9 +47,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.FlowLayout;
-import utils.*;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.awt.Image;
 
 public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 
@@ -102,8 +103,9 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 	private Box horizontalBox;
 	private JButton btnChonAnh;
 	private JLabel lbImageNV;
+	private List<String> listAnh = new ArrayList<String>();
 
-	public GD_QuanLyNhanVien()  {
+	public GD_QuanLyNhanVien() {
 		setSize(1000, 700);
 		daoNV = new NhanVienDAO();
 		setLayout(new BorderLayout(0, 0));
@@ -117,7 +119,6 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		lbTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		TitlePanel.add(lbTitle);
-
 
 		JPanel PaneThongTin = new JPanel();
 		PaneThongTin.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nh\u1EADp th\u00F4ng tin",
@@ -256,7 +257,9 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		verticalBox.add(Box.createVerticalStrut(20));
 
 		JLabel lbImageNV = new JLabel();
+		lbImageNV.setPreferredSize(new Dimension(110, 120));
 		lbImageNV.setIcon(new ImageIcon(getClass().getResource("/image/icon/user_icon.png")));
+		Dimension d = lbImageNV.getPreferredSize();
 		lbImageNV.setMaximumSize(new Dimension(500, 200));
 		lbImageNV.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImageNV.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -367,6 +370,10 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 				} else {
 					cbTrangThai.setSelectedItem(TrangThaiNhanVien.HIEU_LUC);
 				}
+				ImageIcon icon = new ImageIcon(getClass().getResource(listAnh.get(row)));
+				Image scaledImage = icon.getImage().getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH);
+				ImageIcon imageScaled = new ImageIcon(scaledImage);
+				lbImageNV.setIcon(imageScaled);
 			}
 		});
 		// txtMaNhanVien.setEditable(false);
@@ -396,6 +403,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 			String[] s = { nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(), nhanVien.getSdt(),
 					nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
 			modelTable.addRow(s);
+			listAnh.add(nhanVien.getHinhAnh());
 		}
 	}
 
@@ -459,7 +467,8 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 
 	public NhanVien createNhanVien() {
 		return new NhanVien(txtMaNhanVien.getText(), txtTenNhanVien.getText(), "Nhân viên", txtSDT.getText(),
-				txtEmail.getText(), txtDiaChi.getText(), (TrangThaiNhanVien) cbTrangThai.getSelectedItem());
+				txtEmail.getText(), txtDiaChi.getText(), (TrangThaiNhanVien) cbTrangThai.getSelectedItem(),
+				selectImage());
 	}
 
 	public void loadcomboBoxTrangThai() {
@@ -473,5 +482,14 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		f.showOpenDialog(null);
 		File fileAnh = f.getSelectedFile();
 		String strAnh = fileAnh.getAbsolutePath();
+	}
+
+	private String selectImage() {
+		JFileChooser f = new JFileChooser();
+		f.setDialogTitle("Mở file");
+		f.showOpenDialog(null);
+		File fileAnh = f.getSelectedFile();
+		String strAnh = fileAnh.getAbsolutePath();
+		return strAnh;
 	}
 }

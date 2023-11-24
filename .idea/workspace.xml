@@ -6,22 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/karaoke_project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/connectDB/ConnectDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/connectDB/ConnectDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/NhanVienDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/NhanVienDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhuyenMai.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhuyenMai.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +106,10 @@
       <workItem from="1700147100542" duration="253000" />
       <workItem from="1700147365793" duration="8957000" />
       <workItem from="1700177249325" duration="412000" />
+      <workItem from="1700701632914" duration="195000" />
+      <workItem from="1700701838513" duration="26000" />
+      <workItem from="1700701873420" duration="3000" />
+      <workItem from="1700701887811" duration="158000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -136,6 +125,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: GD_QuanLyHoaDon action" />
     <MESSAGE value="feat: GD_ManHinhChinh action to menu" />
@@ -146,12 +146,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/dao/KhachHangDAO.java</url>
-          <line>25</line>
+          <line>49</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java</url>
-          <line>298</line>
+          <line>199</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

@@ -44,6 +44,7 @@ CREATE TABLE NhanVien
     email      NVARCHAR(255),
     diaChi     NVARCHAR(255),
     trangThai  TINYINT,
+	hinhAnh NVARCHAR(255),
 );
 GO
 CREATE TABLE TaiKhoan
@@ -168,13 +169,13 @@ GO
 
 INSERT INTO NhanVien
 VALUES ('NV230001', N'Trần Trung Tiến', N'Người quản lý', '0986148209', N'tien@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1),
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg'),
        ('NV230002', N'La Minh Tâm', N'Người quản lý', '0886700046', N'tam@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1),
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg'),
        ('NV230003', N'Vũ Quốc Huy', N'Nhân viên', '0366895412', N'huy@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1),
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg'),
        ('NV230004', N'Lương Tấn Đạt', N'Nhân viên', '0962145578', N'dat@gmail.com',
-        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1)
+        N'12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 1,'/image/avatar/VuQuocHuy.jpg')
 GO
 
 INSERT INTO TaiKhoan
@@ -377,7 +378,8 @@ SELECT maNhanVien AS NhanVien_MaNhanVien,
        sdt        AS NhanVien_Sdt,
        email      AS NhanVien_Email,
        diaChi     AS NhanVien_DiaChi,
-       trangThai  AS NhanVien_TrangThai
+       trangThai  AS NhanVien_TrangThai,
+	   hinhAnh    AS NhanVien_HinhAnh
 FROM NhanVien;
 GO
 
@@ -788,11 +790,12 @@ CREATE PROCEDURE InsertIntoNhanVien @maNhanVien VARCHAR(8),
                                     @sdt VARCHAR(10),
                                     @email NVARCHAR(255),
                                     @diaChi NVARCHAR(255),
-                                    @trangThai TINYINT
+                                    @trangThai TINYINT,
+									@HinhAnh NVARCHAR(255)
 AS
 BEGIN
-    INSERT INTO NhanVien (maNhanVien, ten, chucVu, sdt, email, diaChi, trangThai)
-    VALUES (@maNhanVien, @ten, @chucVu, @sdt, @email, @diaChi, @trangThai)
+    INSERT INTO NhanVien (maNhanVien, ten, chucVu, sdt, email, diaChi, trangThai,hinhAnh)
+    VALUES (@maNhanVien, @ten, @chucVu, @sdt, @email, @diaChi, @trangThai,@HinhAnh)
 END;
 GO
 
