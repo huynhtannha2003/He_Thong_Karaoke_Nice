@@ -88,7 +88,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             pnNotePhong.add(imageLabel);
             imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JLabel lblPhongTrong = new JLabel(currentTrangThaiPhong.getCustomName());
+            JLabel lblPhongTrong = new JLabel(currentTrangThaiPhong.getTypePhong());
             lblPhongTrong.setFont(new Font("Tahoma", Font.PLAIN, 13));
             pnNotePhong.add(lblPhongTrong);
 
@@ -152,7 +152,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         cbStatus.addItem("Tất cả");
 
         List.of(Arrays.stream(TrangThaiPhong.values())
-                .map(TrangThaiPhong::getCustomName)
+                .map(TrangThaiPhong::getTypePhong)
                 .toArray(String[]::new)).forEach(cbStatus::addItem);
 
         cbStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
