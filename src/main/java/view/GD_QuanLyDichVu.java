@@ -2,32 +2,46 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -38,8 +52,11 @@ import entity.DichVu;
 import entity.LichSuGiaDichVu;
 import entity.LoaiDichVu;
 import enums.TrangThaiDichVu;
+import enums.TrangThaiLoaiDichVu;
 
-public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseListener {
+import javax.swing.border.EtchedBorder;
+
+public class GD_QuanLyDichVu extends JFrame implements ActionListener, MouseListener {
 
 	private JTextField txtID;
 	private JTextField txtQuantity;
@@ -77,20 +94,31 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	private JLabel lblSelectKey;
 	private Box searchHorizontalBox;
 	private JComboBox cbType2;
-	private List<DichVu> invoices;
 	LocalDate current = LocalDate.now();
-    private JComboBox cbTypeTwo;
-    private JComboBox cbStatusTwo;
 
-	public GD_QuanLyDichVu()  {
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GD_QuanLyDichVu frame = new GD_QuanLyDichVu();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public GD_QuanLyDichVu() throws IOException {
 		dichVuDAO = new DichVuDAO();
 		lichSuGiaGiaoDichDAO = new LichSuGiaDichVuDAO();
 		initGUI();
 	}
 
-	private void initGUI()  {
+	private void initGUI() throws IOException {
 		setupFrame();
 
+		addMenuBar();
 
 		addPanelNorth();
 
@@ -99,16 +127,17 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	}
 
 	private void setupFrame() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
+		setLocationRelativeTo(null);
 		setBackground(new Color(255, 255, 255));
 	}
 
 	private void addPanelNorth() {
-		setLayout(new BorderLayout(0, 0));
 		pnNorth = new JPanel();
 		pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnNorth.setBackground(new Color(97, 250, 204));
-		add(pnNorth);
+		getContentPane().add(pnNorth, BorderLayout.NORTH);
 		pnNorth.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JLabel lblTitle = new JLabel("Quản lý dịch vụ");
@@ -121,7 +150,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 	private void addPanelCenter() {
 		pnCenter = new JPanel();
 		pnCenter.setBackground(new Color(255, 255, 255));
-		add(pnCenter);
+		getContentPane().add(pnCenter, BorderLayout.CENTER);
 
 		addForm();
 	}
@@ -369,6 +398,25 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 		updateComboBoxKey();
 	}
 
+	public void addMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu menuHeThong = new JMenu("Hệ thống");
+		menuBar.add(menuHeThong);
+
+		JMenu menuDanhMuc = new JMenu("Danh mục");
+		menuBar.add(menuDanhMuc);
+
+		JMenu menuXuLy = new JMenu("Xử lý");
+		menuBar.add(menuXuLy);
+
+		JMenu menuThongKe = new JMenu("Thống kê");
+		menuBar.add(menuThongKe);
+
+		JMenu menuTroGiup = new JMenu("Trợ giúp");
+		menuBar.add(menuTroGiup);
+	}
 
 	private void loadData() {
 //		DecimalFormat df = new DecimalFormat("#,##0đ");
@@ -418,15 +466,9 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 			selectImage();
 		}
 		if (o.equals(btnSearch)) {
-			handleSearch();
+//			searchObject();
 		}
 
-	}
-
-	private void handleSearch() {
-		int selectedOption = cbSelectKey.getSelectedIndex();
-		invoices = getColumnName(1, selectedOption);
-		loadData();
 	}
 
 	private void addObject() {
@@ -484,34 +526,82 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 		String strAnh = fileAnh.getAbsolutePath();
 	}
 
-	private List<DichVu> getColumnName(int selectedKey, int selectedOption) {
+//	private void searchObject() {
+//		try {
+////			loadDataFind();
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//	}
+//
+////	public void loadDataFind() throws SQLException {
+//		List<DichVu> listDichVu = null;
+//		String tuKhoa = txtKey.getText();
+//		String cbKey = cbSelectKey.getSelectedItem().toString();
+//		if (cbKey.equals("Mã dịch vụ")) {
+//			listDichVu = dichVuDAO.getDichVuTheoMa(tuKhoa);
+//		}
+////		if (s.equals("Tên dịch vụ")) {
+////			listDichVu = dichVuDAO.getDSDichVuTheoTen(tuKhoa);
+////		}
+////		if (s.equals("Giá")) {
+////			listDichVu = dichVuDAO.getDSDichVuTheoGia(tuKhoa);
+////		}
+////		if (s.equals("Số lượng")) {
+////			listDichVu = dichVuDAO.getDSDichVuTheoSoLuong(tuKhoa);
+////		}
+////		if (s.equals("Tên loại dịch vụ")) {
+////			listDichVu = dichVuDAO.getDSDichVuTheoTenLoai(tuKhoa);
+////		}
+////		if (s.equals("Trạng thái")) {
+////			searchHorizontalBox.remove(txtKey);
+////			searchHorizontalBox.add(cbType);
+////		}
+////			listDichVu = dichVuDAO.getDSDichVuTheoTrangThai(tuKhoa);
+////		}
+//		modelTable.setRowCount(0);
+//		int i = modelTable.getRowCount() + 1;
+//		for (DichVu s : listDichVu) {
+//			Object[] row = { i, s.getMaDichVu(), s.getTenDichVu(), s.getLichSuGiaDichVuList().get(0).getGia(),
+//					s.getSoLuong(), s.getLoaiDichVu().getTenLoaiDichVu(), s.getTrangThai().getName() };
+//			modelTable.addRow(row);
+//		}
+//	}
+	private String getColumnName(String selectedKey) {
 		switch (selectedKey) {
-		case 0:
-			return dichVuDAO.getAllDichVu();
-		case 1:
-			System.out.println(1);
-			return dichVuDAO.getDichVuTheoMa(txtKey.getText());
-		case 2:
-			return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
-		case 3:
-			searchHorizontalBox.remove(txtKey);
-			searchHorizontalBox.add(cbStatusTwo);
-			List<LoaiDichVu> list = dichVuDAO.getLoaiDichVu();
-			for (LoaiDichVu dichVu : list) {
-				cbStatusTwo.addItem(dichVu);
-			}
-//			return dichVuDAO.getDSTheoLoai(cbStatusTwo.getSelectedIndex());
-		case 4:
-			searchHorizontalBox.remove(txtKey);
-			searchHorizontalBox.add(cbTypeTwo);
-			cbTypeTwo.addItem(TrangThaiDichVu.VO_HIEU.getName());
-			cbTypeTwo.addItem(TrangThaiDichVu.HIEU_LUC.getName());
-//			return dichVuDAO;
+		case "Mã dịch vụ":
+			return "maDichVu";
+		case "Tên dịch vụ":
+			return "tenDichVu";
+		case "Giá":
+			return "gia";
+		case "Số lượng":
+			return "soLuong";
+		case "Tên loại dịch vụ":
+			return "tenLoaiDichVu";
+		case "Trạng thái":
+			return "trangThai";
 		default:
-			return new ArrayList<DichVu>();
+			return null; // Return null if the key is not recognized
 		}
-
 	}
+
+//	private void search() {
+//		String selectedKey = cbSelectKey.getSelectedItem().toString();
+//		String inputValue = txtKey.getText().toString();
+//		if (selectedKey.isEmpty() || inputValue.isEmpty()) {
+//			return;
+//		}
+//
+//		String columnName = getColumnName(selectedKey);
+//		try {
+//			// gọi hàm dao ra 
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -548,4 +638,34 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
 	}
 
+//	private int taoMaDichVu() {
+//		List<DichVu> dv = dichVuDAO.getDichVu();
+//		int i = 0;
+//		while (i < dv.size()) {
+//			if(Integer.parseInt(dv.get(i).))
+//		}
+//	}
+//	
+//	public static String tạoMaLichSuGiaDichVu() {
+//		int sequenceNumber;
+//        // Lấy ngày hiện tại
+//        Date currentDate = new Date();
+//
+//        // Định dạng ngày tháng năm
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
+//
+//        // Tạo chuỗi DDMMYY từ ngày hiện tại
+//        String datePart = dateFormat.format(currentDate);
+//
+//        // Tạo chuỗi số thứ tự XXX
+//        String sequencePart = String.format("%03d", sequenceNumber);
+//
+//        // Tăng số thứ tự để sử dụng cho lần sau
+//        sequenceNumber++;
+//
+//        // Tạo mã phát sinh
+//        String generatedCode = "GDV." + datePart + "." + sequencePart;
+//
+//        return generatedCode;
+//    }
 }

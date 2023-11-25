@@ -24,348 +24,383 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Timer;
 import java.awt.Color;
-
 import com.toedter.calendar.JDateChooser;
+
+import connectDB.ConnectDB;
+import dao.KhuyenMaiDAO;
+import entity.KhuyenMai;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-import utils.*;
-
-public class GD_QuanLyKhuyenMai extends JPanel {
-
-    private JTextField txtMaKhuyenMai;
-    private JTextField txtTenKhuyenMai;
-    private JTable table;
-    private JTextField txtMaTimKiem;
-    private JLabel lbPhanTram;
-    private JLabel lbMaKhuyenMai;
-    private JTextField txtMaKhachHang;
-    private JLabel lbTenKhuyenMai;
-    private JLabel lbTimKiemMaKM;
-    private JLabel lbTimKiemTrangThai;
-    private JButton btnTimKiem;
-    private JScrollPane scrollPane;
-    private DefaultTableModel modelTable;
-    private Box horizontalBox;
-    private Box horizontalBox_1;
-    private Component verticalStrut_6;
-    private JLabel lbNgayBatDau;
-    private JDateChooser txtNgayBatDau;
-    private JLabel lbTrangThai;
-    private JComboBox cbTrangThai;
-    private JLabel lbNgayKetThuc;
-    private JDateChooser txtNgayKetThuc;
-    private JLabel lbGioiHan;
-    private JTextField txtGioiHan;
-    private Box BoxThongTin3;
-    private JButton btnThem;
-    private JButton btnCapNhat;
-    private JButton btnXoaTrangThongTin;
-    private JComboBox cbPhanTram;
-    private Box horizontalBox_2;
-    private JLabel lbTimKiemNgayBatDau;
-    private JDateChooser txtTimKiemNgayBatDau;
-    private JLabel lbTimKiemNgayKetThuc;
-    private JDateChooser txtTimKiemNgayKetThuc;
-    private JComboBox cbTacVuTrangThai;
-    private JButton btnXoaTrangTacVu;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GD_QuanLyKhuyenMai frame = new GD_QuanLyKhuyenMai();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public GD_QuanLyKhuyenMai() {
-        setSize(1000, 700);
-
-        setLayout(new BorderLayout(0, 5));
-
-        JPanel TitlePanel = new JPanel();
-        TitlePanel.setBackground(new Color(97, 250, 254));
-        add(TitlePanel, BorderLayout.NORTH);
-
-        JLabel lbTitle = new JLabel("Quản lý khuyến mãi");
-        lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
-        TitlePanel.add(lbTitle);
-
-        JPanel ContentPanel = new JPanel();
-        add(ContentPanel);
-        ContentPanel.setLayout(new BorderLayout(0, 10));
-
-        JPanel PaneThongTin = new JPanel();
-        PaneThongTin.setBorder(
-                new TitledBorder(null, "Nhập thông tin", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
-        PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
-
-        Box BoxVerticalThongTin = Box.createVerticalBox();
-        PaneThongTin.add(BoxVerticalThongTin);
-
-        Component verticalStrut = Box.createVerticalStrut(10);
-        BoxVerticalThongTin.add(verticalStrut);
-
-        Box BoxThongTin1 = Box.createHorizontalBox();
-        BoxVerticalThongTin.add(BoxThongTin1);
-
-        lbPhanTram = new JLabel("Phần trăm :");
-        lbPhanTram.setPreferredSize(new Dimension(120, 30));
-
-        BoxThongTin1.add(Box.createHorizontalStrut(20));
-
-        lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
-        lbMaKhuyenMai.setPreferredSize(new Dimension(120, 30));
-        lbMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lbMaKhuyenMai.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lbMaKhuyenMai.setHorizontalAlignment(SwingConstants.LEFT);
-        BoxThongTin1.add(lbMaKhuyenMai);
-
-        txtMaKhuyenMai = new JTextField();
-        lbMaKhuyenMai.setLabelFor(txtMaKhuyenMai);
-        BoxThongTin1.add(txtMaKhuyenMai);
+public class GD_QuanLyKhuyenMai extends JFrame implements ActionListener {
+
+	private JPanel contentPane;
+	private JTextField txtMaKhuyenMai;
+	private JTextField txtTenKhuyenMai;
+	private JTable table;
+	private JTextField txtMaTimKiem;
+	private JMenuBar menuBar;
+	private JMenu MenuHeThong;
+	private JMenu MenuDanhMuc;
+	private JMenuItem MenuItemPhong;
+	private JMenuItem MenuItemNhanVien;
+	private JMenuItem MenuItemDichVu;
+	private JMenuItem MenuItemKhachHang;
+	private JMenuItem MenuItemKhuyenMai;
+	private JMenu MenuXuLy;
+	private JMenuItem MenuItemDatPhong;
+	private JMenu MenuThongKe;
+	private JMenuItem MenuItemTKDoanhThu;
+	private JMenu MenuTroGiup;
+	private JButton btnTimKiem;
+	private JScrollPane scrollPane;
+	private DefaultTableModel modelTable;
+	private Box horizontalBox;
+	private Box horizontalBox_1;
+	private JDateChooser txtNgayBatDau;
+	private JTextField txtGioiHan;
+	private Box BoxThongTin3;
+	private JButton btnThem;
+	private JButton btnCapNhat;
+	private JButton btnXoaTrangThongTin;
+	private JComboBox cbPhanTram;
+	private Box horizontalBox_2;
+	private JDateChooser txtTimKiemNgayBatDau;
+	private JDateChooser txtTimKiemNgayKetThuc;
+	private JComboBox cbTacVuTrangThai;
+	private JButton btnXoaTrangTacVu;
+	private JMenuItem MenuItemTrangChu;
+	private JMenuItem MenuItemTaiKhoan;
+	private JMenuItem MenuItemDangXuat;
+	private JMenuItem MenuItemThoat;
+	private List<KhuyenMai> list = new ArrayList<KhuyenMai>();
+	private KhuyenMaiDAO daoKM;
+	private JLabel lbNgayKetThuc;
+	private JDateChooser txtNgayKetThuc;
+	private JLabel lbThoiDiemBatDau;
+	private JComboBox cbThoiDiemBatDau;
+	private JLabel lblNewLabel;
+	private JComboBox cbThoiDiemKetThuc;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GD_QuanLyKhuyenMai frame = new GD_QuanLyKhuyenMai();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * 
+	 * @throws SQLException
+	 */
+	public GD_QuanLyKhuyenMai() throws SQLException {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(1002, 699);
+		setLocationRelativeTo(null);
+		menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		setJMenuBar(menuBar);
+		daoKM = new KhuyenMaiDAO();
+		ConnectDB.getInstance().connect();
+		MenuHeThong = new JMenu("Hệ thống");
+		MenuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuHeThong);
+
+		MenuItemTrangChu = new JMenuItem("Trang chủ");
+		MenuHeThong.add(MenuItemTrangChu);
+
+		MenuItemTaiKhoan = new JMenuItem("Tài khoản ");
+		MenuHeThong.add(MenuItemTaiKhoan);
+
+		JMenuItem MenuItemTroGiup = new JMenuItem("Trợ giúp");
+		MenuHeThong.add(MenuItemTroGiup);
+
+		MenuItemDangXuat = new JMenuItem("Đăng xuất");
+		MenuHeThong.add(MenuItemDangXuat);
+
+		MenuItemThoat = new JMenuItem("Thoát");
+		MenuHeThong.add(MenuItemThoat);
+
+		MenuDanhMuc = new JMenu("Danh mục");
+		MenuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuDanhMuc);
 
-        Component horizontalStrut_5 = Box.createHorizontalStrut(20);
-        BoxThongTin1.add(horizontalStrut_5);
+		MenuItemPhong = new JMenuItem("Phòng");
+		MenuDanhMuc.add(MenuItemPhong);
 
-        lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
-        lbTenKhuyenMai.setPreferredSize(lbPhanTram.getPreferredSize());
-        lbTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
-        BoxThongTin1.add(lbTenKhuyenMai);
+		MenuItemNhanVien = new JMenuItem("Nhân viên");
+		MenuDanhMuc.add(MenuItemNhanVien);
 
-        txtTenKhuyenMai = new JTextField();
-        lbTenKhuyenMai.setLabelFor(txtTenKhuyenMai);
-        BoxThongTin1.add(txtTenKhuyenMai);
+		MenuItemDichVu = new JMenuItem("Dịch vụ");
+		MenuDanhMuc.add(MenuItemDichVu);
 
-        Component verticalStrut_1 = Box.createVerticalStrut(20);
-        BoxVerticalThongTin.add(verticalStrut_1);
+		MenuItemKhachHang = new JMenuItem("Khách hàng");
+		MenuDanhMuc.add(MenuItemKhachHang);
 
-        Box BoxThongTin2 = Box.createHorizontalBox();
-        BoxVerticalThongTin.add(BoxThongTin2);
+		MenuItemKhuyenMai = new JMenuItem("Khuyến mãi");
+		MenuDanhMuc.add(MenuItemKhuyenMai);
 
-        BoxThongTin2.add(Box.createHorizontalStrut(20));
+		MenuXuLy = new JMenu("Xử lý");
+		MenuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuXuLy);
 
-        lbPhanTram.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lbPhanTram.setHorizontalAlignment(SwingConstants.LEFT);
-        BoxThongTin2.add(lbPhanTram);
+		MenuItemDatPhong = new JMenuItem("Đặt phòng");
+		MenuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		MenuXuLy.add(MenuItemDatPhong);
 
-        cbPhanTram = new JComboBox();
-        lbPhanTram.setLabelFor(cbPhanTram);
-        cbPhanTram.setModel(new DefaultComboBoxModel(new String[]{"30%", "70%", "100%"}));
-        BoxThongTin2.add(cbPhanTram);
+		MenuThongKe = new JMenu("Thống kê");
+		MenuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuThongKe);
 
-        BoxThongTin2.add(Box.createHorizontalStrut(20));
+		MenuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
+		MenuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		MenuThongKe.add(MenuItemTKDoanhThu);
 
-        lbGioiHan = new JLabel("Giới hạn:");
-        lbGioiHan.setPreferredSize(new Dimension(70, 30));
-        lbGioiHan.setFont(new Font("Tahoma", Font.BOLD, 14));
-        BoxThongTin2.add(lbGioiHan);
+		MenuTroGiup = new JMenu("Trợ giúp");
+		MenuTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuTroGiup);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        txtGioiHan = new JTextField();
-        lbGioiHan.setLabelFor(txtGioiHan);
-        BoxThongTin2.add(txtGioiHan);
-        txtGioiHan.setColumns(10);
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 5));
 
-        Component verticalStrut_2 = Box.createVerticalStrut(20);
-        BoxVerticalThongTin.add(verticalStrut_2);
+		JPanel TitlePanel = new JPanel();
+		TitlePanel.setBackground(new Color(97, 250, 254));
+		contentPane.add(TitlePanel, BorderLayout.NORTH);
 
-        horizontalBox = Box.createHorizontalBox();
-        BoxVerticalThongTin.add(horizontalBox);
+		JLabel lbTitle = new JLabel("Quản lý khuyến mãi");
+		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
+		TitlePanel.add(lbTitle);
 
-        horizontalBox.add(Box.createHorizontalStrut(20));
+		JPanel ContentPanel = new JPanel();
+		contentPane.add(ContentPanel);
+		ContentPanel.setLayout(new BorderLayout(0, 10));
 
-        lbNgayBatDau = new JLabel("Ngày bắt đầu:");
-        lbNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
-        lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
-        horizontalBox.add(lbNgayBatDau);
+		JPanel PaneThongTin = new JPanel();
+		PaneThongTin.setBorder(
+				new TitledBorder(null, "Nhập thông tin", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
+		PaneThongTin.setLayout(new BoxLayout(PaneThongTin, BoxLayout.X_AXIS));
 
-        txtNgayBatDau = new JDateChooser();
-        lbNgayBatDau.setLabelFor(txtNgayBatDau);
-        txtNgayBatDau.setPreferredSize(new Dimension(0, 20));
-        horizontalBox.add(txtNgayBatDau);
+		Box BoxVerticalThongTin = Box.createVerticalBox();
+		PaneThongTin.add(BoxVerticalThongTin);
 
-        horizontalBox.add(Box.createHorizontalStrut(20));
+		Component verticalStrut = Box.createVerticalStrut(10);
+		BoxVerticalThongTin.add(verticalStrut);
 
-        lbTrangThai = new JLabel("Trạng thái:");
-        lbTrangThai.setPreferredSize(new Dimension(90, 30));
-        lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
-        horizontalBox.add(lbTrangThai);
+		Box BoxThongTin1 = Box.createHorizontalBox();
+		BoxVerticalThongTin.add(BoxThongTin1);
 
-        cbTrangThai = new JComboBox();
-        lbTrangThai.setLabelFor(cbTrangThai);
-        cbTrangThai.setModel(new DefaultComboBoxModel(new String[]{"Còn hiệu lực", "Hết hiệu lực"}));
-        horizontalBox.add(cbTrangThai);
+		JLabel lbPhanTram = new JLabel("Phần trăm :");
+		lbPhanTram.setPreferredSize(new Dimension(120, 30));
 
-        verticalStrut_6 = Box.createVerticalStrut(20);
-        BoxVerticalThongTin.add(verticalStrut_6);
+		BoxThongTin1.add(Box.createHorizontalStrut(20));
 
-        horizontalBox_1 = Box.createHorizontalBox();
-        BoxVerticalThongTin.add(horizontalBox_1);
+		JLabel lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
+		lbMaKhuyenMai.setPreferredSize(new Dimension(120, 30));
+		lbMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbMaKhuyenMai.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lbMaKhuyenMai.setHorizontalAlignment(SwingConstants.LEFT);
+		BoxThongTin1.add(lbMaKhuyenMai);
 
-        horizontalBox_1.add(Box.createHorizontalStrut(20));
+		txtMaKhuyenMai = new JTextField();
+		txtMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbMaKhuyenMai.setLabelFor(txtMaKhuyenMai);
+		BoxThongTin1.add(txtMaKhuyenMai);
 
-        lbNgayKetThuc = new JLabel("Ngày kết thúc:");
-        lbNgayKetThuc.setPreferredSize(lbPhanTram.getPreferredSize());
-        lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-        horizontalBox_1.add(lbNgayKetThuc);
+		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
+		BoxThongTin1.add(horizontalStrut_5);
 
-        txtNgayKetThuc = new JDateChooser();
-        lbNgayKetThuc.setLabelFor(txtNgayKetThuc);
-        horizontalBox_1.add(txtNgayKetThuc);
+		JLabel lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
+		lbTenKhuyenMai.setPreferredSize(lbPhanTram.getPreferredSize());
+		lbTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
+		BoxThongTin1.add(lbTenKhuyenMai);
 
-        BoxVerticalThongTin.add(Box.createVerticalStrut(20));
+		txtTenKhuyenMai = new JTextField();
+		txtTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbTenKhuyenMai.setLabelFor(txtTenKhuyenMai);
+		BoxThongTin1.add(txtTenKhuyenMai);
 
-        BoxThongTin3 = Box.createHorizontalBox();
-        BoxThongTin3.setAlignmentX(1.0f);
-        BoxVerticalThongTin.add(BoxThongTin3);
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		BoxVerticalThongTin.add(verticalStrut_1);
 
-        btnThem = new JButton("Thêm");
-        btnThem.setIcon(new ImageIcon(getClass().getResource("/image/icon/add_icon.png")));
-        btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnThem.setBackground(new Color(107, 208, 107));
-        BoxThongTin3.add(btnThem);
+		Box BoxThongTin2 = Box.createHorizontalBox();
+		BoxVerticalThongTin.add(BoxThongTin2);
 
-        BoxThongTin3.add(Box.createHorizontalStrut(20));
+		BoxThongTin2.add(Box.createHorizontalStrut(20));
 
-        btnCapNhat = new JButton("Cập nhật");
-        btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
-        btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnCapNhat.setBackground(new Color(107, 208, 107));
-        BoxThongTin3.add(btnCapNhat);
+		lbPhanTram.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbPhanTram.setHorizontalAlignment(SwingConstants.LEFT);
+		BoxThongTin2.add(lbPhanTram);
 
-        BoxThongTin3.add(Box.createHorizontalStrut(20));
+		cbPhanTram = new JComboBox<Float>();
+		cbPhanTram.setModel(new DefaultComboBoxModel(
+				new String[] { "5.0", "10.0", "15.0", "20.0", "25.0", "30.0", "35.0", "40.0", "45.0", "50.0", "55.0",
+						"60.0", "65.0", "70.0", "75.0", "80.0", "85.0", "90.0", "95.0", "100.0" }));
+		cbPhanTram.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbPhanTram.setLabelFor(cbPhanTram);
+		BoxThongTin2.add(cbPhanTram);
 
-        btnXoaTrangThongTin = new JButton("Xóa trắng");
-        btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
-        btnXoaTrangThongTin.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
-        BoxThongTin3.add(btnXoaTrangThongTin);
+		BoxThongTin2.add(Box.createHorizontalStrut(20));
 
-        BoxVerticalThongTin.add(Box.createVerticalStrut(10));
+		JLabel lbGioiHan = new JLabel("Giới hạn:");
+		lbGioiHan.setPreferredSize(new Dimension(70, 30));
+		lbGioiHan.setFont(new Font("Tahoma", Font.BOLD, 14));
+		BoxThongTin2.add(lbGioiHan);
 
-        JPanel ContentPane = new JPanel();
-        ContentPanel.add(ContentPane, BorderLayout.CENTER);
-        ContentPane.setLayout(new BorderLayout(0, 10));
+		txtGioiHan = new JTextField();
+		txtGioiHan.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbGioiHan.setLabelFor(txtGioiHan);
+		BoxThongTin2.add(txtGioiHan);
+		txtGioiHan.setColumns(10);
 
-        JPanel PaneTacVu = new JPanel();
-        PaneTacVu.setBorder(new TitledBorder(null, "Ch\u1ECDn t\u00E1c v\u1EE5", TitledBorder.LEADING, TitledBorder.TOP,
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		BoxVerticalThongTin.add(verticalStrut_2);
 
-                null, null));
-        ContentPane.add(PaneTacVu, BorderLayout.NORTH);
-        PaneTacVu.setLayout(new BoxLayout(PaneTacVu, BoxLayout.X_AXIS));
+		horizontalBox = Box.createHorizontalBox();
+		BoxVerticalThongTin.add(horizontalBox);
 
-        Component horizontalStrut_3 = Box.createHorizontalStrut(20);
-        PaneTacVu.add(horizontalStrut_3);
+		horizontalBox.add(Box.createHorizontalStrut(20));
 
-        Box BoxVerticalTacVu = Box.createVerticalBox();
-        PaneTacVu.add(BoxVerticalTacVu);
+		JLabel lbNgayBatDau = new JLabel("Ngày bắt đầu:");
+		lbNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
+		lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox.add(lbNgayBatDau);
 
-        Component verticalStrut_3 = Box.createVerticalStrut(10);
-        BoxVerticalTacVu.add(verticalStrut_3);
+		txtNgayBatDau = new JDateChooser();
+		txtNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtNgayBatDau.setDateFormatString("yyyy-MM-dd");
+		lbNgayBatDau.setLabelFor(txtNgayBatDau);
+		txtNgayBatDau.setPreferredSize(new Dimension(0, 20));
+		horizontalBox.add(txtNgayBatDau);
 
-        Box BoxTacVu = Box.createHorizontalBox();
-        BoxVerticalTacVu.add(BoxTacVu);
+		horizontalBox.add(Box.createHorizontalStrut(20));
 
-        lbTimKiemMaKM = new JLabel("Mã khuyến mãi:");
-        lbTimKiemMaKM.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lbTimKiemMaKM.setAlignmentX(Component.CENTER_ALIGNMENT);
-        BoxTacVu.add(lbTimKiemMaKM);
+		lbNgayKetThuc = new JLabel("Ngày kết thúc:");
+		lbNgayKetThuc.setPreferredSize(new Dimension(120, 30));
+		lbNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox.add(lbNgayKetThuc);
 
-        lbTimKiemMaKM.setPreferredSize(new Dimension(120, 30));
+		txtNgayKetThuc = new JDateChooser();
+		txtNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtNgayKetThuc.setDateFormatString("yyyy-MM-dd");
+		horizontalBox.add(txtNgayKetThuc);
 
-        txtMaTimKiem = new JTextField();
-        lbTimKiemMaKM.setLabelFor(txtMaTimKiem);
-        BoxTacVu.add(txtMaTimKiem);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-        Component horizontalStrut_8_1_1_1 = Box.createHorizontalStrut(20);
-        BoxTacVu.add(horizontalStrut_8_1_1_1);
+		horizontalBox_1 = Box.createHorizontalBox();
+		BoxVerticalThongTin.add(horizontalBox_1);
 
-        lbTimKiemTrangThai = new JLabel("Trạng thái:");
-        lbTimKiemTrangThai.setPreferredSize(new Dimension(90, 30));
-        lbTimKiemTrangThai.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lbTimKiemTrangThai.setAlignmentX(Component.CENTER_ALIGNMENT);
-        BoxTacVu.add(lbTimKiemTrangThai);
+		horizontalBox_1.add(Box.createHorizontalStrut(20));
 
-        cbTacVuTrangThai = new JComboBox();
-        lbTimKiemTrangThai.setLabelFor(cbTacVuTrangThai);
-        cbTacVuTrangThai.setModel(new DefaultComboBoxModel(new String[]{"Còn hiệu lực", "Hết hiệu lực"}));
-        BoxTacVu.add(cbTacVuTrangThai);
+		lbThoiDiemBatDau = new JLabel("Thời điểm bắt đầu:");
+		lbThoiDiemBatDau.setPreferredSize(new Dimension(150, 30));
+		lbThoiDiemBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox_1.add(lbThoiDiemBatDau);
 
-        Component horizontalStrut_9_1_1_1 = Box.createHorizontalStrut(60);
-        BoxTacVu.add(horizontalStrut_9_1_1_1);
+		cbThoiDiemBatDau = new JComboBox();
+		cbThoiDiemBatDau.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cbThoiDiemBatDau.setModel(new DefaultComboBoxModel(new String[] { "8", "9", "10", "11", "12", "13", "14", "15",
+				"16", "17", "18", "19", "20", "21", "22", "23", "24" }));
+		lbThoiDiemBatDau.setLabelFor(cbThoiDiemBatDau);
+		horizontalBox_1.add(cbThoiDiemBatDau);
 
-        btnTimKiem = new JButton("Tìm kiếm");
-        btnTimKiem.setPreferredSize(new Dimension(127, 30));
-        btnTimKiem.setBackground(new Color(107, 208, 107));
-        btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
-        BoxTacVu.add(btnTimKiem);
+		horizontalBox_1.add(Box.createHorizontalStrut(20));
 
-        Component horizontalStrut_10_1_1_1 = Box.createHorizontalStrut(20);
-        BoxTacVu.add(horizontalStrut_10_1_1_1);
+		lblNewLabel = new JLabel("Thời điểm kết thúc:");
+		lblNewLabel.setPreferredSize(new Dimension(150, 30));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox_1.add(lblNewLabel);
 
-        Component verticalStrut_4 = Box.createVerticalStrut(20);
-        BoxVerticalTacVu.add(verticalStrut_4);
+		cbThoiDiemKetThuc = new JComboBox();
+		cbThoiDiemKetThuc.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cbThoiDiemKetThuc.setModel(new DefaultComboBoxModel(new String[] { "8", "9", "10", "11", "12", "13", "14", "15",
+				"16", "17", "18", "19", "20", "21", "22", "23", "24" }));
+		lblNewLabel.setLabelFor(cbThoiDiemKetThuc);
+		horizontalBox_1.add(cbThoiDiemKetThuc);
 
-        horizontalBox_2 = Box.createHorizontalBox();
-        BoxVerticalTacVu.add(horizontalBox_2);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-        lbTimKiemNgayBatDau = new JLabel("Ngày bắt đầu:");
-        lbTimKiemNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
-        lbTimKiemNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
-        horizontalBox_2.add(lbTimKiemNgayBatDau);
+		BoxThongTin3 = Box.createHorizontalBox();
+		BoxThongTin3.setAlignmentX(1.0f);
+		BoxVerticalThongTin.add(BoxThongTin3);
 
-        txtTimKiemNgayBatDau = new JDateChooser();
-        lbTimKiemNgayBatDau.setLabelFor(txtTimKiemNgayBatDau);
-        horizontalBox_2.add(txtTimKiemNgayBatDau);
+		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon(getClass().getResource("/image/icon/add_icon.png")));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThem.setBackground(new Color(107, 208, 107));
+		BoxThongTin3.add(btnThem);
 
-        horizontalBox_2.add(Box.createHorizontalStrut(20));
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
-        lbTimKiemNgayKetThuc = new JLabel("Ngày kết thúc:");
-        lbTimKiemNgayKetThuc.setPreferredSize(lbPhanTram.getPreferredSize());
-        lbTimKiemNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-        horizontalBox_2.add(lbTimKiemNgayKetThuc);
+		btnCapNhat = new JButton("Cập nhật");
+		btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
+		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCapNhat.setBackground(new Color(107, 208, 107));
+		BoxThongTin3.add(btnCapNhat);
 
-        txtTimKiemNgayKetThuc = new JDateChooser();
-        lbTimKiemNgayKetThuc.setLabelFor(txtTimKiemNgayKetThuc);
-        horizontalBox_2.add(txtTimKiemNgayKetThuc);
+		BoxThongTin3.add(Box.createHorizontalStrut(20));
 
-        horizontalBox_2.add(Box.createHorizontalStrut(20));
+		btnXoaTrangThongTin = new JButton("Xóa trắng");
+		btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
+		btnXoaTrangThongTin.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
+		BoxThongTin3.add(btnXoaTrangThongTin);
 
-        btnXoaTrangTacVu = new JButton("Xóa trắng");
-        btnXoaTrangTacVu.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
-        btnXoaTrangTacVu.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXoaTrangTacVu.setBackground(new Color(107, 208, 107));
-        horizontalBox_2.add(btnXoaTrangTacVu);
+		BoxVerticalThongTin.add(Box.createVerticalStrut(20));
 
-        horizontalBox_2.add(Box.createHorizontalStrut(20));
+		PaneThongTin.add(Box.createHorizontalStrut(20));
 
-        BoxVerticalTacVu.add(Box.createVerticalStrut(10));
+		JPanel ContentPane = new JPanel();
+		ContentPanel.add(ContentPane, BorderLayout.CENTER);
+		ContentPane.setLayout(new BorderLayout(0, 10));
 
-        Component horizontalStrut_4 = Box.createHorizontalStrut(20);
-        PaneTacVu.add(horizontalStrut_4);
+		JPanel PaneTacVu = new JPanel();
+		PaneTacVu.setBorder(new TitledBorder(null, "Ch\u1ECDn t\u00E1c v\u1EE5", TitledBorder.LEADING, TitledBorder.TOP,
 
-        String row[] = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email"};
-        modelTable = new DefaultTableModel(row, 0);
-        table = new JTable(modelTable);
-        scrollPane = new JScrollPane(table);
-        table.setFont(new Font("Tahoma", Font.BOLD, 12));
-        ContentPane.add(scrollPane, BorderLayout.CENTER);
+				null, null));
+		ContentPane.add(PaneTacVu, BorderLayout.NORTH);
+		PaneTacVu.setLayout(new BoxLayout(PaneTacVu, BoxLayout.X_AXIS));
 
-        String s[] = {"KH123", "Vũ Quốc Huy", "0334405617", "vuquochuy.01012003@gmail.com"};
-        modelTable.addRow(s);
+		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+		PaneTacVu.add(horizontalStrut_3);
 
-    }
+		Box BoxVerticalTacVu = Box.createVerticalBox();
+		PaneTacVu.add(BoxVerticalTacVu);
 
-<<<<<<< HEAD
+		Component verticalStrut_3 = Box.createVerticalStrut(10);
+		BoxVerticalTacVu.add(verticalStrut_3);
+
+		Box BoxTacVu = Box.createHorizontalBox();
+		BoxVerticalTacVu.add(BoxTacVu);
+
 		JLabel lbTimKiemMaKM = new JLabel("Mã khuyến mãi:");
 		lbTimKiemMaKM.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTimKiemMaKM.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -587,6 +622,4 @@ public class GD_QuanLyKhuyenMai extends JPanel {
 		daoKM.updateKhuyenMai(km, km.getMaKhuyenMai());
 		loadData();
 	}
-=======
->>>>>>> main
 }

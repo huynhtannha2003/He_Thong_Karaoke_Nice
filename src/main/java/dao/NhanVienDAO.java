@@ -17,7 +17,7 @@ import view.GD_QuanLyNhanVien;
 public class NhanVienDAO {
 	private ConnectDB connectDB;
 
-	public NhanVienDAO() {
+	public NhanVienDAO() throws SQLException {
 		this.connectDB = ConnectDB.getInstance();
 	}
 
@@ -41,7 +41,7 @@ public class NhanVienDAO {
 
 	public boolean createNhanVien(NhanVien nv) {
 		Connection connection = connectDB.getConnection();
-		String query = "INSERT INTO NhanVien values(?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO NhanVien values(?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -51,7 +51,6 @@ public class NhanVienDAO {
 			preparedStatement.setString(4, nv.getSdt());
 			preparedStatement.setString(5, nv.getEmail());
 			preparedStatement.setString(6, nv.getDiaChi());
-			preparedStatement.setString(8, nv.getHinhAnh());
 			if (nv.getTrangThai() == TrangThaiNhanVien.HIEU_LUC) {
 				preparedStatement.setInt(7, 1);
 			} else {
@@ -66,7 +65,7 @@ public class NhanVienDAO {
 
 	public boolean updateNhanVien(NhanVien nv, String maNV) {
 		Connection connection = connectDB.getConnection();
-		String query = "UPDATE NhanVien set maNhanVien = ?, ten = ?,chucVu = ?, sdt = ?, email = ?, diaChi = ?, trangThai = ?, hinhAnh = ? where maNhanVien = ?";
+		String query = "UPDATE NhanVien set maNhanVien = ?, ten = ?,chucVu = ?, sdt = ?, email = ?, diaChi = ?, trangThai = ? where maNhanVien = ?";
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -76,8 +75,7 @@ public class NhanVienDAO {
 			preparedStatement.setString(4, nv.getSdt());
 			preparedStatement.setString(5, nv.getEmail());
 			preparedStatement.setString(6, nv.getDiaChi());
-			preparedStatement.setString(8, nv.getHinhAnh());
-			preparedStatement.setString(9, maNV);
+			preparedStatement.setString(8, maNV);
 			if (nv.getTrangThai() == TrangThaiNhanVien.HIEU_LUC) {
 				preparedStatement.setInt(7, 1);
 			} else {

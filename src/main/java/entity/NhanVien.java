@@ -19,7 +19,7 @@ public class NhanVien {
 	}
 
 	public NhanVien(String maNhanVien, String ten, String chucVu, String sdt, String email, String diaChi,
-			TrangThaiNhanVien trangThai, String HinhAnh) {
+			TrangThaiNhanVien trangThai) {
 		this.maNhanVien = maNhanVien;
 		this.ten = ten;
 		this.chucVu = chucVu;
@@ -27,7 +27,6 @@ public class NhanVien {
 		this.email = email;
 		this.diaChi = diaChi;
 		this.trangThai = trangThai;
-		this.hinhAnh = HinhAnh;
 	}
 
 	public NhanVien(ResultSet rs) throws SQLException {
@@ -38,9 +37,7 @@ public class NhanVien {
 		this.email = rs.getString("NhanVien_Email");
 		this.diaChi = rs.getString("NhanVien_DiaChi");
 		this.trangThai = TrangThaiNhanVien.values()[rs.getInt("NhanVien_TrangThai")];
-		this.hinhAnh = rs.getString("NhanVien_HinhAnh");
 	}
-
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}
@@ -95,13 +92,5 @@ public class NhanVien {
 
 	public void setTrangThai(TrangThaiNhanVien trangThai) {
 		this.trangThai = trangThai;
-	}
-
-	public String getHinhAnh() {
-		return this.hinhAnh;
-	}
-
-	public void setHinhAnh(String hinhAnh) {
-		this.hinhAnh = hinhAnh;
 	}
 }

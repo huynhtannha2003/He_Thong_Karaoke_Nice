@@ -29,7 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -47,14 +46,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.FlowLayout;
+import utils.*;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.awt.Image;
 
-public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
+public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 
 	private List<NhanVien> list = null;
 	private NhanVienDAO daoNV;
+	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu MenuHeThong;
 	private JMenuItem MenuItemTrangChu;
@@ -103,22 +103,106 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 	private Box horizontalBox;
 	private JButton btnChonAnh;
 	private JLabel lbImageNV;
-<<<<<<< HEAD
 	private JLabel lbChucVu;
 	private JComboBox cbChucVu;
 	private Component horizontalStrut;
-=======
-	private List<String> listAnh = new ArrayList<String>();
->>>>>>> main
 
-	public GD_QuanLyNhanVien() {
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GD_QuanLyNhanVien frame = new GD_QuanLyNhanVien();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * 
+	 * @throws SQLException
+	 */
+	public GD_QuanLyNhanVien() throws SQLException {
+		ConnectDB.getInstance().connect();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
+		setLocationRelativeTo(null);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		daoNV = new NhanVienDAO();
-		setLayout(new BorderLayout(0, 0));
+		menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		setJMenuBar(menuBar);
+
+		MenuHeThong = new JMenu("Hệ thống");
+		MenuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuHeThong);
+
+		MenuItemTrangChu = new JMenuItem("Trang chủ");
+		MenuHeThong.add(MenuItemTrangChu);
+
+		MenuItemTaiKhoan = new JMenuItem("Tài khoản ");
+		MenuHeThong.add(MenuItemTaiKhoan);
+
+		JMenuItem MenuItemTroGiup = new JMenuItem("Trợ giúp");
+		MenuHeThong.add(MenuItemTroGiup);
+
+		MenuItemDangXuat = new JMenuItem("Đăng xuất");
+		MenuHeThong.add(MenuItemDangXuat);
+
+		MenuItemThoat = new JMenuItem("Thoát");
+		MenuHeThong.add(MenuItemThoat);
+
+		MenuDanhMuc = new JMenu("Danh mục");
+		MenuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuDanhMuc);
+
+		MenuItemPhong = new JMenuItem("Phòng");
+		MenuDanhMuc.add(MenuItemPhong);
+
+		MenuItemNhanVien = new JMenuItem("Nhân viên");
+		MenuDanhMuc.add(MenuItemNhanVien);
+
+		MenuItemDichVu = new JMenuItem("Dịch vụ");
+		MenuDanhMuc.add(MenuItemDichVu);
+
+		MenuItemKhachHang = new JMenuItem("Khách hàng");
+		MenuDanhMuc.add(MenuItemKhachHang);
+
+		MenuItemKhuyenMai = new JMenuItem("Khuyến mãi");
+		MenuDanhMuc.add(MenuItemKhuyenMai);
+
+		MenuXuLy = new JMenu("Xử lý");
+		MenuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuXuLy);
+
+		MenuItemDatPhong = new JMenuItem("Đặt phòng");
+		MenuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		MenuXuLy.add(MenuItemDatPhong);
+
+		MenuThongKe = new JMenu("Thống kê");
+		MenuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuThongKe);
+
+		MenuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
+		MenuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		MenuThongKe.add(MenuItemTKDoanhThu);
+
+		MenuTroGiup = new JMenu("Trợ giúp");
+		MenuTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(MenuTroGiup);
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
 
 		JPanel TitlePanel = new JPanel();
 		TitlePanel.setBackground(new Color(97, 250, 254));
-		add(TitlePanel, BorderLayout.NORTH);
+		contentPane.add(TitlePanel, BorderLayout.NORTH);
 		TitlePanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JLabel lbTitle = new JLabel("Quản lý nhân viên");
@@ -126,10 +210,14 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		TitlePanel.add(lbTitle);
 
+		JPanel ContentPanel = new JPanel();
+		contentPane.add(ContentPanel, BorderLayout.CENTER);
+		ContentPanel.setLayout(new BorderLayout(0, 10));
+
 		JPanel PaneThongTin = new JPanel();
 		PaneThongTin.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nh\u1EADp th\u00F4ng tin",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		add(PaneThongTin, BorderLayout.NORTH);
+		ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
 		PaneThongTin.setLayout(new BorderLayout(0, 0));
 
 		PaneThongTinText = new JPanel();
@@ -277,9 +365,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		verticalBox.add(Box.createVerticalStrut(20));
 
 		JLabel lbImageNV = new JLabel();
-		lbImageNV.setPreferredSize(new Dimension(110, 120));
 		lbImageNV.setIcon(new ImageIcon(getClass().getResource("/image/icon/user_icon.png")));
-		Dimension d = lbImageNV.getPreferredSize();
 		lbImageNV.setMaximumSize(new Dimension(500, 200));
 		lbImageNV.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImageNV.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -309,7 +395,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		PaneThongTinImage.add(Box.createHorizontalStrut(20));
 
 		PaneTVandDanhSach = new JPanel();
-		add(PaneTVandDanhSach, BorderLayout.CENTER);
+		ContentPanel.add(PaneTVandDanhSach, BorderLayout.CENTER);
 		PaneTVandDanhSach.setLayout(new BorderLayout(0, 10));
 
 		PaneTacVu_1 = new JPanel();
@@ -391,7 +477,6 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 				} else {
 					cbTrangThai.setSelectedItem(TrangThaiNhanVien.HIEU_LUC);
 				}
-<<<<<<< HEAD
 
 				if (table.getValueAt(row, 3).toString().equals("Người quản lý")) {
 					cbChucVu.setSelectedIndex(1);
@@ -399,12 +484,6 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 					cbChucVu.setSelectedIndex(0);
 				}
 
-=======
-				ImageIcon icon = new ImageIcon(getClass().getResource(listAnh.get(row)));
-				Image scaledImage = icon.getImage().getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH);
-				ImageIcon imageScaled = new ImageIcon(scaledImage);
-				lbImageNV.setIcon(imageScaled);
->>>>>>> main
 			}
 		});
 		// txtMaNhanVien.setEditable(false);
@@ -435,7 +514,6 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 			String[] s = { i++ + "", nhanVien.getMaNhanVien(), nhanVien.getTen(), nhanVien.getChucVu(),
 					nhanVien.getSdt(), nhanVien.getEmail(), nhanVien.getDiaChi(), nhanVien.getTrangThai().toString() };
 			modelTable.addRow(s);
-			listAnh.add(nhanVien.getHinhAnh());
 		}
 	}
 
@@ -496,17 +574,10 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		}
 	}
 
-<<<<<<< HEAD
 	public NhanVien revertSPFormNhanVien() {
 		return new NhanVien(txtMaNhanVien.getText(), txtTenNhanVien.getText(), cbChucVu.getSelectedItem().toString(),
 				txtSDT.getText(), txtEmail.getText(), txtDiaChi.getText(),
 				(TrangThaiNhanVien) cbTrangThai.getSelectedItem());
-=======
-	public NhanVien createNhanVien() {
-		return new NhanVien(txtMaNhanVien.getText(), txtTenNhanVien.getText(), "Nhân viên", txtSDT.getText(),
-				txtEmail.getText(), txtDiaChi.getText(), (TrangThaiNhanVien) cbTrangThai.getSelectedItem(),
-				selectImage());
->>>>>>> main
 	}
 
 	public void loadcomboBoxTrangThai() {
@@ -520,14 +591,5 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		f.showOpenDialog(null);
 		File fileAnh = f.getSelectedFile();
 		String strAnh = fileAnh.getAbsolutePath();
-	}
-
-	private String selectImage() {
-		JFileChooser f = new JFileChooser();
-		f.setDialogTitle("Mở file");
-		f.showOpenDialog(null);
-		File fileAnh = f.getSelectedFile();
-		String strAnh = fileAnh.getAbsolutePath();
-		return strAnh;
 	}
 }

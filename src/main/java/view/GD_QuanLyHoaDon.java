@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
+public class GD_QuanLyHoaDon extends JFrame implements ActionListener {
 
     private JTextField txtMaHoaDon, txtTenKhachHang;
     private JLabel lbNgayBatDau, lbMaHoaDon, lbTenKhachHang, lbNgayKetThuc, lblCurrentPageNumber;
@@ -44,8 +44,23 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
     private JLabel lblSelect;
     private JComboBox<String> cbSelect;
 
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GD_QuanLyHoaDon frame = new GD_QuanLyHoaDon();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public GD_QuanLyHoaDon() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 700);
+        setLocationRelativeTo(null);
 
         hoaDonDAO = new HoaDonDAO();
         phieuDatPhongDAO = new PhieuDatPhongDAO();
@@ -94,11 +109,11 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
     }
 
     private void createGUI() {
-        setLayout(new BorderLayout(0, 0));
+        getContentPane().setLayout(new BorderLayout(0, 10));
 
         JPanel TitlePanel = new JPanel();
         TitlePanel.setBackground(new Color(97, 250, 204));
-        add(TitlePanel);
+        getContentPane().add(TitlePanel, BorderLayout.NORTH);
 
         JLabel lbTitle = new JLabel("Quản lý hóa đơn");
         lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
@@ -106,7 +121,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
 
         JPanel ContentPanel = new JPanel();
         ContentPanel.setBackground(new Color(255, 255, 255));
-        add(ContentPanel);
+        getContentPane().add(ContentPanel);
         ContentPanel.setLayout(new BorderLayout(0, 20));
 
         JPanel PaneThongTin = new JPanel();
