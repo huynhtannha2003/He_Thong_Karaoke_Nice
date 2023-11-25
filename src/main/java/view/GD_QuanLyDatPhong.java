@@ -18,11 +18,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener, ActionListener {
+public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener, ActionListener {
 
 	private final LoaiPhongDAO loaiPhongDAO;
 	private final HoaDonDAO hoaDonDAO;
-	private JPanel contentPane;
 	private JTextField txtName;
 	private JPanel pnCenter;
 	private List<Phong> listPhong;
@@ -50,7 +49,7 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
 		});
 	}
 
-	public GD_QuanLyDatPhong(NhanVien currentNhanVien) throws IOException {
+	public GD_QuanLyDatPhong(NhanVien currentNhanVien) {
 		nhanVien = currentNhanVien;
 		phongDAO = new PhongDAO();
 		loaiPhongDAO = new LoaiPhongDAO();
@@ -59,16 +58,11 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
 	}
 
 	private void setupFrame() {
-		getContentPane().setBackground(Color.WHITE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1000, 700);
-		setLocationRelativeTo(null);
 	}
 
-	private void initGUI() throws IOException {
+	private void initGUI() {
 		setupFrame();
-
-		addMenuBar();
 
 		addPanelNorth();
 
@@ -77,10 +71,10 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
 		addPanelCenter();
 	}
 
-	private void addPanelCenter() throws IOException {
+	private void addPanelCenter() {
 		pnCenter = new JPanel();
 		pnCenter.setBackground(new Color(255, 255, 255));
-		getContentPane().add(pnCenter, BorderLayout.CENTER);
+		add(pnCenter);
 		pnCenter.setLayout(new BorderLayout(0, 0));
 
 		addForm();
@@ -115,7 +109,7 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
         }
     }
 
-    private void addPanelRoom() throws IOException {
+    private void addPanelRoom() {
         pnListRoom = new JPanel();
         pnListRoom.setBackground(new Color(255, 255, 255));
         JScrollPane scrollPane = new JScrollPane(pnListRoom);
@@ -240,39 +234,21 @@ public class GD_QuanLyDatPhong extends JFrame implements PhongPanelClickListener
     }
 
     private void addPanelNorth() {
+        setLayout(new BorderLayout(0, 0));
         JPanel pnNorth = new JPanel();
         pnNorth.setBackground(new Color(97, 250, 204));
-        getContentPane().add(pnNorth, BorderLayout.NORTH);
+        add(pnNorth, BorderLayout.NORTH);
+        pnNorth.setLayout(new BorderLayout(0, 0));
 
         JLabel lblTitle = new JLabel("Quản lý đặt phòng");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
         pnNorth.add(lblTitle);
     }
 
-    public void addMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        JMenu menuHeThong = new JMenu("Hệ thống");
-        menuBar.add(menuHeThong);
-
-        JMenu menuDanhMuc = new JMenu("Danh mục");
-        menuBar.add(menuDanhMuc);
-
-        JMenu menuXuLy = new JMenu("Xử lý");
-        menuBar.add(menuXuLy);
-
-        JMenu menuThongKe = new JMenu("Thống kê");
-        menuBar.add(menuThongKe);
-
-        JMenu menuTroGiup = new JMenu("Trợ giúp");
-        menuBar.add(menuTroGiup);
-    }
-
     private void addLeftPanelButton() {
         JPanel pnLeft = new JPanel();
         pnLeft.setBackground(new Color(255, 255, 255));
-        getContentPane().add(pnLeft, BorderLayout.WEST);
+        add(pnLeft, BorderLayout.WEST);
 
         JPanel pnLeftButton = new JPanel();
         pnLeftButton.setBackground(new Color(255, 255, 255));

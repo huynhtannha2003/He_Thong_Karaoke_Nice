@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class GD_QuanLyPhong extends JFrame implements ActionListener, PhongPanelClickListener {
+public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanelClickListener {
 	private JPanel pnNorth, pnCenter, pnSouth, pnInfo, pnFind, pnListRoom;
 	private JLabel lblTitle, lblMaPhong, lblTenPhong, lblSoLuong, lblTrangThai, lblLoai, lblTuKhoaTim;
 	private JTextField txtMaPhong, txtTenPhong, txtTrangThai, txtTuKhoaTim;
@@ -48,18 +48,14 @@ public class GD_QuanLyPhong extends JFrame implements ActionListener, PhongPanel
 	}
 
 	private void createGUI() {
-		setTitle("Quản lý phòng");
 		setSize(1000, 700);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setResizable(false);
-		setLocationRelativeTo(this);
 
-		getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
+		add(pnNorth = new JPanel(), BorderLayout.NORTH);
 		pnNorth.setBackground(new Color(97, 250, 204));
 		pnNorth.add(lblTitle = new JLabel("Quản lý phòng"));
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 
-		getContentPane().add(pnCenter = new JPanel(), BorderLayout.CENTER);
+		add(pnCenter = new JPanel(), BorderLayout.CENTER);
 //		pnCenter.setLayout(new GridLayout(3, 1));
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 
