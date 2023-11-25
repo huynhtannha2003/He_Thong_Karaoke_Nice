@@ -50,11 +50,10 @@ import utils.*;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
+public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 
 	private List<NhanVien> list = null;
 	private NhanVienDAO daoNV;
-	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu MenuHeThong;
 	private JMenuItem MenuItemTrangChu;
@@ -107,102 +106,14 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 	private JComboBox cbChucVu;
 	private Component horizontalStrut;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GD_QuanLyNhanVien frame = new GD_QuanLyNhanVien();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 * 
-	 * @throws SQLException
-	 */
-	public GD_QuanLyNhanVien() throws SQLException {
-		ConnectDB.getInstance().connect();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public GD_QuanLyNhanVien()  {
 		setSize(1000, 700);
-		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		daoNV = new NhanVienDAO();
-		menuBar = new JMenuBar();
-		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
-		setJMenuBar(menuBar);
-
-		MenuHeThong = new JMenu("Hệ thống");
-		MenuHeThong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuHeThong);
-
-		MenuItemTrangChu = new JMenuItem("Trang chủ");
-		MenuHeThong.add(MenuItemTrangChu);
-
-		MenuItemTaiKhoan = new JMenuItem("Tài khoản ");
-		MenuHeThong.add(MenuItemTaiKhoan);
-
-		JMenuItem MenuItemTroGiup = new JMenuItem("Trợ giúp");
-		MenuHeThong.add(MenuItemTroGiup);
-
-		MenuItemDangXuat = new JMenuItem("Đăng xuất");
-		MenuHeThong.add(MenuItemDangXuat);
-
-		MenuItemThoat = new JMenuItem("Thoát");
-		MenuHeThong.add(MenuItemThoat);
-
-		MenuDanhMuc = new JMenu("Danh mục");
-		MenuDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuDanhMuc);
-
-		MenuItemPhong = new JMenuItem("Phòng");
-		MenuDanhMuc.add(MenuItemPhong);
-
-		MenuItemNhanVien = new JMenuItem("Nhân viên");
-		MenuDanhMuc.add(MenuItemNhanVien);
-
-		MenuItemDichVu = new JMenuItem("Dịch vụ");
-		MenuDanhMuc.add(MenuItemDichVu);
-
-		MenuItemKhachHang = new JMenuItem("Khách hàng");
-		MenuDanhMuc.add(MenuItemKhachHang);
-
-		MenuItemKhuyenMai = new JMenuItem("Khuyến mãi");
-		MenuDanhMuc.add(MenuItemKhuyenMai);
-
-		MenuXuLy = new JMenu("Xử lý");
-		MenuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuXuLy);
-
-		MenuItemDatPhong = new JMenuItem("Đặt phòng");
-		MenuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuXuLy.add(MenuItemDatPhong);
-
-		MenuThongKe = new JMenu("Thống kê");
-		MenuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuThongKe);
-
-		MenuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
-		MenuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		MenuThongKe.add(MenuItemTKDoanhThu);
-
-		MenuTroGiup = new JMenu("Trợ giúp");
-		MenuTroGiup.setFont(new Font("Tahoma", Font.BOLD, 14));
-		menuBar.add(MenuTroGiup);
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout());
 
 		JPanel TitlePanel = new JPanel();
 		TitlePanel.setBackground(new Color(97, 250, 254));
-		contentPane.add(TitlePanel, BorderLayout.NORTH);
+		add(TitlePanel, BorderLayout.NORTH);
 		TitlePanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JLabel lbTitle = new JLabel("Quản lý nhân viên");
@@ -210,14 +121,10 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		TitlePanel.add(lbTitle);
 
-		JPanel ContentPanel = new JPanel();
-		contentPane.add(ContentPanel, BorderLayout.CENTER);
-		ContentPanel.setLayout(new BorderLayout(0, 10));
-
 		JPanel PaneThongTin = new JPanel();
 		PaneThongTin.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nh\u1EADp th\u00F4ng tin",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		ContentPanel.add(PaneThongTin, BorderLayout.NORTH);
+		add(PaneThongTin, BorderLayout.CENTER);
 		PaneThongTin.setLayout(new BorderLayout(0, 0));
 
 		PaneThongTinText = new JPanel();
@@ -395,7 +302,7 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 		PaneThongTinImage.add(Box.createHorizontalStrut(20));
 
 		PaneTVandDanhSach = new JPanel();
-		ContentPanel.add(PaneTVandDanhSach, BorderLayout.CENTER);
+		add(PaneTVandDanhSach, BorderLayout.CENTER);
 		PaneTVandDanhSach.setLayout(new BorderLayout(0, 10));
 
 		PaneTacVu_1 = new JPanel();
@@ -454,6 +361,8 @@ public class GD_QuanLyNhanVien extends JFrame implements ActionListener {
 		scrollPane = new JScrollPane(table);
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
 		PaneTVandDanhSach.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setPreferredSize(new Dimension(200,300));
+
 		loadData();
 		loadcomboBoxTrangThai();
 		btnThem.addActionListener(this);

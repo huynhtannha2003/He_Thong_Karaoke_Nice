@@ -1,5 +1,7 @@
 package view;
 
+import entity.NhanVien;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -51,10 +53,11 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 		});
 	}
 
-	public GD_ManHinhChinh() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 700);
-		setLocationRelativeTo(null);
+    public GD_ManHinhChinh() {
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
 
 		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -134,44 +137,69 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lbBackGroundKaraoke = new JLabel("");
-		lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
-		lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
-		contentPane.add(lbBackGroundKaraoke);
+        init();
 
-		menuItemTrangChu.addActionListener(this);
-		menuItemTaiKhoan.addActionListener(this);
-		menuItemTroGiup.addActionListener(this);
-		menuItemDangXuat.addActionListener(this);
-		menuItemThoat.addActionListener(this);
-		menuItemPhong.addActionListener(this);
-		menuItemNhanVien.addActionListener(this);
-		menuItemDichVu.addActionListener(this);
-		menuItemKhachHang.addActionListener(this);
-		menuItemKhuyenMai.addActionListener(this);
-		menuItemDatPhong.addActionListener(this);
-		menuItemTKDoanhThu.addActionListener(this);
-		menuItemHoaDon.addActionListener(this);
-	}
+        menuItemTrangChu.addActionListener(this);
+        menuItemTaiKhoan.addActionListener(this);
+        menuItemTroGiup.addActionListener(this);
+        menuItemDangXuat.addActionListener(this);
+        menuItemThoat.addActionListener(this);
+        menuItemPhong.addActionListener(this);
+        menuItemNhanVien.addActionListener(this);
+        menuItemDichVu.addActionListener(this);
+        menuItemKhachHang.addActionListener(this);
+        menuItemKhuyenMai.addActionListener(this);
+        menuItemDatPhong.addActionListener(this);
+        menuItemTKDoanhThu.addActionListener(this);
+        menuItemHoaDon.addActionListener(this);
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
-		if (source == menuItemTrangChu) {
+    private void init() {
+        lbBackGroundKaraoke = new JLabel("");
+        lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
+        lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
+        add(lbBackGroundKaraoke);
+    }
 
-		} else if (source == menuItemTaiKhoan) {
-			JOptionPane.showMessageDialog(null, "Tài Khoản Clicked");
-		} else if (source == menuItemTroGiup) {
-			JOptionPane.showMessageDialog(null, "Trợ Giúp Clicked");
-		} else if (source == menuItemDangXuat) {
-			JOptionPane.showMessageDialog(null, "Đăng Xuất Clicked");
-		} else if (source == menuItemThoat) {
-			JOptionPane.showMessageDialog(null, "Thoát Clicked");
-		} else if (source == menuItemPhong) {
-			JOptionPane.showMessageDialog(null, "Phòng Clicked");
-		} else if (source == menuItemNhanVien) {
-			JOptionPane.showMessageDialog(null, "Nhân Viên Clicked");
-		} else if (source == menuItemHoaDon) {
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        JPanel simplePanel = null;
+        if (source == menuItemTrangChu) {
+//            setContentPane(contentPane);
+            return;
+        } else if (source == menuItemTaiKhoan) {
+            JOptionPane.showMessageDialog(null, "Tài Khoản Clicked");
+        } else if (source == menuItemTroGiup) {
+            JOptionPane.showMessageDialog(null, "Trợ Giúp Clicked");
+        } else if (source == menuItemDangXuat) {
+            GD_Login gdLogin = new GD_Login();
+            gdLogin.setVisible(true);
+            setVisible(false);
+            return;
+        } else if (source == menuItemThoat) {
+            setVisible(false);
+        } else if (source == menuItemPhong) {
+            simplePanel = new GD_QuanLyPhong();
+        } else if (source == menuItemNhanVien) {
+            simplePanel = new GD_QuanLyNhanVien();
+        } else if (source == menuItemHoaDon) {
+            simplePanel = new GD_QuanLyHoaDon();
+        } else if (source == menuItemKhachHang) {
+            simplePanel = new GD_QuanLyKhachHang();
+        } else if (source == menuItemKhuyenMai) {
+            simplePanel = new GD_QuanLyKhuyenMai();
+        } else if (source == menuItemDichVu) {
+            simplePanel = new GD_QuanLyDichVu();
+        } else if (source == menuItemTKDoanhThu) {
+            simplePanel = new GD_ThongKe();
+        } else if (source == menuItemDatPhong) {
+            simplePanel = new GD_QuanLyDatPhong(
+                    new NhanVien("NV230001", "", "", "", "", "", null)
+            );
+        }
+        setContentPane(simplePanel);
+        validate();
+        repaint();
+    }
 }
