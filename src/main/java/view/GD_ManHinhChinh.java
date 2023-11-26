@@ -198,9 +198,7 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
         } else if (source == menuItemTKDoanhThu) {
             simplePanel = new GD_ThongKe();
         } else if (source == menuItemDatPhong) {
-            simplePanel = new GD_QuanLyDatPhong(
-                    new NhanVien("NV230001", "", "", "", "", "", null)
-            );
+            simplePanel = new GD_QuanLyDatPhong(this.taiKhoanLogin.getNhanVien());
         }
         setContentPane(simplePanel);
         validate();

@@ -91,7 +91,7 @@ public class GD_QuanLyKhuyenMai extends JPanel {
 		setLayout(new BorderLayout(0, 5));
 
 		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 254));
+		TitlePanel.setBackground(new Color(97, 250, 204));
 		add(TitlePanel, BorderLayout.NORTH);
 
 		JLabel lbTitle = new JLabel("Quản lý khuyến mãi");

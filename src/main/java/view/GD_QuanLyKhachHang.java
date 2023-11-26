@@ -77,7 +77,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 
 		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 254));
+		TitlePanel.setBackground(new Color(97, 250, 204));
 		add(TitlePanel, BorderLayout.NORTH);
 		TitlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 

@@ -109,7 +109,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 
 		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 254));
+		TitlePanel.setBackground(new Color(97, 250, 204));
 		add(TitlePanel, BorderLayout.NORTH);
 		TitlePanel.setLayout(new GridLayout(0, 1, 0, 0));
 
