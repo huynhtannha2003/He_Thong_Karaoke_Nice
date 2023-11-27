@@ -48,7 +48,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         setSize(1000, 700);
     }
 
-    private void initGUI()  {
+    private void initGUI() {
         setupFrame();
 
         addPanelNorth();
@@ -58,7 +58,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         addPanelCenter();
     }
 
-    private void addPanelCenter()  {
+    private void addPanelCenter() {
         pnCenter = new JPanel();
         pnCenter.setBackground(new Color(255, 255, 255));
         add(pnCenter);
@@ -96,7 +96,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         }
     }
 
-    private void addPanelRoom()  {
+    private void addPanelRoom() {
         pnListRoom = new JPanel();
         pnListRoom.setBackground(new Color(255, 255, 255));
         JScrollPane scrollPane = new JScrollPane(pnListRoom);
@@ -326,22 +326,56 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openChuyenPhongWindow();
         } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
         } else if (source.equals(btnDatPhongCho)) {
-            GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
-            gdDatPhongCho.setVisible(true);
+            openDatPhongChoWindow();
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
-            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
-            GD_DatDichVu gdDatDichVu = new GD_DatDichVu(hoaDon);
-            gdDatDichVu.setVisible(true);
+            openDatDichVuWindow();
         } else if (source.equals(btnThanhToan)) {
-            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
-            GD_ThanhToan gdThanhToan = new GD_ThanhToan(hoaDon);
-            gdThanhToan.setVisible(true);
+            openThanhToanWindow();
         } else if (source.equals(btnFind)) {
             handleFindAction();
         } else if (source.equals(btnClear)) {
             handleClearAction();
+        }
+    }
+
+    private void openDatDichVuWindow() {
+        if (phongSelected != null && phongSelected.getTrangThai() == TrangThaiPhong.PHONG_DANG_SU_DUNG) {
+            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
+            GD_DatDichVu gdDatDichVu = new GD_DatDichVu(hoaDon, phongSelected.getTenPhong());
+            gdDatDichVu.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Chọn một phòng trống để đặt dịch vụ", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void openDatPhongChoWindow() {
+        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
+        gdDatPhongCho.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                getAllRoom();
+                handleClearAction();
+            }
+        });
+        gdDatPhongCho.setVisible(true);
+    }
+
+    private void openThanhToanWindow() {
+        if (phongSelected != null && !(phongSelected.getTrangThai() == TrangThaiPhong.PHONG_TRONG)) {
+            HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
+            GD_ThanhToan gdThanhToan = new GD_ThanhToan(hoaDon);
+            gdThanhToan.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    getAllRoom();
+                    handleClearAction();
+                }
+            });
+            gdThanhToan.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Chọn một phòng trống để thanh toán", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -352,6 +386,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
                 @Override
                 public void windowClosed(WindowEvent e) {
                     getAllRoom();
+                    handleClearAction();
                 }
             });
             gdDatPhong.setVisible(true);

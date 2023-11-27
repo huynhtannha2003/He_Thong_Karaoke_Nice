@@ -4,6 +4,7 @@ import dao.ChiTietDatDichVuDAO;
 import dao.DichVuDAO;
 import entity.DichVu;
 import entity.HoaDon;
+import entity.LoaiDichVu;
 import utils.DichVuPanelClickListener;
 import utils.RoomPanelUtil;
 
@@ -12,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +26,18 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
     private JTextField txtServiceName;
     private JTable tableOrderedServices;
     private JTextField textField;
+    private JComboBox cmbLoaiDV;
     private List<DichVu> listDichVu = new ArrayList<>();
     private final DichVuDAO dichVuDAO;
     private List<DichVu> selectedDichVuList = new ArrayList<>();
     private final ChiTietDatDichVuDAO chiTietDatDichVuDAO;
     private final HoaDon hoaDon;
 
-    public GD_DatDichVu(HoaDon selectedHoaDon) {
+    public GD_DatDichVu(HoaDon selectedHoaDon, String tenPhong) {
         hoaDon = selectedHoaDon;
         dichVuDAO = new DichVuDAO();
         chiTietDatDichVuDAO = new ChiTietDatDichVuDAO();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1000, 700);
         setLocationRelativeTo(null);
 
@@ -50,7 +54,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         getContentPane().add(panel, BorderLayout.CENTER);
         panel.setLayout(null);
 
-        JLabel lblRoomName = new JLabel("Phòng 003");
+        JLabel lblRoomName = new JLabel("Phòng: " + tenPhong);
         lblRoomName.setFont(new Font("Tahoma", Font.BOLD, 14));
         lblRoomName.setBounds(10, 10, 96, 25);
         panel.add(lblRoomName);
@@ -60,9 +64,28 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         lblServiceType.setBounds(369, 10, 96, 25);
         panel.add(lblServiceType);
 
-        JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(475, 12, 85, 25);
-        panel.add(comboBox);
+        cmbLoaiDV = new JComboBox();
+        cmbLoaiDV.setBounds(475, 12, 85, 25);
+        panel.add(cmbLoaiDV);
+        cmbLoaiDV.addItem("Tất cả");
+
+        List<LoaiDichVu> listLoaiDV = dichVuDAO.getLoaiDichVu();
+        for (LoaiDichVu loaiDichVu : listLoaiDV) {
+            cmbLoaiDV.addItem(loaiDichVu.getTenLoaiDichVu());
+        }
+
+        cmbLoaiDV.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    if (cmbLoaiDV.getSelectedIndex() == 0) {
+
+                    } else if (cmbLoaiDV.getSelectedIndex() == 1) {
+
+                    }
+                }
+            }
+        });
 
         JLabel lblServiceName = new JLabel("Tên dịch vụ:");
         lblServiceName.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -261,9 +284,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
     }
 
     private boolean insertChiTietDatDichVu() {
-        return chiTietDatDichVuDAO.insertChiTietDatDichVu(
-                hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getMaPhieuDatPhong(),
-                selectedDichVuList);
+        return chiTietDatDichVuDAO.insertChiTietDatDichVu(hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getMaPhieuDatPhong(), selectedDichVuList);
     }
 
     private void clearAllData() {

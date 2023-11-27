@@ -57,7 +57,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
     private void createGUI() {
         setTitle("Đặt phòng");
         setSize(555, 385);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(this);
         setResizable(false);
 

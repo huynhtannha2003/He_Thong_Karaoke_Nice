@@ -347,8 +347,13 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
             List<Phong> rooms = dao.GetPhongByLoaiPhong(daoLoaiPhong.getLoaiPhongByTen("Phòng vip"));
             loadRoom(rooms);
         } else if (cmbLoaiTimKiem.getSelectedIndex() == 7) {
-            List<Phong> rooms = dao.getPhongByTen(txtTuKhoaTim.getText());
-            loadRoom(rooms);
+            if (!(txtTuKhoaTim.getText().equalsIgnoreCase(""))) {
+                List<Phong> rooms = dao.getPhongByTen(txtTuKhoaTim.getText());
+                loadRoom(rooms);
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên phòng!");
+                txtTuKhoaTim.requestFocus();
+            }
         }
     }
 

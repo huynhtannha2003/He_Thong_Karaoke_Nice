@@ -59,7 +59,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
         setTitle("Thanh toán");
         setSize(800, 650);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(this);
 
         getContentPane().add(pnNorth = new JPanel(), BorderLayout.NORTH);
@@ -399,6 +399,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
             setVisible(false);
+            dispose();
         } else if (source == btnAdd) {
             String khuyenMaiName = txtCouponID.getText();
             if (khuyenMaiName.isEmpty()) {
