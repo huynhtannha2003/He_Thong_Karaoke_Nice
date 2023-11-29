@@ -70,7 +70,6 @@ public class GD_Login extends JFrame {
         btnDangNhap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new GD_ManHinhChinh(taiKhoanLogin).setVisible(true);
-//                System.out.println(taiKhoanLogin);
                 setVisible(false);
             }
         });

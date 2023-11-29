@@ -930,7 +930,7 @@ BEGIN
            KhuyenMai_ThoiDiemKetThuc
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
     WHERE PhieuDatPhong_MaPhong = @MaPhong
-      AND HoaDon_TongTien IS NULL;
+      AND HoaDon_ThoiDiemThanhToan IS NULL;
 END;
 GO
 
@@ -1059,17 +1059,6 @@ BEGIN
 END;
 GO
 
-CREATE TRIGGER UpdateTrangThaiAfterInsert
-    ON PhieuDatPhong
-    AFTER INSERT
-    AS
-BEGIN
-    UPDATE Phong
-    SET trangThai = 1
-    WHERE maPhong IN (SELECT maPhong FROM inserted);
-END;
-GO
-
 CREATE FUNCTION GeneratePhieuDatPhongID()
     RETURNS VARCHAR(15)
 AS
@@ -1123,6 +1112,8 @@ BEGIN
 
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
+
+    UPDATE Phong SET trangThai = 1 where maPhong = @maPhong
 END;
 GO
 CREATE PROCEDURE ChangeKarokeRoom(

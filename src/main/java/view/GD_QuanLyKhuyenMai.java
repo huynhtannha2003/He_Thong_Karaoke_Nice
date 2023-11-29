@@ -77,12 +77,10 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         BoxVerticalThongTin.add(BoxThongTin1);
 
         JLabel lbPhanTram = new JLabel("Phần trăm :");
-        lbPhanTram.setPreferredSize(new Dimension(120, 30));
 
         BoxThongTin1.add(Box.createHorizontalStrut(20));
 
         JLabel lbMaKhuyenMai = new JLabel("Mã khuyến mãi:");
-        lbMaKhuyenMai.setPreferredSize(new Dimension(120, 30));
         lbMaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
         lbMaKhuyenMai.setAlignmentX(Component.CENTER_ALIGNMENT);
         lbMaKhuyenMai.setHorizontalAlignment(SwingConstants.LEFT);
@@ -97,7 +95,6 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         BoxThongTin1.add(horizontalStrut_5);
 
         JLabel lbTenKhuyenMai = new JLabel("Tên khuyến mãi:");
-        lbTenKhuyenMai.setPreferredSize(lbPhanTram.getPreferredSize());
         lbTenKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
         BoxThongTin1.add(lbTenKhuyenMai);
 
@@ -126,7 +123,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         lbPhanTram.setLabelFor(cbPhanTram);
         BoxThongTin2.add(cbPhanTram);
 
-        BoxThongTin2.add(Box.createHorizontalStrut(20));
+        BoxThongTin2.add(Box.createHorizontalStrut(290));
 
         JLabel lbGioiHan = new JLabel("Giới hạn:");
         lbGioiHan.setPreferredSize(new Dimension(70, 30));
@@ -148,7 +145,6 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         horizontalBox.add(Box.createHorizontalStrut(20));
 
         JLabel lbNgayBatDau = new JLabel("Ngày bắt đầu:");
-        lbNgayBatDau.setPreferredSize(lbPhanTram.getPreferredSize());
         lbNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox.add(lbNgayBatDau);
 
@@ -156,7 +152,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         txtNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 12));
         txtNgayBatDau.setDateFormatString("yyyy-MM-dd");
         lbNgayBatDau.setLabelFor(txtNgayBatDau);
-        txtNgayBatDau.setPreferredSize(new Dimension(0, 20));
+        txtNgayBatDau.setPreferredSize(new Dimension(80, 20));
         horizontalBox.add(txtNgayBatDau);
 
         horizontalBox.add(Box.createHorizontalStrut(20));
@@ -179,10 +175,12 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         horizontalBox_1.add(Box.createHorizontalStrut(20));
 
         lbThoiDiemBatDau = new JLabel("Thời điểm bắt đầu:");
-        lbThoiDiemBatDau.setPreferredSize(new Dimension(150, 30));
         lbThoiDiemBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox_1.add(lbThoiDiemBatDau);
-
+        lbNgayBatDau.setPreferredSize(lbThoiDiemBatDau.getPreferredSize());
+        lbPhanTram.setPreferredSize(lbThoiDiemBatDau.getPreferredSize());
+        lbMaKhuyenMai.setPreferredSize(lbThoiDiemBatDau.getPreferredSize());
+        
         cbThoiDiemBatDau = new JComboBox();
         cbThoiDiemBatDau.setFont(new Font("Tahoma", Font.BOLD, 12));
         cbThoiDiemBatDau.setModel(new DefaultComboBoxModel(new String[]{"8", "9", "10", "11", "12", "13", "14", "15",
@@ -281,7 +279,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 
         cbTacVuTrangThai = new JComboBox();
         lbTimKiemTrangThai.setLabelFor(cbTacVuTrangThai);
-        cbTacVuTrangThai.setModel(new DefaultComboBoxModel(new String[]{"Còn hiệu lực", "Hết hiệu lực"}));
+        cbTacVuTrangThai.setModel(new DefaultComboBoxModel(new String[] {"Hiệu lực", "Vô hiệu"}));
         BoxTacVu.add(cbTacVuTrangThai);
 
         Component horizontalStrut_9_1_1_1 = Box.createHorizontalStrut(60);
