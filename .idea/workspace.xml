@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="merge">
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="merge dac branch">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701233620731</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="merge dac branch">
+      <option name="closed" value="true" />
+      <created>1701268680416</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701268680416</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +183,8 @@
     <MESSAGE value="feat: GD_QuanLyHoaDon action" />
     <MESSAGE value="feat: GD_ManHinhChinh action to menu" />
     <MESSAGE value="merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge" />
+    <MESSAGE value="merge dac branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge dac branch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

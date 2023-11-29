@@ -934,6 +934,28 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE GetNewHoaDonByTenKhachHang @TenKhachHang NVARCHAR(255)
+AS
+BEGIN
+    SELECT A.*,
+           P.maPhong            AS Phong_MaPhong,
+           P.tenPhong           AS Phong_TenPhong,
+           P.sucChua            AS Phong_SucChua,
+           P.maLoaiPhong        AS Phong_MaLoaiPhong,
+           P.trangThai          AS Phong_TrangThai,
+           LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+           LP.trangThai         AS LoaiPhong_TrangThai,
+           LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView A
+             JOIN Phong P
+                  ON A.PhieuDatPhong_MaPhong = P.maPhong
+             JOIN LoaiPhong LP on P.maLoaiPhong = LP.maLoaiPhong
+    WHERE KhachHang_TenKhachHang = N'' + @TenKhachHang
+      AND PhieuDatPhong_ThoiGianKetThuc IS NULL;
+END;
+GO
+
+
 CREATE PROCEDURE GetHoaDonPaged @PageNumber INT,
                                 @RowsPerPage INT
 AS
@@ -1195,7 +1217,7 @@ BEGIN
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
     FROM PhieuDatPhong
     WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
-    
+
     SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
                            RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
 

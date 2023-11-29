@@ -4,17 +4,12 @@ import dao.HoaDonDAO;
 import dao.LoaiPhongDAO;
 import dao.PhongDAO;
 import entity.*;
-import enums.TrangThaiLoaiPhong;
-import enums.TrangThaiPhong;
-import utils.PhongPanelClickListener;
-import utils.ResizeImageUtil;
-import utils.RoomPanelUtil;
+import enums.*;
+import utils.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.border.TitledBorder;
@@ -33,7 +28,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     private JComboBox cbStatus;
     private JComboBox cbType;
     private Phong phongSelected;
-    private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear;
+    private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear, btnFindCustomer;
     private final PhongDAO phongDAO;
     private NhanVien nhanVien;
     private JTextField txtCustomerName;
@@ -239,9 +234,10 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
 
         horizontalBox.add(Box.createHorizontalStrut(20));
 
-        JButton btnFindCustomer = new JButton("Tìm khách hàng");
+        btnFindCustomer = new JButton("Tìm khách hàng");
         btnFindCustomer.setBackground(new Color(107, 208, 107));
         btnFindCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnFindCustomer.addActionListener(this);
         horizontalBox.add(btnFindCustomer);
     }
 
@@ -340,7 +336,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (phongSelected == null && source != btnFind && source != btnClear) {
+        if (phongSelected == null && source != btnFind && source != btnClear && source != btnFindCustomer) {
             JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -364,6 +360,9 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             handleClearAction();
         } else if (source.equals(btnNhanPhongCho)) {
 
+        }else if(source.equals(btnFindCustomer)){
+            listPhong = phongDAO.getNewHoaDonByTenKhachHang(txtCustomerName.getText());
+            loadRooms(listPhong);
         }
     }
 
