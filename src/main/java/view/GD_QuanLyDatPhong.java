@@ -378,7 +378,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     }
 
     private void openDatPhongChoWindow() {
-        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
+        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(phongSelected,nhanVien);
         gdDatPhongCho.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
