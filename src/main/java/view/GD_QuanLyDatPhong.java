@@ -221,24 +221,24 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         secondFormHorizontalBox.add(btnClear);
 
         secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
-        
+
         Box horizontalBox = Box.createHorizontalBox();
         horizontalBox.setBorder(new TitledBorder(null, "Tìm khách hàng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         pnForm.add(horizontalBox);
-        
+
         JLabel lblCustomerName = new JLabel("Nhập vào tên khách hàng");
         lblCustomerName.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox.add(lblCustomerName);
-        
+
         horizontalBox.add(Box.createHorizontalStrut(20));
-        
+
         txtCustomerName = new JTextField();
         txtCustomerName.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox.add(txtCustomerName);
         txtCustomerName.setColumns(10);
-        
+
         horizontalBox.add(Box.createHorizontalStrut(20));
-        
+
         JButton btnFindCustomer = new JButton("Tìm khách hàng");
         btnFindCustomer.setBackground(new Color(107, 208, 107));
         btnFindCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -283,17 +283,17 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         btnHuyDatPhong = new JButton("Hủy Đặt Phòng Chờ");
         btnHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnHuyDatPhong.setBackground(new Color(107, 208, 107));
-//        pnLeftButton.add(btnHuyDatPhong);
+        pnLeftButton.add(btnHuyDatPhong);
 
-        btnNhanPhongCho = new JButton("Nhận Phòng Chợ");
+        btnNhanPhongCho = new JButton("Nhận Phòng Chờ");
         btnNhanPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnNhanPhongCho.setBackground(new Color(107, 208, 107));
-//        pnLeftButton.add(btnNhanPhongCho);
+        pnLeftButton.add(btnNhanPhongCho);
 
         btnXemChiTiet = new JButton("Xem Chi Tiết");
         btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnXemChiTiet.setBackground(new Color(107, 208, 107));
-//        pnLeftButton.add(btnXemChiTiet);
+        pnLeftButton.add(btnXemChiTiet);
 
         btnDichVu = new JButton("Đặt Dịch Vụ");
         btnDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -362,6 +362,8 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             handleFindAction();
         } else if (source.equals(btnClear)) {
             handleClearAction();
+        } else if (source.equals(btnNhanPhongCho)) {
+
         }
     }
 
