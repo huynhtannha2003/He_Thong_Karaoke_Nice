@@ -69,6 +69,7 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
         pnCenter.setBackground(new Color(255, 255, 255));
         getContentPane().add(pnCenter, BorderLayout.CENTER);
         pnCenter.setLayout(new BorderLayout(0, 0));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         addFormPanel();
 
@@ -386,9 +387,9 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
             loadRooms(rooms);
         } else if (o.equals(btnApply)) {
             PhieuDatPhong phieuDatPhong = new PhieuDatPhong(null, Time.valueOf(LocalTime.now()), null, hoaDon, selectedPhong);
-            if(phieuDatPhongDAO.changeRoom(phieuDatPhong)){
+            if (phieuDatPhongDAO.changeRoom(phieuDatPhong)) {
                 JOptionPane.showMessageDialog(this, "Chuyển phòng thành công");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Chuyển phòng thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 

@@ -75,7 +75,24 @@ public class PhieuDatPhongDAO {
             return false;
         }
     }
+	public boolean bookRoomBefore(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau,
+			Date ngayThanhToan) {
+		Connection connection = connectDB.getConnection();
+		String query = "{CALL BookRoomBefore(?, ?, ?, ?, ?)}";
 
+		try (CallableStatement statement = connection.prepareCall(query)) {
+			statement.setString(1, maKhachHang);
+			statement.setString(2, maNhanVien);
+			statement.setString(3, maPhong);
+			statement.setTime(4, thoiGianBatDau);
+			statement.setDate(5, ngayThanhToan);
+			int affectedRows = statement.executeUpdate();
+			return affectedRows > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
     public boolean changeRoom(PhieuDatPhong phieuDatPhong) {
         Connection connection = connectDB.getConnection();
         String query = "{CALL ChangeKarokeRoom(?, ?)}";

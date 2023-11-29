@@ -77,7 +77,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 
 		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 254));
+		TitlePanel.setBackground(new Color(97, 250, 204));
 		add(TitlePanel, BorderLayout.NORTH);
 		TitlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -249,7 +249,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
 		pnCenter.add(scrollPane, BorderLayout.SOUTH);
 		scrollPane.setPreferredSize(new Dimension(200, 350));
-		
+
 		initAction();
 		loadData();
 	}
