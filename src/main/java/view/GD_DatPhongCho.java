@@ -1,45 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
-
 import dao.KhachHangDAO;
 import dao.LoaiPhongDAO;
 import dao.PhieuDatPhongDAO;
@@ -52,499 +13,446 @@ import enums.TrangThaiLoaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, ActionListener {
 
-	private JPanel contentPane, pnCenter, pnNorth, pnSouth;
-	private JTextField txtNumber, txtCustomer, txtNameRoom;
-	private List<Phong> listPhong;
-	private ButtonGroup group;
-	private JComboBox<String> cbMin, cbHours;
-	private PhongDAO phongDAO;
-	private LoaiPhongDAO loaiPhongDAO;
-	private JLabel lblType;
-	private JButton btnCheck;
-	private JLabel lblHours;
-	private JPanel pnRoomScrollPane;
-	private JButton btnConfirm;
-	private JComboBox cbType;
-	private JButton btnPrint;
-	private JButton btnSearch;
-	private JRadioButton rbtnOderDay;
-	private JRadioButton rbtnToday;
-	private JDateChooser dateChooser;
-	private KhachHangDAO khachHangDAO;
-	private PhieuDatPhongDAO phieuDatPhongDAO;
-	private KhachHang kh;
-	private Phong phongSelected;
-	private NhanVien nhanVien;
+    private JPanel pnCenter, pnNorth, pnSouth;
+    private JTextField txtNumber, txtCustomer, txtNameRoom;
+    private List<Phong> listPhong;
+    private ButtonGroup group;
+    private JComboBox<String> cbMin, cbHours;
+    private PhongDAO phongDAO;
+    private LoaiPhongDAO loaiPhongDAO;
+    private JLabel lblType;
+    private JButton btnCheck;
+    private JLabel lblHours;
+    private JPanel pnRoomScrollPane;
+    private JButton btnConfirm;
+    private JComboBox cbType;
+    private JButton btnPrint;
+    private JButton btnSearch;
+    private JRadioButton rbtnOderDay;
+    private JRadioButton rbtnToday;
+    private JDateChooser dateChooser;
+    private KhachHangDAO khachHangDAO;
+    private PhieuDatPhongDAO phieuDatPhongDAO;
+    private KhachHang kh;
+    private Phong phongSelected, Phong;
+    private NhanVien nhanVien;
+
+    public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
+        nhanVien = currentNhanVien;
+        Phong = phongSelected;
+        phongDAO = new PhongDAO();
+        loaiPhongDAO = new LoaiPhongDAO();
+        khachHangDAO = new KhachHangDAO();
+        phieuDatPhongDAO = new PhieuDatPhongDAO();
+        initGUI();
+    }
+
+    private void setupFrame() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(784, 600);
+        setLocationRelativeTo(null);
+        setBackground(new Color(255, 255, 255));
+    }
+
+    private void initGUI() {
+        setupFrame();
 
-	public GD_DatPhongCho(NhanVien currentNhanVien) {
-		nhanVien = currentNhanVien;
-		phongDAO = new PhongDAO();
-		loaiPhongDAO = new LoaiPhongDAO();
-		khachHangDAO = new KhachHangDAO();
-		phieuDatPhongDAO = new PhieuDatPhongDAO();
-		initGUI();
-	}
+        addPanelNorth();
+
+        addPanelCenter();
+
+        addPanelSouth();
+    }
 
-	private void setupFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 700);
-		setLocationRelativeTo(null);
-		setBackground(new Color(255, 255, 255));
-	}
+    private void addPanelCenter() {
+        pnCenter = new JPanel();
+        pnCenter.setBackground(new Color(255, 255, 255));
+        getContentPane().add(pnCenter, BorderLayout.CENTER);
+        pnCenter.setLayout(new BorderLayout(0, 20));
 
-	private void initGUI() {
-		setupFrame();
+        addForm();
 
-		addMenuBar();
+        initData();
 
-		addPanelNorth();
+        addPanelRoom();
 
-		addPanelCenter();
+    }
 
-		addPanelSouth();
-	}
+    private void addPanelRoom() {
 
-	private void addPanelCenter()  {
-		pnCenter = new JPanel();
-		pnCenter.setBackground(new Color(255, 255, 255));
-		getContentPane().add(pnCenter, BorderLayout.CENTER);
-		pnCenter.setLayout(new BorderLayout(0, 20));
+        pnRoomScrollPane = new JPanel();
+        pnRoomScrollPane.setBackground(new Color(255, 255, 255));
 
-		addForm();
+        JScrollPane scrollPane = new JScrollPane(pnRoomScrollPane);
+        pnRoomScrollPane.setLayout(new GridLayout(0, 4, 0, 0));
 
-		initData();
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setUnitIncrement(16);
 
-		addPanelRoom();
+        JPanel pnRooms = new JPanel();
+        pnRooms.setBackground(new Color(255, 255, 255));
+        pnCenter.add(pnRooms, BorderLayout.CENTER);
 
-	}
+        Box scrollPaneBox = Box.createVerticalBox();
+        scrollPaneBox.add(scrollPane);
+        pnRooms.setLayout(new BoxLayout(pnRooms, BoxLayout.X_AXIS));
 
-	public void addMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+        Component horizontalStrut = Box.createHorizontalStrut(20);
+        horizontalStrut.setBackground(new Color(255, 255, 255));
+        pnRooms.add(horizontalStrut);
 
-		JMenu menuHeThong = new JMenu("Hệ thống");
-		menuBar.add(menuHeThong);
+        pnRooms.add(scrollPaneBox);
 
-		JMenu menuDanhMuc = new JMenu("Danh mục");
-		menuBar.add(menuDanhMuc);
+        scrollPaneBox.add(Box.createVerticalStrut(20));
 
-		JMenu menuXuLy = new JMenu("Xử lý");
-		menuBar.add(menuXuLy);
+        pnRooms.add(Box.createHorizontalStrut(20));
 
-		JMenu menuThongKe = new JMenu("Thống kê");
-		menuBar.add(menuThongKe);
+        initData();
 
-		JMenu menuTroGiup = new JMenu("Trợ giúp");
-		menuBar.add(menuTroGiup);
-	}
+        List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong, this);
+        phongPanels.forEach(pnRoomScrollPane::add);
+    }
 
-	private void addPanelRoom()  {
+    private void addPanelNorth() {
+        pnNorth = new JPanel();
+        pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
+        pnNorth.setBackground(new Color(97, 250, 204));
+        getContentPane().add(pnNorth, BorderLayout.NORTH);
 
-		pnRoomScrollPane = new JPanel();
-		pnRoomScrollPane.setBackground(new Color(255, 255, 255));
+        JLabel lblTitle = new JLabel("Đặt phòng chờ");
+        lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
+        pnNorth.add(lblTitle);
 
-		JScrollPane scrollPane = new JScrollPane(pnRoomScrollPane);
-		pnRoomScrollPane.setLayout(new GridLayout(0, 4, 0, 0));
+    }
 
-		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-		verticalScrollBar.setUnitIncrement(16);
+    private void addForm() {
+        JPanel pnForm = new JPanel();
+        pnForm.setBackground(new Color(255, 255, 255));
+        pnCenter.add(pnForm, BorderLayout.NORTH);
+        pnForm.setLayout(new BoxLayout(pnForm, BoxLayout.X_AXIS));
 
-		JPanel pnRooms = new JPanel();
-		pnRooms.setBackground(new Color(255, 255, 255));
-		pnCenter.add(pnRooms, BorderLayout.CENTER);
+        Box formVerticalBox = Box.createVerticalBox();
+        pnForm.add(formVerticalBox);
 
-		Box scrollPaneBox = Box.createVerticalBox();
-		scrollPaneBox.add(scrollPane);
-		pnRooms.setLayout(new BoxLayout(pnRooms, BoxLayout.X_AXIS));
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		horizontalStrut.setBackground(new Color(255, 255, 255));
-		pnRooms.add(horizontalStrut);
+        Box firstFormHorizontalBox = Box.createHorizontalBox();
+        formVerticalBox.add(firstFormHorizontalBox);
 
-		pnRooms.add(scrollPaneBox);
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(30));
 
-		scrollPaneBox.add(Box.createVerticalStrut(20));
+        JLabel lblNumber = new JLabel("Số điện thoại khách hàng:");
+        lblNumber.setPreferredSize(new Dimension(200, 25));
+        lblNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstFormHorizontalBox.add(lblNumber);
 
-		pnRooms.add(Box.createHorizontalStrut(20));
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		initData();
+        txtNumber = new JTextField();
+        txtNumber.setText("0345678912");
+        txtNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        firstFormHorizontalBox.add(txtNumber);
+        txtNumber.setColumns(10);
 
-		List<JPanel> phongPanels = RoomPanelUtil.createPhongPanels(listPhong, this);
-		phongPanels.forEach(pnRoomScrollPane::add);
-	}
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-	private void addPanelNorth() {
-		pnNorth = new JPanel();
-		pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pnNorth.setBackground(new Color(97, 250, 204));
-		getContentPane().add(pnNorth, BorderLayout.NORTH);
+        btnCheck = new JButton("Kiếm tra");
+        btnCheck.setBackground(new Color(107, 208, 107));
+        btnCheck.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstFormHorizontalBox.add(btnCheck);
 
-		JLabel lblTitle = new JLabel("Đặt phòng chờ");
-		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
-		pnNorth.add(lblTitle);
+        firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-	}
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-	private void addForm() {
-		JPanel pnForm = new JPanel();
-		pnForm.setBackground(new Color(255, 255, 255));
-		pnCenter.add(pnForm, BorderLayout.NORTH);
-		pnForm.setLayout(new BoxLayout(pnForm, BoxLayout.X_AXIS));
+        Box secondFormHorizontalBox = Box.createHorizontalBox();
+        formVerticalBox.add(secondFormHorizontalBox);
 
-		Box formVerticalBox = Box.createVerticalBox();
-		pnForm.add(formVerticalBox);
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(30));
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        JLabel lblCustomer = new JLabel("Khách hàng:");
+        lblCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblCustomer.setPreferredSize(new Dimension(200, 25));
+        secondFormHorizontalBox.add(lblCustomer);
 
-		Box firstFormHorizontalBox = Box.createHorizontalBox();
-		formVerticalBox.add(firstFormHorizontalBox);
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(30));
+        txtCustomer = new JTextField();
+        txtCustomer.setEditable(false);
+        txtCustomer.setPreferredSize(new Dimension(7, 23));
+        txtCustomer.setMinimumSize(new Dimension(9, 23));
+        txtCustomer.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        secondFormHorizontalBox.add(txtCustomer);
+        txtCustomer.setColumns(10);
 
-		JLabel lblNumber = new JLabel("Số điện thoại khách hàng:");
-		lblNumber.setPreferredSize(new Dimension(185, 25));
-		lblNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstFormHorizontalBox.add(lblNumber);
+        secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-		txtNumber = new JTextField();
-		txtNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		firstFormHorizontalBox.add(txtNumber);
-		txtNumber.setColumns(10);
+        Box thirdFormHorizontalBox = Box.createHorizontalBox();
+        formVerticalBox.add(thirdFormHorizontalBox);
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		btnCheck = new JButton("Kiếm tra");
-		btnCheck.setBackground(new Color(107, 208, 107));
-		btnCheck.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstFormHorizontalBox.add(btnCheck);
+        JLabel lblNameRoom = new JLabel("Tên phòng:");
+        lblNameRoom.setFont(new Font("Tahoma", Font.BOLD, 14));
+        thirdFormHorizontalBox.add(lblNameRoom);
 
-		firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        txtNameRoom = new JTextField();
+        txtNameRoom.setText(Phong.getTenPhong());
+        txtNameRoom.setPreferredSize(new Dimension(5, 20));
+        txtNameRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        thirdFormHorizontalBox.add(txtNameRoom);
+        txtNameRoom.setColumns(10);
 
-		Box secondFormHorizontalBox = Box.createHorizontalBox();
-		formVerticalBox.add(secondFormHorizontalBox);
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(30));
+        lblType = new JLabel("Loại phòng:");
+        lblType.setFont(new Font("Tahoma", Font.BOLD, 14));
+        thirdFormHorizontalBox.add(lblType);
 
-		JLabel lblCustomer = new JLabel("Khách hàng:");
-		lblCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCustomer.setPreferredSize(new Dimension(185, 25));
-		secondFormHorizontalBox.add(lblCustomer);
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        cbType = new JComboBox();
+        cbType.setPreferredSize(new Dimension(100, 22));
+        cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
+        loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
+        cbType.setSelectedItem(Phong.getLoaiPhong());
+        cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        thirdFormHorizontalBox.add(cbType);
 
-		txtCustomer = new JTextField();
-		txtCustomer.setEditable(false);
-		txtCustomer.setPreferredSize(new Dimension(7, 23));
-		txtCustomer.setMinimumSize(new Dimension(9, 23));
-		txtCustomer.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		secondFormHorizontalBox.add(txtCustomer);
-		txtCustomer.setColumns(10);
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        btnSearch = new JButton("Tìm kiếm");
+        btnSearch.setBackground(new Color(107, 208, 107));
+        btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
+        thirdFormHorizontalBox.add(btnSearch);
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+    }
 
-		Box thirdFormHorizontalBox = Box.createHorizontalBox();
-		formVerticalBox.add(thirdFormHorizontalBox);
+    private void addPanelSouth() {
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        pnSouth = new JPanel();
+        getContentPane().add(pnSouth, BorderLayout.SOUTH);
+        pnSouth.setBackground(new Color(255, 255, 255));
+        pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.X_AXIS));
 
-		JLabel lblNameRoom = new JLabel("Tên phòng:");
-		lblNameRoom.setFont(new Font("Tahoma", Font.BOLD, 14));
-		thirdFormHorizontalBox.add(lblNameRoom);
+        Box south_VerticalBox = Box.createVerticalBox();
+        pnSouth.add(south_VerticalBox);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        south_VerticalBox.add(Box.createVerticalStrut(20));
 
-		txtNameRoom = new JTextField();
-		txtNameRoom.setPreferredSize(new Dimension(5, 20));
-		txtNameRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		thirdFormHorizontalBox.add(txtNameRoom);
-		txtNameRoom.setColumns(10);
+        Box controlHorizontalBox = Box.createHorizontalBox();
+        south_VerticalBox.add(controlHorizontalBox);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        controlHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		lblType = new JLabel("Loại phòng:");
-		lblType.setFont(new Font("Tahoma", Font.BOLD, 14));
-		thirdFormHorizontalBox.add(lblType);
+        Box controlVerticalBox = Box.createVerticalBox();
+        controlHorizontalBox.add(controlVerticalBox);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        Box firstControlHorizontalBox = Box.createHorizontalBox();
+        controlVerticalBox.add(firstControlHorizontalBox);
 
-		cbType = new JComboBox();
-		cbType.setPreferredSize(new Dimension(100, 22));
-		cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
-		loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
-		cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		thirdFormHorizontalBox.add(cbType);
+        JLabel lblCheckIn = new JLabel("Nhận phòng:");
+        lblCheckIn.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstControlHorizontalBox.add(lblCheckIn);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        firstControlHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		btnSearch = new JButton("Tìm kiếm");
-		btnSearch.setBackground(new Color(107, 208, 107));
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		thirdFormHorizontalBox.add(btnSearch);
+        rbtnToday = new JRadioButton("Hôm nay");
+        rbtnToday.setBackground(new Color(255, 255, 255));
+        rbtnToday.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstControlHorizontalBox.add(rbtnToday);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
-	}
+        firstControlHorizontalBox.add(Box.createHorizontalStrut(20));
 
-	private void addPanelSouth() {
+        rbtnOderDay = new JRadioButton("Ngày khác");
+        rbtnOderDay.setBackground(new Color(255, 255, 255));
+        rbtnOderDay.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstControlHorizontalBox.add(rbtnOderDay);
 
-		pnSouth = new JPanel();
-		getContentPane().add(pnSouth, BorderLayout.SOUTH);
-		pnSouth.setBackground(new Color(255, 255, 255));
-		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.X_AXIS));
+        group = new ButtonGroup();
+        group.add(rbtnOderDay);
+        group.add(rbtnToday);
+        firstControlHorizontalBox.add(Box.createHorizontalStrut(50));
 
-		Box south_VerticalBox = Box.createVerticalBox();
-		pnSouth.add(south_VerticalBox);
+        dateChooser = new JDateChooser();
+        dateChooser.setPreferredSize(new Dimension(20, 20));
+        firstControlHorizontalBox.add(dateChooser);
 
-		south_VerticalBox.add(Box.createVerticalStrut(20));
+        controlVerticalBox.add(Box.createVerticalStrut(20));
 
-		Box controlHorizontalBox = Box.createHorizontalBox();
-		south_VerticalBox.add(controlHorizontalBox);
+        Box secondControlHorizontalBox = Box.createHorizontalBox();
+        controlVerticalBox.add(secondControlHorizontalBox);
 
-		controlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		Box controlVerticalBox = Box.createVerticalBox();
-		controlHorizontalBox.add(controlVerticalBox);
-
-		Box firstControlHorizontalBox = Box.createHorizontalBox();
-		controlVerticalBox.add(firstControlHorizontalBox);
-
-		JLabel lblCheckIn = new JLabel("Nhận phòng:");
-		lblCheckIn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstControlHorizontalBox.add(lblCheckIn);
-
-		firstControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		rbtnToday = new JRadioButton("Hôm nay");
-		rbtnToday.setBackground(new Color(255, 255, 255));
-		rbtnToday.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstControlHorizontalBox.add(rbtnToday);
-
-		firstControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		rbtnOderDay = new JRadioButton("Ngày khác");
-		rbtnOderDay.setBackground(new Color(255, 255, 255));
-		rbtnOderDay.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstControlHorizontalBox.add(rbtnOderDay);
-
-		group = new ButtonGroup();
-		group.add(rbtnOderDay);
-		group.add(rbtnToday);
-		firstControlHorizontalBox.add(Box.createHorizontalStrut(50));
-
-		dateChooser = new JDateChooser();
-		dateChooser.setPreferredSize(new Dimension(20, 20));
-		firstControlHorizontalBox.add(dateChooser);
-
-		controlVerticalBox.add(Box.createVerticalStrut(20));
-
-		Box secondControlHorizontalBox = Box.createHorizontalBox();
-		controlVerticalBox.add(secondControlHorizontalBox);
-
-		JLabel lblTime = new JLabel("Thời gian nhận phòng:");
-		lblTime.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondControlHorizontalBox.add(lblTime);
-
-		secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		cbHours = new JComboBox();
-		cbHours.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		secondControlHorizontalBox.add(cbHours);
-
-		lblHours = new JLabel("Giờ");
-		lblHours.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondControlHorizontalBox.add(lblHours);
-
-		secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		cbMin = new JComboBox();
-		cbMin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		secondControlHorizontalBox.add(cbMin);
-
-		JLabel lblMin = new JLabel("Phút");
-		lblMin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondControlHorizontalBox.add(lblMin);
-
-		secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		btnConfirm = new JButton("Xác nhận");
-		btnConfirm.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnConfirm.setBackground(new Color(107, 208, 107));
-		secondControlHorizontalBox.add(btnConfirm);
-
-		secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		btnPrint = new JButton("In phiếu đặt");
-		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnPrint.setBackground(new Color(107, 208, 107));
-		secondControlHorizontalBox.add(btnPrint);
-
-		controlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-		south_VerticalBox.add(Box.createVerticalStrut(20));
-		inputHours();
-		inputMin();
-		btnCheck.addActionListener(this);
-		btnSearch.addActionListener(this);
-		btnConfirm.addActionListener(this);
-		btnPrint.addActionListener(this);
-		rbtnToday.addActionListener(this);
-	}
-
-	private void initData() {
-		listPhong = phongDAO.getAllPhongTrong();
-		List<LoaiPhong> loaiPhongList = loaiPhongDAO.getAllLoaiPhong();
-	}
-
-	private void loadRooms(List<Phong> newRooms) {
-		pnRoomScrollPane.removeAll();
-		List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(newRooms, this);
-		roomPanels.forEach(pnRoomScrollPane::add);
-
-		pnRoomScrollPane.revalidate();
-		pnRoomScrollPane.repaint();
-
-	}
-
-	private void inputHours() {
-		String s;
-		for (int i = 8; i < 25; i++) {
-			if (i < 10) {
-				s = "0" + i + "";
-			} else {
-				s = i + "";
-			}
-			cbHours.addItem(s);
-		}
-	}
-
-	private void inputMin() {
-		String s;
-		for (int i = 0; i < 56; i = i + 5) {
-			if (i < 10) {
-				s = "0" + i + "";
-			} else {
-				s = i + "";
-			}
-			cbMin.addItem(s);
-		}
-	}
-
-	@Override
-	public void onPhongPanelClicked(Phong phong) {
-		txtNameRoom.setText(phong.getTenPhong());
-		cbType.setSelectedIndex(phong.getTrangThai().getValue() + 1);
-		phongSelected = phong;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Object o = e.getSource();
-		if (o.equals(btnCheck)) {
-			if (txtNumber.getText().length() > 0) {
-				kh = khachHangDAO.getCustomerByPhoneNumber(txtNumber.getText());
-				if (kh == null) {
-					JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					txtCustomer.setText(kh.getTenKhachHang());
-				}
-			}
-		}
-		if (o.equals(btnSearch)) {
-			listPhong = phongDAO.GetPhongByTenAndLoaiPhong(txtNameRoom.getText(), (LoaiPhong) cbType.getSelectedItem());
-			loadRooms(listPhong);
-		}
-		if (o.equals(rbtnToday)) {
-			Calendar calendar = Calendar.getInstance();
-			Date current = calendar.getTime();
-			dateChooser.setDate(current);
-		}
-		if (o.equals(btnConfirm)) {
-			if (txtNumber.getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(this, "Bạn cần nhập khách hàng trước");
-			}
-			if (txtNameRoom.getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước");
-			} else {
-				Date time = dateChooser.getDate();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-				String formattedDate = dateFormat.format(time);
-				String selectHours = (String) cbHours.getSelectedItem();
-				String selectMin = (String) cbMin.getSelectedItem();
-				String timeFull = formattedDate + " " + selectHours + ":" + selectMin;
-				Date full;
-				boolean booking = false;
-				try {
-					full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
-					System.out.println(full);
-					booking = phieuDatPhongDAO.bookKaraokeRoom(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
-							phongSelected.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if (booking) {
-					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
-				}
-				setVisible(false);
-			}
-			if (o.equals(btnPrint)) {
-				Date time = dateChooser.getDate();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-				String formattedDate = dateFormat.format(time);
-				String selectHours = (String) cbHours.getSelectedItem();
-				String selectMin = (String) cbMin.getSelectedItem();
-				String timeFull = formattedDate + " " + selectHours + ":" + selectMin;
-				Date full = null;
-				try {
-					full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				String filePath = "D:\\your\\file.pdf";
-				generatePDF(filePath,txtNumber.getText(), txtCustomer.getText(), txtNameRoom.getText(),
-						cbType.getSelectedIndex(), full);
-			}
-		}
-	}
-
-	public static void generatePDF(String filePath, String phoneNumber, String customerName, String roomName,
-								   int roomType, Date checkInTime) {
-		Document document = new Document();
-
-		try {
-			PdfWriter.getInstance(document, new FileOutputStream("filePath"));
-			document.open();
-
-			// Add content to the PDF
-			document.add(new Paragraph("Booking Information"));
-			document.add(new Paragraph("Phone Number: " + phoneNumber));
-			document.add(new Paragraph("Customer Name: " + customerName));
-			document.add(new Paragraph("Room Name: " + roomName));
-			document.add(new Paragraph("Room Type: " + roomType));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			String formattedCheckInTime = dateFormat.format(checkInTime);
-
-			document.add(new Paragraph("Check-In Time: " + checkInTime));
-
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			document.close();
-		}
-	}
+        JLabel lblTime = new JLabel("Thời gian nhận phòng:");
+        lblTime.setFont(new Font("Tahoma", Font.BOLD, 14));
+        secondControlHorizontalBox.add(lblTime);
+
+        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
+
+        cbHours = new JComboBox();
+        cbHours.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        secondControlHorizontalBox.add(cbHours);
+
+        lblHours = new JLabel("Giờ");
+        lblHours.setFont(new Font("Tahoma", Font.BOLD, 14));
+        secondControlHorizontalBox.add(lblHours);
+
+        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
+
+        cbMin = new JComboBox();
+        cbMin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        secondControlHorizontalBox.add(cbMin);
+
+        JLabel lblMin = new JLabel("Phút");
+        lblMin.setFont(new Font("Tahoma", Font.BOLD, 14));
+        secondControlHorizontalBox.add(lblMin);
+
+        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
+
+        btnConfirm = new JButton("Xác nhận");
+        btnConfirm.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnConfirm.setBackground(new Color(107, 208, 107));
+        secondControlHorizontalBox.add(btnConfirm);
+
+        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
+
+        btnPrint = new JButton("In phiếu đặt");
+        btnPrint.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnPrint.setBackground(new Color(107, 208, 107));
+        secondControlHorizontalBox.add(btnPrint);
+
+        controlHorizontalBox.add(Box.createHorizontalStrut(20));
+
+        south_VerticalBox.add(Box.createVerticalStrut(20));
+        inputHours();
+        inputMin();
+        btnCheck.addActionListener(this);
+        btnSearch.addActionListener(this);
+        btnConfirm.addActionListener(this);
+        btnPrint.addActionListener(this);
+        rbtnToday.addActionListener(this);
+    }
+
+    private void initData() {
+        listPhong = phongDAO.getAllPhongTrong();
+        List<LoaiPhong> loaiPhongList = loaiPhongDAO.getAllLoaiPhong();
+    }
+
+    private void loadRooms(List<Phong> newRooms) {
+        pnRoomScrollPane.removeAll();
+        List<JPanel> roomPanels = RoomPanelUtil.createPhongPanels(newRooms, this);
+        roomPanels.forEach(pnRoomScrollPane::add);
+
+        pnRoomScrollPane.revalidate();
+        pnRoomScrollPane.repaint();
+    }
+
+    private void inputHours() {
+        String s;
+        for (int i = 8; i < 25; i++) {
+            if (i < 10) {
+                s = "0" + i + "";
+            } else {
+                s = i + "";
+            }
+            cbHours.addItem(s);
+        }
+    }
+
+    private void inputMin() {
+        String s;
+        for (int i = 0; i < 56; i = i + 5) {
+            if (i < 10) {
+                s = "0" + i + "";
+            } else {
+                s = i + "";
+            }
+            cbMin.addItem(s);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        if (o.equals(btnCheck)) {
+            if (txtNumber.getText().length() > 0) {
+                kh = khachHangDAO.getCustomerByPhoneNumber(txtNumber.getText());
+                if (kh == null) {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                } else {
+                    txtCustomer.setText(kh.getTenKhachHang());
+                }
+            }
+        }
+        if (o.equals(btnSearch)) {
+            listPhong = phongDAO.GetPhongByTenAndLoaiPhong(txtNameRoom.getText(), (LoaiPhong) cbType.getSelectedItem());
+            loadRooms(listPhong);
+        }
+        if (o.equals(rbtnToday)) {
+            Calendar calendar = Calendar.getInstance();
+            Date current = calendar.getTime();
+            dateChooser.setDate(current);
+        }
+        if (o.equals(btnConfirm)) {
+            if (txtNumber.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn cần nhập khách hàng trước");
+            }
+            if (txtNameRoom.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước");
+            } else {
+                Date time = dateChooser.getDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                String formattedDate = dateFormat.format(time);
+                String selectHours = (String) cbHours.getSelectedItem();
+                String selectMin = (String) cbMin.getSelectedItem();
+                String timeFull = formattedDate + " " + selectHours + ":" + selectMin;
+                Date full;
+                boolean booking = false;
+                try {
+                    full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
+                    booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
+                            Phong.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+                if (booking) {
+                    JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+                dispose();
+            }
+            if (o.equals(btnPrint)) {
+
+            }
+        }
+    }
+
+    @Override
+    public void onPhongPanelClicked(entity.Phong phong) {
+        txtNameRoom.setText(phong.getTenPhong());
+        cbType.setSelectedItem(phong.getLoaiPhong());
+    }
 }
