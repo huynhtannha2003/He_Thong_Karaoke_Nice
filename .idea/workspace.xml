@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhuyenMai.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhuyenMai.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="TranTrungTien" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,26 +58,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/He_Thong_Karaoke_Nice&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/WorkTable/PTUD/He_Thong_Karaoke_Nice",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Application.GD_Login">
     <configuration name="GD_Login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.GD_Login" />
       <module name="karaoke_project" />
@@ -113,6 +108,8 @@
       <list>
         <item itemvalue="Application.GD_Login" />
         <item itemvalue="Application.GD_ManHinhChinh" />
+        <item itemvalue="Application.GD_Login" />
+        <item itemvalue="Application.GD_ManHinhChinh" />
       </list>
     </recent_temporary>
   </component>
@@ -136,6 +133,17 @@
       <workItem from="1700752254664" duration="39000" />
       <workItem from="1700752296765" duration="8235000" />
       <workItem from="1700791837250" duration="1303000" />
+      <workItem from="1700804113143" duration="18000" />
+      <workItem from="1700804152776" duration="269000" />
+      <workItem from="1700804428470" duration="4425000" />
+      <workItem from="1700828318701" duration="20000" />
+      <workItem from="1700979290324" duration="2470000" />
+      <workItem from="1700983165133" duration="359000" />
+      <workItem from="1700989098129" duration="174000" />
+      <workItem from="1700998261653" duration="4965000" />
+      <workItem from="1701010292028" duration="7460000" />
+      <workItem from="1701050542276" duration="3051000" />
+      <workItem from="1701054190371" duration="12174000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -163,11 +171,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/dao/KhachHangDAO.java</url>
           <line>25</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java</url>
-          <line>300</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

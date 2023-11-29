@@ -42,19 +42,6 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
     private JMenuItem menuItemHoaDon;
     private TaiKhoan taiKhoanLogin;
 
-//    public static void main(String[] args) {
-//        EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    GD_ManHinhChinh frame = new GD_ManHinhChinh();
-//                    frame.setVisible(true);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
-
     public GD_ManHinhChinh(TaiKhoan taiKhoanLogin) {
         this.taiKhoanLogin = taiKhoanLogin;
         setResizable(false);
@@ -198,6 +185,10 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
             simplePanel = new GD_ThongKe();
         } else if (source == menuItemDatPhong) {
             simplePanel = new GD_QuanLyDatPhong(this.taiKhoanLogin.getNhanVien());
+        }
+        if(simplePanel == null){
+            this.setVisible(false);
+            return ;
         }
         setContentPane(simplePanel);
         validate();
