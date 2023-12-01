@@ -116,4 +116,17 @@ public class DichVu {
     public void setHinhAnh(String hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
+
+    @Override
+    public String toString() {
+        return "DichVu{" +
+                "maDichVu='" + maDichVu + '\'' +
+                ", tenDichVu='" + tenDichVu + '\'' +
+                ", soLuong=" + soLuong +
+                ", hinhAnh='" + hinhAnh + '\'' +
+                ", trangThai=" + trangThai +
+                ", loaiDichVu=" + loaiDichVu +
+                ", lichSuGiaDichVuList=" + lichSuGiaDichVuList +
+                '}';
+    }
 }

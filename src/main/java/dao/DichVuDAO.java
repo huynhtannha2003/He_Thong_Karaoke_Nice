@@ -184,19 +184,19 @@ public class DichVuDAO {
 
     public List<DichVu> getDSDichVuTheoTen(String ten) {
         return executeGetDichVuPage(
-                "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu = N'%" + ten + "%", ten);
+                "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu = ?", ten);
     }
 
     /*
      * Tìm dịch vụ theo loaiDichVu
      */
 
-    private List<DichVu> getDSTheoLoai(LoaiDichVu loai) {
+    public List<DichVu> getDSTheoLoai(String loai) {
         List<DichVu> dichVuList = new ArrayList<>();
         Connection connection = connectDB.getConnection();
-        String query = "select * from DichVuLichSuGiaByConditionTimeView where LoaiDichVu_TenLoaiDichVu = N'%" + loai
-                + "%";
+        String query = "select * from DichVuLichSuGiaByConditionTimeView where LoaiDichVu_TenLoaiDichVu = ?";
         try (PreparedStatement preparedStatement = connection.prepareCall(query)) {
+            preparedStatement.setString(1, loai);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 DichVu dichVu = new DichVu(resultSet);
