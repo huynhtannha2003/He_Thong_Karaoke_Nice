@@ -202,38 +202,44 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
     public void onDichVuPanelClicked(DichVu dichVu) {
         String quantityStr = JOptionPane.showInputDialog(this, "Nhập số lượng dịch vụ muốn đặt:", "Nhập số lượng", JOptionPane.QUESTION_MESSAGE);
         DichVu dichVu1 = dichVuDAO.getDichVuTheoMa(dichVu.getMaDichVu()).get(0);
-
+        curQuantity = dichVu1.getSoLuong();
+        quantity = Integer.parseInt(quantityStr);
+        int quantityAtBegin = dichVu1.getSoLuong();
         if (quantityStr == null) {
             return;
         }
 
         try {
-            curQuantity = dichVu.getSoLuong();
-            quantity = Integer.parseInt(quantityStr);
-
-            if (quantity <= 0) {
-                JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            if (quantity > quantityAtBegin) {
+                JOptionPane.showMessageDialog(this, "Số lượng đặt vượt quá số lượng hiện tại của sản phẩm.\nSố lượng hiện tại: " + quantityAtBegin, "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
+            } else {
+                handleDeleteTask();
+
+                quantity = Integer.parseInt(quantityStr);
+                curQuantity = dichVu.getSoLuong();
+
+                if (quantity <= 0) {
+                    JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+
+                curQuantity = dichVu.getSoLuong();
+                curTempQuantity = quantity;
+
+                dichVu.setSoLuong(quantity);
+                DichVu newDichVu = dichVu;
+                selectedDichVuList.add(newDichVu);
+
+                this.dichVu = newDichVu;
+
+                updateQuantity();
+                newDichVu.setSoLuong(quantity);
+                updateOrderedServicesTable();
+
             }
 
-            if (quantity > dichVu1.getSoLuong()) {
-                JOptionPane.showMessageDialog(this, "Số lượng đặt vượt quá số lượng hiện tại của sản phẩm.\nSố lượng hiện tại: " + dichVu1.getSoLuong(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            curQuantity = dichVu.getSoLuong();
-            curTempQuantity = quantity;
-
-
-            dichVu.setSoLuong(quantity);
-            DichVu newDichVu = dichVu;
-            selectedDichVuList.add(newDichVu);
-
-            this.dichVu = newDichVu;
-
-            updateQuantity();
-            newDichVu.setSoLuong(quantity);
-            updateOrderedServicesTable();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -288,7 +294,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
             DichVu dichVu1 = selectedDichVuList.get(selectedRow);
 
             try {
-                handleDeleteTask();
+//                handleDeleteTask();
                 onDichVuPanelClicked(dichVu1);
                 updateOrderedServicesTable();
 
@@ -319,7 +325,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         int selectedRow = tableOrderedServices.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một dịch vụ từ danh sách đã đặt.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, "Vui lòng chọn một dịch vụ từ danh sách đã đặt.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
         quantity = selectedDichVuList.get(selectedRow).getSoLuong();
