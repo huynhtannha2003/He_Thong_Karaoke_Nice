@@ -345,6 +345,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         pnSecondForm.add(scrollPane, BorderLayout.CENTER);
+
         btnAdd.addActionListener(this);
         btnDelete.addActionListener(this);
         btnSearch.addActionListener(this);

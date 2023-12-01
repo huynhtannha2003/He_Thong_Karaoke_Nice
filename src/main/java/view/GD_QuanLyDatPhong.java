@@ -343,10 +343,10 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     private void openDatDichVuWindow() {
         if (phongSelected != null && phongSelected.getTrangThai() == TrangThaiPhong.PHONG_DANG_SU_DUNG) {
             HoaDon hoaDon = hoaDonDAO.getHoaDonByMaPhong(phongSelected.getMaPhong());
-            GD_DatDichVu gdDatDichVu = new GD_DatDichVu(hoaDon, phongSelected.getTenPhong());
+            GD_DatDichVu gdDatDichVu = new GD_DatDichVu(hoaDon, phongSelected);
             gdDatDichVu.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Chọn một phòng trống để đặt dịch vụ", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Chọn một phòng đang sử dụng để đặt dịch vụ", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
         }
     }
 
