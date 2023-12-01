@@ -224,7 +224,6 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                     return;
                 }
 
-
                 curQuantity = dichVu.getSoLuong();
                 curTempQuantity = quantity;
 
@@ -237,9 +236,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                 updateQuantity();
                 newDichVu.setSoLuong(quantity);
                 updateOrderedServicesTable();
-
             }
-
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);

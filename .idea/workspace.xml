@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
-    </list>
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,7 +146,7 @@
       <workItem from="1701269158173" duration="6655000" />
       <workItem from="1701317046908" duration="21390000" />
       <workItem from="1701396407682" duration="13330000" />
-      <workItem from="1701424138828" duration="2307000" />
+      <workItem from="1701424138828" duration="2627000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
