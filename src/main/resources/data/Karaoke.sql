@@ -140,7 +140,6 @@ CREATE TABLE ChiTietDatDichVu
     FOREIGN KEY (maDichVu) REFERENCES DichVu (maDichVu)
 );
 
-
 INSERT INTO LoaiPhong
 VALUES ('LP001', N'Thường', 1),
        ('LP002', N'Vip', 1)
@@ -1171,4 +1170,33 @@ BEGIN
     UPDATE Phong
     SET trangThai = 0
     WHERE maPhong IN (SELECT maPhong FROM PhieuDatPhong WHERE MaPhieuDatPhong = @phieuDatPhongID);
+END;
+GO
+
+CREATE VIEW DanhSachPhieu_View AS
+SELECT pdp.maPhieuDatPhong, hd.maHoaDon, p.maPhong, kh.tenKhachHang, kh.sdt, pdp.thoiGianBatDau 
+FROM PhieuDatPhong pdp join Phong p ON pdp.maPhong = p.maPhong 
+join HoaDon hd ON pdp.maHoaDon = hd.maHoaDon
+join KhachHang kh ON hd.maKhachHang = kh.maKhachHang
+
+GO
+CREATE PROCEDURE xoaPhieuDatPhongCho(
+    @maHoaDon NVARCHAR(13)
+)
+AS
+BEGIN
+    DECLARE @maPhieuDatPhong VARCHAR(15);
+    DECLARE @maPhong VARCHAR(7);
+
+    SET @maPhieuDatPhong = (SELECT maPhieuDatPhong FROM DanhSachPhieu_View WHERE maHoaDon = @maHoaDon);
+    SET @maPhong = (SELECT maPhong FROM PhieuDatPhong WHERE maHoaDon = @maHoaDon);
+
+    DELETE FROM ChiTietDatDichVu WHERE maPhieuDatPhong = @maPhieuDatPhong;
+    DELETE FROM PhieuDatPhong WHERE maHoaDon = @maHoaDon;
+
+    -- Check if there are remaining PhieuDatPhong records for the maPhong
+    IF NOT EXISTS (SELECT 1 FROM PhieuDatPhong WHERE maPhong = @maPhong)
+    BEGIN
+        UPDATE PHONG SET trangThai = 0 WHERE maPhong = @maPhong;
+    END;
 END;

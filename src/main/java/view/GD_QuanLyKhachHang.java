@@ -249,7 +249,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
 		pnCenter.add(scrollPane, BorderLayout.SOUTH);
 		scrollPane.setPreferredSize(new Dimension(200, 350));
-		
+
 		initAction();
 		loadData();
 	}
@@ -265,7 +265,6 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 			public void mouseClicked(MouseEvent e) {
 				int row = table.getSelectedRow();
 				txtkMaKhachHang.setText(table.getValueAt(row, 1).toString());
-				txtTenKH.setText(table.getValueAt(row, 2).toString());
 				txtSDT.setText(table.getValueAt(row, 3).toString());
 			}
 		});
