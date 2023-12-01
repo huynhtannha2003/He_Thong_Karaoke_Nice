@@ -6,13 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/ChiTietDatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/ChiTietDatDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,9 +67,9 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;TranTrungTien&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/He_Thong_Karaoke_Nice&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/WorkTable/PTUD/He_Thong_Karaoke_Nice&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,7 +81,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.GD_Login">
     <configuration name="GD_Login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.GD_Login" />
       <module name="karaoke_project" />
@@ -136,6 +135,25 @@
       <workItem from="1700752254664" duration="39000" />
       <workItem from="1700752296765" duration="8235000" />
       <workItem from="1700791837250" duration="1303000" />
+      <workItem from="1700804113143" duration="18000" />
+      <workItem from="1700804152776" duration="269000" />
+      <workItem from="1700804428470" duration="4425000" />
+      <workItem from="1700828318701" duration="20000" />
+      <workItem from="1700979290324" duration="2470000" />
+      <workItem from="1700983165133" duration="359000" />
+      <workItem from="1700989098129" duration="174000" />
+      <workItem from="1700998261653" duration="4965000" />
+      <workItem from="1701010292028" duration="7460000" />
+      <workItem from="1701050542276" duration="3051000" />
+      <workItem from="1701054190371" duration="13396000" />
+      <workItem from="1701080302382" duration="8258000" />
+      <workItem from="1701097996949" duration="4354000" />
+      <workItem from="1701140307002" duration="10475000" />
+      <workItem from="1701225760215" duration="6690000" />
+      <workItem from="1701254938249" duration="7779000" />
+      <workItem from="1701269158173" duration="6655000" />
+      <workItem from="1701317046908" duration="21390000" />
+      <workItem from="1701396407682" duration="4635000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -163,11 +181,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/dao/KhachHangDAO.java</url>
           <line>25</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java</url>
-          <line>300</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

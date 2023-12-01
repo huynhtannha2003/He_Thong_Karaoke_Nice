@@ -18,12 +18,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
+import dao.TaiKhoanDAO;
+import entity.TaiKhoan;
+
 import utils.*;
 
 public class GD_Login extends JFrame {
 
     private JTextField txtTenDangNhap;
     private JPasswordField txtMatKhau;
+    private TaiKhoanDAO dao;
+    private TaiKhoan taiKhoanLogin;
 
     /**
      * Launch the application.
@@ -45,6 +50,7 @@ public class GD_Login extends JFrame {
      * Create the frame.
      */
     public GD_Login() {
+        dao = new TaiKhoanDAO();
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 700);
@@ -63,7 +69,7 @@ public class GD_Login extends JFrame {
         btnDangNhap.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnDangNhap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new GD_ManHinhChinh().setVisible(true);
+                new GD_ManHinhChinh(taiKhoanLogin).setVisible(true);
                 setVisible(false);
             }
         });
@@ -116,5 +122,12 @@ public class GD_Login extends JFrame {
         lbBackGroundKaraoke.setBounds(0, 0, 684, 661);
         lbBackGroundKaraoke.setPreferredSize(new Dimension(684, 661));
         MainPane.add(lbBackGroundKaraoke);
+
+        taiKhoanLogin = getLoginAccount();
+    }
+
+    public TaiKhoan getLoginAccount() {
+        String pwd = new String(txtMatKhau.getPassword());
+        return dao.getTaiKhoan(txtTenDangNhap.getText(), pwd);
     }
 }

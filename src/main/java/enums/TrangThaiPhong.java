@@ -18,7 +18,7 @@ public enum TrangThaiPhong {
         return value;
     }
 
-    public String getCustomName() {
+    public String getTypePhong() {
         return customName;
     }
 }

@@ -929,9 +929,31 @@ BEGIN
            KhuyenMai_ThoiDiemKetThuc
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
     WHERE PhieuDatPhong_MaPhong = @MaPhong
-      AND HoaDon_TongTien IS NULL;
+      AND HoaDon_ThoiDiemThanhToan IS NULL;
 END;
 GO
+
+CREATE PROCEDURE GetNewHoaDonByTenKhachHang @TenKhachHang NVARCHAR(255)
+AS
+BEGIN
+    SELECT A.*,
+           P.maPhong            AS Phong_MaPhong,
+           P.tenPhong           AS Phong_TenPhong,
+           P.sucChua            AS Phong_SucChua,
+           P.maLoaiPhong        AS Phong_MaLoaiPhong,
+           P.trangThai          AS Phong_TrangThai,
+           LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+           LP.trangThai         AS LoaiPhong_TrangThai,
+           LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView A
+             JOIN Phong P
+                  ON A.PhieuDatPhong_MaPhong = P.maPhong
+             JOIN LoaiPhong LP on P.maLoaiPhong = LP.maLoaiPhong
+    WHERE KhachHang_TenKhachHang = N'' + @TenKhachHang
+      AND PhieuDatPhong_ThoiGianKetThuc IS NULL;
+END;
+GO
+
 
 CREATE PROCEDURE GetHoaDonPaged @PageNumber INT,
                                 @RowsPerPage INT
@@ -1058,17 +1080,6 @@ BEGIN
 END;
 GO
 
-CREATE TRIGGER UpdateTrangThaiAfterInsert
-    ON PhieuDatPhong
-    AFTER INSERT
-    AS
-BEGIN
-    UPDATE Phong
-    SET trangThai = 1
-    WHERE maPhong IN (SELECT maPhong FROM inserted);
-END;
-GO
-
 CREATE FUNCTION GeneratePhieuDatPhongID()
     RETURNS VARCHAR(15)
 AS
@@ -1122,6 +1133,8 @@ BEGIN
 
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
+
+    UPDATE Phong SET trangThai = 1 where maPhong = @maPhong
 END;
 GO
 CREATE PROCEDURE ChangeKarokeRoom(

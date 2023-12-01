@@ -71,17 +71,17 @@ public class PhieuDatPhongDAO {
 			statement.setTime(5,
 					hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getThoiGianKetThuc());
 
-			int affectedRows = statement.executeUpdate();
-			return affectedRows > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-	public boolean changeRoom(PhieuDatPhong phieuDatPhong) {
-		Connection connection = connectDB.getConnection();
-		String query = "{CALL ChangeKarokeRoom(?, ?)}";
+    public boolean changeRoom(PhieuDatPhong phieuDatPhong) {
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL ChangeKarokeRoom(?, ?)}";
 
 		try (CallableStatement statement = connection.prepareCall(query)) {
 			statement.setString(1, phieuDatPhong.getHoaDon().getMaHoaDon());

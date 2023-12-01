@@ -1,6 +1,7 @@
 package view;
 
 import entity.NhanVien;
+import entity.TaiKhoan;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -39,21 +40,10 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
     private JLabel lbBackGroundKaraoke;
     private JMenuItem menuItemTroGiup;
     private JMenuItem menuItemHoaDon;
+    private TaiKhoan taiKhoanLogin;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GD_ManHinhChinh frame = new GD_ManHinhChinh();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public GD_ManHinhChinh() {
+    public GD_ManHinhChinh(TaiKhoan taiKhoanLogin) {
+        this.taiKhoanLogin = taiKhoanLogin;
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 700);
@@ -155,18 +145,18 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
     }
 
     private void init() {
-        lbBackGroundKaraoke = new JLabel("");
+    	lbBackGroundKaraoke = new JLabel("");
         lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
         lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
         add(lbBackGroundKaraoke);
     }
 
-    @Override
+	@Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         JPanel simplePanel = null;
         if (source == menuItemTrangChu) {
-//            setContentPane(contentPane);
+            setContentPane(contentPane);
             return;
         } else if (source == menuItemTaiKhoan) {
             JOptionPane.showMessageDialog(null, "Tài Khoản Clicked");
@@ -194,9 +184,11 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
         } else if (source == menuItemTKDoanhThu) {
             simplePanel = new GD_ThongKe();
         } else if (source == menuItemDatPhong) {
-            simplePanel = new GD_QuanLyDatPhong(
-                    new NhanVien("NV230001", "", "", "", "", "", null)
-            );
+            simplePanel = new GD_QuanLyDatPhong(this.taiKhoanLogin.getNhanVien());
+        }
+        if(simplePanel == null){
+            this.setVisible(false);
+            return ;
         }
         setContentPane(simplePanel);
         validate();
