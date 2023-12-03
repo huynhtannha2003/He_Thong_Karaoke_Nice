@@ -361,7 +361,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         } else if (source.equals(btnNhanPhongCho)) {
 
         }else if(source.equals(btnFindCustomer)){
-            listPhong = phongDAO.getNewHoaDonByTenKhachHang(txtCustomerName.getText());
+//            listPhong = phongDAO.getNewHoaDonByTenKhachHang(txtCustomerName.getText());
             loadRooms(listPhong);
         }
     }
