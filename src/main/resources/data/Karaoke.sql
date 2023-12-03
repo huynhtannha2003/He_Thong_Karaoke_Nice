@@ -301,6 +301,20 @@ SELECT maLoaiPhong  AS LoaiPhong_MaLoaiPhong,
        trangThai    AS LoaiPhong_TrangThai
 FROM LoaiPhong;
 GO
+SELECT * FROM LichSuGiaPhongView WHERE LoaiPhong_MaLoaiPhong = 'LP001'
+CREATE VIEW LichSuGiaPhongView AS
+SELECT LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
+       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai         AS LoaiPhong_TrangThai,
+       LSGP.maLoaiPhong     AS LichSuGiaPhong_MaLoaiPhong,
+       LSGP.ngayBatDau      AS LichSuGiaPhong_NgayBatDau,
+       LSGP.ngayKetThuc     AS LichSuGiaPhong_NgayKetThuc,
+       LSGP.thoiDiemBatDau  AS LichSuGiaPhong_ThoiDiemBatDau,
+       LSGP.thoiDiemKetThuc AS LichSuGiaPhong_ThoiDiemKetThuc,
+       LSGP.gia             AS LichSuGiaPhong_Gia
+FROM LoaiPhong LP
+         Join LichSuGiaPhong LSGP on LP.maLoaiPhong = LSGP.maLoaiPhong
+GO
 
 CREATE VIEW PhongView AS
 SELECT P.maPhong       AS Phong_MaPhong,
@@ -348,17 +362,6 @@ SELECT P.maPhong       AS Phong_MaPhong,
 FROM Phong P
          JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
 WHERE P.trangThai = 0;
-GO
-
-CREATE VIEW LichSuGiaPhongView AS
-SELECT maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
-       ngayBatDau       AS LichSuGiaPhong_NgayBatDau,
-       ngayKetThuc      AS LichSuGiaPhong_NgayKetThuc,
-       thoiDiemBatDau   AS LichSuGiaPhong_ThoiDiemBatDau,
-       thoiDiemKetThuc  AS LichSuGiaPhong_ThoiDiemKetThuc,
-       gia              AS LichSuGiaPhong_Gia,
-       maLoaiPhong      AS LichSuGiaPhong_MaLoaiPhong
-FROM LichSuGiaPhong;
 GO
 
 CREATE VIEW LichSuGiaPhongByConditionTimeyView AS

@@ -62,7 +62,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     private void setupFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(784, 600);
         setLocationRelativeTo(null);
         setBackground(new Color(255, 255, 255));
@@ -451,8 +451,8 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     @Override
-    public void onPhongPanelClicked(entity.Phong phong) {
-        txtNameRoom.setText(phong.getTenPhong());
-        cbType.setSelectedItem(phong.getLoaiPhong());
+    public void onPhongPanelClicked(List<Phong> listPhong) {
+        txtNameRoom.setText(listPhong.get(0).getTenPhong());
+        cbType.setSelectedItem(listPhong.get(0).getLoaiPhong());
     }
 }

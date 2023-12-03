@@ -117,6 +117,11 @@ public class DichVu {
         this.hinhAnh = hinhAnh;
     }
 
+    public Double getGia() {
+        int lichSuGiaDichVuLastIndex = lichSuGiaDichVuList.size() - 1;
+        return this.getLichSuGiaDichVuList().get(lichSuGiaDichVuLastIndex).getGia();
+    }
+
     @Override
     public String toString() {
         return "DichVu{" +

@@ -79,12 +79,6 @@ public class DichVuDAO {
         return list;
     }
 
-    /*
-     * Thêm dịch vụ
-     *
-     * @param dichVu : dịch vụ cần câp nhật
-     *
-     */
     public boolean addDichVu(DichVu dichVu) {
         Connection con = connectDB.getConnection();
         String query = "insert into DichVu values(?,?,?,?,?)";
@@ -127,11 +121,6 @@ public class DichVuDAO {
         return n > 0;
     }
 
-    //
-//	/*
-//	 * Sửa
-//	 *
-//	 */
     public boolean updateDichVu(DichVu dichVu, String ma) {
         Connection con = connectDB.getConnection();
         PreparedStatement pre = null;
@@ -178,18 +167,10 @@ public class DichVuDAO {
         return executeGetDichVuPage("select * from DichVuLichSuGiaByConditionTimeView where DichVu_MaDichVu = ?", ma);
     }
 
-    /*
-     * Tìm dịch vụ theo tên
-     */
-
     public List<DichVu> getDSDichVuTheoTen(String ten) {
         return executeGetDichVuPage(
                 "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu = ?", ten);
     }
-
-    /*
-     * Tìm dịch vụ theo loaiDichVu
-     */
 
     public List<DichVu> getDSTheoLoai(String loai) {
         List<DichVu> dichVuList = new ArrayList<>();

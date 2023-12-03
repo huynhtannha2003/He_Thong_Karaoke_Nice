@@ -6,6 +6,7 @@ import dao.HoaDonDAO;
 import dao.PhieuDatPhongDAO;
 import entity.*;
 import utils.DichVuPanelClickListener;
+import utils.FormatCurrencyUtil;
 import utils.RoomPanelUtil;
 
 import javax.swing.*;
@@ -19,12 +20,10 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
 
     private static final long serialVersionUID = 1L;
     private final DefaultTableModel model;
-    private JPanel panel;
-    private JPanel services;
+    private JPanel panel, services;
     private final JButton btnFind, btnChange, btnDelete, btnClearAll, btnApply;
-    private JTextField txtServiceName;
+    private JTextField txtServiceName, textField;
     private JTable tableOrderedServices;
-    private JTextField textField;
     private JComboBox cmbLoaiDV;
     private List<DichVu> listDichVu = new ArrayList<>();
     private final DichVuDAO dichVuDAO;
@@ -71,7 +70,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         lblServiceType.setBounds(369, 10, 96, 25);
         panel.add(lblServiceType);
 
-        cmbLoaiDV = new JComboBox();
+        cmbLoaiDV = new JComboBox<>();
         cmbLoaiDV.setBounds(475, 12, 85, 25);
         panel.add(cmbLoaiDV);
         cmbLoaiDV.addItem("Tất cả");
@@ -113,7 +112,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         btnFind.setBounds(858, 10, 117, 25);
         panel.add(btnFind);
 
-        String row[] = {"STT", "Tên dịch vụ", "Số lượng", "Thành tiền"};
+        String[] row = {"STT", "Tên dịch vụ", "Số lượng", "Giá", "Thành tiền"};
         model = new DefaultTableModel(row, 0);
         tableOrderedServices = new JTable(model);
         JScrollPane spOrderedServices = new JScrollPane(tableOrderedServices);
@@ -256,7 +255,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
 
         int stt = 1;
         for (DichVu dichVu : selectedDichVuList) {
-            Object[] rowData = {stt++, dichVu.getTenDichVu(), dichVu.getSoLuong(), dichVu.getLichSuGiaDichVuList().get(0).getGia()};
+            Object[] rowData = {stt++, dichVu.getTenDichVu(), dichVu.getSoLuong(), FormatCurrencyUtil.formatCurrency(dichVu.getGia()), FormatCurrencyUtil.formatCurrency(dichVu.getGia() * dichVu.getSoLuong())};
             model.addRow(rowData);
         }
         updateTotalPrice();

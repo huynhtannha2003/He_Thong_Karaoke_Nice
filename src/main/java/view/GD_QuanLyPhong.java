@@ -285,7 +285,8 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
     }
 
     @Override
-    public void onPhongPanelClicked(Phong phong) {
+    public void onPhongPanelClicked(List<Phong> listPhong) {
+        Phong phong = listPhong.get(0);
         txtMaPhong.setText(phong.getMaPhong());
         txtTenPhong.setText(phong.getTenPhong());
         spnSoLuong.setValue(phong.getSucChua());

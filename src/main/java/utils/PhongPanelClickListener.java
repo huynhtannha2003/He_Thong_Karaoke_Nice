@@ -2,6 +2,8 @@ package utils;
 
 import entity.Phong;
 
+import java.util.List;
+
 public interface PhongPanelClickListener {
-	void onPhongPanelClicked(Phong phong);
+	void onPhongPanelClicked(List<Phong> phong);
 }

@@ -8,6 +8,7 @@ import entity.LoaiPhong;
 import entity.PhieuDatPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
+import utils.FormatCurrencyUtil;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
@@ -129,7 +130,7 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
 
         hBoxCurrentRoomType.add(Box.createHorizontalStrut(20));
 
-        txtCurrentRoomPrice = new JTextField(phong.getLoaiPhong().getLichSuGiaPhongList().get(0).getGia() + "");
+        txtCurrentRoomPrice = new JTextField(FormatCurrencyUtil.formatCurrency(phong.getLoaiPhong().getGia()));
         txtCurrentRoomPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
         txtCurrentRoomPrice.setEditable(false);
         hBoxCurrentRoomType.add(txtCurrentRoomPrice);
@@ -372,14 +373,6 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
     }
 
     @Override
-    public void onPhongPanelClicked(Phong phong) {
-        selectedPhong = phong;
-        txtFollowRoomName.setText(phong.getTenPhong());
-        txtFollowRoomPrice.setText(phong.getTenPhong());
-        txtFollowRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
         Object o = e.getSource();
         if (o.equals(btnFind)) {
@@ -397,4 +390,12 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
         }
     }
 
+    @Override
+    public void onPhongPanelClicked(List<Phong> listPhong) {
+        Phong phong = listPhong.get(listPhong.size() - 1);
+        selectedPhong = phong;
+        txtFollowRoomName.setText(phong.getTenPhong());
+        txtFollowRoomPrice.setText(FormatCurrencyUtil.formatCurrency(phong.getLoaiPhong().getGia()));
+        txtFollowRoomType.setText(phong.getLoaiPhong().getTenLoaiPhong());
+    }
 }

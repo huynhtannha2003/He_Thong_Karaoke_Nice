@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,14 +19,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.Time;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class GD_ThanhToan extends JFrame implements ActionListener {
     private JPanel pnNorth, pnCenter, pnSouth, pnTable, pnSouthLeft, pnSouthRight, pnInfo, pnInfoLeft, pnInfoRight, pnSouthThongTin, pnSouthButton;
@@ -39,17 +37,17 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
     private JButton btnAdd, btnPayment;
     private NhanVien nhanVien;
     private KhachHang khachHang;
-    private HoaDon hoaDon;
+    private List<HoaDon> hoaDonList;
     private final KhuyenMaiDAO khuyenMaiDAO;
     private final PhieuDatPhongDAO phieuDatPhongDao;
 
-    public GD_ThanhToan(HoaDon currentHoaDon) {
-        hoaDon = currentHoaDon;
-        hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).setThoiGianKetThuc(new Time(System.currentTimeMillis()));
+    public GD_ThanhToan(List<HoaDon> hoaDon, NhanVien currentNhanVien) {
+        hoaDonList = hoaDon;
+        hoaDonList.forEach(currentHoaDon -> currentHoaDon.getPhieuDatPhongList().get(currentHoaDon.getPhieuDatPhongList().size() - 1).setThoiGianKetThuc(new Time(System.currentTimeMillis())));
         khuyenMaiDAO = new KhuyenMaiDAO();
         phieuDatPhongDao = new PhieuDatPhongDAO();
-        nhanVien = hoaDon.getNhanVien();
-        khachHang = hoaDon.getKhachHang();
+        nhanVien = currentNhanVien;
+        khachHang = hoaDon.get(0).getKhachHang();
         createGUI();
     }
 
@@ -127,7 +125,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
         pnInfoRight.add(lblCheckInTitle);
         lblCheckInTitle.setBorder(new EmptyBorder(topPadding, 0, botPadding, rightPadding));
 
-        lblCheckIn = new JLabel(formatFromDate(hoaDon.getPhieuDatPhongList().get(0).getThoiGianBatDau()));
+        lblCheckIn = new JLabel(formatFromDate(hoaDonList.get(0).getPhieuDatPhongList().get(0).getThoiGianBatDau()));
         lblCheckIn.setFont(new Font("Tahoma", Font.PLAIN, 14));
         pnInfoRight.add(lblCheckIn);
         lblCheckIn.setBorder(new EmptyBorder(topPadding, 0, botPadding, rightPadding));
@@ -148,7 +146,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
 
         lblTotalTime = new JLabel("");
         Duration totalTime = calculateTotalTime(
-                hoaDon.getPhieuDatPhongList().get(0).getThoiGianBatDau(),
+                hoaDonList.get(0).getPhieuDatPhongList().get(0).getThoiGianBatDau(),
                 new Time(System.currentTimeMillis())
         );
         lblTotalTime.setText(formatDuration(totalTime));
@@ -265,13 +263,15 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
     }
 
     private void updateTotalPrice() {
-        double totalPrice = hoaDon.tinhTongTien();
+        double totalPrice = hoaDonList.stream()
+                .mapToDouble(HoaDon::tinhTongTien)
+                .sum();
         lblTotal.setText(FormatCurrencyUtil.formatCurrency(totalPrice));
         lblTotalAfterDiscount.setText(FormatCurrencyUtil.formatCurrency(totalPrice));
     }
 
     private Duration calculateTotalTime(Time checkInTime, Time checkOutTime) {
-        return hoaDon.tinhGio(checkInTime, checkOutTime);
+        return hoaDonList.get(0).tinhGio(checkInTime, checkOutTime);
     }
 
     private String formatDuration(Duration duration) {
@@ -283,7 +283,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
 
 
     private String formatFromDate(Time time) {
-        Date currentDate = hoaDon.getNgayThanhToan();
+        Date currentDate = hoaDonList.get(0).getNgayThanhToan();
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
 
@@ -306,7 +306,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
 
     private void createTable() {
         pnTable.setLayout(null);
-        String[] row = {"Mã phiếu đặt phòng", "Tên Phòng", "Loại Phòng", "Sức chứa", "Từ lúc", "Đến lúc"};
+        String[] row = {"Mã phiếu đặt phòng", "Tên Phòng", "Loại Phòng", "Sức chứa", "Từ lúc", "Đến lúc", "Giá", "Thành tiền"};
 
         model = new DefaultTableModel(row, 0);
         table = new JTable(model);
@@ -315,10 +315,16 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
         scroll.setBounds(6, 23, 774, 103);
         pnTable.add(scroll);
 
-        String[] modelDetailRow = {"Mã dịch vụ", "Tên dịch vụ", "Số lượng", "Loại dịch vụ", "Giá"};
+        String[] modelDetailRow = {"Mã dịch vụ", "Tên dịch vụ", "Số lượng", "Loại dịch vụ", "Giá", "Thành tiền"};
 
         modelDetail = new DefaultTableModel(modelDetailRow, 0);
         tableDetail = new JTable(modelDetail);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+        tableDetail.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+        tableDetail.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+        table.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
+        table.getColumnModel().getColumn(7).setCellRenderer(rightRenderer);
         scrollDetail = new JScrollPane(tableDetail);
 
         scrollDetail.setBounds(6, 136, 774, 172);
@@ -336,24 +342,38 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
 
     private void loadInvoiceDetailData() {
         model.setRowCount(0);
-        List<PhieuDatPhong> invoiceDetails = hoaDon.getPhieuDatPhongList();
-        for (PhieuDatPhong invoiceDetail : invoiceDetails) {
-            Object[] rowData = {invoiceDetail.getMaPhieuDatPhong(), invoiceDetail.getPhong().getTenPhong(),
-                    invoiceDetail.getPhong().getLoaiPhong(), invoiceDetail.getPhong().getSucChua(),
-                    invoiceDetail.getThoiGianBatDau(), invoiceDetail.getThoiGianKetThuc()};
+        hoaDonList.forEach(hoaDon -> {
+            List<PhieuDatPhong> invoiceDetails = hoaDon.getPhieuDatPhongList();
+            for (PhieuDatPhong invoiceDetail : invoiceDetails) {
+                Object[] rowData = {
+                        invoiceDetail.getMaPhieuDatPhong(),
+                        invoiceDetail.getPhong().getTenPhong(),
+                        invoiceDetail.getPhong().getLoaiPhong(),
+                        invoiceDetail.getPhong().getSucChua(),
+                        invoiceDetail.getThoiGianBatDau(),
+                        invoiceDetail.getThoiGianKetThuc(),
+                        FormatCurrencyUtil.formatCurrency(invoiceDetail.getPhong().getLoaiPhong().getGia()),
+                        FormatCurrencyUtil.formatCurrency(invoiceDetail.tinhTongTienPhong())};
 
-            model.addRow(rowData);
-        }
+                model.addRow(rowData);
+            }
+        });
     }
 
     private void loadInvoiceServiceDetail() {
         modelDetail.setRowCount(0);
-        List<ChiTietDatDichVu> chiTietDatDichVuList = hoaDon.getPhieuDatPhongList().get(table.getSelectedRow()).getChiTietDatDichVuList();
+        List<PhieuDatPhong> tempHoaDon = hoaDonList.stream()
+                .flatMap(hoaDon -> hoaDon.getPhieuDatPhongList().stream())
+                .collect(Collectors.toList());
+        List<ChiTietDatDichVu> chiTietDatDichVuList = tempHoaDon.get(table.getSelectedRow()).getChiTietDatDichVuList();
         for (ChiTietDatDichVu chiTietDatDichVu : chiTietDatDichVuList) {
-            Object[] rowData = {chiTietDatDichVu.getDichVu().getMaDichVu(),
-                    chiTietDatDichVu.getDichVu().getTenDichVu(), chiTietDatDichVu.getSoLuong(),
+            Object[] rowData = {
+                    chiTietDatDichVu.getDichVu().getMaDichVu(),
+                    chiTietDatDichVu.getDichVu().getTenDichVu(),
+                    chiTietDatDichVu.getSoLuong(),
                     chiTietDatDichVu.getDichVu().getLoaiDichVu().getTenLoaiDichVu(),
-                    chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0).getGia()};
+                    FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia()),
+                    FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia() * chiTietDatDichVu.getSoLuong())};
             modelDetail.addRow(rowData);
         }
     }
@@ -362,22 +382,41 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == btnPayment) {
-            double discountAmount = calculateDiscountAmount(hoaDon.getKhuyenMai(), calculateTotalPrice());
-            double discountedTotalPrice = calculateDiscountedTotalPrice(calculateTotalPrice(), discountAmount);
+            AtomicBoolean updatePaymentDetailsSuccess = new AtomicBoolean(true);
 
-            hoaDon.setTongTien(discountedTotalPrice);
-            hoaDon.setThoiDiemThanhToan(new Time(System.currentTimeMillis()));
+            hoaDonList.forEach(hoaDon -> {
+                double discountAmount = calculateDiscountAmount(hoaDon.getKhuyenMai(), calculateTotalPrice());
+                double discountedTotalPrice = calculateDiscountedTotalPrice(calculateTotalPrice(), discountAmount);
 
-            hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).setThoiGianKetThuc(new Time(System.currentTimeMillis())); // Set the end time
+                hoaDon.setTongTien(discountedTotalPrice);
+                hoaDon.setThoiDiemThanhToan(new Time(System.currentTimeMillis()));
 
-            if (phieuDatPhongDao.updatePaymentDetails(hoaDon)) {
+                hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).setThoiGianKetThuc(new Time(System.currentTimeMillis())); // Set the end time
+
+                if (!phieuDatPhongDao.updatePaymentDetails(hoaDon)) {
+                    updatePaymentDetailsSuccess.set(false);
+                }
+            });
+            if (updatePaymentDetailsSuccess.get()) {
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
             } else {
                 JOptionPane.showMessageDialog(this, "Thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 
             if (checkBoxPrintInvoice.isSelected()) {
-                boolean success = PdfExportUtil.exportInvoiceToPdf(hoaDon);
+                HoaDon firstHoaDon = hoaDonList.get(0);
+                HoaDon newHoaDon = new HoaDon(
+                        firstHoaDon.getMaHoaDon(),
+                        firstHoaDon.getTongTien(),
+                        firstHoaDon.getNgayThanhToan(),
+                        firstHoaDon.getThoiDiemThanhToan(),
+                        firstHoaDon.getKhachHang(),
+                        nhanVien,
+                        firstHoaDon.getKhuyenMai());
+                newHoaDon.setPhieuDatPhongList(hoaDonList.stream()
+                        .flatMap(hoaDon -> hoaDon.getPhieuDatPhongList().stream())
+                        .collect(Collectors.toList()));
+                boolean success = PdfExportUtil.exportInvoiceToPdf(newHoaDon);
 
                 if (success) {
                     JOptionPane.showMessageDialog(this, "In hóa đơn thành công!");
@@ -403,7 +442,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
 
                 double discountedTotalPrice = calculateDiscountedTotalPrice(totalPrice, discountAmount);
                 lblTotalAfterDiscount.setText(FormatCurrencyUtil.formatCurrency(discountedTotalPrice));
-                hoaDon.setKhuyenMai(khuyenMai);
+                hoaDonList.forEach(hoaDon -> hoaDon.setKhuyenMai(khuyenMai));
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Không tìm thấy khuyến mãi có tên: " + khuyenMaiName,
@@ -422,7 +461,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
     }
 
     private double calculateTotalPrice() {
-        return hoaDon.tinhTongTien();
+        return hoaDonList.stream().mapToDouble(HoaDon::tinhTongTien).sum();
     }
 
     private void updateRefundField() {

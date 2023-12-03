@@ -9,17 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
-import entity.HoaDon;
-import entity.LichSuGiaPhong;
-import entity.LoaiPhong;
-import entity.Phong;
+import entity.*;
 import enums.TrangThaiPhong;
 
 public class PhongDAO {
 	private ConnectDB connectDB;
-
+	private final LoaiPhongDAO loaiPhongDAO;
 	public PhongDAO() {
 		this.connectDB = ConnectDB.getInstance();
+		loaiPhongDAO = new LoaiPhongDAO();
 	}
 
 	public int addNewPhong(Phong phong) {
@@ -86,6 +84,8 @@ public class PhongDAO {
 			while (resultSet.next()) {
 				Phong phong = new Phong(resultSet);
 				phongList.add(phong);
+				List<LichSuGiaPhong> lichSuGiaPhongList = loaiPhongDAO.getLichSuGiaPhongByMaLoaiPhong(phong.getLoaiPhong().getMaLoaiPhong());
+				lichSuGiaPhongList.forEach(phong.getLoaiPhong().getLichSuGiaPhongList()::add);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -216,5 +216,25 @@ public class PhongDAO {
 		}
 
 		return rooms;
+	}
+
+	public List<Phong> getNewHoaDonByTenKhachHang(String tenKhachHang) {
+		List<Phong> phongList = new ArrayList<>();
+		Connection connection = connectDB.getConnection();
+		String sql = "{call GetNewHoaDonByTenKhachHang(?)}";
+
+		try (CallableStatement callableStatement = connection.prepareCall(sql)) {
+			callableStatement.setString(1, tenKhachHang);
+
+			ResultSet resultSet = callableStatement.executeQuery();
+			while (resultSet.next()) {
+				Phong phong = new Phong(resultSet);
+				phongList.add(phong);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return phongList;
 	}
 }
