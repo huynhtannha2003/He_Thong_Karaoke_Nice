@@ -336,7 +336,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (phongSelected == null && source != btnFind && source != btnClear && source != btnFindCustomer) {
+        if (phongSelected == null && source != btnFind && source != btnClear && source != btnFindCustomer && source == btnHuyDatPhong) {
             JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -345,7 +345,8 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openDatPhongWindow();
         } else if (source.equals(btnChuyenPhong)) {
             openChuyenPhongWindow();
-        } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
+        } else if (source.equals(btnHuyDatPhong)) {
+            new GD_HuyDatPhongCho().setVisible(true);
         } else if (source.equals(btnDatPhongCho)) {
             openDatPhongChoWindow();
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
@@ -360,7 +361,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             handleClearAction();
         } else if (source.equals(btnNhanPhongCho)) {
 
-        }else if(source.equals(btnFindCustomer)){
+        } else if (source.equals(btnFindCustomer)) {
 //            listPhong = phongDAO.getNewHoaDonByTenKhachHang(txtCustomerName.getText());
             loadRooms(listPhong);
         }
@@ -377,7 +378,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     }
 
     private void openDatPhongChoWindow() {
-        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(phongSelected,nhanVien);
+        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(phongSelected, nhanVien);
         gdDatPhongCho.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
