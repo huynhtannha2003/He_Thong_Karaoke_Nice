@@ -82,6 +82,11 @@ public class LoaiPhong {
 		this.lichSuGiaPhongList = lichSuGiaPhongList;
 	}
 
+	public double getGia(){
+		int lichSuGiaPhongLastIndex=lichSuGiaPhongList.size() - 1;
+		return lichSuGiaPhongList.get(lichSuGiaPhongLastIndex).getGia();
+	}
+
 	@Override
 	public String toString() {
 		return tenLoaiPhong;

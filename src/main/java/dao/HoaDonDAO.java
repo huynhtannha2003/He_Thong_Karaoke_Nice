@@ -121,4 +121,29 @@ public class HoaDonDAO {
 
         return hoaDon;
     }
+
+    public HoaDon getHoaDonByMaHoaDon(String maHoaDon) {
+        HoaDon hoaDon = null;
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL GetHoaDonByMaHoaDon(?)}";
+
+        try (CallableStatement callableStatement = connection.prepareCall(query)) {
+            callableStatement.setString(1, maHoaDon);
+
+            ResultSet resultSet = callableStatement.executeQuery();
+            if (resultSet.next()) {
+                hoaDon = new HoaDon(resultSet);
+                hoaDon.setNhanVien(new NhanVien(resultSet));
+                List<PhieuDatPhong> phieuDatPhongList = phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(hoaDon.getMaHoaDon());
+                phieuDatPhongList.forEach(hoaDon.getPhieuDatPhongList()::add);
+                hoaDon.getPhieuDatPhongList().forEach(currentPhieuDatPhong ->
+                        chiTietDatDichVuDAO.getChiTietDatDichVuByPhieuDatPhong(currentPhieuDatPhong.getMaPhieuDatPhong()).forEach(currentPhieuDatPhong.getChiTietDatDichVuList()::add)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hoaDon;
+    }
 }

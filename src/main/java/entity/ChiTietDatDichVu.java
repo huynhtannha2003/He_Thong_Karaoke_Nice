@@ -54,4 +54,13 @@ public class ChiTietDatDichVu {
                 ", dichVu=" + dichVu +
                 '}';
     }
+
+    public double getDonGia() {
+        int lichSuGiaDichVuLastIndex = this.getDichVu().getLichSuGiaDichVuList().size() - 1;
+        return this.getDichVu().getLichSuGiaDichVuList().get(lichSuGiaDichVuLastIndex).getGia();
+    }
+
+    public double tinhTienDichVu() {
+        return getDonGia() * soLuong;
+    }
 }

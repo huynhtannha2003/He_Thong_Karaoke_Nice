@@ -59,7 +59,7 @@ public class PhieuDatPhongDAO {
 
 	public boolean updatePaymentDetails(HoaDon hoaDon) {
 		Connection connection = connectDB.getConnection();
-		String query = "{CALL UpdatePaymentDetails(?, ?, ?, ?, ?)}";
+		String query = "{CALL UpdatePaymentDetails(?, ?, ?, ?, ?, ?)}";
 
         try (CallableStatement statement = connection.prepareCall(query)) {
             statement.setString(1, hoaDon.getMaHoaDon());
@@ -67,6 +67,7 @@ public class PhieuDatPhongDAO {
             statement.setTime(3, hoaDon.getThoiDiemThanhToan());
             statement.setString(4, hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getMaPhieuDatPhong());
             statement.setTime(5, hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getThoiGianKetThuc());
+			statement.setString(6, hoaDon.getKhuyenMai().getMaKhuyenMai());
 
             int affectedRows = statement.executeUpdate();
             return affectedRows > 0;

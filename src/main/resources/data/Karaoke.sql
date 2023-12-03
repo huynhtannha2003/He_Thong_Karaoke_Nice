@@ -899,6 +899,40 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE GetHoaDonByMaHoaDon(@MaHoaDon VARCHAR(13))
+AS
+BEGIN
+    SELECT HoaDon_MaHoaDon,
+           HoaDon_TongTien,
+           HoaDon_NgayThanhToan,
+           HoaDon_ThoiDiemThanhToan,
+           HoaDon_MaKhachHang,
+           HoaDon_MaNhanVien,
+           HoaDon_MaKhuyenMai,
+           NhanVien_MaNhanVien,
+           NhanVien_Ten,
+           NhanVien_ChucVu,
+           NhanVien_DiaChi,
+           NhanVien_Email,
+           NhanVien_Email,
+           NhanVien_SDT,
+           NhanVien_TrangThai,
+           KhachHang_MaKhachHang,
+           KhachHang_TenKhachHang,
+           KhachHang_SDT,
+           KhuyenMai_MaKhuyenMai,
+           KhuyenMai_TenKhuyenMai,
+           KhuyenMai_PhanTram,
+           KhuyenMai_GioiHan,
+           KhuyenMai_NgayBatDau,
+           KhuyenMai_NgayKetThuc,
+           KhuyenMai_ThoiDiemBatDau,
+           KhuyenMai_ThoiDiemKetThuc
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE HoaDon_MaHoaDon = @MaHoaDon
+END
+GO
+
 CREATE PROCEDURE GetNewHoaDonByMaPhong(@MaPhong VARCHAR(7))
 AS
 BEGIN
@@ -1152,19 +1186,27 @@ BEGIN
     SET @maPhieuDatPhong = dbo.GeneratePhieuDatPhongID();
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @currentTime, @maHoaDon, @maPhong);
+
+    UPDATE Phong SET trangThai = 1 WHERE maPhong = @maPhong
 END;
 GO
-
+SELECT *
+FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
 CREATE PROCEDURE UpdatePaymentDetails(
     @hoaDonID NVARCHAR(13),
     @tongTien FLOAT,
     @thoiDiemThanhToan DATETIME,
     @phieuDatPhongID NVARCHAR(15),
-    @thoiGianKetThuc DATETIME
+    @thoiGianKetThuc DATETIME,
+    @maKhuyenMai NVARCHAR(13) = NULL -- Default to NULL if not provided
 )
 AS
 BEGIN
-    UPDATE HoaDon SET tongTien = @tongTien, thoiDiemThanhToan = @thoiDiemThanhToan WHERE MaHoaDon = @hoaDonID;
+    UPDATE HoaDon
+    SET tongTien          = @tongTien,
+        thoiDiemThanhToan = @thoiDiemThanhToan,
+        maKhuyenMai       = @maKhuyenMai
+    WHERE MaHoaDon = @hoaDonID;
 
     UPDATE PhieuDatPhong SET thoiGianKetThuc = @thoiGianKetThuc WHERE MaPhieuDatPhong = @phieuDatPhongID;
 
@@ -1204,7 +1246,7 @@ BEGIN
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
     FROM PhieuDatPhong
     WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
-    
+
     SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
                            RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
 
@@ -1215,3 +1257,6 @@ BEGIN
     SET trangThai = 2
     WHERE maPhong = @maPhong;
 END;
+
+SELECT *
+FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView

@@ -1,22 +1,18 @@
 package view;
 
 import com.toedter.calendar.JDateChooser;
-import dao.ChiTietDatDichVuDAO;
 import dao.HoaDonDAO;
-import dao.PhieuDatPhongDAO;
 import entity.ChiTietDatDichVu;
-import entity.DichVu;
 import entity.HoaDon;
 import entity.PhieuDatPhong;
+import utils.FormatCurrencyUtil;
+import utils.PdfExportUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +27,10 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
     private JPanel pnCenter, pnDetail;
     private JTable tableInvoice, tableInvoiceDetail, tableInvoiceServiceDetail;
     private HoaDonDAO hoaDonDAO;
-    private PhieuDatPhongDAO phieuDatPhongDAO;
-    private ChiTietDatDichVuDAO chiTietDatDichVuDAO;
     private int currentPageNumber;
     private DefaultTableModel modelInvoice, modelInvoiceDetail, modelInvoiceServiceDetail;
     private List<HoaDon> invoices;
     private HoaDon currentInvoice;
-    private List<PhieuDatPhong> invoiceDetails;
-    private List<DichVu> services;
     private static final int ROWS_PER_PAGE = 6;
     private Box horizontalBox;
     private JLabel lblSelect;
@@ -48,8 +40,6 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         setSize(1000, 700);
 
         hoaDonDAO = new HoaDonDAO();
-        phieuDatPhongDAO = new PhieuDatPhongDAO();
-        chiTietDatDichVuDAO = new ChiTietDatDichVuDAO();
         currentPageNumber = 1;
         createGUI();
     }
@@ -64,16 +54,17 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         for (HoaDon invoice : invoices) {
             Object[] rowData = {invoice.getMaHoaDon(), invoice.getKhachHang().getTenKhachHang(),
                     invoice.getKhachHang().getSdt(), invoice.getNgayThanhToan(), invoice.getNhanVien().getMaNhanVien(),
-                    invoice.getNhanVien().getTen(), invoice.getKhuyenMai().getTenKhuyenMai(), invoice.getTongTien()};
+                    invoice.getNhanVien().getTen(), invoice.getKhuyenMai().getTenKhuyenMai(), FormatCurrencyUtil.formatCurrency(invoice.getTongTien())};
 
             modelInvoice.addRow(rowData);
         }
     }
 
     private void loadInvoiceDetailData(HoaDon invoice) {
+        modelInvoiceServiceDetail.setRowCount(0);
         modelInvoiceDetail.setRowCount(0);
-        invoiceDetails = phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(invoice.getMaHoaDon());
-        for (PhieuDatPhong invoiceDetail : invoiceDetails) {
+        currentInvoice = hoaDonDAO.getHoaDonByMaHoaDon(invoice.getMaHoaDon());
+        for (PhieuDatPhong invoiceDetail : currentInvoice.getPhieuDatPhongList()) {
             Object[] rowData = {invoiceDetail.getMaPhieuDatPhong(), invoiceDetail.getPhong().getTenPhong(),
                     invoiceDetail.getPhong().getLoaiPhong(), invoiceDetail.getPhong().getSucChua(),
                     invoiceDetail.getThoiGianBatDau(), invoiceDetail.getThoiGianKetThuc()};
@@ -88,7 +79,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
             Object[] rowData = {chiTietDatDichVu.getDichVu().getMaDichVu(),
                     chiTietDatDichVu.getDichVu().getTenDichVu(), chiTietDatDichVu.getSoLuong(),
                     chiTietDatDichVu.getDichVu().getLoaiDichVu().getTenLoaiDichVu(),
-                    chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0).getGia()};
+                    FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0).getGia())};
             modelInvoiceServiceDetail.addRow(rowData);
         }
     }
@@ -129,10 +120,10 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
 
         horizontalBox.add(Box.createHorizontalStrut(20));
 
-        cbSelect = new JComboBox();
+        cbSelect = new JComboBox<>();
         cbSelect.setFont(new Font("Tahoma", Font.BOLD, 14));
         cbSelect.setModel(
-                new DefaultComboBoxModel(new String[]{"Tất cả", "Mã hóa đơn", "Tên khách hàng", "Khoảng thời gian"}));
+                new DefaultComboBoxModel<>(new String[]{"Tất cả", "Mã hóa đơn", "Tên khách hàng", "Khoảng thời gian"}));
         horizontalBox.add(cbSelect);
 
         BoxVerticalThongTin.add(Box.createVerticalStrut(20));
@@ -210,7 +201,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         btnTimKiem = new JButton("Tìm kiếm");
         btnTimKiem.setBackground(new Color(107, 208, 107));
         btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnTimKiem.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/search_icon.png")));
+        btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
         BoxThongTin3.add(btnTimKiem);
 
         BoxThongTin3.add(Box.createHorizontalStrut(20));
@@ -218,7 +209,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         btnXuatHoaDon = new JButton("Xuất hóa đơn");
         btnXuatHoaDon.setBackground(new Color(107, 208, 107));
         btnXuatHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXuatHoaDon.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/print_icon.png")));
+        btnXuatHoaDon.setIcon(new ImageIcon(getClass().getResource("/image/icon/print_icon.png")));
         BoxThongTin3.add(btnXuatHoaDon);
 
         BoxThongTin3.add(Box.createHorizontalStrut(20));
@@ -226,14 +217,14 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         btnXoaTrang = new JButton("Xóa trắng");
         btnXoaTrang.setBackground(new Color(107, 208, 107));
         btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXoaTrang.setIcon(new ImageIcon(GD_QuanLyHoaDon.class.getResource("/image/icon/clear_icon.png")));
+        btnXoaTrang.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
         BoxThongTin3.add(btnXoaTrang);
 
         BoxVerticalThongTin.add(Box.createVerticalStrut(10));
 
         PaneThongTin.add(Box.createHorizontalStrut(20));
 
-        String Invoicerow[] = {"Mã hóa đơn", "Tên khách hàng", "Số điện thoại", "Ngày thanh toán", "Mã nhân viên",
+        String[] Invoicerow = {"Mã hóa đơn", "Tên khách hàng", "Số điện thoại", "Ngày thanh toán", "Mã nhân viên",
                 "Tên nhân viên", "Khuyến mãi", "Tổng tiền"};
         modelInvoice = new DefaultTableModel(Invoicerow, 0);
         tableInvoice = new JTable(modelInvoice);
@@ -259,7 +250,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         pnDetail.setBounds(0, 185, 978, 202);
         pnCenter.add(pnDetail);
 
-        String InvoiceDetailRow[] = {"Mã phiếu đặt phòng", "Tên Phòng", "Loại Phòng", "Sức chứa", "Từ lúc",
+        String[] InvoiceDetailRow = {"Mã phiếu đặt phòng", "Tên Phòng", "Loại Phòng", "Sức chứa", "Từ lúc",
                 "Đến lúc"};
         modelInvoiceDetail = new DefaultTableModel(InvoiceDetailRow, 0);
         tableInvoiceDetail = new JTable(modelInvoiceDetail);
@@ -280,7 +271,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
 
         scrollPaneInvoiceServiceDetail = new JScrollPane(tableInvoiceServiceDetail);
         scrollPaneInvoiceServiceDetail.setBounds(501, 10, 467, 182);
-        scrollPaneInvoiceServiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách dịch vụ" + ""));
+        scrollPaneInvoiceServiceDetail.setBorder(BorderFactory.createTitledBorder("Danh sách dịch vụ"));
         pnDetail.add(scrollPaneInvoiceServiceDetail);
 
         btnPrevious = new JButton("<");
@@ -317,14 +308,24 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
             handleComboBoxSelection();
         } else if (source == btnTimKiem) {
             handleSearch();
+        } else if (source == btnXuatHoaDon) {
+            boolean success = PdfExportUtil.exportInvoiceToPdf(currentInvoice);
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "In hóa đơn thành công!");
+            } else {
+                JOptionPane.showMessageDialog(this, "In hóa đơn thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
+
     private void handleSearch() {
         int selectedOption = cbSelect.getSelectedIndex();
         invoices = getInvoicesForPage(1, selectedOption);
         lblCurrentPageNumber.setText("1");
         loadInvoiceData(invoices);
     }
+
     private void handlePageNavigation(Object source) {
         int targetPageNumber = (source == btnNext) ? currentPageNumber + 1 : currentPageNumber - 1;
         int selectedOption = cbSelect.getSelectedIndex();
@@ -404,9 +405,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 int selectRow = tableInvoiceDetail.getSelectedRow();
                 if (selectRow != -1) {
-                    String maPhieuDatPhong = invoiceDetails.get(selectRow).getMaPhieuDatPhong();
-                    List<ChiTietDatDichVu> chiTietDatDichVuList = chiTietDatDichVuDAO
-                            .getChiTietDatDichVuByPhieuDatPhong(maPhieuDatPhong);
+                    List<ChiTietDatDichVu> chiTietDatDichVuList = currentInvoice.getPhieuDatPhongList().get(selectRow).getChiTietDatDichVuList();
                     loadInvoiceServiceDetail(chiTietDatDichVuList);
                 }
             }

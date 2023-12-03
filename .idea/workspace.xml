@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu" />
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/FormatCurrencyUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/PdfExportUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/HoaDonDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/ChiTietDatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/ChiTietDatDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/HoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/HoaDon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/LoaiPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/LoaiPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/PhieuDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/PhieuDatPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThanhToan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThanhToan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="TranTrungTien" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,9 +73,9 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;TranTrungTien&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/WorkTable/PTUD/He_Thong_Karaoke_Nice&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/21023911_LaMinhTam/BaiTapLonPTUD_NHOM4-main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -104,6 +118,9 @@
       <list>
         <item itemvalue="Application.GD_Login" />
         <item itemvalue="Application.GD_ManHinhChinh" />
+        <item itemvalue="Application.GD_Login" />
+        <item itemvalue="Application.GD_ManHinhChinh" />
+        <item itemvalue="Application.GD_Login" />
       </list>
     </recent_temporary>
   </component>
@@ -145,8 +162,9 @@
       <workItem from="1701254938249" duration="7779000" />
       <workItem from="1701269158173" duration="6655000" />
       <workItem from="1701317046908" duration="21390000" />
-      <workItem from="1701396407682" duration="13330000" />
-      <workItem from="1701424138828" duration="2627000" />
+      <workItem from="1701396407682" duration="4635000" />
+      <workItem from="1701521908836" duration="12496000" />
+      <workItem from="1701570372333" duration="3925000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -162,12 +180,32 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: GD_QuanLyHoaDon action" />
     <MESSAGE value="feat: GD_ManHinhChinh action to menu" />
     <option name="LAST_COMMIT_MESSAGE" value="feat: GD_ManHinhChinh action to menu" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dao/KhachHangDAO.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.microsoft.sqlserver.jdbc.SQLServerResultSet" memberName="traceID" />
@@ -175,5 +213,11 @@
         <PinnedItemInfo parentTag="entity.DichVu" memberName="lichSuGiaDichVuList" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="phieuDatPhong" />
+        <watch expression="khuyenMai.ngayBatDau" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
