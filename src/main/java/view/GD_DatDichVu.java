@@ -5,6 +5,7 @@ import dao.DichVuDAO;
 import dao.HoaDonDAO;
 import dao.PhieuDatPhongDAO;
 import entity.*;
+import enums.TrangThaiDichVu;
 import utils.DichVuPanelClickListener;
 import utils.RoomPanelUtil;
 
@@ -33,9 +34,10 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
     private final PhieuDatPhongDAO phieuDatPhongDAO;
     private final HoaDon hoaDon;
     private final HoaDonDAO hoaDonDAO;
-    private int curQuantity, curTempQuantity, quantity;
+    private int preQuantity, curTempQuantity, quantity = 0, curQuantity;
     private DichVu dichVu;
     private Phong phong;
+    private List<ChiTietDatDichVu> listCTDV = new ArrayList<>();
 
     public GD_DatDichVu(HoaDon selectedHoaDon, Phong phong) {
         hoaDon = selectedHoaDon;
@@ -171,6 +173,8 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         });
 
         loadChiTietDichVu();
+        updateOrderedServicesTable();
+//        System.out.println(listDichVu);
     }
 
     public void initData() {
@@ -202,51 +206,56 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
     public void onDichVuPanelClicked(DichVu dichVu) {
         String quantityStr = JOptionPane.showInputDialog(this, "Nhập số lượng dịch vụ muốn đặt:", "Nhập số lượng", JOptionPane.QUESTION_MESSAGE);
         DichVu dichVu1 = dichVuDAO.getDichVuTheoMa(dichVu.getMaDichVu()).get(0);
-        curQuantity = dichVu1.getSoLuong();
-        quantity = Integer.parseInt(quantityStr);
-        int quantityAtBegin = dichVu1.getSoLuong();
+        preQuantity = dichVu1.getSoLuong();
+
         if (quantityStr == null) {
             return;
-        }
+        } else {
+            quantity = Integer.parseInt(quantityStr);
+            int quantityAtBegin = curTempQuantity + preQuantity;
 
-        try {
-            if (quantity > quantityAtBegin) {
-                JOptionPane.showMessageDialog(this, "Số lượng đặt vượt quá số lượng hiện tại của sản phẩm.\nSố lượng hiện tại: " + quantityAtBegin, "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            } else {
-                handleDeleteTask();
-
-                quantity = Integer.parseInt(quantityStr);
-                curQuantity = dichVu.getSoLuong();
-
-                if (quantity <= 0) {
-                    JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            try {
+                if (quantity > quantityAtBegin) {
+                    JOptionPane.showMessageDialog(this, "Số lượng đặt vượt quá số lượng hiện tại của sản phẩm.\nSố lượng hiện tại: " + quantityAtBegin, "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
+                } else {
+                    handleDeleteTask();
+
+                    quantity = Integer.parseInt(quantityStr);
+                    preQuantity = dichVu.getSoLuong();
+
+                    if (quantity <= 0) {
+                        JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    curQuantity = dichVu.getSoLuong();
+
+                    dichVu.setSoLuong(quantity);
+                    DichVu newDichVu = dichVu;
+                    selectedDichVuList.add(newDichVu);
+
+                    this.dichVu = newDichVu;
+
+                    updateQuantity(newDichVu);
+                    newDichVu.setSoLuong(quantity);
+                    updateOrderedServicesTable();
+                    curTempQuantity = dichVu1.getSoLuong();
+                    quantity = 0;
                 }
 
-                curQuantity = dichVu.getSoLuong();
-                curTempQuantity = quantity;
-
-                dichVu.setSoLuong(quantity);
-                DichVu newDichVu = dichVu;
-                selectedDichVuList.add(newDichVu);
-
-                this.dichVu = newDichVu;
-
-                updateQuantity();
-                newDichVu.setSoLuong(quantity);
-                updateOrderedServicesTable();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
-    private void updateQuantity() {
+    private void updateQuantity(DichVu dichVu) {
         curQuantity = dichVuDAO.getDichVuTheoMa(dichVu.getMaDichVu()).get(0).getSoLuong();
-        this.dichVu.setSoLuong(curQuantity - quantity);
-        dichVuDAO.updateDichVu(this.dichVu, this.dichVu.getMaDichVu());
+//        dichVu.setSoLuong(curQuantity - quantity);
+//        dichVuDAO.updateDichVu(dichVu, dichVu.getMaDichVu());
+        insertChiTietDatDichVu();
         listDichVu = dichVuDAO.getAllDichVu();
         loadDichVu(listDichVu);
     }
@@ -260,6 +269,25 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
             model.addRow(rowData);
         }
         updateTotalPrice();
+        this.quantity = 0;
+    }
+
+    private void loadChiTietDichVu() {
+        listCTDV = chiTietDatDichVuDAO.getChiTietDatDichVuByPhieuDatPhong(phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(hoaDon.getMaHoaDon()).get(0).getMaPhieuDatPhong());
+        for (ChiTietDatDichVu chiTietDatDichVu : listCTDV) {
+
+            String maDV = chiTietDatDichVu.getDichVu().getMaDichVu();
+            String tenDV = chiTietDatDichVu.getDichVu().getTenDichVu();
+            int soLuong = chiTietDatDichVu.getSoLuong();
+            TrangThaiDichVu trangThai = chiTietDatDichVu.getDichVu().getTrangThai();
+            LoaiDichVu loaiDichVu = chiTietDatDichVu.getDichVu().getLoaiDichVu();
+            LichSuGiaDichVu lichSuGiaDichVu = chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0);
+            List<LichSuGiaDichVu> lichSuGiaDichVuList = new ArrayList<>();
+            lichSuGiaDichVuList.add(lichSuGiaDichVu);
+
+            DichVu dichVu1 = new DichVu(maDV, tenDV, soLuong, trangThai, loaiDichVu, lichSuGiaDichVuList);
+            selectedDichVuList.add(dichVu1);
+        }
     }
 
     private void updateTotalPrice() {
@@ -291,7 +319,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
             DichVu dichVu1 = selectedDichVuList.get(selectedRow);
 
             try {
-//                handleDeleteTask();
+                handleDeleteTask();
                 onDichVuPanelClicked(dichVu1);
                 updateOrderedServicesTable();
 
@@ -304,11 +332,11 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         } else if (source == btnClearAll) {
             clearAllData();
         } else if (source == btnApply) {
-            if (insertChiTietDatDichVu()) {
-                JOptionPane.showMessageDialog(this, "Dịch vụ đã được đặt thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            int key = JOptionPane.showConfirmDialog(this, "Bạn có muốn đặt dịch vụ?", "", JOptionPane.YES_NO_OPTION);
+            if (key == JOptionPane.YES_OPTION) {
                 setVisible(false);
             } else {
-                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi đặt dịch vụ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Hủy đặt dịch vụ!");
             }
         } else if (source == btnFind) {
             if (!(txtServiceName.getText().equalsIgnoreCase(""))) handleFind(txtServiceName.getText());
@@ -334,8 +362,11 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
             }
 
         selectedDichVuList.remove(selectedRow);
+        insertChiTietDatDichVu();
+        chiTietDatDichVuDAO.deleteChiTietDatDichVu(phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(hoaDon.getMaHoaDon()).get(0).getMaPhieuDatPhong());
         updateOrderedServicesTable();
         loadDichVu(listDichVu);
+
     }
 
     private boolean insertChiTietDatDichVu() {
@@ -350,22 +381,12 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                     dichVuDAO.updateDichVu(dichVu, dichVu.getMaDichVu());
                 }
 
+        chiTietDatDichVuDAO.deleteChiTietDatDichVu(phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(hoaDon.getMaHoaDon()).get(0).getMaPhieuDatPhong());
         selectedDichVuList.clear();
         updateOrderedServicesTable();
         listDichVu = dichVuDAO.getAllDichVu();
-        loadDichVu(listDichVu);
-    }
 
-    private void loadChiTietDichVu() {
-        model.setRowCount(0);
-        int stt = 1;
-        List<ChiTietDatDichVu> listCTDV = chiTietDatDichVuDAO.getChiTietDatDichVuByPhieuDatPhong(phieuDatPhongDAO.getPhieuDatPhongByMaHoaDon(hoaDon.getMaHoaDon()).get(0).getMaPhieuDatPhong());
-        for (ChiTietDatDichVu chiTietDatDichVu : listCTDV) {
-            model.addRow(new Object[]{
-                    stt, chiTietDatDichVu.getDichVu().getTenDichVu(), chiTietDatDichVu.getSoLuong(), chiTietDatDichVu.getDichVu().getLichSuGiaDichVuList().get(0).getGia()
-            });
-            stt += 1;
-        }
+        loadDichVu(listDichVu);
     }
 
 }

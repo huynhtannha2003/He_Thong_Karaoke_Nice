@@ -35,7 +35,7 @@ public class DichVu {
         this.soLuong = soLuong;
         this.trangThai = trangThai;
         this.loaiDichVu = loaiDichVu;
-        this.lichSuGiaDichVuList = new ArrayList<LichSuGiaDichVu>();
+        this.lichSuGiaDichVuList = lichSuGiaDichVuList;
     }
 
     public DichVu(ResultSet rs) throws SQLException {

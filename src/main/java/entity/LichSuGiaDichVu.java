@@ -83,4 +83,15 @@ public class LichSuGiaDichVu {
         this.gia = gia;
     }
 
+    @Override
+    public String toString() {
+        return "LichSuGiaDichVu{" +
+                "maLichSuGiaDichVu='" + maLichSuGiaDichVu + '\'' +
+                ", ngayBatDau=" + ngayBatDau +
+                ", ngayKetThuc=" + ngayKetThuc +
+                ", thoiDiemBatDau=" + thoiDiemBatDau +
+                ", thoiDiemKetThuc=" + thoiDiemKetThuc +
+                ", gia=" + gia +
+                '}';
+    }
 }

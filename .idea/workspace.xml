@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu" />
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ChiTietDatDichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ChiTietDatDichVuDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/LichSuGiaDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/LichSuGiaDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,6 +153,12 @@
       <workItem from="1701317046908" duration="21390000" />
       <workItem from="1701396407682" duration="13330000" />
       <workItem from="1701424138828" duration="2627000" />
+      <workItem from="1701427291678" duration="717000" />
+      <workItem from="1701444901141" duration="5555000" />
+      <workItem from="1701486150733" duration="8140000" />
+      <workItem from="1701513205342" duration="7392000" />
+      <workItem from="1701531829160" duration="5387000" />
+      <workItem from="1701694670589" duration="1130000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -168,6 +180,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="feat: GD_ManHinhChinh action to menu" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="10" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.microsoft.sqlserver.jdbc.SQLServerResultSet" memberName="traceID" />
