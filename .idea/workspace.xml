@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="merge dac branch">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_NhanPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_NhanPhong.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="LuongTanDat" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,7 +69,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;LuongTanDat&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/WorkTable/PTUD/He_Thong_Karaoke_Nice&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -76,6 +81,11 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlserver&quot;
+    ]
   }
 }</component>
   <component name="RunManager" selected="Application.GD_Login">
@@ -105,13 +115,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GD_NhanPhong" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.GD_NhanPhong" />
+      <module name="karaoke_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GD_Login" />
+        <item itemvalue="Application.GD_NhanPhong" />
         <item itemvalue="Application.GD_ManHinhChinh" />
         <item itemvalue="Application.GD_Login" />
         <item itemvalue="Application.GD_ManHinhChinh" />
-        <item itemvalue="Application.GD_Login" />
       </list>
     </recent_temporary>
   </component>
@@ -148,6 +171,21 @@
       <workItem from="1701054190371" duration="12174000" />
       <workItem from="1701259898114" duration="1593000" />
       <workItem from="1701265640659" duration="1057000" />
+      <workItem from="1701333349997" duration="5313000" />
+      <workItem from="1701347553523" duration="7121000" />
+      <workItem from="1701355101376" duration="815000" />
+      <workItem from="1701398529569" duration="1224000" />
+      <workItem from="1701417011988" duration="625000" />
+      <workItem from="1701417687345" duration="2286000" />
+      <workItem from="1701439300149" duration="1024000" />
+      <workItem from="1701497846696" duration="1671000" />
+      <workItem from="1701522356094" duration="3887000" />
+      <workItem from="1701591299953" duration="28000" />
+      <workItem from="1701610191359" duration="1227000" />
+      <workItem from="1701693426694" duration="4317000" />
+      <workItem from="1701698045924" duration="4911000" />
+      <workItem from="1701746964849" duration="361000" />
+      <workItem from="1701865547551" duration="875000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -179,6 +217,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: GD_QuanLyHoaDon action" />
     <MESSAGE value="feat: GD_ManHinhChinh action to menu" />
@@ -194,6 +243,14 @@
           <line>25</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="7" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="com.microsoft.sqlserver.jdbc.SQLServerException" package="com.microsoft.sqlserver.jdbc" />
+          <option name="timeStamp" value="12" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

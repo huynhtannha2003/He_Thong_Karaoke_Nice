@@ -426,7 +426,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         modelTable.addRow(row);
         dichVuDAO.addDichVu(dv);
         dichVuDAO.addLichSuGiaGiaoDich(lichSu, dv);
-        System.out.println("1");
         loadData();
     }
 

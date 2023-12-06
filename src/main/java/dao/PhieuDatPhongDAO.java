@@ -8,58 +8,59 @@ import connectDB.ConnectDB;
 import entity.HoaDon;
 import entity.LichSuGiaPhong;
 import entity.PhieuDatPhong;
+import entity.Phong;
 
 public class PhieuDatPhongDAO {
-	private ConnectDB connectDB;
+    private ConnectDB connectDB;
 
-	public PhieuDatPhongDAO() {
-		this.connectDB = ConnectDB.getInstance();
-	}
+    public PhieuDatPhongDAO() {
+        this.connectDB = ConnectDB.getInstance();
+    }
 
-	public boolean bookKaraokeRoom(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau,
-			Date ngayThanhToan) {
-		Connection connection = connectDB.getConnection();
-		String query = "{CALL BookKaraokeRoom(?, ?, ?, ?, ?)}";
+    public boolean bookKaraokeRoom(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau,
+                                   Date ngayThanhToan) {
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL BookKaraokeRoom(?, ?, ?, ?, ?)}";
 
-		try (CallableStatement statement = connection.prepareCall(query)) {
-			statement.setString(1, maKhachHang);
-			statement.setString(2, maNhanVien);
-			statement.setString(3, maPhong);
-			statement.setTime(4, thoiGianBatDau);
-			statement.setDate(5, ngayThanhToan);
-			int affectedRows = statement.executeUpdate();
-			return affectedRows > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+        try (CallableStatement statement = connection.prepareCall(query)) {
+            statement.setString(1, maKhachHang);
+            statement.setString(2, maNhanVien);
+            statement.setString(3, maPhong);
+            statement.setTime(4, thoiGianBatDau);
+            statement.setDate(5, ngayThanhToan);
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-	public List<PhieuDatPhong> getPhieuDatPhongByMaHoaDon(String maHoaDon) {
-		List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
-		Connection connection = connectDB.getConnection();
-		String query = "{CALL GetPhieuDatPhongByMaHoaDon(?)}";
+    public List<PhieuDatPhong> getPhieuDatPhongByMaHoaDon(String maHoaDon) {
+        List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL GetPhieuDatPhongByMaHoaDon(?)}";
 
-		try (CallableStatement statement = connection.prepareCall(query)) {
-			statement.setString(1, maHoaDon);
+        try (CallableStatement statement = connection.prepareCall(query)) {
+            statement.setString(1, maHoaDon);
 
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				PhieuDatPhong phieuDatPhong = new PhieuDatPhong(resultSet);
-				LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
-				phieuDatPhong.getPhong().getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
-				phieuDatPhongList.add(phieuDatPhong);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                PhieuDatPhong phieuDatPhong = new PhieuDatPhong(resultSet);
+                LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
+                phieuDatPhong.getPhong().getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
+                phieuDatPhongList.add(phieuDatPhong);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return phieuDatPhongList;
-	}
+        return phieuDatPhongList;
+    }
 
-	public boolean updatePaymentDetails(HoaDon hoaDon) {
-		Connection connection = connectDB.getConnection();
-		String query = "{CALL UpdatePaymentDetails(?, ?, ?, ?, ?)}";
+    public boolean updatePaymentDetails(HoaDon hoaDon) {
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL UpdatePaymentDetails(?, ?, ?, ?, ?)}";
 
         try (CallableStatement statement = connection.prepareCall(query)) {
             statement.setString(1, hoaDon.getMaHoaDon());
@@ -75,24 +76,26 @@ public class PhieuDatPhongDAO {
             return false;
         }
     }
-	public boolean bookRoomBefore(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau,
-			Date ngayThanhToan) {
-		Connection connection = connectDB.getConnection();
-		String query = "{CALL BookRoomBefore(?, ?, ?, ?, ?)}";
 
-		try (CallableStatement statement = connection.prepareCall(query)) {
-			statement.setString(1, maKhachHang);
-			statement.setString(2, maNhanVien);
-			statement.setString(3, maPhong);
-			statement.setTime(4, thoiGianBatDau);
-			statement.setDate(5, ngayThanhToan);
-			int affectedRows = statement.executeUpdate();
-			return affectedRows > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+    public boolean bookRoomBefore(String maKhachHang, String maNhanVien, String maPhong, Time thoiGianBatDau,
+                                  Date ngayThanhToan) {
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL BookRoomBefore(?, ?, ?, ?, ?)}";
+
+        try (CallableStatement statement = connection.prepareCall(query)) {
+            statement.setString(1, maKhachHang);
+            statement.setString(2, maNhanVien);
+            statement.setString(3, maPhong);
+            statement.setTime(4, thoiGianBatDau);
+            statement.setDate(5, ngayThanhToan);
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean changeRoom(PhieuDatPhong phieuDatPhong) {
         Connection connection = connectDB.getConnection();
         String query = "{CALL ChangeKarokeRoom(?, ?)}";
@@ -107,6 +110,23 @@ public class PhieuDatPhongDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<PhieuDatPhong> getHoaDonBySDTAndTime(String soDienThoaiKhachHang) {
+        Connection connection = connectDB.getConnection();
+        List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
+        String query = "{CALL GetHoaDonBySDTAndTime(?)}";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setString(1, soDienThoaiKhachHang);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                PhieuDatPhong phieuDatPhong = new PhieuDatPhong(resultSet);
+                phieuDatPhongList.add(phieuDatPhong);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return phieuDatPhongList;
     }
 
 

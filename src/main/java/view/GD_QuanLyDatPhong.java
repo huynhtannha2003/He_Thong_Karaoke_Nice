@@ -336,7 +336,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (phongSelected == null && source != btnFind && source != btnClear && source != btnFindCustomer) {
+        if (phongSelected == null && source != btnFind && source != btnClear && source != btnFindCustomer && source != btnNhanPhongCho) {
             JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -348,7 +348,9 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         } else if (source.equals(btnHuyDatPhong)) {// Handle HuyDatPhong action
         } else if (source.equals(btnDatPhongCho)) {
             openDatPhongChoWindow();
-        } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
+        } else if (source.equals(btnNhanPhongCho)) {
+            GD_NhanPhong gdNhanPhong = new GD_NhanPhong();
+            gdNhanPhong.setVisible(true);
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
             openDatDichVuWindow();

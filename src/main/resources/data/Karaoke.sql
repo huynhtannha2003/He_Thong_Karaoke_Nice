@@ -671,10 +671,19 @@ SELECT HD.maHoaDon          AS HoaDon_MaHoaDon,
        KM.ngayBatDau        AS KhuyenMai_NgayBatDau,
        KM.ngayKetThuc       AS KhuyenMai_NgayKetThuc,
        KM.thoiDiemBatDau    AS KhuyenMai_ThoiDiemBatDau,
-       KM.thoiDiemKetThuc   AS KhuyenMai_ThoiDiemKetThuc
+       KM.thoiDiemKetThuc   AS KhuyenMai_ThoiDiemKetThuc,
+       P.maPhong            AS Phong_MaPhong,
+       P.tenPhong           AS Phong_TenPhong,
+       P.sucChua            AS Phong_SucChua,
+       P.maLoaiPhong        AS Phong_MaLoaiPhong,
+       P.trangThai          AS Phong_TrangThai,
+       LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
+       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai         AS LoaiPhong_TrangThai
 FROM HoaDon HD
          JOIN PhieuDatPhong PDP ON HD.maHoaDon = PDP.maHoaDon
          JOIN Phong P ON PDP.maPhong = P.maPhong
+         JOIN LoaiPhong LP on P.maLoaiPhong = LP.maLoaiPhong
          LEFT JOIN NhanVien NV ON HD.maNhanVien = NV.maNhanVien
          LEFT JOIN KhachHang KH ON HD.maKhachHang = KH.maKhachHang
          LEFT JOIN KhuyenMai KM on HD.maKhuyenMai = KM.maKhuyenMai;
@@ -938,14 +947,14 @@ CREATE PROCEDURE GetNewHoaDonByTenKhachHang @TenKhachHang NVARCHAR(255)
 AS
 BEGIN
     SELECT A.*,
-           P.maPhong            AS Phong_MaPhong,
-           P.tenPhong           AS Phong_TenPhong,
-           P.sucChua            AS Phong_SucChua,
-           P.maLoaiPhong        AS Phong_MaLoaiPhong,
-           P.trangThai          AS Phong_TrangThai,
-           LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
-           LP.trangThai         AS LoaiPhong_TrangThai,
-           LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong
+           P.maPhong       AS Phong_MaPhong,
+           P.tenPhong      AS Phong_TenPhong,
+           P.sucChua       AS Phong_SucChua,
+           P.maLoaiPhong   AS Phong_MaLoaiPhong,
+           P.trangThai     AS Phong_TrangThai,
+           LP.tenLoaiPhong AS LoaiPhong_TenLoaiPhong,
+           LP.trangThai    AS LoaiPhong_TrangThai,
+           LP.maLoaiPhong  AS LoaiPhong_MaLoaiPhong
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView A
              JOIN Phong P
                   ON A.PhieuDatPhong_MaPhong = P.maPhong
@@ -1227,4 +1236,33 @@ BEGIN
     UPDATE Phong
     SET trangThai = 2
     WHERE maPhong = @maPhong;
+END;
+GO
+
+CREATE PROCEDURE UpdateTrangThaiAndThoiGianBatDau @maPhong VARCHAR(7)
+AS
+BEGIN
+    UPDATE Phong
+    SET trangThai = 1
+    WHERE maPhong = @maPhong;
+
+    UPDATE PhieuDatPhong
+    SET thoiGianBatDau = GETDATE()
+    WHERE maPhong = @maPhong;
+END;
+GO
+
+CREATE PROCEDURE GetHoaDonBySDTAndTime(@SDT NVARCHAR(255))
+AS
+BEGIN
+    SELECT *
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE KhachHang_SDT = @SDT
+      AND (
+            (CAST(PhieuDatPhong_ThoiGianBatDau AS TIME) > CAST(GETDATE() AS TIME)
+                AND CONVERT(DATE, HoaDon_NgayThanhToan) >= CONVERT(DATE, GETDATE()))
+            OR
+            (CAST(PhieuDatPhong_ThoiGianBatDau AS TIME) <= CAST(GETDATE() AS TIME)
+                AND CONVERT(DATE, HoaDon_NgayThanhToan) > CONVERT(DATE, GETDATE()))
+        );
 END;

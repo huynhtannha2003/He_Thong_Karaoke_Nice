@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +50,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private KhachHangDAO khachHangDAO;
     private PhieuDatPhongDAO phieuDatPhongDAO;
     private KhachHang kh;
-    private Phong phongSelected, Phong;
+    private Phong Phong;
     private NhanVien nhanVien;
 
     public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
@@ -201,18 +203,18 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
         secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		formVerticalBox.add(Box.createVerticalStrut(20));
+        formVerticalBox.add(Box.createVerticalStrut(20));
 
-		Box thirdFormHorizontalBox = Box.createHorizontalBox();
-		formVerticalBox.add(thirdFormHorizontalBox);
+        Box thirdFormHorizontalBox = Box.createHorizontalBox();
+        formVerticalBox.add(thirdFormHorizontalBox);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		JLabel lblNameRoom = new JLabel("Tên phòng:");
-		lblNameRoom.setFont(new Font("Tahoma", Font.BOLD, 14));
-		thirdFormHorizontalBox.add(lblNameRoom);
+        JLabel lblNameRoom = new JLabel("Tên phòng:");
+        lblNameRoom.setFont(new Font("Tahoma", Font.BOLD, 14));
+        thirdFormHorizontalBox.add(lblNameRoom);
 
-		thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
+        thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
         txtNameRoom = new JTextField();
         txtNameRoom.setText(Phong.getTenPhong());
@@ -248,7 +250,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     private void addPanelSouth() {
-
         pnSouth = new JPanel();
         getContentPane().add(pnSouth, BorderLayout.SOUTH);
         pnSouth.setBackground(new Color(255, 255, 255));
@@ -281,26 +282,26 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         rbtnToday.setFont(new Font("Tahoma", Font.BOLD, 14));
         firstControlHorizontalBox.add(rbtnToday);
 
-		firstControlHorizontalBox.add(Box.createHorizontalStrut(20));
+        firstControlHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		rbtnOderDay = new JRadioButton("Ngày khác");
-		rbtnOderDay.setBackground(new Color(255, 255, 255));
-		rbtnOderDay.setFont(new Font("Tahoma", Font.BOLD, 14));
-		firstControlHorizontalBox.add(rbtnOderDay);
+        rbtnOderDay = new JRadioButton("Ngày khác");
+        rbtnOderDay.setBackground(new Color(255, 255, 255));
+        rbtnOderDay.setFont(new Font("Tahoma", Font.BOLD, 14));
+        firstControlHorizontalBox.add(rbtnOderDay);
 
-		group = new ButtonGroup();
-		group.add(rbtnOderDay);
-		group.add(rbtnToday);
-		firstControlHorizontalBox.add(Box.createHorizontalStrut(50));
+        group = new ButtonGroup();
+        group.add(rbtnOderDay);
+        group.add(rbtnToday);
+        firstControlHorizontalBox.add(Box.createHorizontalStrut(50));
 
-		dateChooser = new JDateChooser();
-		dateChooser.setPreferredSize(new Dimension(20, 20));
-		firstControlHorizontalBox.add(dateChooser);
+        dateChooser = new JDateChooser();
+        dateChooser.setPreferredSize(new Dimension(20, 20));
+        firstControlHorizontalBox.add(dateChooser);
 
-		controlVerticalBox.add(Box.createVerticalStrut(20));
+        controlVerticalBox.add(Box.createVerticalStrut(20));
 
-		Box secondControlHorizontalBox = Box.createHorizontalBox();
-		controlVerticalBox.add(secondControlHorizontalBox);
+        Box secondControlHorizontalBox = Box.createHorizontalBox();
+        controlVerticalBox.add(secondControlHorizontalBox);
 
         JLabel lblTime = new JLabel("Thời gian nhận phòng:");
         lblTime.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -312,21 +313,21 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         cbHours.setFont(new Font("Tahoma", Font.PLAIN, 14));
         secondControlHorizontalBox.add(cbHours);
 
-		lblHours = new JLabel("Giờ");
-		lblHours.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondControlHorizontalBox.add(lblHours);
+        lblHours = new JLabel("Giờ");
+        lblHours.setFont(new Font("Tahoma", Font.BOLD, 14));
+        secondControlHorizontalBox.add(lblHours);
 
-		secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
+        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
 
-		cbMin = new JComboBox();
-		cbMin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		secondControlHorizontalBox.add(cbMin);
+        cbMin = new JComboBox();
+        cbMin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        secondControlHorizontalBox.add(cbMin);
 
-		JLabel lblMin = new JLabel("Phút");
-		lblMin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		secondControlHorizontalBox.add(lblMin);
+        JLabel lblMin = new JLabel("Phút");
+        lblMin.setFont(new Font("Tahoma", Font.BOLD, 14));
+        secondControlHorizontalBox.add(lblMin);
 
-		secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
+        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
 
         btnConfirm = new JButton("Xác nhận");
         btnConfirm.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -368,7 +369,11 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     private void inputHours() {
         String s;
-        for (int i = 8; i < 25; i++) {
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH");
+        String formattedHour = currentTime.format(formatter);
+        int currentHours = Integer.parseInt(formattedHour);
+        for (int i = currentHours; i < 25; i++) {
             if (i < 10) {
                 s = "0" + i + "";
             } else {
@@ -410,9 +415,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
             loadRooms(listPhong);
         }
         if (o.equals(rbtnToday)) {
-            Calendar calendar = Calendar.getInstance();
-            Date current = calendar.getTime();
-            dateChooser.setDate(current);
+             Calendar calendar = Calendar.getInstance();
+             Date current = calendar.getTime();
+             dateChooser.setDate(current);
         }
         if (o.equals(btnConfirm)) {
             if (txtNumber.getText().trim().equals("")) {
@@ -432,7 +437,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 try {
                     full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
                     booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
-                            Phong.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
+                            txtNameRoom.getText(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
                 } catch (ParseException e1) {
                     e1.printStackTrace();
                 }

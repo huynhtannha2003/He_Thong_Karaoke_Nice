@@ -130,7 +130,6 @@ public class PhongDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return phongList;
     }
 
@@ -236,6 +235,20 @@ public class PhongDAO {
         }
 
         return phongList;
+    }
+
+    public boolean updateTrangThaiPhong(String maPhong) {
+        int result = 0;
+        Connection connection = connectDB.getConnection();
+        String sql = "{CALL UpdateTrangThaiAndThoiGianBatDau(?)}";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, maPhong);
+            result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
