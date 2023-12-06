@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="merge">
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: select multi phong">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/LoaiPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/LoaiPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PhongPanelClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/PhongPanelClickListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThanhToan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThanhToan.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,6 +158,12 @@
       <workItem from="1701521908836" duration="12496000" />
       <workItem from="1701570372333" duration="3925000" />
       <workItem from="1701604613328" duration="13390000" />
+      <workItem from="1701671034916" duration="2476000" />
+      <workItem from="1701695741369" duration="526000" />
+      <workItem from="1701699618592" duration="600000" />
+      <workItem from="1701768861737" duration="58000" />
+      <workItem from="1701770057315" duration="8933000" />
+      <workItem from="1701843841244" duration="14000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -236,6 +233,8 @@
       <configuration name="Application">
         <watch expression="phieuDatPhong" />
         <watch expression="khuyenMai.ngayBatDau" />
+        <watch expression="phong" language="JAVA" />
+        <watch expression="phongs" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>

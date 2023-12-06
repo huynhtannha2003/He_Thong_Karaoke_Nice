@@ -301,7 +301,6 @@ SELECT maLoaiPhong  AS LoaiPhong_MaLoaiPhong,
        trangThai    AS LoaiPhong_TrangThai
 FROM LoaiPhong;
 GO
-SELECT * FROM LichSuGiaPhongView WHERE LoaiPhong_MaLoaiPhong = 'LP001'
 CREATE VIEW LichSuGiaPhongView AS
 SELECT LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
        LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,

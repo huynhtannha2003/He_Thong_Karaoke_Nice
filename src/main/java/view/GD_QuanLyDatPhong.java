@@ -10,6 +10,7 @@ import utils.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -329,22 +330,34 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (phongSelected.size() == 0 && source != btnFind && source != btnClear && source != btnFindCustomer && source != btnHuyDatPhong) {
-            JOptionPane.showMessageDialog(this, "Hãy chọn một phòng", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        if (source.equals(btnFind)) {
+            handleFindAction();
+            phongSelected.clear();
+            return;
+        } else if (source.equals(btnClear)) {
+            handleClearAction();
+            phongSelected.clear();
+            return;
+        } else if (source.equals(btnFindCustomer)) {
+            listPhong = phongDAO.getNewHoaDonByTenKhachHang(txtCustomerName.getText());
+            loadRooms(listPhong);
+            phongSelected.clear();
+            return;
+        }else if (source.equals(btnHuyDatPhong)) {
+            new GD_HuyDatPhongCho().setVisible(true);
+            phongSelected.clear();
             return;
         }
-        if (phongSelected.size() > 1 && (source == btnDatPhong) ) {
-            JOptionPane.showMessageDialog(this, "Hãy chọn một phòng", "Cảnh bảo", JOptionPane.WARNING_MESSAGE);
+        if (phongSelected.size() == 0 && source != btnHuyDatPhong) {
+            JOptionPane.showMessageDialog(this, "Hãy chọn một phòng", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
         Phong phong = phongSelected.get(0);
         if (source.equals(btnDatPhong)) {
-            openDatPhongWindow(phong);
+            openDatPhongWindow();
         } else if (source.equals(btnChuyenPhong)) {
             openChuyenPhongWindow(phong);
-        } else if (source.equals(btnHuyDatPhong)) {
-            new GD_HuyDatPhongCho().setVisible(true);
-        } else if (source.equals(btnDatPhongCho)) {
+        }  else if (source.equals(btnDatPhongCho)) {
             openDatPhongChoWindow(phong);
         } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
@@ -352,15 +365,6 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openDatDichVuWindow(phong);
         } else if (source.equals(btnThanhToan)) {
             openThanhToanWindow(phongSelected);
-        } else if (source.equals(btnFind)) {
-            handleFindAction();
-        } else if (source.equals(btnClear)) {
-            handleClearAction();
-        } else if (source.equals(btnNhanPhongCho)) {
-
-        } else if (source.equals(btnFindCustomer)) {
-            listPhong = phongDAO.getNewHoaDonByTenKhachHang(txtCustomerName.getText());
-            loadRooms(listPhong);
         }
 
         phongSelected.clear();
@@ -390,8 +394,8 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
 
     private void openThanhToanWindow(List<Phong> phongSelected) {
         boolean anyRoomTrong = phongSelected.stream()
-                .anyMatch(phong -> phong.getTrangThai() != TrangThaiPhong.PHONG_TRONG);
-        if (phongSelected != null && anyRoomTrong) {
+                .anyMatch(phong -> phong.getTrangThai() == TrangThaiPhong.PHONG_DANG_SU_DUNG);
+        if (anyRoomTrong) {
             List<HoaDon> hoaDonList = phongSelected.stream()
                     .map(phong -> hoaDonDAO.getHoaDonByMaPhong(phong.getMaPhong()))
                     .collect(Collectors.toList());
@@ -405,13 +409,16 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             });
             gdThanhToan.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Chọn một phòng đang sử dụng để thanh toán", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Chọn phòng đang sử dụng để thanh toán", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    private void openDatPhongWindow(Phong phongSelected) {
-        if (phongSelected != null && phongSelected.getTrangThai() == TrangThaiPhong.PHONG_TRONG) {
-            GD_DatPhong gdDatPhong = new GD_DatPhong(phongSelected, nhanVien);
+    private void openDatPhongWindow() {
+        boolean anyRoomTrong = phongSelected.stream()
+                .allMatch(phong -> phong.getTrangThai() == TrangThaiPhong.PHONG_TRONG);
+        if (anyRoomTrong) {
+            List<Phong> copyOfPhongSelected = new ArrayList<>(phongSelected);
+            GD_DatPhong gdDatPhong = new GD_DatPhong(copyOfPhongSelected, nhanVien);
             gdDatPhong.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
@@ -421,7 +428,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             });
             gdDatPhong.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Chọn một phòng trống để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Chọn phòng trống để đặt", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
         }
     }
 
