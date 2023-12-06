@@ -81,7 +81,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		setLayout(new BorderLayout(0, 5));
 
 		JPanel TitlePanel = new JPanel();
-		TitlePanel.setBackground(new Color(97, 250, 254));
+		TitlePanel.setBackground(new Color(97, 250, 204));
 		add(TitlePanel, BorderLayout.NORTH);
 		TitlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -269,7 +269,6 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 			public void mouseClicked(MouseEvent e) {
 				int row = table.getSelectedRow();
 				txtkMaKhachHang.setText(table.getValueAt(row, 1).toString());
-				txtTenKH.setText(table.getValueAt(row, 2).toString());
 				txtSDT.setText(table.getValueAt(row, 3).toString());
 			}
 		});

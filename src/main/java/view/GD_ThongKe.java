@@ -1,9 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,15 +17,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.logging.SimpleFormatter;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -49,6 +38,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
     private JComboBox<String> cmbLoaiTK;
     private JButton btnThongKe, btnXoaTrang;
     private Box box, box1, box2;
+    private JScrollPane scroll;
 
     private ArrayList<String> listMonthName;
     private ArrayList<Double> listScore;
@@ -200,14 +190,13 @@ public class GD_ThongKe extends JPanel implements ActionListener {
             ChartPanel chartPanel = new ChartPanel(chart);
             pnChart.add(chartPanel);
             pnChart.validate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void buildChartByThoiGian() throws Exception {
-        ArrayList<Date> listTime = new ArrayList<>();
+        ArrayList<String> listTime = new ArrayList<>();
         listTime = getTimeFromDate();
         try {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -228,7 +217,8 @@ public class GD_ThongKe extends JPanel implements ActionListener {
                 CategoryPlot p = chart.getCategoryPlot();
                 p.setRangeGridlinePaint(Color.black);
                 ChartPanel chartPanel = new ChartPanel(chart);
-                pnChart.add(chartPanel);
+
+                pnChart.add(scroll);
                 pnChart.validate();
             } catch (Exception exception) {
 
@@ -293,7 +283,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
         }
     }
 
-    private ArrayList<Date> getTimeFromDate() {
+    private ArrayList<String> getTimeFromDate() {
         getDataByThoiGian();
         Date start = ngayBatDau.getDate();
         Date end = ngayKetThuc.getDate();
@@ -303,12 +293,14 @@ public class GD_ThongKe extends JPanel implements ActionListener {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn thời gian");
         }
-        ArrayList<Date> newListDate = new ArrayList<>();
+        ArrayList<String> newListDate = new ArrayList<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
 
         for (Date date2 : listDate) {
             for (Date date : dateRange) {
                 if (date.getTime() == date2.getTime()) {
-                    newListDate.add(date);
+                    newListDate.add(dateFormat.format(date));
                 }
             }
         }
@@ -320,6 +312,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
         dateRange = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateStart);
+
         while (calendar.getTime().before(dateEnd)) {
             dateRange.add(calendar.getTime());
             calendar.add(calendar.DATE, 1);
@@ -370,6 +363,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
             }
         } else if (o.equals(btnXoaTrang)) {
             clearInput();
+            buildChartByThang();
         }
     }
 

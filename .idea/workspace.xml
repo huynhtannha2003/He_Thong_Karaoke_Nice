@@ -4,14 +4,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_DatDichVu order dichVu">
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: select multi phong">
+      <change afterPath="$PROJECT_DIR$/.settings/org.eclipse.jdt.apt.core.prefs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/invoice/HD040123002.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/TaiKhoanDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/FormatCurrencyUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/PdfExportUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/GD_HuyDatPhongCho.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-300.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-300_Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-400.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-400_Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-500.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-500_Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-700.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/Roboto-700_Italic.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/NhanVienDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/NhanVienDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" afterPath="$PROJECT_DIR$/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/HoaDonDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/LoaiPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/LoaiPhongDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/ChiTietDatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/ChiTietDatDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/HoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/HoaDon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/LoaiPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/LoaiPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/NhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/NhanVien.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/PhieuDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/PhieuDatPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/TaiKhoan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/TaiKhoan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/TrangThaiPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/TrangThaiPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PhongPanelClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/PhongPanelClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyHoaDon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhachHang.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhuyenMai.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyKhuyenMai.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyNhanVien.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThanhToan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThanhToan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,24 +63,23 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
-        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="VuQuocHuy" />
+        <entry key="$PROJECT_DIR$" value="TranTrungTien" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;LMTam37&quot;
-  }
-}</component>
+        &quot;lastFilter&quot;: {
+        &quot;state&quot;: &quot;OPEN&quot;,
+        &quot;assignee&quot;: &quot;LMTam37&quot;
+        }
+        }</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -48,30 +88,77 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="17" />
+      </MavenImportingSettings>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
+        &quot;associatedIndex&quot;: 3
+        }</component>
   <component name="ProjectId" id="2Y3pgIiEbt23N2dOrwlXU9LlTQh" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "VuQuocHuy",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">{
+        &quot;keyToString&quot;: {
+        &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+        &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+        &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+        &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+        &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+        &quot;last_opened_file_path&quot;: &quot;D:/21023911_LaMinhTam/BaiTapLonPTUD_NHOM4-main&quot;,
+        &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+        &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+        &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+        &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+        &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+        &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+        &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+        &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+        &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+        }
+        }</component>
+  <component name="RunManager" selected="Application.GD_Login">
+    <configuration name="GD_Login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.GD_Login" />
+      <module name="karaoke_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GD_ManHinhChinh" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.GD_ManHinhChinh" />
+      <module name="karaoke_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GD_Login" />
+        <item itemvalue="Application.GD_ManHinhChinh" />
+        <item itemvalue="Application.GD_Login" />
+        <item itemvalue="Application.GD_ManHinhChinh" />
+        <item itemvalue="Application.GD_Login" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,12 +172,41 @@
       <workItem from="1699955707672" duration="9340000" />
       <workItem from="1699975693486" duration="5940000" />
       <workItem from="1699981673003" duration="239000" />
-      <workItem from="1700017531885" duration="6431000" />
-      <workItem from="1700038193578" duration="21967000" />
-      <workItem from="1700093189391" duration="3973000" />
-      <workItem from="1700097192111" duration="245000" />
-      <workItem from="1700097490477" duration="3588000" />
-      <workItem from="1700126172969" duration="18269000" />
+      <workItem from="1700146973054" duration="116000" />
+      <workItem from="1700147100542" duration="253000" />
+      <workItem from="1700147365793" duration="8957000" />
+      <workItem from="1700177249325" duration="412000" />
+      <workItem from="1700752254664" duration="39000" />
+      <workItem from="1700752296765" duration="8235000" />
+      <workItem from="1700791837250" duration="1303000" />
+      <workItem from="1700804113143" duration="18000" />
+      <workItem from="1700804152776" duration="269000" />
+      <workItem from="1700804428470" duration="4425000" />
+      <workItem from="1700828318701" duration="20000" />
+      <workItem from="1700979290324" duration="2470000" />
+      <workItem from="1700983165133" duration="359000" />
+      <workItem from="1700989098129" duration="174000" />
+      <workItem from="1700998261653" duration="4965000" />
+      <workItem from="1701010292028" duration="7460000" />
+      <workItem from="1701050542276" duration="3051000" />
+      <workItem from="1701054190371" duration="13396000" />
+      <workItem from="1701080302382" duration="8258000" />
+      <workItem from="1701097996949" duration="4354000" />
+      <workItem from="1701140307002" duration="10475000" />
+      <workItem from="1701225760215" duration="6690000" />
+      <workItem from="1701254938249" duration="7779000" />
+      <workItem from="1701269158173" duration="6655000" />
+      <workItem from="1701317046908" duration="21390000" />
+      <workItem from="1701396407682" duration="4635000" />
+      <workItem from="1701521908836" duration="12496000" />
+      <workItem from="1701570372333" duration="3925000" />
+      <workItem from="1701604613328" duration="13390000" />
+      <workItem from="1701671034916" duration="2476000" />
+      <workItem from="1701695741369" duration="526000" />
+      <workItem from="1701699618592" duration="600000" />
+      <workItem from="1701768861737" duration="58000" />
+      <workItem from="1701770057315" duration="8933000" />
+      <workItem from="1701843841244" duration="14000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -100,23 +216,31 @@
       <option name="project" value="LOCAL" />
       <updated>1699981589614</updated>
     </task>
-    <task id="LOCAL-00002" summary="feat: GD_QuanLyHoaDon book room">
+    <task id="LOCAL-00002" summary="feat: print pdf invoice">
       <option name="closed" value="true" />
-      <created>1700038226979</created>
+      <created>1701604655783</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1700038226979</updated>
+      <updated>1701604655783</updated>
     </task>
-    <task id="LOCAL-00003" summary="feat: GD_DatDichVu order dichVu">
+    <task id="LOCAL-00003" summary="merge">
       <option name="closed" value="true" />
-      <created>1700128983498</created>
+      <created>1701605964852</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1700128983498</updated>
+      <updated>1701605964852</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="merge">
+      <option name="closed" value="true" />
+      <created>1701606898111</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701606898111</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,9 +259,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: GD_QuanLyHoaDon action" />
-    <MESSAGE value="feat: GD_QuanLyHoaDon book room" />
-    <MESSAGE value="feat: GD_DatDichVu order dichVu" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: GD_DatDichVu order dichVu" />
+    <MESSAGE value="feat: GD_ManHinhChinh action to menu" />
+    <MESSAGE value="feat: print pdf invoice" />
+    <MESSAGE value="merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
@@ -147,5 +272,13 @@
         <PinnedItemInfo parentTag="entity.DichVu" memberName="lichSuGiaDichVuList" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="phieuDatPhong" />
+        <watch expression="khuyenMai.ngayBatDau" />
+        <watch expression="phong" language="JAVA" />
+        <watch expression="phongs" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

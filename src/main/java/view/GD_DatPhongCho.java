@@ -1,45 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-
 import com.toedter.calendar.JDateChooser;
-
 import dao.KhachHangDAO;
 import dao.LoaiPhongDAO;
 import dao.PhieuDatPhongDAO;
@@ -49,14 +10,25 @@ import entity.LoaiPhong;
 import entity.NhanVien;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
-import enums.TrangThaiPhong;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, ActionListener {
 
-    private JPanel contentPane, pnCenter, pnNorth, pnSouth;
-    private JTextField txtNumber, txtCustomer, txtName;
+    private JPanel pnCenter, pnNorth, pnSouth;
+    private JTextField txtNumber, txtCustomer, txtNameRoom;
     private List<Phong> listPhong;
     private ButtonGroup group;
     private JComboBox<String> cbMin, cbHours;
@@ -76,21 +48,12 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private KhachHangDAO khachHangDAO;
     private PhieuDatPhongDAO phieuDatPhongDAO;
     private KhachHang kh;
-    private Phong phong;
+    private Phong phongSelected, Phong;
     private NhanVien nhanVien;
 
-    public static void main(String[] args) throws IOException {
-        try {
-            new GD_DatPhongCho(new Phong(), new NhanVien()).setVisible(true);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public GD_DatPhongCho(Phong selected, NhanVien currentNhanVien) throws IOException {
-        phong = selected;
+    public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
+        Phong = phongSelected;
         phongDAO = new PhongDAO();
         loaiPhongDAO = new LoaiPhongDAO();
         khachHangDAO = new KhachHangDAO();
@@ -99,16 +62,14 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     private void setupFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 700);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(784, 600);
         setLocationRelativeTo(null);
         setBackground(new Color(255, 255, 255));
     }
 
-    private void initGUI() throws IOException {
+    private void initGUI() {
         setupFrame();
-
-        addMenuBar();
 
         addPanelNorth();
 
@@ -117,7 +78,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         addPanelSouth();
     }
 
-    private void addPanelCenter() throws IOException {
+    private void addPanelCenter() {
         pnCenter = new JPanel();
         pnCenter.setBackground(new Color(255, 255, 255));
         getContentPane().add(pnCenter, BorderLayout.CENTER);
@@ -131,27 +92,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     }
 
-    public void addMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        JMenu menuHeThong = new JMenu("Hệ thống");
-        menuBar.add(menuHeThong);
-
-        JMenu menuDanhMuc = new JMenu("Danh mục");
-        menuBar.add(menuDanhMuc);
-
-        JMenu menuXuLy = new JMenu("Xử lý");
-        menuBar.add(menuXuLy);
-
-        JMenu menuThongKe = new JMenu("Thống kê");
-        menuBar.add(menuThongKe);
-
-        JMenu menuTroGiup = new JMenu("Trợ giúp");
-        menuBar.add(menuTroGiup);
-    }
-
-    private void addPanelRoom() throws IOException {
+    private void addPanelRoom() {
 
         pnRoomScrollPane = new JPanel();
         pnRoomScrollPane.setBackground(new Color(255, 255, 255));
@@ -215,13 +156,14 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         firstFormHorizontalBox.add(Box.createHorizontalStrut(30));
 
         JLabel lblNumber = new JLabel("Số điện thoại khách hàng:");
-        lblNumber.setPreferredSize(new Dimension(185, 25));
+        lblNumber.setPreferredSize(new Dimension(200, 25));
         lblNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
         firstFormHorizontalBox.add(lblNumber);
 
         firstFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
         txtNumber = new JTextField();
+        txtNumber.setText("0345678912");
         txtNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
         firstFormHorizontalBox.add(txtNumber);
         txtNumber.setColumns(10);
@@ -244,7 +186,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
         JLabel lblCustomer = new JLabel("Khách hàng:");
         lblCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lblCustomer.setPreferredSize(new Dimension(185, 25));
+        lblCustomer.setPreferredSize(new Dimension(200, 25));
         secondFormHorizontalBox.add(lblCustomer);
 
         secondFormHorizontalBox.add(Box.createHorizontalStrut(20));
@@ -272,11 +214,12 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
         thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
-        txtName = new JTextField();
-        txtName.setPreferredSize(new Dimension(5, 20));
-        txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        thirdFormHorizontalBox.add(txtName);
-        txtName.setColumns(10);
+        txtNameRoom = new JTextField();
+        txtNameRoom.setText(Phong.getTenPhong());
+        txtNameRoom.setPreferredSize(new Dimension(5, 20));
+        txtNameRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        thirdFormHorizontalBox.add(txtNameRoom);
+        txtNameRoom.setColumns(10);
 
         thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
@@ -288,6 +231,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
         cbType = new JComboBox();
         cbType.setPreferredSize(new Dimension(100, 22));
+        cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
+        loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
+        cbType.setSelectedItem(Phong.getLoaiPhong());
         cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
         thirdFormHorizontalBox.add(cbType);
 
@@ -402,16 +348,13 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         btnCheck.addActionListener(this);
         btnSearch.addActionListener(this);
         btnConfirm.addActionListener(this);
+        btnPrint.addActionListener(this);
         rbtnToday.addActionListener(this);
     }
 
     private void initData() {
         listPhong = phongDAO.getAllPhongTrong();
         List<LoaiPhong> loaiPhongList = loaiPhongDAO.getAllLoaiPhong();
-        cbType.addItem((new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC)));
-        loaiPhongList.forEach(loaiPhong -> {
-            cbType.addItem(loaiPhong);
-        });
     }
 
     private void loadRooms(List<Phong> newRooms) {
@@ -421,7 +364,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
         pnRoomScrollPane.revalidate();
         pnRoomScrollPane.repaint();
-
     }
 
     private void inputHours() {
@@ -438,7 +380,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     private void inputMin() {
         String s;
-        for (int i = 0; i < 61; i = i + 5) {
+        for (int i = 0; i < 56; i = i + 5) {
             if (i < 10) {
                 s = "0" + i + "";
             } else {
@@ -449,14 +391,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     @Override
-    public void onPhongPanelClicked(Phong phong) {
-        txtName.setText(phong.getTenPhong());
-        cbType.setSelectedItem(phong.getLoaiPhong().getTrangThai());
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
         Object o = e.getSource();
         if (o.equals(btnCheck)) {
             if (txtNumber.getText().length() > 0) {
@@ -464,13 +399,14 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 if (kh == null) {
                     JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo",
                             JOptionPane.WARNING_MESSAGE);
+                    return;
                 } else {
                     txtCustomer.setText(kh.getTenKhachHang());
                 }
             }
         }
         if (o.equals(btnSearch)) {
-            listPhong = phongDAO.GetPhongByTenAndLoaiPhong(txtName.getText(), (LoaiPhong) cbType.getSelectedItem());
+            listPhong = phongDAO.GetPhongByTenAndLoaiPhong(txtNameRoom.getText(), (LoaiPhong) cbType.getSelectedItem());
             loadRooms(listPhong);
         }
         if (o.equals(rbtnToday)) {
@@ -482,35 +418,41 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
             if (txtNumber.getText().trim().equals("")) {
                 JOptionPane.showMessageDialog(this, "Bạn cần nhập khách hàng trước");
             }
-            if (txtName.getText().trim().equals("")) {
+            if (txtNameRoom.getText().trim().equals("")) {
                 JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước");
             } else {
-//				Date time = dateChooser.getDate();
-//				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//				String formattedDate = dateFormat.format(time);
-//				String selectHours = (String) cbHours.getSelectedItem();
-//				String selectMin = (String) cbMin.getSelectedItem();
-//				DateFormat formatter = new SimpleDateFormat("HH:mm");
-//				
-//				Date d1 = formatter.parse(selectMin);
-//				String fullTime = formattedDate + " " + selectHours + ":" + selectMin;
-//	
-//				Date full = new SimpleDateFormat("yyyy-MM-dd").parse(fullTime);
-//				boolean booking = phieuDatPhongDAO.bookKaraokeRoomBefore(kh.getMaKhachHang(), kh.getTenKhachHang(),
-//						phong.getMaPhong(),fullTime);
-//				if (booking) {
-//					JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
-//							JOptionPane.INFORMATION_MESSAGE);
-//				} else {
-//					JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.OK_OPTION);
-//				}
-//			}
-
+                Date time = dateChooser.getDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                String formattedDate = dateFormat.format(time);
+                String selectHours = (String) cbHours.getSelectedItem();
+                String selectMin = (String) cbMin.getSelectedItem();
+                String timeFull = formattedDate + " " + selectHours + ":" + selectMin;
+                Date full;
+                boolean booking = false;
+                try {
+                    full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
+                    booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
+                            Phong.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+                if (booking) {
+                    JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+                dispose();
             }
-
             if (o.equals(btnPrint)) {
 
             }
         }
+    }
+
+    @Override
+    public void onPhongPanelClicked(List<Phong> listPhong) {
+        txtNameRoom.setText(listPhong.get(0).getTenPhong());
+        cbType.setSelectedItem(listPhong.get(0).getLoaiPhong());
     }
 }
