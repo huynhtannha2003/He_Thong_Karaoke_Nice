@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,8 +50,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private KhachHangDAO khachHangDAO;
     private PhieuDatPhongDAO phieuDatPhongDAO;
     private KhachHang kh;
-    private Phong phongSelected, Phong;
+    private Phong Phong;
     private NhanVien nhanVien;
+    private String ph;
 
     public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
@@ -248,7 +251,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     private void addPanelSouth() {
-
         pnSouth = new JPanel();
         getContentPane().add(pnSouth, BorderLayout.SOUTH);
         pnSouth.setBackground(new Color(255, 255, 255));
@@ -368,7 +370,11 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     private void inputHours() {
         String s;
-        for (int i = 8; i < 25; i++) {
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH");
+        String formattedHour = currentTime.format(formatter);
+        int currentHours = Integer.parseInt(formattedHour);
+        for (int i = currentHours; i < 25; i++) {
             if (i < 10) {
                 s = "0" + i + "";
             } else {
@@ -410,9 +416,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
             loadRooms(listPhong);
         }
         if (o.equals(rbtnToday)) {
-            Calendar calendar = Calendar.getInstance();
-            Date current = calendar.getTime();
-            dateChooser.setDate(current);
+             Calendar calendar = Calendar.getInstance();
+             Date current = calendar.getTime();
+             dateChooser.setDate(current);
         }
         if (o.equals(btnConfirm)) {
             if (txtNumber.getText().trim().equals("")) {
@@ -432,7 +438,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 try {
                     full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
                     booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
-                            Phong.getMaPhong(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
+                            ph, new Time(full.getTime()), new java.sql.Date(full.getTime()));
                 } catch (ParseException e1) {
                     e1.printStackTrace();
                 }
@@ -451,8 +457,10 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     @Override
-    public void onPhongPanelClicked(List<Phong> listPhong) {
-        txtNameRoom.setText(listPhong.get(0).getTenPhong());
-        cbType.setSelectedItem(listPhong.get(0).getLoaiPhong());
+    public void onPhongPanelClicked(List<Phong> phong) {
+        Phong currentPhong = phong.get(0);
+        ph = currentPhong.getMaPhong();
+        txtNameRoom.setText(currentPhong.getTenPhong());
+        cbType.setSelectedItem(currentPhong.getLoaiPhong());
     }
 }

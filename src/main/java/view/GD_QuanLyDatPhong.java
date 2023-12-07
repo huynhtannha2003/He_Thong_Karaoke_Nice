@@ -343,12 +343,12 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             loadRooms(listPhong);
             phongSelected.clear();
             return;
-        }else if (source.equals(btnHuyDatPhong)) {
+        } else if (source.equals(btnHuyDatPhong)) {
             new GD_HuyDatPhongCho().setVisible(true);
             phongSelected.clear();
             return;
         }
-        if (phongSelected.size() == 0 && source != btnHuyDatPhong) {
+        if (phongSelected.size() == 0 && source != btnHuyDatPhong && source != btnNhanPhongCho) {
             JOptionPane.showMessageDialog(this, "Hãy chọn một phòng", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -357,9 +357,11 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openDatPhongWindow();
         } else if (source.equals(btnChuyenPhong)) {
             openChuyenPhongWindow(phong);
-        }  else if (source.equals(btnDatPhongCho)) {
+        } else if (source.equals(btnDatPhongCho)) {
             openDatPhongChoWindow(phong);
-        } else if (source.equals(btnNhanPhongCho)) {// Handle NhanPhongCho action
+        } else if (source.equals(btnNhanPhongCho)) {
+            GD_NhanPhong gdNhanPhong = new GD_NhanPhong();
+            gdNhanPhong.setVisible(true);
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
             openDatDichVuWindow(phong);
