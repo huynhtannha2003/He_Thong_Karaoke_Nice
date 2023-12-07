@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="fix: could not rent multi room">
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="merge dac branch">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="TranTrungTien" />
+        <entry key="$PROJECT_DIR$" value="LuongTanDat" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,7 +66,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/21023911_LaMinhTam/BaiTapLonPTUD_NHOM4-main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/WorkTable/PTUD/He_Thong_Karaoke_Nice&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -144,24 +145,9 @@
       <workItem from="1700998261653" duration="4965000" />
       <workItem from="1701010292028" duration="7460000" />
       <workItem from="1701050542276" duration="3051000" />
-      <workItem from="1701054190371" duration="13396000" />
-      <workItem from="1701080302382" duration="8258000" />
-      <workItem from="1701097996949" duration="4354000" />
-      <workItem from="1701140307002" duration="10475000" />
-      <workItem from="1701225760215" duration="6690000" />
-      <workItem from="1701254938249" duration="7779000" />
-      <workItem from="1701269158173" duration="6655000" />
-      <workItem from="1701317046908" duration="21390000" />
-      <workItem from="1701396407682" duration="4635000" />
-      <workItem from="1701521908836" duration="12496000" />
-      <workItem from="1701570372333" duration="3925000" />
-      <workItem from="1701604613328" duration="13390000" />
-      <workItem from="1701671034916" duration="2476000" />
-      <workItem from="1701695741369" duration="526000" />
-      <workItem from="1701699618592" duration="600000" />
-      <workItem from="1701768861737" duration="58000" />
-      <workItem from="1701770057315" duration="8933000" />
-      <workItem from="1701843841244" duration="6794000" />
+      <workItem from="1701054190371" duration="12174000" />
+      <workItem from="1701259898114" duration="1593000" />
+      <workItem from="1701265640659" duration="1057000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -171,64 +157,45 @@
       <option name="project" value="LOCAL" />
       <updated>1699981589614</updated>
     </task>
-    <task id="LOCAL-00002" summary="feat: print pdf invoice">
+    <task id="LOCAL-00002" summary="merge">
       <option name="closed" value="true" />
-      <created>1701604655783</created>
+      <created>1701233620731</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1701604655783</updated>
+      <updated>1701233620731</updated>
     </task>
-    <task id="LOCAL-00003" summary="merge">
+    <task id="LOCAL-00003" summary="merge dac branch">
       <option name="closed" value="true" />
-      <created>1701605964852</created>
+      <created>1701268680416</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1701605964852</updated>
+      <updated>1701268680416</updated>
     </task>
-    <task id="LOCAL-00004" summary="merge">
-      <option name="closed" value="true" />
-      <created>1701606898111</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1701606898111</updated>
-    </task>
-    <task id="LOCAL-00005" summary="fix: could not rent multi room">
-      <option name="closed" value="true" />
-      <created>1701843888190</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1701843888190</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: GD_QuanLyHoaDon action" />
     <MESSAGE value="feat: GD_ManHinhChinh action to menu" />
-    <MESSAGE value="feat: print pdf invoice" />
     <MESSAGE value="merge" />
-    <MESSAGE value="fix: could not rent multi room" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: could not rent multi room" />
+    <MESSAGE value="merge dac branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge dac branch" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dao/KhachHangDAO.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.microsoft.sqlserver.jdbc.SQLServerResultSet" memberName="traceID" />
@@ -236,13 +203,5 @@
         <PinnedItemInfo parentTag="entity.DichVu" memberName="lichSuGiaDichVuList" />
       </pinned-members>
     </pin-to-top-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="phieuDatPhong" />
-        <watch expression="khuyenMai.ngayBatDau" />
-        <watch expression="phong" language="JAVA" />
-        <watch expression="phongs" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

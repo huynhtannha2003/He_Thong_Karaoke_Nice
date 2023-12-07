@@ -1,11 +1,8 @@
-USE
-    master
+USE master
 GO
-DROP
-    DATABASE Karaoke
+DROP DATABASE Karaoke
 GO
-CREATE
-    DATABASE Karaoke
+CREATE DATABASE Karaoke
 GO
 USE Karaoke
 GO
@@ -301,19 +298,6 @@ SELECT maLoaiPhong  AS LoaiPhong_MaLoaiPhong,
        trangThai    AS LoaiPhong_TrangThai
 FROM LoaiPhong;
 GO
-CREATE VIEW LichSuGiaPhongView AS
-SELECT LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
-       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
-       LP.trangThai         AS LoaiPhong_TrangThai,
-       LSGP.maLoaiPhong     AS LichSuGiaPhong_MaLoaiPhong,
-       LSGP.ngayBatDau      AS LichSuGiaPhong_NgayBatDau,
-       LSGP.ngayKetThuc     AS LichSuGiaPhong_NgayKetThuc,
-       LSGP.thoiDiemBatDau  AS LichSuGiaPhong_ThoiDiemBatDau,
-       LSGP.thoiDiemKetThuc AS LichSuGiaPhong_ThoiDiemKetThuc,
-       LSGP.gia             AS LichSuGiaPhong_Gia
-FROM LoaiPhong LP
-         Join LichSuGiaPhong LSGP on LP.maLoaiPhong = LSGP.maLoaiPhong
-GO
 
 CREATE VIEW PhongView AS
 SELECT P.maPhong       AS Phong_MaPhong,
@@ -361,6 +345,17 @@ SELECT P.maPhong       AS Phong_MaPhong,
 FROM Phong P
          JOIN LoaiPhong LP ON P.maLoaiPhong = LP.maLoaiPhong
 WHERE P.trangThai = 0;
+GO
+
+CREATE VIEW LichSuGiaPhongView AS
+SELECT maLichSuGiaPhong AS LichSuGiaPhong_MaLichSuGiaPhong,
+       ngayBatDau       AS LichSuGiaPhong_NgayBatDau,
+       ngayKetThuc      AS LichSuGiaPhong_NgayKetThuc,
+       thoiDiemBatDau   AS LichSuGiaPhong_ThoiDiemBatDau,
+       thoiDiemKetThuc  AS LichSuGiaPhong_ThoiDiemKetThuc,
+       gia              AS LichSuGiaPhong_Gia,
+       maLoaiPhong      AS LichSuGiaPhong_MaLoaiPhong
+FROM LichSuGiaPhong;
 GO
 
 CREATE VIEW LichSuGiaPhongByConditionTimeyView AS
@@ -676,10 +671,19 @@ SELECT HD.maHoaDon          AS HoaDon_MaHoaDon,
        KM.ngayBatDau        AS KhuyenMai_NgayBatDau,
        KM.ngayKetThuc       AS KhuyenMai_NgayKetThuc,
        KM.thoiDiemBatDau    AS KhuyenMai_ThoiDiemBatDau,
-       KM.thoiDiemKetThuc   AS KhuyenMai_ThoiDiemKetThuc
+       KM.thoiDiemKetThuc   AS KhuyenMai_ThoiDiemKetThuc,
+       P.maPhong            AS Phong_MaPhong,
+       P.tenPhong           AS Phong_TenPhong,
+       P.sucChua            AS Phong_SucChua,
+       P.maLoaiPhong        AS Phong_MaLoaiPhong,
+       P.trangThai          AS Phong_TrangThai,
+       LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong,
+       LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+       LP.trangThai         AS LoaiPhong_TrangThai
 FROM HoaDon HD
          JOIN PhieuDatPhong PDP ON HD.maHoaDon = PDP.maHoaDon
          JOIN Phong P ON PDP.maPhong = P.maPhong
+         JOIN LoaiPhong LP on P.maLoaiPhong = LP.maLoaiPhong
          LEFT JOIN NhanVien NV ON HD.maNhanVien = NV.maNhanVien
          LEFT JOIN KhachHang KH ON HD.maKhachHang = KH.maKhachHang
          LEFT JOIN KhuyenMai KM on HD.maKhuyenMai = KM.maKhuyenMai;
@@ -718,8 +722,7 @@ CREATE PROCEDURE GetPhongByTenAndLoaiPhong @tenPhong NVARCHAR(255),
                                            @maLoaiPhong VARCHAR(5) = NULL
 AS
 BEGIN
-    IF
-        @maLoaiPhong IS NOT NULL
+    IF @maLoaiPhong IS NOT NULL
         BEGIN
             SELECT *
             FROM PhongView
@@ -946,14 +949,14 @@ CREATE PROCEDURE GetNewHoaDonByTenKhachHang @TenKhachHang NVARCHAR(255)
 AS
 BEGIN
     SELECT A.*,
-           P.maPhong       AS Phong_MaPhong,
-           P.tenPhong      AS Phong_TenPhong,
-           P.sucChua       AS Phong_SucChua,
-           P.maLoaiPhong   AS Phong_MaLoaiPhong,
-           P.trangThai     AS Phong_TrangThai,
-           LP.tenLoaiPhong AS LoaiPhong_TenLoaiPhong,
-           LP.trangThai    AS LoaiPhong_TrangThai,
-           LP.maLoaiPhong  AS LoaiPhong_MaLoaiPhong
+           P.maPhong            AS Phong_MaPhong,
+           P.tenPhong           AS Phong_TenPhong,
+           P.sucChua            AS Phong_SucChua,
+           P.maLoaiPhong        AS Phong_MaLoaiPhong,
+           P.trangThai          AS Phong_TrangThai,
+           LP.tenLoaiPhong      AS LoaiPhong_TenLoaiPhong,
+           LP.trangThai         AS LoaiPhong_TrangThai,
+           LP.maLoaiPhong       AS LoaiPhong_MaLoaiPhong
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView A
              JOIN Phong P
                   ON A.PhieuDatPhong_MaPhong = P.maPhong
@@ -968,8 +971,7 @@ CREATE PROCEDURE GetHoaDonPaged @PageNumber INT,
                                 @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM HoaDonDetailsView
@@ -998,8 +1000,7 @@ CREATE PROCEDURE GetHoaDonPagedByMaHoaDon @MaHoaDon VARCHAR(20),
                                           @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM HoaDonDetailsView
@@ -1013,8 +1014,7 @@ CREATE PROCEDURE GetHoaDonPagedByTenKhachHangLike @TenKhachHang NVARCHAR(255),
                                                   @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM HoaDonDetailsView
@@ -1030,8 +1030,7 @@ CREATE PROCEDURE GetHoaDonPagedByDateRange @FromDay DATE,
                                            @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM HoaDonDetailsView
@@ -1045,8 +1044,7 @@ CREATE PROCEDURE GetDichVuPaged @PageNumber INT,
                                 @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM DichVu
@@ -1059,8 +1057,7 @@ CREATE PROCEDURE GetNhanVienPaged @PageNumber INT,
                                   @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM NhanVien
@@ -1073,8 +1070,7 @@ CREATE PROCEDURE GetKhachHangPaged @PageNumber INT,
                                    @RowsPerPage INT
 AS
 BEGIN
-    DECLARE
-        @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
+    DECLARE @OffsetRows INT = (@PageNumber - 1) * @RowsPerPage;
 
     SELECT *
     FROM KhachHang
@@ -1088,13 +1084,11 @@ CREATE TRIGGER UpdateDichVuQuantity
     AFTER INSERT
     AS
 BEGIN
-    SET
-        NOCOUNT ON;
+    SET NOCOUNT ON;
     UPDATE DichVu
     SET SoLuong = DV.SoLuong - i.SoLuong
     FROM DichVu DV
-             INNER JOIN inserted i
-                        ON DV.MaDichVu = i.MaDichVu;
+             INNER JOIN inserted i ON DV.MaDichVu = i.MaDichVu;
 END;
 GO
 
@@ -1102,15 +1096,11 @@ CREATE FUNCTION GeneratePhieuDatPhongID()
     RETURNS VARCHAR(15)
 AS
 BEGIN
-    DECLARE
-        @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
-    DECLARE
-        @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
-    DECLARE
-        @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
 
-    DECLARE
-        @soThuTuPhieuDatPhong INT;
+    DECLARE @soThuTuPhieuDatPhong INT;
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
     FROM PhieuDatPhong
     WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
@@ -1129,45 +1119,34 @@ CREATE PROCEDURE BookKaraokeRoom(
 )
 AS
 BEGIN
-    DECLARE
-        @maHoaDon VARCHAR(13);
-    DECLARE
-        @maPhieuDatPhong VARCHAR(15);
+    DECLARE @maHoaDon VARCHAR(13);
+    DECLARE @maPhieuDatPhong VARCHAR(15);
 
-    DECLARE
-        @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
-    DECLARE
-        @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
-    DECLARE
-        @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
 
-    DECLARE
-        @soThuTuHoaDon INT;
+    DECLARE @soThuTuHoaDon INT;
     SELECT @soThuTuHoaDon = ISNULL(MAX(CAST(SUBSTRING(maHoaDon, 11, 3) AS INT)), 0) + 1
     FROM HoaDon
     WHERE SUBSTRING(maHoaDon, 4, 6) = @ngayTao + @thangTao + @namTao;
 
-    SET
-        @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
+    SET @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
 
     INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien, NgayThanhToan)
     VALUES (@maHoaDon, @maKhachHang, @maNhanVien, @ngayThanhToan);
 
-    DECLARE
-        @soThuTuPhieuDatPhong INT;
+    DECLARE @soThuTuPhieuDatPhong INT;
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
     FROM PhieuDatPhong
     WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
-    SET
-        @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
+    SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
                            RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
 
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @maHoaDon, @maPhong);
 
-    UPDATE Phong
-    SET trangThai = 1
-    where maPhong = @maPhong
+    UPDATE Phong SET trangThai = 1 where maPhong = @maPhong
 END;
 GO
 CREATE PROCEDURE ChangeKarokeRoom(
@@ -1176,12 +1155,9 @@ CREATE PROCEDURE ChangeKarokeRoom(
 )
 AS
 BEGIN
-    DECLARE
-        @currentTime TIME = FORMAT(GETDATE(), 'HH:mm:ss');
-    DECLARE
-        @maPhieuDatPhong VARCHAR(15);
-    DECLARE
-        @oldPhongID VARCHAR(7);
+    DECLARE @currentTime TIME = FORMAT(GETDATE(), 'HH:mm:ss');
+    DECLARE @maPhieuDatPhong VARCHAR(15);
+    DECLARE @oldPhongID VARCHAR(7);
 
     SELECT @oldPhongID = pdp.maPhong
     FROM PhieuDatPhong pdp
@@ -1197,8 +1173,7 @@ BEGIN
     WHERE maHoaDon = @maHoaDon
       AND thoiGianKetThuc IS NULL;
 
-    SET
-        @maPhieuDatPhong = dbo.GeneratePhieuDatPhongID();
+    SET @maPhieuDatPhong = dbo.GeneratePhieuDatPhongID();
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
     VALUES (@maPhieuDatPhong, @currentTime, @maHoaDon, @maPhong);
 
@@ -1283,38 +1258,29 @@ CREATE PROCEDURE [dbo].[BookRoomBefore](
 )
 AS
 BEGIN
-    DECLARE
-        @maHoaDon VARCHAR(13);
-    DECLARE
-        @maPhieuDatPhong VARCHAR(15);
+    DECLARE @maHoaDon VARCHAR(13);
+    DECLARE @maPhieuDatPhong VARCHAR(15);
 
-    DECLARE
-        @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
-    DECLARE
-        @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
-    DECLARE
-        @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
+    DECLARE @ngayTao NVARCHAR(2) = FORMAT(GETDATE(), 'dd');
+    DECLARE @thangTao NVARCHAR(2) = FORMAT(GETDATE(), 'MM');
+    DECLARE @namTao NVARCHAR(2) = FORMAT(GETDATE(), 'yy');
 
-    DECLARE
-        @soThuTuHoaDon INT;
+    DECLARE @soThuTuHoaDon INT;
     SELECT @soThuTuHoaDon = ISNULL(MAX(CAST(SUBSTRING(maHoaDon, 11, 3) AS INT)), 0) + 1
     FROM HoaDon
     WHERE SUBSTRING(maHoaDon, 4, 6) = @ngayTao + @thangTao + @namTao;
 
-    SET
-        @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
+    SET @maHoaDon = 'HD.' + @ngayTao + @thangTao + @namTao + '.' + RIGHT('000' + CAST(@soThuTuHoaDon AS VARCHAR(3)), 3);
 
     INSERT INTO HoaDon (maHoaDon, maKhachHang, maNhanVien, NgayThanhToan)
     VALUES (@maHoaDon, @maKhachHang, @maNhanVien, @ngayThanhToan);
 
-    DECLARE
-        @soThuTuPhieuDatPhong INT;
+    DECLARE @soThuTuPhieuDatPhong INT;
     SELECT @soThuTuPhieuDatPhong = ISNULL(MAX(CAST(SUBSTRING(maPhieuDatPhong, 12, 4) AS INT)), 0) + 1
     FROM PhieuDatPhong
     WHERE SUBSTRING(maPhieuDatPhong, 5, 6) = @ngayTao + @thangTao + @namTao;
 
-    SET
-        @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
+    SET @maPhieuDatPhong = 'PDP.' + @ngayTao + @thangTao + @namTao + '.' +
                            RIGHT('0000' + CAST(@soThuTuPhieuDatPhong AS VARCHAR(4)), 4);
 
     INSERT INTO PhieuDatPhong (maPhieuDatPhong, thoiGianBatDau, maHoaDon, maPhong)
@@ -1325,3 +1291,31 @@ BEGIN
     WHERE maPhong = @maPhong;
 END;
 GO
+
+CREATE PROCEDURE UpdateTrangThaiAndThoiGianBatDau @maPhong VARCHAR(7)
+AS
+BEGIN
+    UPDATE Phong
+    SET trangThai = 1
+    WHERE maPhong = @maPhong;
+
+    UPDATE PhieuDatPhong
+    SET thoiGianBatDau = GETDATE()
+    WHERE maPhong = @maPhong;
+END;
+GO
+
+CREATE PROCEDURE GetHoaDonBySDTAndTime(@SDT NVARCHAR(255))
+AS
+BEGIN
+    SELECT *
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE KhachHang_SDT = @SDT
+      AND (
+            (CAST(PhieuDatPhong_ThoiGianBatDau AS TIME) > CAST(GETDATE() AS TIME)
+                AND CONVERT(DATE, HoaDon_NgayThanhToan) >= CONVERT(DATE, GETDATE()))
+            OR
+            (CAST(PhieuDatPhong_ThoiGianBatDau AS TIME) <= CAST(GETDATE() AS TIME)
+                AND CONVERT(DATE, HoaDon_NgayThanhToan) > CONVERT(DATE, GETDATE()))
+        );
+END;
