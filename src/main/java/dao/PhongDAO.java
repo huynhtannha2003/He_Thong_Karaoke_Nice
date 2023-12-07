@@ -13,27 +13,26 @@ import entity.*;
 import enums.TrangThaiPhong;
 
 public class PhongDAO {
-	private ConnectDB connectDB;
-	private final LoaiPhongDAO loaiPhongDAO;
-	public PhongDAO() {
-		this.connectDB = ConnectDB.getInstance();
-		loaiPhongDAO = new LoaiPhongDAO();
-	}
+    private ConnectDB connectDB;
 
-	public int addNewPhong(Phong phong) {
-		int result = 0;
-		Connection con = connectDB.getConnection();
-		String query = "INSERT INTO Phong VALUES(?,?,?,?,?)";
-		try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-			preparedStatement.setString(1, phong.getMaPhong());
-			preparedStatement.setString(2, phong.getTenPhong());
-			preparedStatement.setInt(3, phong.getSucChua());
-			preparedStatement.setString(4, phong.getLoaiPhong().getMaLoaiPhong());
-			preparedStatement.setInt(5, phong.getTrangThai().getValue());
-			result = preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    public PhongDAO() {
+        this.connectDB = ConnectDB.getInstance();
+    }
+
+    public int addNewPhong(Phong phong) {
+        int result = 0;
+        Connection con = connectDB.getConnection();
+        String query = "INSERT INTO Phong VALUES(?,?,?,?,?)";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, phong.getMaPhong());
+            preparedStatement.setString(2, phong.getTenPhong());
+            preparedStatement.setInt(3, phong.getSucChua());
+            preparedStatement.setString(4, phong.getLoaiPhong().getMaLoaiPhong());
+            preparedStatement.setInt(5, phong.getTrangThai().getValue());
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return result;
     }
@@ -234,20 +233,6 @@ public class PhongDAO {
         }
 
         return phongList;
-    }
-
-    public boolean updateTrangThaiPhong(String maPhong) {
-        int result = 0;
-        Connection connection = connectDB.getConnection();
-        String sql = "{CALL UpdateTrangThaiAndThoiGianBatDau(?)}";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, maPhong);
-            result = preparedStatement.executeUpdate();
-            return result > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
 }

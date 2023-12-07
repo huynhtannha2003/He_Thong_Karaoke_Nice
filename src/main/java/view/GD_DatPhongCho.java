@@ -457,9 +457,10 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     }
 
     @Override
-    public void onPhongPanelClicked(entity.Phong phong) {
-        ph = phong.getMaPhong();
-        txtNameRoom.setText(phong.getTenPhong());
-        cbType.setSelectedItem(phong.getLoaiPhong());
+    public void onPhongPanelClicked(List<Phong> phong) {
+        Phong currentPhong = phong.get(0);
+        ph = currentPhong.getMaPhong();
+        txtNameRoom.setText(currentPhong.getTenPhong());
+        cbType.setSelectedItem(currentPhong.getLoaiPhong());
     }
 }
