@@ -52,6 +52,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private KhachHang kh;
     private Phong Phong;
     private NhanVien nhanVien;
+    private String ph;
 
     public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
@@ -437,7 +438,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 try {
                     full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
                     booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
-                            txtNameRoom.getText(), new Time(full.getTime()), new java.sql.Date(full.getTime()));
+                            ph, new Time(full.getTime()), new java.sql.Date(full.getTime()));
                 } catch (ParseException e1) {
                     e1.printStackTrace();
                 }
@@ -457,6 +458,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     @Override
     public void onPhongPanelClicked(entity.Phong phong) {
+        ph = phong.getMaPhong();
         txtNameRoom.setText(phong.getTenPhong());
         cbType.setSelectedItem(phong.getLoaiPhong());
     }
