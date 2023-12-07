@@ -347,6 +347,10 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             new GD_HuyDatPhongCho().setVisible(true);
             phongSelected.clear();
             return;
+        } else if (source.equals(btnNhanPhongCho)) {
+            GD_NhanPhong gdNhanPhong = new GD_NhanPhong();
+            gdNhanPhong.setVisible(true);
+            return;
         }
         if (phongSelected.size() == 0 && source != btnHuyDatPhong && source != btnNhanPhongCho) {
             JOptionPane.showMessageDialog(this, "Hãy chọn một phòng", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
@@ -359,9 +363,6 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openChuyenPhongWindow(phong);
         } else if (source.equals(btnDatPhongCho)) {
             openDatPhongChoWindow(phong);
-        } else if (source.equals(btnNhanPhongCho)) {
-            GD_NhanPhong gdNhanPhong = new GD_NhanPhong();
-            gdNhanPhong.setVisible(true);
         } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
             openDatDichVuWindow(phong);
@@ -417,7 +418,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
 
     private void openDatPhongWindow() {
         boolean anyRoomTrong = phongSelected.stream()
-                .allMatch(phong -> phong.getTrangThai() == TrangThaiPhong.PHONG_TRONG);
+                .allMatch(phong -> phong.getTrangThai() == TrangThaiPhong.PHONG_TRONG || phong.getTrangThai() == TrangThaiPhong.PHONG_CHO);
         if (anyRoomTrong) {
             List<Phong> copyOfPhongSelected = new ArrayList<>(phongSelected);
             GD_DatPhong gdDatPhong = new GD_DatPhong(copyOfPhongSelected, nhanVien);

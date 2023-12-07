@@ -42,26 +42,12 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
     private JMenuItem menuItemHoaDon;
     private TaiKhoan taiKhoanLogin;
 
-//    public static void main(String[] args) {
-//        EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    GD_ManHinhChinh frame = new GD_ManHinhChinh();
-//                    frame.setVisible(true);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
-
     public GD_ManHinhChinh(TaiKhoan taiKhoanLogin) {
         this.taiKhoanLogin = taiKhoanLogin;
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 700);
         setLocationRelativeTo(null);
-//        System.out.println(this.taiKhoanLogin);
 
         menuBar = new JMenuBar();
         menuBar.setFont(new Font("Tahoma", Font.BOLD, 14));

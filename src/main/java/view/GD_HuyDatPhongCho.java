@@ -55,6 +55,7 @@ public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
 	public GD_HuyDatPhongCho() {
 		pdpDAO = new PhieuDatPhongDAO();
 		setSize(1000, 700);
+		setLocationRelativeTo(null);
 		BorderLayout borderLayout = new BorderLayout();
 		borderLayout.setVgap(10);
 		getContentPane().setLayout(borderLayout);
@@ -81,7 +82,7 @@ public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
 		lbSDTTimKiem.setFont(new Font("Tahoma", Font.BOLD, 13));
 		horizontalBox.add(lbSDTTimKiem);
 
-		txtTimKiem = new JTextField();
+		txtTimKiem = new JTextField("0345678912");
 		horizontalBox.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 
@@ -126,7 +127,6 @@ public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
 		btnThoat.setBackground(new Color(107, 208, 107));
 		PaneButton.add(btnThoat);
 		initAction();
-		loadData();
 	}
 
 	@Override
@@ -135,11 +135,8 @@ public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
 		if (o.equals(btnXoaPhieu)) {
 			pdpDAO.xoaPhieuDatPhongCho(maHoaDonSelected);
 			JOptionPane.showMessageDialog(null, "Hủy đặt phòng chờ thành công!");
-			loadData();
 		} else if (o.equals(btnXoaTatCa)) {
 			xoaTatCaPhieu();
-			loadData();
-
 		} else if (o.equals(btnThoat)) {
 			JOptionPane.getRootFrame().dispose();
 		} else if (o.equals(btnTimKiem)) {
@@ -164,14 +161,6 @@ public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
 		});
 	}
 
-	public void loadData() {
-		model.setRowCount(0);
-		List<String[]> list = pdpDAO.getDanhSachPhieu();
-		for (String[] s : list) {
-			model.addRow(s);
-		}
-	}
-
 	public void xoaTatCaPhieu() {
 		List<String> pdpList = new ArrayList();
 		int n = table.getRowCount();
@@ -182,7 +171,7 @@ public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
 
 	public void TimKiem() {
 		model.setRowCount(0);
-		List<String[]> list = pdpDAO.timKiemPhieuDatPhong(txtTimKiem.getText().toString());
+		List<String[]> list = pdpDAO.timKiemPhieuDatPhong(txtTimKiem.getText());
 		for (String[] s : list) {
 			model.addRow(s);
 		}

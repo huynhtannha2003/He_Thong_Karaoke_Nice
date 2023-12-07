@@ -1,31 +1,19 @@
 package view;
 
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
 import dao.KhachHangDAO;
 import dao.LoaiPhongDAO;
 import dao.PhieuDatPhongDAO;
 import dao.PhongDAO;
 import entity.KhachHang;
-import entity.LoaiPhong;
-import entity.Phong;
-import utils.PhongPanelClickListener;
-import utils.RoomPanelUtil;
+import entity.PhieuDatPhong;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class GD_NhanPhong extends JFrame implements ActionListener {
 	private JPanel pnNorth, pnCenter, pnSouth;
@@ -43,34 +31,18 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 	private KhachHangDAO khachHangDAO;
 	private KhachHang khachHang;
 	private PhieuDatPhongDAO phieuDatPhongDAO;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GD_NhanPhong frame = new GD_NhanPhong();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private List<PhieuDatPhong> list;
 
-	/**
-	 * Create the frame.
-	 */
 	public GD_NhanPhong() {
 		khachHangDAO = new KhachHangDAO();
 		phongDAO = new PhongDAO();
 		loaiPhongDAO = new LoaiPhongDAO();
+		phieuDatPhongDAO = new PhieuDatPhongDAO();
 		initGUI();
 	}
 
 	private void setupFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(900, 700);
 		setLocationRelativeTo(null);
 		setBackground(new Color(255, 255, 255));
@@ -91,7 +63,6 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 		pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnNorth.setBackground(new Color(97, 250, 204));
 		getContentPane().add(pnNorth, BorderLayout.NORTH);
-
 		JLabel lblTitle = new JLabel("Nhận phòng chờ");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		pnNorth.add(lblTitle);
@@ -117,8 +88,7 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 		Box verticalForm = Box.createVerticalBox();
 		pnForm.add(verticalForm);
 
-		Component verticalStrut = Box.createVerticalStrut(20);
-		verticalForm.add(verticalStrut);
+		verticalForm.add(Box.createVerticalStrut(20));
 
 		Box horizontalFormFirst = Box.createHorizontalBox();
 		verticalForm.add(horizontalFormFirst);
@@ -146,14 +116,12 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 
 		horizontalFormFirst.add(Box.createHorizontalStrut(20));
 
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		verticalForm.add(verticalStrut_1);
+		verticalForm.add(Box.createVerticalStrut(20));
 
 		Box horizontalFormSecond = Box.createHorizontalBox();
 		verticalForm.add(horizontalFormSecond);
 
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		horizontalFormSecond.add(horizontalStrut);
+		horizontalFormSecond.add(Box.createHorizontalStrut(20));
 
 		JLabel lblCustomer = new JLabel("Tên khách hàng: ");
 		lblCustomer.setPreferredSize(new Dimension(200, 25));
@@ -168,10 +136,9 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 		txtCustomer.setColumns(10);
 		horizontalFormSecond.add(txtCustomer);
 
-		Component horizontalStrut_1 = Box.createHorizontalStrut(40);
-		horizontalFormSecond.add(horizontalStrut_1);
+		horizontalFormSecond.add(Box.createHorizontalStrut(40));
 
-		String[] headers = { "STT","Mã phòng" ,"Tên phòng", "Số điện thoại", "Tên khách hàng","Ngày đặt"};
+		String[] headers = {"STT", "Mã phòng", "Tên phòng", "Thời gian nhận phòng"};
 		modelTable = new DefaultTableModel(headers, 0);
 		table = new JTable(modelTable);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -180,6 +147,7 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pnCenter.add(scrollPane, BorderLayout.CENTER);
+
 		btnSearch.addActionListener(this);
 	}
 
@@ -191,21 +159,19 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 		Box horizontalControl = Box.createHorizontalBox();
 		pnSouth.add(horizontalControl);
 
-		btnNhanMotPhong = new JButton("Nhận 1 phòng");
+		btnNhanMotPhong = new JButton("Nhận phòng");
 		btnNhanMotPhong.setBackground(new Color(107, 208, 107));
 		btnNhanMotPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalControl.add(btnNhanMotPhong);
 
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		horizontalControl.add(horizontalStrut);
+		horizontalControl.add(Box.createHorizontalStrut(20));
 
 		btnNhanNhieuPhong = new JButton("Nhận nhiều phòng");
 		btnNhanNhieuPhong.setBackground(new Color(107, 208, 107));
 		btnNhanNhieuPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
 		horizontalControl.add(btnNhanNhieuPhong);
 
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		horizontalControl.add(horizontalStrut_1);
+		horizontalControl.add(Box.createHorizontalStrut(20));
 
 		btnOut = new JButton("Thoát");
 		btnOut.setBackground(new Color(107, 208, 107));
@@ -217,33 +183,56 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
 		btnOut.addActionListener(this);
 	}
 
+	private void loadData() {
+		list = phieuDatPhongDAO.getHoaDonBySDTAndTime(txtNumber.getText());
+		int i = 0;
+		modelTable.setRowCount(0);
+		for (PhieuDatPhong s : list) {
+			Object[] row = {(++i), s.getPhong().getMaPhong(), s.getPhong().getTenPhong(), s.getThoiGianBatDau()};
+			modelTable.addRow(row);
+		}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(btnSearch)){
-			if(txtNumber.getText().length() > 0){
+		if (o.equals(btnSearch)) {
+			if (!txtNumber.getText().isEmpty()) {
 				khachHang = khachHangDAO.getCustomerByPhoneNumber(txtNumber.getText());
-				if(khachHang == null){
-					JOptionPane.showMessageDialog(this,"Không tìm thấy khách hàng","Thông báo",JOptionPane.WARNING_MESSAGE);
+				if (khachHang == null) {
+					JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo", JOptionPane.WARNING_MESSAGE);
 					return;
-				}else{
+				} else {
 					txtCustomer.setText(khachHang.getTenKhachHang());
+					loadData();
 				}
 			}
 		}
-		if(o.equals(btnNhanMotPhong)){
-
+		if (o.equals(btnNhanMotPhong)) {
+			int selectRow = table.getSelectedRow();
+			boolean invoice;
+			if (selectRow != -1) {
+				Object maPhongObject = table.getValueAt(selectRow, 1);
+				String maPhong = String.valueOf(maPhongObject);
+				invoice = phongDAO.updateTrangThaiPhong(maPhong);
+				if (invoice) {
+					JOptionPane.showMessageDialog(this, "Nhận phòng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this, "Nhận phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
-		if(o.equals(btnNhanNhieuPhong)){
-
+		if (o.equals(btnNhanNhieuPhong)) {
+			int reply = JOptionPane.showConfirmDialog(this, "Bạn có muốn nhận toàn bộ phòng", "Thông báo", JOptionPane.YES_NO_OPTION);
+			if (reply == JOptionPane.YES_OPTION) {
+				list.forEach(invoice -> {
+					phongDAO.updateTrangThaiPhong(invoice.getPhong().getMaPhong());
+				});
+				JOptionPane.showMessageDialog(this, "Nhận phòng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
+			}
 		}
-		if(o.equals(btnOut)){
+		if (o.equals(btnOut))
 			System.exit(0);
-		}
 	}
-
-	private void loadData(){
-
-	}
-
 }
