@@ -25,6 +25,7 @@ import entity.DichVu;
 import entity.LichSuGiaDichVu;
 import entity.LoaiDichVu;
 import enums.TrangThaiDichVu;
+import utils.FormatCurrencyUtil;
 import utils.ResizeImageUtil;
 
 public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseListener {
@@ -365,7 +366,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         int i = 0;
         modelTable.setRowCount(0);
         for (DichVu s : list) {
-            Object[] row = {(++i), s.getMaDichVu(), s.getTenDichVu(), s.getLichSuGiaDichVuList().get(0).getGia(),
+            Object[] row = {(++i), s.getMaDichVu(), s.getTenDichVu(), FormatCurrencyUtil.formatCurrency(s.getGia()),
                     s.getSoLuong(), s.getLoaiDichVu().getTenLoaiDichVu(), s.getTrangThai().getName()};
             modelTable.addRow(row);
         }
@@ -422,13 +423,13 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         DichVu dv = reverSPFromTextFile();
         LichSuGiaDichVu lichSu = rever();
         int i = modelTable.getColumnCount() + 1;
-        Object[] row = {i, dv.getMaDichVu(), dv.getTenDichVu(), dv.getLichSuGiaDichVuList().get(0).getGia(),
+        Object[] row = {i, dv.getMaDichVu(), dv.getTenDichVu(), FormatCurrencyUtil.formatCurrency(dv.getGia()),
                 dv.getSoLuong(), dv.getLoaiDichVu().getTenLoaiDichVu(), dv.getTrangThai().getName()};
         modelTable.addRow(row);
         dichVuDAO.addDichVu(dv);
         dichVuDAO.addLichSuGiaGiaoDich(lichSu, dv);
-        System.out.println("1");
         loadData();
+        JOptionPane.showMessageDialog(this, "Thêm thành công" );
     }
 
     private DichVu reverSPFromTextFile() {
@@ -478,7 +479,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
             case 0:
                 return dichVuDAO.getAllDichVu();
             case 1:
-                System.out.println(1);
                 return dichVuDAO.getDichVuTheoMa(txtKey.getText());
             case 2:
                 return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
@@ -504,7 +504,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
     private void loadImage(String maDichVu) {
         List<DichVu> list = dichVuDAO.getDichVuTheoMa(maDichVu);
-//        System.out.println(list.get(0).getHinhAnh());
         for (DichVu dichVu : list) {
 //            ImageIcon icon = new ImageIcon(dichVu.getHinhAnh());
 //            Image image = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);

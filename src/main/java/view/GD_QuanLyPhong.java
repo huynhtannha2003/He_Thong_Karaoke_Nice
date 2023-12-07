@@ -239,7 +239,6 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
         listPhong = new ArrayList<>();
         dao = new PhongDAO();
         listPhong = getAllRoom();
-        LoaiPhong loaiPhong = new LoaiPhong("001", "Thường", TrangThaiLoaiPhong.HIEU_LUC);
     }
 
     private List<Phong> getAllRoom() {
@@ -321,7 +320,7 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
             loadRoom(rooms);
             JOptionPane.showMessageDialog(this, "Thêm thành công!");
         } else
-            JOptionPane.showMessageDialog(this, "Thêm không thành công!");
+            JOptionPane.showMessageDialog(this, "Thêm thất bại thành công!");
     }
 
     private void timKiemPhong() {
