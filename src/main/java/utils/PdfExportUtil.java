@@ -1,25 +1,31 @@
 package utils;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.*;
 import entity.ChiTietDatDichVu;
 import entity.DichVu;
 import entity.HoaDon;
 import entity.PhieuDatPhong;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PdfExportUtil {
 
-    private static final String PDF_FONT_MEDIUM = "/fonts/Roboto-500.ttf";
-    private static final String PDF_FONT_LIGHT = "/fonts/Roboto-300.ttf";
-    private static final String PDF_FONT_LIGHT_ITALIC = "/fonts/Roboto-300_Italic.ttf";
+    private static final String PDF_FONT_MEDIUM = "src/main/resources/fonts/Roboto-500.ttf";
+    private static final String PDF_FONT_LIGHT = "src/main/resources/fonts/Roboto-300.ttf";
+    private static final String PDF_FONT_LIGHT_ITALIC = "src/main/resources/fonts/Roboto-300_Italic.ttf";
 
     private static final int PDF_ALIGN_CENTER = Element.ALIGN_CENTER;
     private static final int PDF_ALIGN_LEFT = Element.ALIGN_LEFT;
@@ -27,8 +33,11 @@ public class PdfExportUtil {
 
     private static final String TIME_FORMAT = "HH:mm:ss";
 
+    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     public static boolean exportInvoiceToPdf(HoaDon invoice) {
-        try (FileOutputStream fileOutputStream = new FileOutputStream("invoice/" + invoice.getMaHoaDon().replaceAll("\\.", "") + ".pdf")) {
+        String fileName = "src/main/resources/" + invoice.getMaHoaDon().replaceAll("\\.", "") + ".pdf";
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 
             try {
@@ -52,6 +61,21 @@ public class PdfExportUtil {
             e.printStackTrace();
             return false;
         }
+
+        File pdfFile = new File(fileName);
+        executorService.submit(() -> {
+            try {
+                Desktop.getDesktop().open(pdfFile);
+
+                executorService.awaitTermination(5, TimeUnit.SECONDS);
+
+                if (pdfFile.exists()) {
+                    pdfFile.delete();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         return true;
 
     }
