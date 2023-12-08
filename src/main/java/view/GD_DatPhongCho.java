@@ -218,7 +218,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         thirdFormHorizontalBox.add(Box.createHorizontalStrut(20));
 
         txtNameRoom = new JTextField();
-        txtNameRoom.setText(Phong.getTenPhong());
         txtNameRoom.setPreferredSize(new Dimension(5, 20));
         txtNameRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
         thirdFormHorizontalBox.add(txtNameRoom);
@@ -409,6 +408,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 } else {
                     txtCustomer.setText(kh.getTenKhachHang());
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Hãy nhập vào số điện thoại khách hàng cần tìm", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
             }
         }
         if (o.equals(btnSearch)) {
@@ -416,16 +418,20 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
             loadRooms(listPhong);
         }
         if (o.equals(rbtnToday)) {
-             Calendar calendar = Calendar.getInstance();
-             Date current = calendar.getTime();
-             dateChooser.setDate(current);
+            Calendar calendar = Calendar.getInstance();
+            Date current = calendar.getTime();
+            dateChooser.setDate(current);
         }
         if (o.equals(btnConfirm)) {
-            if (txtNumber.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(this, "Bạn cần nhập khách hàng trước");
-            }
-            if (txtNameRoom.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước");
+            if (txtCustomer.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn cần tìm khách hàng trước", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (txtNameRoom.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn cần chọn phòng trước", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (rbtnToday.isSelected() == false && rbtnOderDay.isSelected() == false) {
+                JOptionPane.showMessageDialog(this, "Bạn cần chọn thời gian đặt trước", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
             } else {
                 Date time = dateChooser.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");

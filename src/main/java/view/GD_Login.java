@@ -69,13 +69,11 @@ public class GD_Login extends JFrame {
         btnDangNhap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new GD_ManHinhChinh(taiKhoanLogin).setVisible(true);
-//                System.out.println(taiKhoanLogin);
                 setVisible(false);
             }
         });
 
         JLabel lbShowPassword = new JLabel("");
-        lbShowPassword.setIcon(new ImageIcon(GD_Login.class.getResource("/image/icon/hide_icon.png")));
         lbShowPassword.setBounds(235, 397, 29, 19);
         MainPane.add(lbShowPassword);
 
@@ -118,7 +116,7 @@ public class GD_Login extends JFrame {
 
         JLabel lbBackGroundKaraoke = new JLabel("");
         lbBackGroundKaraoke.setLabelFor(MainPane);
-        lbBackGroundKaraoke.setIcon(new ImageIcon(GD_Login.class.getResource("/image/icon/login_image.png")));
+        lbBackGroundKaraoke.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\login_image.png"));
         lbBackGroundKaraoke.setBounds(0, 0, 684, 661);
         lbBackGroundKaraoke.setPreferredSize(new Dimension(684, 661));
         MainPane.add(lbBackGroundKaraoke);

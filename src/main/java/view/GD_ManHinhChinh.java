@@ -146,7 +146,7 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
     private void init() {
         lbBackGroundKaraoke = new JLabel("");
-        lbBackGroundKaraoke.setIcon(new ImageIcon(GD_ManHinhChinh.class.getResource("/image/icon/ManHinhChinh.png")));
+        lbBackGroundKaraoke.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\ManHinhChinh.png"));
         lbBackGroundKaraoke.setBounds(0, 0, 984, 588);
         add(lbBackGroundKaraoke);
     }

@@ -236,12 +236,13 @@ public class PhongDAO {
         return phongList;
     }
 
-    public boolean updateTrangThaiPhong(String maPhong) {
+    public boolean updateTrangThaiPhong(String maHoaDon, String maPhong) {
         int result = 0;
         Connection connection = connectDB.getConnection();
-        String sql = "{CALL UpdateTrangThaiAndThoiGianBatDau(?)}";
+        String sql = "{CALL UpdateTrangThaiAndThoiGianBatDau(?, ?)}";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, maPhong);
+            preparedStatement.setString(1, maHoaDon);
+            preparedStatement.setString(2, maPhong);
             result = preparedStatement.executeUpdate();
             return result > 0;
         } catch (SQLException e) {

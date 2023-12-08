@@ -60,7 +60,7 @@ public class PhieuDatPhongDAO {
 
 	public boolean updatePaymentDetails(HoaDon hoaDon) {
 		Connection connection = connectDB.getConnection();
-		String query = "{CALL UpdatePaymentDetails(?, ?, ?, ?, ?)}";
+		String query = "{CALL UpdatePaymentDetails(?, ?, ?, ?, ?, ?)}";
 
         try (CallableStatement statement = connection.prepareCall(query)) {
             statement.setString(1, hoaDon.getMaHoaDon());
@@ -169,21 +169,27 @@ public class PhieuDatPhongDAO {
         }
         return list;
     }
-    public List<PhieuDatPhong> getHoaDonBySDTAndTime(String soDienThoaiKhachHang) {
+    public List<HoaDon> getHoaDonBySDTAndTime(String soDienThoaiKhachHang) {
         Connection connection = connectDB.getConnection();
-        List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
+        List<HoaDon> hoaDonList = new ArrayList<>();
         String query = "{CALL GetHoaDonBySDTAndTime(?)}";
         try (PreparedStatement statement = connection.prepareCall(query)) {
             statement.setString(1, soDienThoaiKhachHang);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                PhieuDatPhong phieuDatPhong = new PhieuDatPhong(resultSet);
-                phieuDatPhongList.add(phieuDatPhong);
+                HoaDon hoaDon = new HoaDon(resultSet);
+
+                List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
+                phieuDatPhongList.add(new PhieuDatPhong(resultSet));
+
+                hoaDon.setPhieuDatPhongList(phieuDatPhongList);
+
+                hoaDonList.add(hoaDon);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return phieuDatPhongList;
+        return hoaDonList;
     }
 
 }

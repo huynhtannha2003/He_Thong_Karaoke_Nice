@@ -201,7 +201,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         btnTimKiem = new JButton("Tìm kiếm");
         btnTimKiem.setBackground(new Color(107, 208, 107));
         btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
+        btnTimKiem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\search_icon.png"));
         BoxThongTin3.add(btnTimKiem);
 
         BoxThongTin3.add(Box.createHorizontalStrut(20));
@@ -209,7 +209,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         btnXuatHoaDon = new JButton("Xuất hóa đơn");
         btnXuatHoaDon.setBackground(new Color(107, 208, 107));
         btnXuatHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXuatHoaDon.setIcon(new ImageIcon(getClass().getResource("/image/icon/print_icon.png")));
+        btnXuatHoaDon.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\print_icon.png"));
         BoxThongTin3.add(btnXuatHoaDon);
 
         BoxThongTin3.add(Box.createHorizontalStrut(20));
@@ -217,7 +217,7 @@ public class GD_QuanLyHoaDon extends JPanel implements ActionListener {
         btnXoaTrang = new JButton("Xóa trắng");
         btnXoaTrang.setBackground(new Color(107, 208, 107));
         btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXoaTrang.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
+        btnXoaTrang.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\clear_icon.png"));
         BoxThongTin3.add(btnXoaTrang);
 
         BoxVerticalThongTin.add(Box.createVerticalStrut(10));

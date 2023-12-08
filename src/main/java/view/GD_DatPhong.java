@@ -137,11 +137,11 @@ public class GD_DatPhong extends JFrame implements ActionListener {
         panel.add(scrollPane);
 
         DefaultTableModel model = new DefaultTableModel(
-                new String[] { "Mã phòng", "Tên phòng", "Loại phòng", "Sức chứa" }, 0);
+                new String[]{"Mã phòng", "Tên phòng", "Loại phòng", "Sức chứa"}, 0);
         table = new JTable(model);
         phong.forEach(phong -> {
             model.addRow(
-                    new Object[] { phong.getMaPhong(), phong.getTenPhong(), phong.getLoaiPhong(), phong.getSucChua() });
+                    new Object[]{phong.getMaPhong(), phong.getTenPhong(), phong.getLoaiPhong(), phong.getSucChua()});
         });
 
         scrollPane.setViewportView(table);
@@ -175,32 +175,47 @@ public class GD_DatPhong extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo",
                             JOptionPane.WARNING_MESSAGE);
                     return;
+                }else{
+                    txtCustomerName.setText(currentKhachHang.getTenKhachHang());
                 }
-                txtCustomerName.setText(currentKhachHang.getTenKhachHang());
+            } else {
+                JOptionPane.showMessageDialog(this, "Hãy nhập vào số điện thoại khách hàng cần tìm", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } else if (o.equals(radioCustomer)) {
+            currentKhachHang = new KhachHang();
             txtPhoneNumber.setEditable(true);
+            btnCheck.setEnabled(true);
         } else if (o.equals(radioVisitingCustomer)) {
             txtPhoneNumber.setEditable(false);
+            currentKhachHang = new KhachHang("KH.000000.000", "Khách vãng lai", "0000000000");
+            btnCheck.setEnabled(false);
+            txtCustomerName.setText("");
+            txtPhoneNumber.setText("");
         }
         if (o.equals(btnApply)) {
-            LocalTime currentTime = LocalTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String currentTimeString = currentTime.format(formatter);
-            AtomicBoolean bookingResult = new AtomicBoolean(true);
-            phong.forEach(phong ->{
-                bookingResult.set(phieuDatPhongDAO.bookKaraokeRoom(currentKhachHang.getMaKhachHang(),
-                        nhanVien.getMaNhanVien(), phong.getMaPhong(), Time.valueOf(currentTimeString),
-                        new Date(System.currentTimeMillis())));
-            });
+            if (txtCustomerName.getText().length() > 0) {
+                LocalTime currentTime = LocalTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                String currentTimeString = currentTime.format(formatter);
+                AtomicBoolean bookingResult = new AtomicBoolean(true);
+                phong.forEach(phong -> {
+                    bookingResult.set(phieuDatPhongDAO.bookKaraokeRoom(currentKhachHang.getMaKhachHang(),
+                            nhanVien.getMaNhanVien(), phong.getMaPhong(), Time.valueOf(currentTimeString),
+                            new Date(System.currentTimeMillis())));
+                });
 
-            if (bookingResult.get()) {
-                JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
-                        JOptionPane.INFORMATION_MESSAGE);
+                if (bookingResult.get()) {
+                    JOptionPane.showMessageDialog(this, "Đặt phòng thành công", "Thông báo",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+                dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Chưa tìm khách hàng", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
             }
-            dispose();
         }
 
     }

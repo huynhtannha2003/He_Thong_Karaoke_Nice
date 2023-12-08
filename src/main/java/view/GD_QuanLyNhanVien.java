@@ -219,7 +219,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
         BoxVerticalThongTin.add(horizontalBox_7);
 
         btnThem = new JButton("Thêm");
-        btnThem.setIcon(new ImageIcon(getClass().getResource("/image/icon/add_icon.png")));
+        btnThem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\add_icon.png"));
         btnThem.setBackground(new Color(107, 208, 107));
         btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox_7.add(btnThem);
@@ -227,7 +227,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
         horizontalBox_7.add(Box.createHorizontalStrut(20));
 
         btnCapNhat = new JButton("Cập nhật");
-        btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
+        btnCapNhat.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\update_icon.png"));
         btnCapNhat.setBackground(new Color(107, 208, 107));
         btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox_7.add(btnCapNhat);
@@ -235,7 +235,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
         horizontalBox_7.add(Box.createHorizontalStrut(20));
 
         btnXoaTrang = new JButton("Xóa trắng");
-        btnXoaTrang.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
+        btnXoaTrang.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\clear_icon.png"));
         btnXoaTrang.setBackground(new Color(107, 208, 107));
         btnXoaTrang.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox_7.add(btnXoaTrang);
@@ -254,7 +254,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
         verticalBox.add(Box.createVerticalStrut(20));
 
         JLabel lbImageNV = new JLabel();
-        lbImageNV.setIcon(new ImageIcon(getClass().getResource("/image/icon/user_icon.png")));
+        lbImageNV.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\user_icon.png"));
         lbImageNV.setMaximumSize(new Dimension(500, 200));
         lbImageNV.setHorizontalAlignment(SwingConstants.CENTER);
         lbImageNV.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -274,7 +274,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
                 Path.show();
             }
         });
-        btnChonAnh.setIcon(new ImageIcon(getClass().getResource("/image/icon/import_icon.png")));
+        btnChonAnh.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\import_icon.png"));
         btnChonAnh.setBackground(new Color(107, 208, 107));
         btnChonAnh.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox.add(btnChonAnh);
@@ -327,7 +327,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
         horizontalBox_1.add(Box.createHorizontalStrut(20));
 
         btnTimKiem = new JButton("Tìm kiếm");
-        btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
+        btnTimKiem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\search_icon.png"));
         btnTimKiem.setBackground(new Color(107, 208, 107));
         btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox_1.add(btnTimKiem);

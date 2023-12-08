@@ -193,16 +193,16 @@ VALUES ('LDV001', N'Thực phẩm', 1),
 GO
 
 INSERT INTO DichVu
-VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1, '/image/dichVu/traicay.png'),
-       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1, '/image/dichVu/myxao.png'),
-       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1, '/image/dichVu/caDieuHong.png'),
-       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1, '/image/dichVu/banhNgot.png'),
-       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1, '/image/dichVu/banhKem.png'),
-       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1, '/image/dichVu/cocaCola.png'),
-       ('DV.002.002', N'Heniken', 320, 'LDV002', 1, '/image/dichVu/heineiken.png'),
-       ('DV.002.003', N'Sting', 100, 'LDV002', 1, '/image/dichVu/sting.png'),
-       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1, '/image/dichVu/traOLong.png'),
-       ('DV.002.005', N'Wine', 30, 'LDV002', 1, '/image/dichVu/wine.png')
+VALUES ('DV.001.001', N'Trái cây', 20, 'LDV001', 1, 'traicay.png'),
+       ('DV.001.002', N'Mỳ xào hải sản', 10, 'LDV001', 1, 'myxao.png'),
+       ('DV.001.003', N'Cá điêu hồng chiên xù', 15, 'LDV001', 1, 'caDieuHong.png'),
+       ('DV.001.004', N'Bánh ngọt', 30, 'LDV001', 1, 'banhNgot.png'),
+       ('DV.001.005', N'Bánh kem', 10, 'LDV001', 1, 'banhKem.png'),
+       ('DV.002.001', N'Coca Cola', 420, 'LDV002', 1, 'cocaCola.png'),
+       ('DV.002.002', N'Heniken', 320, 'LDV002', 1, 'heineiken.png'),
+       ('DV.002.003', N'Sting', 100, 'LDV002', 1, 'sting.png'),
+       ('DV.002.004', N'Trà ô long', 50, 'LDV002', 1, 'traOLong.png'),
+       ('DV.002.005', N'Wine', 30, 'LDV002', 1, 'wine.png')
 GO
 
 INSERT INTO LichSuGiaDichVu
@@ -227,7 +227,8 @@ VALUES ('KM.041123.001', N'Happy time', 20, 5, '2023-11-04', '2023-11-20', '8:00
 GO
 
 INSERT INTO KhachHang
-VALUES ('KH.041123.001', N'Nguyễn Văn A', '0345678912'),
+VALUES ('KH.000000.000', N'Khách vãng lai', '0000000000'),
+       ('KH.041123.001', N'Nguyễn Văn A', '0345678912'),
        ('KH.041123.002', N'Nguyễn Văn B', '0345678913'),
        ('KH.051123.001', N'Nguyễn Văn C', '0345678914'),
        ('KH.051123.002', N'Nguyễn Văn D', '0345678915'),
@@ -1335,10 +1336,13 @@ BEGIN
     WHERE maPhong = @maPhong;
 END;
 GO
-
-CREATE PROCEDURE UpdateTrangThaiAndThoiGianBatDau @maPhong VARCHAR(7)
+CREATE PROCEDURE UpdateTrangThaiAndThoiGianBatDau @maHoaDon  VARCHAR(13), @maPhong VARCHAR(7)
 AS
 BEGIN
+    UPDATE HoaDon
+    SET tongTien = 0
+    WHERE maHoaDon = @maHoaDon
+
     UPDATE Phong
     SET trangThai = 1
     WHERE maPhong = @maPhong;
@@ -1358,6 +1362,3 @@ BEGIN
       AND HoaDon_TongTien IS NULL
 END;
 GO
-
-SELECT *
-FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView

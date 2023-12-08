@@ -209,7 +209,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         BoxVerticalThongTin.add(BoxThongTin3);
 
         btnThem = new JButton("Thêm");
-        btnThem.setIcon(new ImageIcon(getClass().getResource("/image/icon/add_icon.png")));
+        btnThem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\add_icon.png"));
         btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnThem.setBackground(new Color(107, 208, 107));
         BoxThongTin3.add(btnThem);
@@ -217,7 +217,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         BoxThongTin3.add(Box.createHorizontalStrut(20));
 
         btnCapNhat = new JButton("Cập nhật");
-        btnCapNhat.setIcon(new ImageIcon(getClass().getResource("/image/icon/update_icon.png")));
+        btnCapNhat.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\update_icon.png"));
         btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnCapNhat.setBackground(new Color(107, 208, 107));
         BoxThongTin3.add(btnCapNhat);
@@ -225,7 +225,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         BoxThongTin3.add(Box.createHorizontalStrut(20));
 
         btnXoaTrangThongTin = new JButton("Xóa trắng");
-        btnXoaTrangThongTin.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
+        btnXoaTrangThongTin.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\clear_icon.png"));
         btnXoaTrangThongTin.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnXoaTrangThongTin.setBackground(new Color(107, 208, 107));
         BoxThongTin3.add(btnXoaTrangThongTin);
@@ -289,7 +289,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         btnTimKiem.setPreferredSize(new Dimension(127, 30));
         btnTimKiem.setBackground(new Color(107, 208, 107));
         btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/image/icon/search_icon.png")));
+        btnTimKiem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\search_icon.png"));
         BoxTacVu.add(btnTimKiem);
 
         Component horizontalStrut_10_1_1_1 = Box.createHorizontalStrut(20);
@@ -324,7 +324,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
         horizontalBox_2.add(Box.createHorizontalStrut(20));
 
         btnXoaTrangTacVu = new JButton("Xóa trắng");
-        btnXoaTrangTacVu.setIcon(new ImageIcon(getClass().getResource("/image/icon/clear_icon.png")));
+        btnXoaTrangTacVu.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\clear_icon.png"));
         btnXoaTrangTacVu.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnXoaTrangTacVu.setBackground(new Color(107, 208, 107));
         horizontalBox_2.add(btnXoaTrangTacVu);

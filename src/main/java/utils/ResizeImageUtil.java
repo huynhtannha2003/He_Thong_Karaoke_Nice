@@ -25,13 +25,13 @@ public class ResizeImageUtil {
 
 	public static ImageIcon getImageByTypePhong(TrangThaiPhong trangThai, int width, int height) {
 		String status = getRoomStatusToString(trangThai);
-		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource("/image/" + status + ".png"));
+		ImageIcon icon = new ImageIcon("src\\main\\resources\\image\\" + status + ".png");
 		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedIcon);
 	}
 
 	public static ImageIcon getResizedImage(String path, int width, int height) {
-		ImageIcon icon = new ImageIcon(ResizeImageUtil.class.getResource(path));
+		ImageIcon icon = new ImageIcon("src\\main\\resources\\image\\dichVu\\" + path);
 		Image resizedIcon = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedIcon);
 	}

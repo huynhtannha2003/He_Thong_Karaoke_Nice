@@ -8,6 +8,7 @@ import entity.LoaiPhong;
 import entity.PhieuDatPhong;
 import entity.Phong;
 import enums.TrangThaiLoaiPhong;
+import enums.TrangThaiPhong;
 import utils.FormatCurrencyUtil;
 import utils.PhongPanelClickListener;
 import utils.RoomPanelUtil;
@@ -18,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, ActionListener {
@@ -252,8 +254,26 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
         pnRoomChange.add(Box.createVerticalStrut(20));
     }
 
+    private List<Phong> validRoom(List<Phong> validRooms) {
+        List<Phong> rooms = new ArrayList<>();
+
+        for (Phong room : validRooms) {
+            if (room.getTrangThai() == TrangThaiPhong.PHONG_TRONG) {
+                rooms.add(room);
+            }
+        }
+        return rooms;
+    }
+
     private void initData() {
-        rooms = phongDao.getAllPhongTrong();
+        rooms = validRoom(phongDao.getPhongLoaiPhongLichSuaGiaByConditionTime());
+
+        List<Phong> validRooms = phongDao.getPhongLoaiPhongLichSuaGiaByConditionTime();
+        for (Phong room : validRooms) {
+            if (room.getTrangThai() == TrangThaiPhong.PHONG_TRONG) {
+                rooms.add(room);
+            }
+        }
         List<LoaiPhong> loaiPhongList = loaiPhongDao.getAllLoaiPhong();
         cbTypeRoom.addItem((new LoaiPhong(null, "tất cả", TrangThaiLoaiPhong.HIEU_LUC)));
         loaiPhongList.forEach(loaiPhong -> {
@@ -376,9 +396,14 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
     public void actionPerformed(ActionEvent e) {
         Object o = e.getSource();
         if (o.equals(btnFind)) {
-            rooms = phongDao.GetPhongByTenAndLoaiPhong(txtRoomName.getText(), (LoaiPhong) cbTypeRoom.getSelectedItem());
+            rooms = validRoom(phongDao.GetPhongByTenAndLoaiPhong(txtRoomName.getText(), (LoaiPhong) cbTypeRoom.getSelectedItem()));
             loadRooms(rooms);
         } else if (o.equals(btnApply)) {
+            if(!(txtFollowRoomName.getText().length() > 0)){
+                JOptionPane.showMessageDialog(this, "Chưa chọn phòng mới", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             PhieuDatPhong phieuDatPhong = new PhieuDatPhong(null, Time.valueOf(LocalTime.now()), null, hoaDon, selectedPhong);
             if (phieuDatPhongDAO.changeRoom(phieuDatPhong)) {
                 JOptionPane.showMessageDialog(this, "Chuyển phòng thành công");

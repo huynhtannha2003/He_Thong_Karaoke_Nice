@@ -295,6 +295,19 @@ public class GD_QuanLyPhong extends JPanel implements ActionListener, PhongPanel
     }
 
     private Phong getInput() {
+        if (txtMaPhong.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập vào mã phòng", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return null;
+        } else if (txtTenPhong.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập vào tên phòng", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return null;
+        } else if ((int) spnSoLuong.getValue() < 1) {
+            JOptionPane.showMessageDialog(this, "Sức chứa không được thấp hơn 1", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
         LoaiPhongDAO dao = new LoaiPhongDAO();
         String maPhong = txtMaPhong.getText();
         String tenPhong = txtTenPhong.getText();
