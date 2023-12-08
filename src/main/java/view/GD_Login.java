@@ -103,7 +103,7 @@ public class GD_Login extends JFrame {
 
         JLabel lbTenDangNhap = new JLabel("Tên đăng nhập");
         lbTenDangNhap.setForeground(new Color(255, 255, 255));
-        lbTenDangNhap.setBounds(69, 293, 84, 14);
+        lbTenDangNhap.setBounds(69, 293, 100, 14);
         MainPane.add(lbTenDangNhap);
 
         JLabel txtTitle = new JLabel("Đăng nhập");

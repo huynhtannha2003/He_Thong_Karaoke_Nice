@@ -43,9 +43,12 @@ public class ChiTietDatDichVuDAO {
 
 	public boolean insertChiTietDatDichVu(String maPhieuDatPhong, List<DichVu> selectedDichVuList) {
 		Connection connection = connectDB.getConnection();
-		String query = "INSERT INTO ChiTietDatDichVu VALUES (?, ?,?)";
+		String query = "{call InsertOrUpdateChiTietDatDichVu (?, ?, ?)}";
 
 		try (CallableStatement statement = connection.prepareCall(query)) {
+			// Start a transaction
+			connection.setAutoCommit(false);
+
 			for (DichVu dichVu : selectedDichVuList) {
 				statement.setString(1, maPhieuDatPhong);
 				statement.setString(2, dichVu.getMaDichVu());
@@ -56,6 +59,9 @@ public class ChiTietDatDichVuDAO {
 
 			int[] updateCounts = statement.executeBatch();
 
+			// Commit the transaction if all updates are successful
+			connection.commit();
+
 			for (int updateCount : updateCounts) {
 				if (updateCount <= 0) {
 					return false;
@@ -64,9 +70,28 @@ public class ChiTietDatDichVuDAO {
 
 			return true;
 		} catch (SQLException e) {
+			// Rollback the transaction in case of an exception
+			try {
+				if (connection != null) {
+					connection.rollback();
+				}
+			} catch (SQLException rollbackException) {
+				rollbackException.printStackTrace();
+			}
+
 			e.printStackTrace();
 			return false;
+		} finally {
+			// Ensure to set AutoCommit back to true after processing
+			try {
+				if (connection != null) {
+					connection.setAutoCommit(true);
+				}
+			} catch (SQLException autoCommitException) {
+				autoCommitException.printStackTrace();
+			}
 		}
 	}
+
 
 }

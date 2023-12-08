@@ -169,13 +169,16 @@ public class GD_DatPhong extends JFrame implements ActionListener {
         if (o.equals(btnExit)) {
             exitButton();
         } else if (o.equals(btnCheck)) {
-            if (txtPhoneNumber.getText().length() > 0) {
+            if (txtPhoneNumber.getText().length() < 10) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại phải đủ 10 số", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (txtPhoneNumber.getText().length() > 0) {
                 currentKhachHang = khachHangDAO.getCustomerByPhoneNumber(txtPhoneNumber.getText());
                 if (currentKhachHang == null) {
                     JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng", "Thông báo",
                             JOptionPane.WARNING_MESSAGE);
                     return;
-                }else{
+                } else {
                     txtCustomerName.setText(currentKhachHang.getTenKhachHang());
                 }
             } else {
@@ -213,7 +216,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
                 }
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Chưa tìm khách hàng", "Thông báo",
+                JOptionPane.showMessageDialog(this, "Hãy tìm khách hàng trước", "Thông báo",
                         JOptionPane.WARNING_MESSAGE);
             }
         }
