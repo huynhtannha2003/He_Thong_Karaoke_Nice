@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,4 +112,18 @@ public class KhachHangDAO {
 		return ds;
 	}
 
+	public String getMaKhachHangGenerate() {
+		String s = "";
+		Connection con = connectDB.getConnection();
+		try {
+			String sql = "{ ? = Call GenerateCustomerCode() }";
+			CallableStatement statement = con.prepareCall(sql);
+			statement.registerOutParameter(1, Types.NVARCHAR);
+			statement.executeUpdate();
+			s = statement.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
 }

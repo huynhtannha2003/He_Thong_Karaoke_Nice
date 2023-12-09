@@ -1352,7 +1352,6 @@ BEGIN
     WHERE maPhong = @maPhong;
 END;
 GO
-
 CREATE PROCEDURE GetHoaDonBySDTAndTime(@SDT NVARCHAR(255))
 AS
 BEGIN
@@ -1362,3 +1361,83 @@ BEGIN
       AND HoaDon_TongTien IS NULL
 END;
 GO
+CREATE FUNCTION GenerateEmployeeCode()
+RETURNS VARCHAR(8)
+AS
+BEGIN
+    DECLARE @stt INT
+    DECLARE @formattedStt NVARCHAR(10)
+    DECLARE @employeeCode NVARCHAR(10)
+
+    -- Get the current count of records in the table
+    SET @stt = (SELECT COUNT(*) + 2 FROM NhanVien)
+
+    -- Determine the number of leading zeros based on the value of stt
+    IF @stt >= 10
+        SET @formattedStt = '00'
+	ELSE IF @stt >= 100
+	    SET @formattedStt = '0'
+	ELSE IF @stt >= 1000
+	    SET @formattedStt = ''
+    ELSE IF @stt < 10
+        SET @formattedStt = '000'
+    SET @employeeCode = 'NV' + '23' + @formattedStt + CAST(@stt AS VARCHAR(5))
+
+    RETURN @employeeCode
+END;
+GO
+CREATE FUNCTION GenerateCustomerCode()
+RETURNS NVARCHAR(20)
+AS
+BEGIN
+    DECLARE @stt INT
+    DECLARE @formattedStt NVARCHAR(10)
+    DECLARE @customerCode NVARCHAR(20)
+
+    -- Get the current count of records in the table
+   SET @stt = (
+        SELECT COUNT(*)
+        FROM KhachHang
+        WHERE maKhachHang LIKE '%' + FORMAT(GETDATE(), 'ddMMyy') + '%'
+    ) + 1
+
+    -- Determine the number of leading zeros based on the value of stt
+    IF @stt >= 10
+        SET @formattedStt = '0'
+	ELSE IF @stt >= 100
+	    SET @formattedStt = ''
+	ELSE IF @stt <10
+	    SET @formattedStt = '00'
+    -- Concatenate "KH.dayMonthYear." with the formatted sequence number
+   SET @customerCode = 'KH.' + FORMAT(GETDATE(), 'ddMM') + RIGHT(YEAR(GETDATE()), 2) + '.' + @formattedStt + CAST(@stt AS VARCHAR(5))
+
+    RETURN @customerCode
+END;
+GO
+CREATE FUNCTION GeneratePromotionCode()
+RETURNS NVARCHAR(20)
+AS
+BEGIN
+    DECLARE @stt INT
+    DECLARE @formattedStt NVARCHAR(10)
+    DECLARE @customerCode NVARCHAR(20)
+
+    -- Get the current count of records in the table
+   SET @stt = (
+        SELECT COUNT(*)
+        FROM KhuyenMai
+        WHERE maKhuyenMai LIKE '%' + FORMAT(GETDATE(), 'ddMMyy') + '%'
+    ) + 1
+
+    -- Determine the number of leading zeros based on the value of stt
+    IF @stt >= 10
+        SET @formattedStt = '0'
+	ELSE IF @stt >= 100
+	    SET @formattedStt = ''
+	ELSE IF @stt <10
+	    SET @formattedStt = '00'
+    -- Concatenate "KH.dayMonthYear." with the formatted sequence number
+   SET @customerCode = 'KM.' + FORMAT(GETDATE(), 'ddMM') + RIGHT(YEAR(GETDATE()), 2) + '.' + @formattedStt + CAST(@stt AS VARCHAR(5))
+
+    RETURN @customerCode
+END;

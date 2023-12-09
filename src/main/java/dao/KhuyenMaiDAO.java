@@ -1,11 +1,13 @@
 package dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -85,22 +87,15 @@ public class KhuyenMaiDAO {
 		return true;
 	}
 
-	public List<KhuyenMai> TimKiem(String ma, Date ngayBatDau, Date ngayKetThuc) throws SQLException {
+	public List<KhuyenMai> TimKiem(String ma, java.sql.Date ngayBatDau, java.sql.Date ngayKetThuc) throws SQLException {
 		Connection con = connectDB.getConnection();
 		ArrayList<KhuyenMai> ds = new ArrayList<KhuyenMai>();
 		try {
-			String query = "SELECT * FROM KhuyenMaiView WHERE (KhuyenMai_MaKhuyenMai LIKE ? OR ? IS NULL) AND (KhuyenMai_NgayBatDau = ? OR ? IS NULL) AND (KhuyenMai_NgayKetThuc = ? OR ? IS NULL) AND ( (KhuyenMai_NgayBatDau >= ? AND KhuyenMai_NgayKetThuc <= ?) OR (? IS NULL AND ? IS NULL))";
+			String query = "SELECT * FROM KhuyenMaiView WHERE (KhuyenMai_MaKhuyenMai LIKE ? ) AND (KhuyenMai_NgayBatDau >= ? AND KhuyenMai_NgayKetThuc <= ? )";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, "%" + ma + "%");
 			pst.setDate(2, ngayBatDau);
 			pst.setDate(3, ngayKetThuc);
-			pst.setDate(4, ngayBatDau);
-			pst.setDate(5, ngayKetThuc);
-//			pst.setDate(6, ngayKetThuc);
-//			pst.setDate(7, ngayBatDau);
-//			pst.setDate(8, ngayKetThuc);
-//			pst.setDate(9, ngayBatDau);
-//			pst.setDate(10, ngayKetThuc);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				KhuyenMai nv = new KhuyenMai(rs);
@@ -147,6 +142,21 @@ public class KhuyenMaiDAO {
 		}
 
 		return khuyenMai;
+	}
+	
+	public String getMaKhuyenMaiGenerate() {
+		String s = "";
+		Connection con = connectDB.getConnection();
+		try {
+			String sql = "{ ? = Call GeneratePromotionCode() }";
+			CallableStatement statement = con.prepareCall(sql);
+			statement.registerOutParameter(1, Types.NVARCHAR);
+			statement.executeUpdate();
+			s = statement.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return s;
 	}
 
 }

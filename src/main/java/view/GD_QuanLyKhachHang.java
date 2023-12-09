@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -110,7 +111,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		lbTenKH.setPreferredSize(new Dimension(130, 30));
 
 		lbMaKhachHang = new JLabel("Mã khách hàng:");
-		lbMaKhachHang.setPreferredSize(lbTenKH.getPreferredSize());
+		lbMaKhachHang.setPreferredSize(new Dimension(130, 30));
 		lbMaKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbMaKhachHang.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lbMaKhachHang.setHorizontalAlignment(SwingConstants.CENTER);
@@ -118,6 +119,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 
 		txtkMaKhachHang = new JTextField();
 		lbMaKhachHang.setLabelFor(txtkMaKhachHang);
+		txtkMaKhachHang.setEditable(false);
 		BoxThongTin1.add(txtkMaKhachHang);
 
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
@@ -229,7 +231,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(new Color(107, 208, 107));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKiem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\add_icon.png"));
+		btnTimKiem.setIcon(new ImageIcon("src\\main\\resources\\image\\icon\\search_icon.png"));
 		BoxTacVu.add(btnTimKiem);
 
 		BoxTacVu.add(Box.createHorizontalStrut(20));
@@ -253,7 +255,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		table.setFont(new Font("Tahoma", Font.BOLD, 12));
 		pnCenter.add(scrollPane, BorderLayout.SOUTH);
 		scrollPane.setPreferredSize(new Dimension(200, 350));
-
+		txtkMaKhachHang.setText(daoKH.getMaKhachHangGenerate());
 		initAction();
 		loadData();
 	}
@@ -268,7 +270,8 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.getSelectedRow();
-				txtkMaKhachHang.setText(table.getValueAt(row, 1).toString());
+				// txtkMaKhachHang.setText(table.getValueAt(row, 1).toString());
+				txtTenKH.setText(table.getValueAt(row, 2).toString());
 				txtSDT.setText(table.getValueAt(row, 3).toString());
 			}
 		});
@@ -279,6 +282,7 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
 			chucNangThem();
+			txtkMaKhachHang.setText(daoKH.getMaKhachHangGenerate());
 		} else if (o.equals(btnCapNhat)) {
 			chucNangCapNhat();
 		} else if (o.equals(btnXoaTrangTacVu)) {
@@ -315,6 +319,9 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 	}
 
 	public void chucNangThem() {
+		if (checkInput() == false) {
+			return;
+		}
 		daoKH.createKhachHang(revertSPFormKhachHang());
 		loadData();
 	}
@@ -333,5 +340,15 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 			String[] row = { i++ + "", KH.getMaKhachHang(), KH.getTenKhachHang(), KH.getSdt() };
 			modelTable.addRow(row);
 		}
+	}
+
+	public boolean checkInput() {
+		boolean kq = true;
+		if (txtSDT.getText().matches("^0\\d{9}$") == false) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ", "Thông báo nhập liệu",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 }
