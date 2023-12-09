@@ -21,25 +21,10 @@ import javax.swing.border.EmptyBorder;
 public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
     private JMenuBar menuBar;
-    private JMenu menuHeThong;
-    private JMenu menuDanhMuc;
-    private JMenuItem menuItemPhong;
-    private JMenuItem menuItemNhanVien;
-    private JMenuItem menuItemDichVu;
-    private JMenuItem menuItemKhachHang;
-    private JMenuItem menuItemKhuyenMai;
-    private JMenu menuXuLy;
-    private JMenuItem menuItemDatPhong;
-    private JMenu menuThongKe;
-    private JMenuItem menuItemTKDoanhThu;
+    private JMenuItem menuItemNhanPhong, menuItemHuyDatPhong, menuItemPhong, menuItemNhanVien, menuItemDichVu, menuItemKhachHang, menuItemKhuyenMai, menuItemDatPhong, menuItemTKDoanhThu, menuItemThoat, menuItemDangXuat, menuItemTaiKhoan, menuItemTrangChu, menuItemTroGiup, menuItemHoaDon;
+    private JMenu menuHeThong, menuDanhMuc, menuXuLy, menuThongKe;
     private JPanel contentPane;
-    private JMenuItem menuItemThoat;
-    private JMenuItem menuItemDangXuat;
-    private JMenuItem menuItemTaiKhoan;
-    private JMenuItem menuItemTrangChu;
     private JLabel lbBackGroundKaraoke;
-    private JMenuItem menuItemTroGiup;
-    private JMenuItem menuItemHoaDon;
     private TaiKhoan taiKhoanLogin;
 
     public GD_ManHinhChinh(TaiKhoan taiKhoanLogin) {
@@ -113,6 +98,14 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
         menuItemDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
         menuXuLy.add(menuItemDatPhong);
 
+        menuItemNhanPhong = new JMenuItem("Nhận phòng");
+        menuItemNhanPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuXuLy.add(menuItemNhanPhong);
+
+        menuItemHuyDatPhong = new JMenuItem("Đặt phòng");
+        menuItemHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
+        menuXuLy.add(menuItemHuyDatPhong);
+
         menuThongKe = new JMenu("Thống kê");
         menuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
         menuBar.add(menuThongKe);
@@ -142,6 +135,8 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
         menuItemDatPhong.addActionListener(this);
         menuItemTKDoanhThu.addActionListener(this);
         menuItemHoaDon.addActionListener(this);
+        menuItemNhanPhong.addActionListener(this);
+        menuItemHuyDatPhong.addActionListener(this);
     }
 
     private void init() {
@@ -185,6 +180,10 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
             simplePanel = new GD_ThongKe();
         } else if (source == menuItemDatPhong) {
             simplePanel = new GD_QuanLyDatPhong(this.taiKhoanLogin.getNhanVien());
+        }else if(source == menuItemNhanPhong){
+            simplePanel = new GD_NhanPhong();
+        }else if(source == menuItemHuyDatPhong){
+            simplePanel = new GD_HuyDatPhongCho();
         }
         setContentPane(simplePanel);
         validate();

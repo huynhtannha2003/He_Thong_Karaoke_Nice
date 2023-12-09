@@ -445,7 +445,7 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
                 hoaDonList.forEach(hoaDon -> hoaDon.setKhuyenMai(khuyenMai));
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Không tìm thấy khuyến mãi có tên: " + khuyenMaiName,
+                        "Không tìm thấy khuyến",
                         "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
         }

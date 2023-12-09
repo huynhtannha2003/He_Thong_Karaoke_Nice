@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class GD_NhanPhong extends JFrame implements ActionListener {
+public class GD_NhanPhong extends JPanel implements ActionListener {
     private JPanel pnNorth, pnCenter, pnSouth;
     private PhongDAO phongDAO;
     private LoaiPhongDAO loaiPhongDAO;
@@ -43,9 +43,7 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
     }
 
     private void setupFrame() {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(900, 700);
-        setLocationRelativeTo(null);
+        setSize(1000, 700);
         setBackground(new Color(255, 255, 255));
     }
 
@@ -60,10 +58,11 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
     }
 
     private void addPanelNorth() {
+        setLayout(new BorderLayout(0, 0));
         pnNorth = new JPanel();
         pnNorth.setBorder(new LineBorder(new Color(0, 0, 0)));
         pnNorth.setBackground(new Color(97, 250, 204));
-        getContentPane().add(pnNorth, BorderLayout.NORTH);
+        add(pnNorth, BorderLayout.NORTH);
         JLabel lblTitle = new JLabel("Nhận phòng chờ");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
         pnNorth.add(lblTitle);
@@ -73,7 +72,7 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
     private void addPanelCenter() {
         pnCenter = new JPanel();
         pnCenter.setBackground(new Color(255, 255, 255));
-        getContentPane().add(pnCenter, BorderLayout.CENTER);
+        add(pnCenter, BorderLayout.CENTER);
         pnCenter.setLayout(new BorderLayout(0, 20));
 
         addPanelRoom();
@@ -155,7 +154,7 @@ public class GD_NhanPhong extends JFrame implements ActionListener {
     private void addPanelSouth() {
         pnSouth = new JPanel();
         pnSouth.setBackground(new Color(255, 255, 255));
-        getContentPane().add(pnSouth, BorderLayout.SOUTH);
+        add(pnSouth, BorderLayout.SOUTH);
 
         Box horizontalControl = Box.createHorizontalBox();
         pnSouth.add(horizontalControl);

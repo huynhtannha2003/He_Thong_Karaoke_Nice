@@ -386,7 +386,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
     }
 
     private void updateComboBoxKey() {
-        String[] s = {"Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái"};
+        String[] s = {"Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ"};
         for (String string : s) {
             cbSelectKey.addItem(string);
         }

@@ -30,7 +30,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
     private JComboBox cbStatus;
     private JComboBox cbType;
     private List<Phong> phongSelected;
-    private JButton btnDatPhong, btnChuyenPhong, btnHuyDatPhong, btnDatPhongCho, btnNhanPhongCho, btnXemChiTiet, btnDichVu, btnThanhToan, btnFind, btnClear, btnFindCustomer;
+    private JButton btnDatPhong, btnChuyenPhong, btnDatPhongCho, btnDichVu, btnThanhToan, btnFind, btnClear, btnFindCustomer;
     private final PhongDAO phongDAO;
     private NhanVien nhanVien;
     private JTextField txtCustomerName;
@@ -40,6 +40,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         phongDAO = new PhongDAO();
         loaiPhongDAO = new LoaiPhongDAO();
         hoaDonDAO = new HoaDonDAO();
+        phongSelected = new ArrayList<>();
         initGUI();
     }
 
@@ -278,21 +279,6 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         btnDatPhongCho.setBackground(new Color(107, 208, 107));
         pnLeftButton.add(btnDatPhongCho);
 
-        btnHuyDatPhong = new JButton("Hủy Đặt Phòng Chờ");
-        btnHuyDatPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnHuyDatPhong.setBackground(new Color(107, 208, 107));
-        pnLeftButton.add(btnHuyDatPhong);
-
-        btnNhanPhongCho = new JButton("Nhận Phòng Chờ");
-        btnNhanPhongCho.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnNhanPhongCho.setBackground(new Color(107, 208, 107));
-        pnLeftButton.add(btnNhanPhongCho);
-
-        btnXemChiTiet = new JButton("Xem Chi Tiết");
-        btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnXemChiTiet.setBackground(new Color(107, 208, 107));
-        pnLeftButton.add(btnXemChiTiet);
-
         btnDichVu = new JButton("Đặt Dịch Vụ");
         btnDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnDichVu.setBackground(new Color(107, 208, 107));
@@ -319,10 +305,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         pnLeft.add(Box.createVerticalStrut(20));
         btnDatPhong.addActionListener(this);
         btnChuyenPhong.addActionListener(this);
-        btnHuyDatPhong.addActionListener(this);
         btnDatPhongCho.addActionListener(this);
-        btnNhanPhongCho.addActionListener(this);
-        btnXemChiTiet.addActionListener(this);
         btnDichVu.addActionListener(this);
         btnThanhToan.addActionListener(this);
     }
@@ -343,17 +326,9 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             loadRooms(listPhong);
             phongSelected.clear();
             return;
-        } else if (source.equals(btnHuyDatPhong)) {
-            new GD_HuyDatPhongCho().setVisible(true);
-            phongSelected.clear();
-            return;
-        } else if (source.equals(btnNhanPhongCho)) {
-            GD_NhanPhong gdNhanPhong = new GD_NhanPhong();
-            gdNhanPhong.setVisible(true);
-            return;
         }
-        if (phongSelected.size() == 0 && source != btnHuyDatPhong && source != btnNhanPhongCho) {
-            JOptionPane.showMessageDialog(this, "Hãy chọn một phòng", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        if (phongSelected.size() == 0) {
+            JOptionPane.showMessageDialog(this, "Bạn cần phải chọn phòng trước", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
         Phong phong = phongSelected.get(0);
@@ -363,7 +338,6 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openChuyenPhongWindow(phong);
         } else if (source.equals(btnDatPhongCho)) {
             openDatPhongChoWindow(phong);
-        } else if (source.equals(btnXemChiTiet)) {// Handle XemChiTiet action
         } else if (source.equals(btnDichVu)) {
             openDatDichVuWindow(phong);
         } else if (source.equals(btnThanhToan)) {
