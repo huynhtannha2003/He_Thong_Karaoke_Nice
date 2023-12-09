@@ -52,7 +52,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private KhachHang kh;
     private Phong Phong;
     private NhanVien nhanVien;
-    private String ph;
+    private String maPhong;
 
     public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
@@ -330,17 +330,12 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
         secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
 
-        btnConfirm = new JButton("Xác nhận");
+        btnConfirm = new JButton("Đặt phòng");
         btnConfirm.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnConfirm.setBackground(new Color(107, 208, 107));
         secondControlHorizontalBox.add(btnConfirm);
 
         secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-        btnPrint = new JButton("In phiếu đặt");
-        btnPrint.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnPrint.setBackground(new Color(107, 208, 107));
-        secondControlHorizontalBox.add(btnPrint);
 
         controlHorizontalBox.add(Box.createHorizontalStrut(20));
 
@@ -350,7 +345,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         btnCheck.addActionListener(this);
         btnSearch.addActionListener(this);
         btnConfirm.addActionListener(this);
-        btnPrint.addActionListener(this);
         rbtnToday.addActionListener(this);
     }
 
@@ -438,7 +432,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 try {
                     full = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(timeFull);
                     booking = phieuDatPhongDAO.bookRoomBefore(kh.getMaKhachHang(), nhanVien.getMaNhanVien(),
-                            ph, new Time(full.getTime()), new java.sql.Date(full.getTime()));
+                            maPhong, new Time(full.getTime()), new java.sql.Date(full.getTime()));
                 } catch (ParseException e1) {
                     e1.printStackTrace();
                 }
@@ -450,15 +444,12 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                 }
                 dispose();
             }
-            if (o.equals(btnPrint)) {
-
-            }
         }
     }
 
     @Override
     public void onPhongPanelClicked(entity.Phong phong) {
-        ph = phong.getMaPhong();
+        maPhong = phong.getMaPhong();
         txtNameRoom.setText(phong.getTenPhong());
         cbType.setSelectedItem(phong.getLoaiPhong());
     }

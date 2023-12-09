@@ -1266,3 +1266,4 @@ BEGIN
                 AND CONVERT(DATE, HoaDon_NgayThanhToan) > CONVERT(DATE, GETDATE()))
         );
 END;
+
