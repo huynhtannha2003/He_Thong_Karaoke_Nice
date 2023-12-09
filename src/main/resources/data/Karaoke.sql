@@ -1352,6 +1352,7 @@ BEGIN
     WHERE maPhong = @maPhong;
 END;
 GO
+
 CREATE PROCEDURE GetHoaDonBySDTAndTime(@SDT NVARCHAR(255))
 AS
 BEGIN
@@ -1427,8 +1428,37 @@ BEGIN
         SELECT COUNT(*)
         FROM KhuyenMai
         WHERE maKhuyenMai LIKE '%' + FORMAT(GETDATE(), 'ddMMyy') + '%'
-    ) + 1
+SELECT * FROM ChiTietDatDichVuByConditionTimeView
+CREATE PROCEDURE InsertOrUpdateChiTietDatDichVu
+    @p_maPhieuDatPhong VARCHAR(15),
+    @p_maDichVu VARCHAR(10),
+    @p_soLuong INT
+AS
+BEGIN
+    SET NOCOUNT ON;
 
+    DECLARE @existingCount INT;
+
+    -- Check if the primary key combination already exists
+    SELECT @existingCount = COUNT(*)
+    FROM ChiTietDatDichVu
+    WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
+
+    -- If the combination exists, update the existing record
+    IF @existingCount > 0
+    BEGIN
+        UPDATE ChiTietDatDichVu
+        SET soLuong = @p_soLuong
+        WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
+    END
+    ELSE
+    BEGIN
+        -- If the combination doesn't exist, insert a new record
+        INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
+        VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
+    END;
+END;
+    ) + 1
     -- Determine the number of leading zeros based on the value of stt
     IF @stt >= 10
         SET @formattedStt = '0'
