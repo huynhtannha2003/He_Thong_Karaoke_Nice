@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="add valid">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice/HD040123002.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PdfExportUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/PdfExportUtil.java" afterDir="false" />
-    </list>
+    <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="add valid" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
