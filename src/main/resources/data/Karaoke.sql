@@ -1392,3 +1392,5 @@ BEGIN
         VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
     END;
 END;
+
+SELECT * FROM ChiTietDatDichVuByConditionTimeView

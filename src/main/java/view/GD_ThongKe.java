@@ -218,7 +218,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
                 p.setRangeGridlinePaint(Color.black);
                 ChartPanel chartPanel = new ChartPanel(chart);
 
-                pnChart.add(scroll);
+                pnChart.add(chartPanel);
                 pnChart.validate();
             } catch (Exception exception) {
 

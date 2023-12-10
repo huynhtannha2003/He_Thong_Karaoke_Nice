@@ -152,16 +152,17 @@ public class PdfExportUtil {
             for (int i = 0; i < serviceOrdersLastIndex; i++) {
                 ChiTietDatDichVu serviceOrder = phieuDatPhong.getChiTietDatDichVuList().get(i);
                 DichVu service = serviceOrder.getDichVu();
+                if (serviceOrder.getSoLuong() != 0) {
+                    cell1.set(createCellServiceOrder(service.getTenDichVu(), 1, 8, fontContent, PDF_ALIGN_LEFT));
+                    cell2.set(createCellServiceOrder(formatQuantity(serviceOrder.getSoLuong()), 1, 8, fontContent, PDF_ALIGN_LEFT));
+                    cell3.set(createCellServiceOrder(FormatCurrencyUtil.formatCurrency(serviceOrder.getDonGia()), 1, 8, fontContent, PDF_ALIGN_RIGHT));
+                    cell4.set(createCellServiceOrder(FormatCurrencyUtil.formatCurrency(serviceOrder.tinhTienDichVu()), 1, 8, fontContent, PDF_ALIGN_RIGHT));
 
-                cell1.set(createCellServiceOrder(service.getTenDichVu(), 1, 8, fontContent, PDF_ALIGN_LEFT));
-                cell2.set(createCellServiceOrder(formatQuantity(serviceOrder.getSoLuong()), 1, 8, fontContent, PDF_ALIGN_LEFT));
-                cell3.set(createCellServiceOrder(FormatCurrencyUtil.formatCurrency(serviceOrder.getDonGia()), 1, 8, fontContent, PDF_ALIGN_RIGHT));
-                cell4.set(createCellServiceOrder(FormatCurrencyUtil.formatCurrency(serviceOrder.tinhTienDichVu()), 1, 8, fontContent, PDF_ALIGN_RIGHT));
-
-                table.addCell(cell1.get());
-                table.addCell(cell2.get());
-                table.addCell(cell3.get());
-                table.addCell(cell4.get());
+                    table.addCell(cell1.get());
+                    table.addCell(cell2.get());
+                    table.addCell(cell3.get());
+                    table.addCell(cell4.get());
+                }
             }
         });
 

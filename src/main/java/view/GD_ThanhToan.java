@@ -367,14 +367,16 @@ public class GD_ThanhToan extends JFrame implements ActionListener {
                 .collect(Collectors.toList());
         List<ChiTietDatDichVu> chiTietDatDichVuList = tempHoaDon.get(table.getSelectedRow()).getChiTietDatDichVuList();
         for (ChiTietDatDichVu chiTietDatDichVu : chiTietDatDichVuList) {
-            Object[] rowData = {
-                    chiTietDatDichVu.getDichVu().getMaDichVu(),
-                    chiTietDatDichVu.getDichVu().getTenDichVu(),
-                    chiTietDatDichVu.getSoLuong(),
-                    chiTietDatDichVu.getDichVu().getLoaiDichVu().getTenLoaiDichVu(),
-                    FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia()),
-                    FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia() * chiTietDatDichVu.getSoLuong())};
-            modelDetail.addRow(rowData);
+            if(chiTietDatDichVu.getSoLuong() != 0){
+                Object[] rowData = {
+                        chiTietDatDichVu.getDichVu().getMaDichVu(),
+                        chiTietDatDichVu.getDichVu().getTenDichVu(),
+                        chiTietDatDichVu.getSoLuong(),
+                        chiTietDatDichVu.getDichVu().getLoaiDichVu().getTenLoaiDichVu(),
+                        FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia()),
+                        FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia() * chiTietDatDichVu.getSoLuong())};
+                modelDetail.addRow(rowData);
+            }
         }
     }
 

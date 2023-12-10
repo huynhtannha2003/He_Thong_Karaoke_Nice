@@ -213,12 +213,15 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                 JOptionPane.showMessageDialog(this, "Số lượng đặt vượt quá số lượng hiện tại của sản phẩm.\nSố lượng hiện tại: " + quantityAtBegin, "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
-                handleDeleteTask();
+                if (quantity == 0) {
+                    handleDeleteTask();
+                    return ;
+                }
 
                 quantity = Integer.parseInt(quantityStr);
                 curQuantity = dichVu.getSoLuong();
 
-                if (quantity <= 0) {
+                if (quantity < 0) {
                     JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -235,6 +238,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                 updateQuantity();
                 newDichVu.setSoLuong(quantity);
                 updateOrderedServicesTable();
+                insertChiTietDatDichVu();
             }
 
         } catch (NumberFormatException e) {
@@ -255,8 +259,10 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
 
         int stt = 1;
         for (DichVu dichVu : selectedDichVuList) {
-            Object[] rowData = {stt++, dichVu.getTenDichVu(), dichVu.getSoLuong(), FormatCurrencyUtil.formatCurrency(dichVu.getGia()), FormatCurrencyUtil.formatCurrency(dichVu.getGia() * dichVu.getSoLuong())};
-            model.addRow(rowData);
+            if (dichVu.getSoLuong() != 0) {
+                Object[] rowData = {stt++, dichVu.getTenDichVu(), dichVu.getSoLuong(), FormatCurrencyUtil.formatCurrency(dichVu.getGia()), FormatCurrencyUtil.formatCurrency(dichVu.getGia() * dichVu.getSoLuong())};
+                model.addRow(rowData);
+            }
         }
         updateTotalPrice();
     }
@@ -266,7 +272,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         for (DichVu dichVu : selectedDichVuList) {
             totalPrice += dichVu.getGia() * dichVu.getSoLuong();
         }
-        textField.setText(String.valueOf(totalPrice));
+        textField.setText(FormatCurrencyUtil.formatCurrency(totalPrice));
     }
 
     private void handleFind(String tenDV) {
@@ -302,12 +308,12 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         } else if (source == btnClearAll) {
             clearAllData();
         } else if (source == btnApply) {
-            if (insertChiTietDatDichVu()) {
-                JOptionPane.showMessageDialog(this, "Dịch vụ đã được đặt thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi đặt dịch vụ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
+//            if (insertChiTietDatDichVu()) {
+//                JOptionPane.showMessageDialog(this, "Dịch vụ đã được đặt thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi đặt dịch vụ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            }
         } else if (source == btnFind) {
             if (!(txtServiceName.getText().equalsIgnoreCase("")))
                 handleFind(txtServiceName.getText());
@@ -331,14 +337,16 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                 dichVu.setSoLuong(dichVu.getSoLuong() + quantity);
                 dichVuDAO.updateDichVu(dichVu, dichVu.getMaDichVu());
             }
-
-        selectedDichVuList.remove(selectedRow);
+        selectedDichVuList.get(selectedRow).setSoLuong(selectedDichVuList.get(selectedRow).getSoLuong() - quantity);
         updateOrderedServicesTable();
         loadDichVu(listDichVu);
+        insertChiTietDatDichVu();
+        selectedDichVuList.remove(selectedRow);
     }
 
     private boolean insertChiTietDatDichVu() {
-        return chiTietDatDichVuDAO.insertChiTietDatDichVu(hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getMaPhieuDatPhong(), selectedDichVuList);
+        String maPDP = hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getMaPhieuDatPhong();
+        return chiTietDatDichVuDAO.insertChiTietDatDichVu(maPDP, selectedDichVuList);
     }
 
     private void clearAllData() {
@@ -348,12 +356,13 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                     dichVu.setSoLuong(dichVu.getSoLuong() + dichVu1.getSoLuong());
                     dichVuDAO.updateDichVu(dichVu, dichVu.getMaDichVu());
                 }
-
+        selectedDichVuList.forEach(dichVu1 -> dichVu1.setSoLuong(0));
+        insertChiTietDatDichVu();
         selectedDichVuList.clear();
         updateOrderedServicesTable();
         listDichVu = dichVuDAO.getAllDichVu();
         loadDichVu(listDichVu);
-        JOptionPane.showMessageDialog(this, "Xóa tất cả dịch vụ thành công.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Xóa tất cả dịch vụ thành công.");
     }
 
     private void loadChiTietDichVu() {
@@ -367,11 +376,14 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
             selectedDichVuList.add(currentDichVu);
         });
         for (ChiTietDatDichVu chiTietDatDichVu : listCTDV) {
-            model.addRow(new Object[]{
-                    stt, chiTietDatDichVu.getDichVu().getTenDichVu(), chiTietDatDichVu.getSoLuong(), FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia()), FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia() * chiTietDatDichVu.getSoLuong())
-            });
-            stt += 1;
+            if (chiTietDatDichVu.getSoLuong() != 0) {
+                model.addRow(new Object[]{
+                        stt, chiTietDatDichVu.getDichVu().getTenDichVu(), chiTietDatDichVu.getSoLuong(), FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia()), FormatCurrencyUtil.formatCurrency(chiTietDatDichVu.getDichVu().getGia() * chiTietDatDichVu.getSoLuong())
+                });
+                stt += 1;
+            }
         }
+        updateTotalPrice();
     }
 
 }
