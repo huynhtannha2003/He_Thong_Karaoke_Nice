@@ -53,9 +53,8 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private NhanVien nhanVien;
     private String ph;
 
-    public GD_DatPhongCho(Phong phongSelected, NhanVien currentNhanVien) {
+    public GD_DatPhongCho(NhanVien currentNhanVien) {
         nhanVien = currentNhanVien;
-        Phong = phongSelected;
         phongDAO = new PhongDAO();
         loaiPhongDAO = new LoaiPhongDAO();
         khachHangDAO = new KhachHangDAO();
@@ -234,7 +233,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         cbType.setPreferredSize(new Dimension(100, 22));
         cbType.addItem(new LoaiPhong(null, "Tất cả", TrangThaiLoaiPhong.HIEU_LUC));
         loaiPhongDAO.getAllLoaiPhong().forEach(cbType::addItem);
-        cbType.setSelectedItem(Phong.getLoaiPhong());
         cbType.setFont(new Font("Tahoma", Font.PLAIN, 14));
         thirdFormHorizontalBox.add(cbType);
 
@@ -349,7 +347,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     private void initData() {
         listPhong = phongDAO.getAllPhongTrong();
-        List<LoaiPhong> loaiPhongList = loaiPhongDAO.getAllLoaiPhong();
     }
 
     private void loadRooms(List<Phong> newRooms) {
@@ -455,7 +452,7 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
 
     @Override
     public void onPhongPanelClicked(List<Phong> phong) {
-        Phong currentPhong = phong.get(0);
+        Phong currentPhong = phong.get(phong.size() - 1);
         ph = currentPhong.getMaPhong();
         txtNameRoom.setText(currentPhong.getTenPhong());
         cbType.setSelectedItem(currentPhong.getLoaiPhong());

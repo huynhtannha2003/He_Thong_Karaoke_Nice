@@ -308,12 +308,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         } else if (source == btnClearAll) {
             clearAllData();
         } else if (source == btnApply) {
-//            if (insertChiTietDatDichVu()) {
-//                JOptionPane.showMessageDialog(this, "Dịch vụ đã được đặt thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             setVisible(false);
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi đặt dịch vụ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            }
         } else if (source == btnFind) {
             if (!(txtServiceName.getText().equalsIgnoreCase("")))
                 handleFind(txtServiceName.getText());
@@ -327,7 +322,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
         int selectedRow = tableOrderedServices.getSelectedRow();
 
         if (selectedRow == -1) {
-//            JOptionPane.showMessageDialog(this, "Vui lòng chọn một dịch vụ từ danh sách đã đặt.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một dịch vụ từ danh sách đã đặt.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         quantity = selectedDichVuList.get(selectedRow).getSoLuong();

@@ -20,7 +20,6 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
 
     private final LoaiPhongDAO loaiPhongDAO;
     private final HoaDonDAO hoaDonDAO;
-    private JPanel contentPane;
     private JTextField txtName;
     private JPanel pnCenter;
     private List<Phong> listPhong;
@@ -326,6 +325,9 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             loadRooms(listPhong);
             phongSelected.clear();
             return;
+        }else if (source.equals(btnDatPhongCho)) {
+            openDatPhongChoWindow();
+            return;
         }
         if (phongSelected.size() == 0) {
             JOptionPane.showMessageDialog(this, "Bạn cần phải chọn phòng trước", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
@@ -336,9 +338,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
             openDatPhongWindow();
         } else if (source.equals(btnChuyenPhong)) {
             openChuyenPhongWindow(phong);
-        } else if (source.equals(btnDatPhongCho)) {
-            openDatPhongChoWindow(phong);
-        } else if (source.equals(btnDichVu)) {
+        }  else if (source.equals(btnDichVu)) {
             openDatDichVuWindow(phong);
         } else if (source.equals(btnThanhToan)) {
             openThanhToanWindow(phongSelected);
@@ -357,8 +357,8 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
         }
     }
 
-    private void openDatPhongChoWindow(Phong phongSelected) {
-        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(phongSelected, nhanVien);
+    private void openDatPhongChoWindow() {
+        GD_DatPhongCho gdDatPhongCho = new GD_DatPhongCho(nhanVien);
         gdDatPhongCho.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -417,6 +417,7 @@ public class GD_QuanLyDatPhong extends JPanel implements PhongPanelClickListener
                 @Override
                 public void windowClosed(WindowEvent e) {
                     getAllRoom();
+                    handleClearAction();
                 }
             });
             gdChuyenPhong.setVisible(true);

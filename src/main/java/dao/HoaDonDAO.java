@@ -146,4 +146,29 @@ public class HoaDonDAO {
 
         return hoaDon;
     }
+
+    public List<HoaDon> getTodayPhieuDatPhongCho() {
+        List<HoaDon> hoaDonList = new ArrayList<>();
+
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL GetTodayPhieuDatPhongCho}";
+
+        try (CallableStatement statement = connection.prepareCall(query)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                HoaDon hoaDon = new HoaDon(resultSet);
+
+                List<PhieuDatPhong> phieuDatPhongList = new ArrayList<>();
+                phieuDatPhongList.add(new PhieuDatPhong(resultSet));
+
+                hoaDon.setPhieuDatPhongList(phieuDatPhongList);
+
+                hoaDonList.add(hoaDon);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hoaDonList;
+    }
 }

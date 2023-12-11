@@ -169,6 +169,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
         if (o.equals(btnExit)) {
             exitButton();
         } else if (o.equals(btnCheck)) {
+            txtCustomerName.setText("");
             if (txtPhoneNumber.getText().length() < 10) {
                 JOptionPane.showMessageDialog(this, "Số điện thoại phải đủ 10 số", "Thông báo",
                         JOptionPane.WARNING_MESSAGE);
@@ -197,7 +198,7 @@ public class GD_DatPhong extends JFrame implements ActionListener {
             txtPhoneNumber.setText("");
         }
         if (o.equals(btnApply)) {
-            if (txtCustomerName.getText().length() > 0) {
+            if (txtCustomerName.getText().length() > 0 || radioVisitingCustomer.isSelected()) {
                 LocalTime currentTime = LocalTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                 String currentTimeString = currentTime.format(formatter);

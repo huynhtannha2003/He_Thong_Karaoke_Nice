@@ -2,21 +2,14 @@ package view;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.TextField;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
 
 import dao.TaiKhoanDAO;
 import entity.TaiKhoan;
@@ -42,9 +35,6 @@ public class GD_Login extends JFrame {
         });
     }
 
-    /**
-     * Create the frame.
-     */
     public GD_Login() {
         dao = new TaiKhoanDAO();
         setResizable(false);
@@ -65,10 +55,24 @@ public class GD_Login extends JFrame {
         btnDangNhap.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnDangNhap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new GD_ManHinhChinh(taiKhoanLogin).setVisible(true);
-                setVisible(false);
+                String tenDangNhap = txtTenDangNhap.getText();
+                String matKhau = new String(txtMatKhau.getPassword());
+
+                if (tenDangNhap.isEmpty() || matKhau.isEmpty()) {
+                    JOptionPane.showMessageDialog(GD_Login.this, "Không được để trống thông tin", "Lỗi Đăng Nhập", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    TaiKhoan taiKhoan = dao.getTaiKhoan(tenDangNhap, matKhau);
+
+                    if (taiKhoan == null) {
+                        JOptionPane.showMessageDialog(GD_Login.this, "Sai thông tin đăng nhập", "Lỗi Đăng Nhập", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        new GD_ManHinhChinh(taiKhoan).setVisible(true);
+                        setVisible(false);
+                    }
+                }
             }
         });
+
 
         JLabel lbShowPassword = new JLabel("");
         lbShowPassword.setBounds(235, 397, 29, 19);
@@ -112,11 +116,5 @@ public class GD_Login extends JFrame {
         lbBackGroundKaraoke.setPreferredSize(new Dimension(684, 661));
         MainPane.add(lbBackGroundKaraoke);
 
-        taiKhoanLogin = getLoginAccount();
-    }
-
-    public TaiKhoan getLoginAccount() {
-        String pwd = new String(txtMatKhau.getPassword());
-        return dao.getTaiKhoan(txtTenDangNhap.getText(), pwd);
     }
 }

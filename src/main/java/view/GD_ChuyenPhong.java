@@ -268,12 +268,6 @@ public class GD_ChuyenPhong extends JDialog implements PhongPanelClickListener, 
     private void initData() {
         rooms = validRoom(phongDao.getPhongLoaiPhongLichSuaGiaByConditionTime());
 
-        List<Phong> validRooms = phongDao.getPhongLoaiPhongLichSuaGiaByConditionTime();
-        for (Phong room : validRooms) {
-            if (room.getTrangThai() == TrangThaiPhong.PHONG_TRONG) {
-                rooms.add(room);
-            }
-        }
         List<LoaiPhong> loaiPhongList = loaiPhongDao.getAllLoaiPhong();
         cbTypeRoom.addItem((new LoaiPhong(null, "tất cả", TrangThaiLoaiPhong.HIEU_LUC)));
         loaiPhongList.forEach(loaiPhong -> {

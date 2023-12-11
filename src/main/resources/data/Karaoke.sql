@@ -724,26 +724,18 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetPhongByTenAndLoaiPhong @tenPhong NVARCHAR(255),
-                                           @maLoaiPhong VARCHAR(5) = NULL
+CREATE PROCEDURE GetPhongByTenAndLoaiPhong
+    @tenPhong NVARCHAR(255),
+    @maLoaiPhong VARCHAR(5) = NULL
 AS
 BEGIN
-    IF
-        @maLoaiPhong IS NOT NULL
-        BEGIN
-            SELECT *
-            FROM PhongView
-            WHERE Phong_TenPhong LIKE '%' + @tenPhong + '%'
-              AND Phong_MaLoaiPhong = @maLoaiPhong;
-        END
-    ELSE
-        BEGIN
-            SELECT *
-            FROM PhongView
-            WHERE Phong_TenPhong LIKE '%' + @tenPhong + '%';
-        END
+    SELECT *
+    FROM PhongLoaiPhongLichSuaGiaByConditionTimeView
+    WHERE Phong_TenPhong LIKE '%' + @tenPhong + '%'
+      AND (@maLoaiPhong IS NULL OR Phong_MaLoaiPhong = @maLoaiPhong);
 END;
 GO
+
 
 CREATE PROCEDURE FindCustomerByPhoneNumber @sdt NVARCHAR(15)
 AS
@@ -1362,7 +1354,7 @@ BEGIN
       AND HoaDon_TongTien IS NULL
 END;
 GO
-SELECT * FROM ChiTietDatDichVuByConditionTimeView
+
 CREATE PROCEDURE InsertOrUpdateChiTietDatDichVu
     @p_maPhieuDatPhong VARCHAR(15),
     @p_maDichVu VARCHAR(10),
@@ -1373,12 +1365,10 @@ BEGIN
 
     DECLARE @existingCount INT;
 
-    -- Check if the primary key combination already exists
     SELECT @existingCount = COUNT(*)
     FROM ChiTietDatDichVu
     WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
 
-    -- If the combination exists, update the existing record
     IF @existingCount > 0
     BEGIN
         UPDATE ChiTietDatDichVu
@@ -1387,10 +1377,18 @@ BEGIN
     END
     ELSE
     BEGIN
-        -- If the combination doesn't exist, insert a new record
         INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
         VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
     END;
 END;
+GO
 
-SELECT * FROM ChiTietDatDichVuByConditionTimeView
+CREATE PROCEDURE GetTodayPhieuDatPhongCho
+AS
+BEGIN
+    SELECT *
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE CONVERT(DATE, HoaDon_NgayThanhToan) = CONVERT(DATE, GETDATE())
+    AND Phong_TrangThai = 2;
+END;
+

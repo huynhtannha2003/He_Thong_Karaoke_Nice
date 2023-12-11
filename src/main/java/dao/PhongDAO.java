@@ -104,6 +104,8 @@ public class PhongDAO {
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 Phong phong = new Phong(resultSet);
+                LichSuGiaPhong lichSuGiaPhong = new LichSuGiaPhong(resultSet);
+                phong.getLoaiPhong().setLichSuGiaPhongList(List.of(lichSuGiaPhong));
                 phongList.add(phong);
             }
         } catch (SQLException e) {
