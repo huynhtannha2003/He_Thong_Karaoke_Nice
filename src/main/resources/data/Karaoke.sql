@@ -1429,26 +1429,7 @@ BEGIN
     WHERE LichSuGiaDichVu_Gia = '%' + @Gia + '%'
 END;
 GO
--- Tạo stored procedure
--- CREATE PROCEDURE ThemDichVuMoi
---     @maDichVu VARCHAR(10),
---     @tenDichVu NVARCHAR(255),
---     @soLuong INT,
---     @maLoaiDichVu VARCHAR(6),
---     @trangThai TINYINT,
---     @hinhAnh VARCHAR(255),
---     @ngayBatDau DATE,
---     @ngayKetThuc DATE,
---     @thoiDiemBatDau TIME,
---     @thoiDiemKetThuc TIME,
---     @gia FLOAT
--- AS
--- BEGIN
---
---     INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai, hinhAnh)
---     VALUES (@maDichVu, @tenDichVu, @soLuong, @maLoaiDichVu, @trangThai, @hinhAnh);
---
---
---     INSERT INTO LichSuGiaDichVu (maLichSuGiaDichVu, ngayBatDau, ngayKetThuc, thoiDiemBatDau, thoiDiemKetThuc, gia, maDichVu)
---     VALUES (CONCAT(@maDichVu, '_', FORMAT(GETDATE(), 'yyyyMMddHHmmss')), @ngayBatDau, @ngayKetThuc, @thoiDiemBatDau, @thoiDiemKetThuc, @gia, @maDichVu);
--- END;
+
+
+
+

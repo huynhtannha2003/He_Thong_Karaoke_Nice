@@ -214,6 +214,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         thirdFormHorizontalBox.add(lblPrice);
 
         txtPrice = new JTextField();
+        txtPrice.setEnabled(false);
         txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
         thirdFormHorizontalBox.add(txtPrice);
         txtPrice.setColumns(10);
@@ -336,7 +337,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
         centerForm.add(Box.createVerticalStrut(20));
 
-        String[] headers = {"STT", "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái"};
+        String[] headers = {"Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái"};
         modelTable = new DefaultTableModel(headers, 0);
         table = new JTable(modelTable);
         table.setBackground(new Color(255, 255, 255));
@@ -358,11 +359,10 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
     }
 
     private void loadData() {
-        int i = 0;
         modelTable.setRowCount(0);
         List<DichVu> list = dichVuDAO.getAllDichVu();
         for (DichVu s : list) {
-            Object[] row = {(++i), s.getMaDichVu(), s.getTenDichVu(), FormatCurrencyUtil.formatCurrency(s.getGia()),
+            Object[] row = {s.getMaDichVu(), s.getTenDichVu(), FormatCurrencyUtil.formatCurrency(s.getGia()),
                     s.getSoLuong(), s.getLoaiDichVu().getTenLoaiDichVu(), s.getTrangThai().getName()};
             modelTable.addRow(row);
         }
@@ -410,14 +410,18 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
     private void addObject() {
         DichVu dv = reverSPFromTextFile();
-        LichSuGiaDichVu lichSu = rever();
-        int i = modelTable.getColumnCount() + 1;
-        Object[] row = {i, dv.getMaDichVu(), dv.getTenDichVu(), 0,
-                dv.getSoLuong(), dv.getLoaiDichVu().getTenLoaiDichVu(), dv.getTrangThai().getName()};
-        modelTable.addRow(row);
+//        LichSuGiaDichVu lichSu = rever();
+//        Object[] row = {dv.getMaDichVu(), dv.getTenDichVu(), 0,
+//                dv.getSoLuong(), dv.getLoaiDichVu().getTenLoaiDichVu(), dv.getTrangThai().getName()};
+//        modelTable.addRow(row);
 //        dichVuDAO.addLichSuGiaGiaoDich(lichSu, dv);
-        JOptionPane.showMessageDialog(this, "Thêm thành công");
-        loadData();
+        boolean in = dichVuDAO.addDichVu(dv);
+        if(in == true){
+             JOptionPane.showMessageDialog(this, "Thêm thành công");
+             loadData();
+        }else{
+            JOptionPane.showMessageDialog(this,"Thêm không thành công");
+        }
     }
 
     private DichVu reverSPFromTextFile() {
@@ -425,7 +429,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         LoaiDichVu loaiDichVu = (LoaiDichVu) cbLoaiDichVu.getSelectedItem();
         List<LichSuGiaDichVu> lichSuGiaDichVuList = new ArrayList<>();
         lichSuGiaDichVuList.add(new LichSuGiaDichVu("", Date.valueOf(current), null, Time.valueOf("8:00:00"),
-                Time.valueOf("23:00:00"), Double.parseDouble(txtPrice.getText())));
+                Time.valueOf("23:00:00"), 0.0));
 //        DichVu dichVu = new DichVu(txtID.getText(), txtName.getText(), Integer.parseInt(txtQuantity.getText()),
 //                trangThai, loaiDichVu, lichSuGiaDichVuList);
         DichVu dichVu = new DichVu(txtID.getText(), txtName.getText(), Integer.parseInt(txtQuantity.getText()), filename, trangThai, loaiDichVu);
@@ -434,8 +438,8 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
     private LichSuGiaDichVu rever() {
         LocalDate current = LocalDate.now();
-        LichSuGiaDichVu lichSu = new LichSuGiaDichVu("", Date.valueOf(current), null, Time.valueOf("8:00:00"),
-                Time.valueOf("23:00:00"), Double.parseDouble(txtPrice.getText()));
+        LichSuGiaDichVu lichSu = new LichSuGiaDichVu("", Date.valueOf(current), (Date) null, Time.valueOf("8:00:00"),
+                Time.valueOf("23:00:00"),  0.0);
         return lichSu;
     }
 
@@ -475,7 +479,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
             case 1:
                 return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
             case 2:
-// tìm theo giá
+                // tìm theo giá
             case 3:
                 // Tìm theo số lượng
             case 4:
@@ -484,7 +488,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
                 searchHorizontalBox.add(cbTypeTwo);
                 cbTypeTwo.addItem(TrangThaiDichVu.VO_HIEU.getName());
                 cbTypeTwo.addItem(TrangThaiDichVu.HIEU_LUC.getName());
-//			return dichVuDAO;
+                // return dichVuDAO;
             default:
                 // Tìm theo trạng thái
         }
@@ -503,18 +507,18 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
     @Override
     public void mouseClicked(MouseEvent e) {
         int rowSelect = table.getSelectedRow();
-        txtID.setText(modelTable.getValueAt(rowSelect, 1).toString());
-        txtName.setText(modelTable.getValueAt(rowSelect, 2).toString());
+        txtID.setText(modelTable.getValueAt(rowSelect, 0).toString());
+        txtName.setText(modelTable.getValueAt(rowSelect, 1).toString());
         NumberFormat df = NumberFormat.getCurrencyInstance();
-        String text = modelTable.getValueAt(rowSelect, 3).toString();
+        String text = modelTable.getValueAt(rowSelect, 2).toString();
         try {
             txtPrice.setText(df.parse(text).toString());
         } catch (ParseException e2) {
             e2.printStackTrace();
         }
-        txtQuantity.setText(modelTable.getValueAt(rowSelect, 4).toString());
-        cbLoaiDichVu.setSelectedItem(modelTable.getValueAt(rowSelect, 5));
-        cbType.setSelectedItem(modelTable.getValueAt(rowSelect, 6));
+        txtQuantity.setText(modelTable.getValueAt(rowSelect, 3).toString());
+        cbLoaiDichVu.setSelectedItem(modelTable.getValueAt(rowSelect, 4));
+        cbType.setSelectedItem(modelTable.getValueAt(rowSelect, 5));
 
 //      loadImage(txtID.getText());
     }
