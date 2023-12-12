@@ -907,7 +907,7 @@ BEGIN
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @thoiGianKetThuc, @maHoaDon, @maPhong)
 END;
 GO
-SELECT * FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+
 CREATE PROCEDURE GetHoaDonByMaHoaDon(@MaHoaDon VARCHAR(13))
 AS
 BEGIN
@@ -1017,6 +1017,7 @@ BEGIN
     ORDER BY HoaDon_NgayThanhToan
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
 END;
+
 GO
 CREATE PROCEDURE GetHoaDonPagedByTenKhachHangLike @TenKhachHang NVARCHAR(255),
                                                   @PageNumber INT,
@@ -1400,4 +1401,54 @@ BEGIN
     WHERE CONVERT(DATE, HoaDon_NgayThanhToan) = CONVERT(DATE, GETDATE())
       AND Phong_TrangThai = 2;
 END;
+GO
 
+CREATE PROCEDURE GetDichVuByMaDichVu @MaDichVu VARCHAR(20)
+AS
+BEGIN
+    SELECT *
+    FROM DichVuLichSuGiaByConditionTimeView
+    WHERE DichVu_MaDichVu LIKE '%' + @MaDichVu + '%'
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByTenDichVu @TenDichVu VARCHAR(20)
+AS
+BEGIN
+    SELECT *
+    FROM DichVuLichSuGiaByConditionTimeView
+    WHERE DichVu_TenDichVu LIKE N'%' + @TenDichVu + N'%'
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByGia @Gia FLOAT
+AS
+BEGIN
+    SELECT *
+    from DichVuLichSuGiaByConditionTimeView
+    WHERE LichSuGiaDichVu_Gia = '%' + @Gia + '%'
+END;
+GO
+-- Tạo stored procedure
+-- CREATE PROCEDURE ThemDichVuMoi
+--     @maDichVu VARCHAR(10),
+--     @tenDichVu NVARCHAR(255),
+--     @soLuong INT,
+--     @maLoaiDichVu VARCHAR(6),
+--     @trangThai TINYINT,
+--     @hinhAnh VARCHAR(255),
+--     @ngayBatDau DATE,
+--     @ngayKetThuc DATE,
+--     @thoiDiemBatDau TIME,
+--     @thoiDiemKetThuc TIME,
+--     @gia FLOAT
+-- AS
+-- BEGIN
+--
+--     INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, maLoaiDichVu, trangThai, hinhAnh)
+--     VALUES (@maDichVu, @tenDichVu, @soLuong, @maLoaiDichVu, @trangThai, @hinhAnh);
+--
+--
+--     INSERT INTO LichSuGiaDichVu (maLichSuGiaDichVu, ngayBatDau, ngayKetThuc, thoiDiemBatDau, thoiDiemKetThuc, gia, maDichVu)
+--     VALUES (CONCAT(@maDichVu, '_', FORMAT(GETDATE(), 'yyyyMMddHHmmss')), @ngayBatDau, @ngayKetThuc, @thoiDiemBatDau, @thoiDiemKetThuc, @gia, @maDichVu);
+-- END;

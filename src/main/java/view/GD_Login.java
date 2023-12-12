@@ -73,7 +73,6 @@ public class GD_Login extends JFrame {
             }
         });
 
-
         JLabel lbShowPassword = new JLabel("");
         lbShowPassword.setBounds(235, 397, 29, 19);
         MainPane.add(lbShowPassword);

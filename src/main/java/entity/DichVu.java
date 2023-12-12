@@ -48,6 +48,7 @@ public class DichVu {
         this.lichSuGiaDichVuList = new ArrayList<LichSuGiaDichVu>();
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

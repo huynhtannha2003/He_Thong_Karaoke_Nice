@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="fix: dat dich vu could not delete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DichVuDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/image/dichVu/phongTrong.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,15 +34,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-        &quot;lastFilter&quot;: {
-        &quot;state&quot;: &quot;OPEN&quot;,
-        &quot;assignee&quot;: &quot;LMTam37&quot;
-        }
-        }</component>
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LMTam37&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="14f50362-908f-4f85-9d5d-c0eb810f3b57" />
+        <option name="accountId" value="f9498931-c123-4bc8-8a02-8808f71b53fe" />
         <option name="url" value="https://github.com/trantrungtien18/He_Thong_Karaoke_Nice.git" />
       </UrlAndAccount>
     </option>
@@ -59,17 +64,19 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.GD_Login.executor": "Run",
+    "Application.GD_Login.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/luong.DESKTOP-AL87953",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -109,9 +116,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="script.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/../OneDrive - Industrial University of HoChiMinh City/HK2_2023/Event/nhom08_DHKTPM17B_QLKS/Script/script.sql" />
+      <script-mode>FILE</script-mode>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GD_Login" />
+        <item itemvalue="Database Script.script.sql" />
       </list>
     </recent_temporary>
   </component>
@@ -184,6 +197,15 @@
       <workItem from="1702164932369" duration="4510000" />
       <workItem from="1702271593746" duration="12668000" />
       <workItem from="1702361589706" duration="800000" />
+      <workItem from="1702362961335" duration="1875000" />
+      <workItem from="1702367661150" duration="1619000" />
+      <workItem from="1702369671025" duration="67000" />
+      <workItem from="1702373572682" duration="2289000" />
+      <workItem from="1702378140009" duration="770000" />
+      <workItem from="1702393579229" duration="4628000" />
+      <workItem from="1702398329784" duration="2112000" />
+      <workItem from="1702401681222" duration="4790000" />
+      <workItem from="1702409993097" duration="577000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -297,10 +319,72 @@
     <option name="LAST_COMMIT_MESSAGE" value="fix: dat dich vu could not delete" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>419</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>418</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>417</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>416</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>415</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>414</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>413</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>412</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>411</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/view/GD_QuanLyDichVu.java</url>
+          <line>410</line>
+          <properties class="view.GD_QuanLyDichVu" method="addObject">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="javax.swing.table.DefaultTableModel" memberName="listenerList" />
         <PinnedItemInfo parentTag="entity.PhieuDatPhong" memberName="phong" />
         <PinnedItemInfo parentTag="com.microsoft.sqlserver.jdbc.SQLServerResultSet" memberName="traceID" />
+        <PinnedItemInfo parentTag="javax.swing.table.DefaultTableModel" memberName="columnIdentifiers" />
+        <PinnedItemInfo parentTag="entity.DichVu" memberName="maDichVu" />
+        <PinnedItemInfo parentTag="javax.swing.JComboBox" memberName="dataModel" />
         <PinnedItemInfo parentTag="view.GD_QuanLyHoaDon$3" memberName="this$0" />
         <PinnedItemInfo parentTag="entity.DichVu" memberName="lichSuGiaDichVuList" />
       </pinned-members>
