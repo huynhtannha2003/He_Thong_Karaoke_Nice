@@ -6,19 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="fix: dat dich vu could not delete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/HoaDonDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuDatPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhongDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/RoomPanelUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ChuyenPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatPhongCho.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ManHinhChinh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_QuanLyDatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/image/icon/ManHinhChinh.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,25 +57,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/21023911_LaMinhTam/BaiTapLonPTUD_NHOM4-main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GD_Login.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/luong.DESKTOP-AL87953",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlserver"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.GD_Login">
     <configuration name="GD_Login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.GD_Login" />
@@ -118,12 +112,15 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.GD_Login" />
-        <item itemvalue="Application.GD_ManHinhChinh" />
-        <item itemvalue="Application.GD_Login" />
-        <item itemvalue="Application.GD_ManHinhChinh" />
-        <item itemvalue="Application.GD_Login" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -186,6 +183,7 @@
       <workItem from="1702139979143" duration="103000" />
       <workItem from="1702164932369" duration="4510000" />
       <workItem from="1702271593746" duration="12668000" />
+      <workItem from="1702361589706" duration="800000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />
@@ -299,25 +297,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="fix: dat dich vu could not delete" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java</url>
-          <line>199</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java</url>
-          <line>307</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java</url>
-          <line>299</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="entity.PhieuDatPhong" memberName="phong" />

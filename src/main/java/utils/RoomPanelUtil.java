@@ -29,7 +29,7 @@ public class RoomPanelUtil {
                             hoaDon.getPhieuDatPhongList().get(0).getPhong().getMaPhong().equals(phong.getMaPhong())
                                     && Math.abs(hoaDon.getPhieuDatPhongList().get(0).getThoiGianBatDau().toLocalTime().getHour() - currentHour) <= 2);
 
-            if (!isHoaDonCho) {
+            if (!isHoaDonCho && phong.getTrangThai() == TrangThaiPhong.PHONG_CHO) {
                 phong.setTrangThai(TrangThaiPhong.PHONG_TRONG);
             }
 
