@@ -169,7 +169,7 @@ public class DichVuDAO {
 
     public List<DichVu> getDSDichVuTheoTen(String ten) {
         return executeGetDichVuPage(
-                "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu = ?", ten);
+                "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu LIKE ?", "%" + ten + "%");
     }
 
     public List<DichVu> getDSTheoLoai(String loai) {

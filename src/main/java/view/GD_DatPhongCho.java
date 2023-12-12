@@ -42,7 +42,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
     private JPanel pnRoomScrollPane;
     private JButton btnConfirm;
     private JComboBox cbType;
-    private JButton btnPrint;
     private JButton btnSearch;
     private JRadioButton rbtnOderDay;
     private JRadioButton rbtnToday;
@@ -312,6 +311,9 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         cbHours = new JComboBox();
         cbHours.setFont(new Font("Tahoma", Font.PLAIN, 14));
         secondControlHorizontalBox.add(cbHours);
+        
+                Component horizontalStrut = Box.createHorizontalStrut(20);
+                secondControlHorizontalBox.add(horizontalStrut);
 
         lblHours = new JLabel("Giờ");
         lblHours.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -334,13 +336,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         btnConfirm.setBackground(new Color(107, 208, 107));
         secondControlHorizontalBox.add(btnConfirm);
 
-        secondControlHorizontalBox.add(Box.createHorizontalStrut(20));
-
-        btnPrint = new JButton("In phiếu đặt");
-        btnPrint.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnPrint.setBackground(new Color(107, 208, 107));
-        secondControlHorizontalBox.add(btnPrint);
-
         controlHorizontalBox.add(Box.createHorizontalStrut(20));
 
         south_VerticalBox.add(Box.createVerticalStrut(20));
@@ -349,7 +344,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
         btnCheck.addActionListener(this);
         btnSearch.addActionListener(this);
         btnConfirm.addActionListener(this);
-        btnPrint.addActionListener(this);
         rbtnToday.addActionListener(this);
     }
 
@@ -455,9 +449,6 @@ public class GD_DatPhongCho extends JFrame implements PhongPanelClickListener, A
                     JOptionPane.showMessageDialog(this, "Đặt phòng thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
                 }
                 dispose();
-            }
-            if (o.equals(btnPrint)) {
-
             }
         }
     }

@@ -17,21 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -282,9 +268,11 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
 			chucNangThem();
+			JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công !");
 			txtkMaKhachHang.setText(daoKH.getMaKhachHangGenerate());
 		} else if (o.equals(btnCapNhat)) {
 			chucNangCapNhat();
+			JOptionPane.showMessageDialog(null, "Cập nhật khách hàng thành công !");
 		} else if (o.equals(btnXoaTrangTacVu)) {
 			chucNangXoaTrangTacVu();
 		} else if (o.equals(btnXoaTrangThongTin)) {
@@ -318,18 +306,22 @@ public class GD_QuanLyKhachHang extends JPanel implements ActionListener {
 		return new KhachHang(txtkMaKhachHang.getText(), txtTenKH.getText(), txtSDT.getText());
 	}
 
-	public void chucNangThem() {
+	public boolean chucNangThem() {
 		if (checkInput() == false) {
-			return;
+			return false;
 		}
 		daoKH.createKhachHang(revertSPFormKhachHang());
 		loadData();
+		return true;
 	}
 
-	public void chucNangCapNhat() {
+	public boolean chucNangCapNhat() {
 		KhachHang kh = revertSPFormKhachHang();
-		daoKH.updateKhachHang(kh, kh.getMaKhachHang());
-		loadData();
+		if (daoKH.updateKhachHang(kh, kh.getMaKhachHang()) == false) {
+			return false;
+		} else
+			loadData();
+		return true;
 	}
 
 	public void chucNangTimKiem() {

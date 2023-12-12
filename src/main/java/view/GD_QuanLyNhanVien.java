@@ -5,16 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -29,21 +20,12 @@ import java.awt.GridLayout;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.List;
-
-import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.DefaultComboBoxModel;
+
 import java.awt.FlowLayout;
 
 import utils.*;
@@ -54,54 +36,21 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 
 	private List<NhanVien> list = null;
 	private NhanVienDAO daoNV;
-	private JMenuBar menuBar;
-	private JMenu MenuHeThong;
-	private JMenuItem MenuItemTrangChu;
-	private JMenuItem MenuItemTaiKhoan;
-	private JMenuItem MenuItemDangXuat;
-	private JMenuItem MenuItemThoat;
-	private JMenu MenuDanhMuc;
-	private JMenuItem MenuItemPhong;
-	private JMenuItem MenuItemNhanVien;
-	private JMenuItem MenuItemDichVu;
-	private JMenuItem MenuItemKhachHang;
-	private JMenuItem MenuItemKhuyenMai;
-	private JMenu MenuXuLy;
-	private JMenuItem MenuItemDatPhong;
-	private JMenu MenuThongKe;
-	private JMenuItem MenuItemTKDoanhThu;
-	private JMenu MenuTroGiup;
 	private JPanel PaneThongTinText;
-	private Box BoxVerticalThongTin;
-	private Box BoxMaAndSDT;
-	private Box BoxTenAndEmail;
-	private Box horizontalBox_6;
-	private Box horizontalBox_7;
-	private JPanel PaneThongTinImage;
-	private JTextField txtMaNhanVien;
-	private JTextField txtSDT;
-	private JTextField txtTenNhanVien;
-	private JTextField txtEmail;
-	private JTextField txtDiaChi;
+	private Box BoxVerticalThongTin, BoxMaAndSDT, BoxTenAndEmail, horizontalBox_6, horizontalBox_7;
+	private JTextField txtMaNhanVien, txtSDT, txtTenNhanVien, txtEmail, txtDiaChi, txtTuKhoaTimKiem;
 	private JComboBox cbTrangThai;
-	private JButton btnThem;
-	private JButton btnCapNhat;
-	private JButton btnXoaTrang;
-	private JPanel PaneTVandDanhSach;
-	private JPanel PaneTacVu_1;
-	private Box verticalBox_1;
-	private Box horizontalBox_1;
+	private JButton btnThem, btnCapNhat, btnXoaTrang, btnTimKiem;
+	private JPanel PaneTVandDanhSach, PaneTacVu_1;
+	private Box verticalBox_1, horizontalBox_1;
 	private JComboBox cbTuKhoa;
-	private JTextField txtTuKhoaTimKiem;
-	private JButton btnTimKiem;
-	private JScrollPane PaneDanhSach;
 	private JTable table;
 	private DefaultTableModel modelTable;
 	private JScrollPane scrollPane;
+	private JPanel PaneThongTinImage;
 	private Box verticalBox;
 	private Box horizontalBox;
-	private JButton btnChonAnh;
-	private JLabel lbImageNV;
+	private AbstractButton btnChonAnh;
 
 	public GD_QuanLyNhanVien() {
 		setSize(1000, 700);
@@ -147,7 +96,7 @@ public class GD_QuanLyNhanVien extends JPanel implements ActionListener {
 		lbMaNhanVien.setLabelFor(txtMaNhanVien);
 		BoxMaAndSDT.add(txtMaNhanVien);
 		txtMaNhanVien.setColumns(10);
-		txtMaNhanVien.setEditable(false);
+
 		BoxMaAndSDT.add(Box.createHorizontalStrut(20));
 
 		JLabel lbSDT = new JLabel("Số điện thoại:");

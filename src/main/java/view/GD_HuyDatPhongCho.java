@@ -41,146 +41,163 @@ import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import javax.swing.border.EtchedBorder;
 
-public class GD_HuyDatPhongCho extends JDialog implements ActionListener {
-    private DefaultTableModel model;
-    private JButton btnXoaPhieu;
-    private JButton btnXoaTatCa;
-    private JButton btnThoat;
-    private JTable table;
-    private PhieuDatPhongDAO pdpDAO;
-    private String maHoaDonSelected;
-    private JTextField txtTimKiem;
-    private JButton btnTimKiem;
+public class GD_HuyDatPhongCho extends JPanel implements ActionListener {
+	private DefaultTableModel model;
+	private JButton btnXoaPhieu;
+	private JButton btnXoaTatCa;
+	private JButton btnThoat;
+	private JTable table;
+	private PhieuDatPhongDAO pdpDAO;
+	private String maHoaDonSelected;
+	private JTextField txtTimKiem;
+	private JButton btnTimKiem;
 
-    public GD_HuyDatPhongCho() {
-        pdpDAO = new PhieuDatPhongDAO();
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-        BorderLayout borderLayout = new BorderLayout();
-        borderLayout.setVgap(10);
-        getContentPane().setLayout(borderLayout);
-        JPanel PanelInfo = new JPanel();
-        getContentPane().add(PanelInfo, BorderLayout.NORTH);
-        PanelInfo.setBorder(new TitledBorder(
-                new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-                "Th\u00F4ng tin t\u00ECm ki\u1EBFm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        PanelInfo.setLayout(new BoxLayout(PanelInfo, BoxLayout.X_AXIS));
+	public GD_HuyDatPhongCho() {
+		setBackground(new Color(255, 255, 255));
+		pdpDAO = new PhieuDatPhongDAO();
+		setSize(1000, 700);
+		BorderLayout borderLayout = new BorderLayout();
+		borderLayout.setVgap(10);
+		String row[] = { "STT", "Mã phiếu", "Mã hóa đơn", "Mã phòng", "Tên khách hàng", "Số điện thoại",
+				"Thời gian bắt đầu" };
+		model = new DefaultTableModel(row, 0);
+		setLayout(new BorderLayout(0, 0));
+		JPanel PaneButton = new JPanel();
+		PaneButton.setBackground(new Color(255, 255, 255));
+		FlowLayout flowLayout = (FlowLayout) PaneButton.getLayout();
+		flowLayout.setVgap(15);
+		flowLayout.setHgap(30);
+		add(PaneButton, BorderLayout.SOUTH);
+		btnXoaPhieu = new JButton("Xóa phiếu");
+		btnXoaPhieu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXoaPhieu.setBackground(new Color(107, 208, 107));
+		PaneButton.add(btnXoaPhieu);
 
-        PanelInfo.add(Box.createHorizontalStrut(30));
+		btnXoaTatCa = new JButton("Xóa tất cả");
+		btnXoaTatCa.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXoaTatCa.setBackground(new Color(107, 208, 107));
+		PaneButton.add(btnXoaTatCa);
 
-        Box verticalBox = Box.createVerticalBox();
-        PanelInfo.add(verticalBox);
+		btnThoat = new JButton("Thoát");
+		btnThoat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThoat.setBackground(new Color(107, 208, 107));
+		PaneButton.add(btnThoat);
 
-        Box horizontalBox = Box.createHorizontalBox();
-        horizontalBox.setFont(new Font("Tahoma", Font.BOLD, 14));
-        horizontalBox.setAlignmentY(Component.CENTER_ALIGNMENT);
-        horizontalBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        verticalBox.add(horizontalBox);
+		JPanel pnTitle = new JPanel();
+		pnTitle.setBackground(new Color(97, 250, 204));
+		add(pnTitle, BorderLayout.NORTH);
 
-        JLabel lbSDTTimKiem = new JLabel("Số điện thoại:");
-        lbSDTTimKiem.setPreferredSize(new Dimension(110, 30));
-        lbSDTTimKiem.setFont(new Font("Tahoma", Font.BOLD, 13));
-        horizontalBox.add(lbSDTTimKiem);
+		JLabel lblTitle = new JLabel("Hủy đặt phòng chờ");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
+		pnTitle.add(lblTitle);
 
-        txtTimKiem = new JTextField("0345678912");
-        horizontalBox.add(txtTimKiem);
-        txtTimKiem.setColumns(10);
+		JPanel pnCenter = new JPanel();
+		pnCenter.setBackground(new Color(255, 255, 255));
+		add(pnCenter);
+		pnCenter.setLayout(new BorderLayout(0, 0));
+		JPanel PanelInfo = new JPanel();
+		PanelInfo.setBackground(new Color(255, 255, 255));
+		pnCenter.add(PanelInfo, BorderLayout.NORTH);
+		PanelInfo.setBorder(new TitledBorder(
+				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+				"Th\u00F4ng tin t\u00ECm ki\u1EBFm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		PanelInfo.setLayout(new BoxLayout(PanelInfo, BoxLayout.X_AXIS));
 
-        Component horizontalStrut = Box.createHorizontalStrut(20);
-        horizontalBox.add(horizontalStrut);
+		PanelInfo.add(Box.createHorizontalStrut(30));
 
-        btnTimKiem = new JButton("Tìm kiếm");
-        btnTimKiem.setBackground(new Color(107, 208, 107));
-        btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 13));
-        horizontalBox.add(btnTimKiem);
+		Box verticalBox = Box.createVerticalBox();
+		PanelInfo.add(verticalBox);
 
-        Box horizontalBox_1 = Box.createHorizontalBox();
-        horizontalBox_1.setAlignmentX(Component.LEFT_ALIGNMENT);
-        verticalBox.add(horizontalBox_1);
+		Box horizontalBox = Box.createHorizontalBox();
+		horizontalBox.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox.setAlignmentY(Component.CENTER_ALIGNMENT);
+		horizontalBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		verticalBox.add(horizontalBox);
 
-        Component horizontalStrut_1 = Box.createHorizontalStrut(50);
-        PanelInfo.add(horizontalStrut_1);
-        String row[] = {"STT", "Mã phiếu", "Mã hóa đơn", "Mã phòng", "Tên khách hàng", "Số điện thoại",
-                "Thời gian bắt đầu"};
-        model = new DefaultTableModel(row, 0);
-        table = new JTable();
-        table.setModel(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-        JPanel PaneButton = new JPanel();
-        FlowLayout flowLayout = (FlowLayout) PaneButton.getLayout();
-        flowLayout.setVgap(15);
-        flowLayout.setHgap(30);
-        getContentPane().add(PaneButton, BorderLayout.SOUTH);
-        btnXoaPhieu = new JButton("Xóa phiếu");
-        btnXoaPhieu.setFont(new Font("Tahoma", Font.BOLD, 13));
-        btnXoaPhieu.setBackground(new Color(107, 208, 107));
-        PaneButton.add(btnXoaPhieu);
+		JLabel lbSDTTimKiem = new JLabel("Số điện thoại:");
+		lbSDTTimKiem.setPreferredSize(new Dimension(110, 30));
+		lbSDTTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox.add(lbSDTTimKiem);
 
-        btnXoaTatCa = new JButton("Xóa tất cả");
-        btnXoaTatCa.setFont(new Font("Tahoma", Font.BOLD, 13));
-        btnXoaTatCa.setBackground(new Color(107, 208, 107));
-        PaneButton.add(btnXoaTatCa);
+		txtTimKiem = new JTextField("0345678912");
+		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		horizontalBox.add(txtTimKiem);
+		txtTimKiem.setColumns(10);
 
-        btnThoat = new JButton("Thoát");
-        btnThoat.setFont(new Font("Tahoma", Font.BOLD, 13));
-        btnThoat.setBackground(new Color(107, 208, 107));
-        PaneButton.add(btnThoat);
-        initAction();
-    }
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalBox.add(horizontalStrut);
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object o = e.getSource();
-        if (o.equals(btnXoaPhieu)) {
-            if (maHoaDonSelected != null) {
-                pdpDAO.xoaPhieuDatPhongCho(maHoaDonSelected);
-                JOptionPane.showMessageDialog(null, "Hủy đặt phòng chờ thành công!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để hủy", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            }
-            TimKiem();
-        } else if (o.equals(btnXoaTatCa)) {
-            xoaTatCaPhieu();
-            TimKiem();
-        } else if (o.equals(btnThoat)) {
-            JOptionPane.getRootFrame().dispose();
-        } else if (o.equals(btnTimKiem)) {
-            TimKiem();
-        }
+		btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.setBackground(new Color(107, 208, 107));
+		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		horizontalBox.add(btnTimKiem);
 
-    }
+		Box horizontalBox_1 = Box.createHorizontalBox();
+		horizontalBox_1.setAlignmentX(Component.LEFT_ALIGNMENT);
+		verticalBox.add(horizontalBox_1);
 
-    public void initAction() {
-        btnThoat.addActionListener(this);
-        btnXoaPhieu.addActionListener(this);
-        btnXoaTatCa.addActionListener(this);
-        btnTimKiem.addActionListener(this);
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = table.getSelectedRow();
-                if (row != -1) {
-                    maHoaDonSelected = table.getValueAt(row, 2).toString();
-                }
-            }
-        });
-    }
+		Component horizontalStrut_1 = Box.createHorizontalStrut(50);
+		PanelInfo.add(horizontalStrut_1);
+		table = new JTable();
+		table.setModel(model);
+		JScrollPane scrollPane = new JScrollPane(table);
+		pnCenter.add(scrollPane);
+		initAction();
+	}
 
-    public void xoaTatCaPhieu() {
-        List<String> pdpList = new ArrayList();
-        int n = table.getRowCount();
-        for (int i = 0; i < n; i++) {
-            pdpDAO.xoaPhieuDatPhongCho(table.getValueAt(i, 2).toString());
-        }
-        JOptionPane.showMessageDialog(null, "Hủy đặt phòng chờ thành công!");
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnXoaPhieu)) {
+			if (maHoaDonSelected != null) {
+				pdpDAO.xoaPhieuDatPhongCho(maHoaDonSelected);
+				JOptionPane.showMessageDialog(null, "Hủy đặt phòng chờ thành công!");
+			} else {
+				JOptionPane.showMessageDialog(this, "Hãy chọn một phòng để hủy", "Thông báo",
+						JOptionPane.WARNING_MESSAGE);
+			}
+			TimKiem();
+		} else if (o.equals(btnXoaTatCa)) {
+			xoaTatCaPhieu();
+			TimKiem();
+		} else if (o.equals(btnThoat)) {
+			JOptionPane.getRootFrame().dispose();
+		} else if (o.equals(btnTimKiem)) {
+			TimKiem();
+		}
 
-    public void TimKiem() {
-        model.setRowCount(0);
-        List<String[]> list = pdpDAO.timKiemPhieuDatPhong(txtTimKiem.getText());
-        for (String[] s : list) {
-            model.addRow(s);
-        }
-    }
+	}
+
+	public void initAction() {
+		btnThoat.addActionListener(this);
+		btnXoaPhieu.addActionListener(this);
+		btnXoaTatCa.addActionListener(this);
+		btnTimKiem.addActionListener(this);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				if (row != -1) {
+					maHoaDonSelected = table.getValueAt(row, 2).toString();
+				}
+			}
+		});
+	}
+
+	public void xoaTatCaPhieu() {
+		List<String> pdpList = new ArrayList();
+		int n = table.getRowCount();
+		for (int i = 0; i < n; i++) {
+			pdpDAO.xoaPhieuDatPhongCho(table.getValueAt(i, 2).toString());
+		}
+		JOptionPane.showMessageDialog(null, "Hủy đặt phòng chờ thành công!");
+	}
+
+	public void TimKiem() {
+		model.setRowCount(0);
+		List<String[]> list = pdpDAO.timKiemPhieuDatPhong(txtTimKiem.getText());
+		for (String[] s : list) {
+			model.addRow(s);
+		}
+	}
 }

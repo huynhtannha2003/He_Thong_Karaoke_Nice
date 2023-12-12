@@ -353,6 +353,7 @@ public class GD_QuanLyKhuyenMai extends JPanel implements ActionListener {
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
 			chucNangThem();
+			JOptionPane.showMessageDialog(null, "Thêm khuyến mãi thành công !");
 			txtMaKhuyenMai.setText(daoKM.getMaKhuyenMaiGenerate());
 		} else if (o.equals(btnXoaTrangThongTin)) {
 			chucNangXoaTrangThongTin();

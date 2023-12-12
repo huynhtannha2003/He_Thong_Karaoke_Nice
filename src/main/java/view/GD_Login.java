@@ -29,9 +29,6 @@ public class GD_Login extends JFrame {
     private TaiKhoanDAO dao;
     private TaiKhoan taiKhoanLogin;
 
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -84,12 +81,6 @@ public class GD_Login extends JFrame {
         btnDangNhap.setBounds(108, 482, 126, 40);
         MainPane.add(btnDangNhap);
 
-        JLabel lbQuenMatKhau = new JLabel("Quên mật khẩu");
-        lbQuenMatKhau.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lbQuenMatKhau.setForeground(new Color(255, 255, 255));
-        lbQuenMatKhau.setBounds(155, 440, 114, 14);
-        MainPane.add(lbQuenMatKhau);
-
         JLabel lbMatKhau = new JLabel("Mật khẩu");
         lbMatKhau.setForeground(new Color(255, 255, 255));
         lbMatKhau.setBounds(69, 364, 61, 14);
@@ -103,7 +94,7 @@ public class GD_Login extends JFrame {
 
         JLabel lbTenDangNhap = new JLabel("Tên đăng nhập");
         lbTenDangNhap.setForeground(new Color(255, 255, 255));
-        lbTenDangNhap.setBounds(69, 293, 84, 14);
+        lbTenDangNhap.setBounds(69, 293, 100, 14);
         MainPane.add(lbTenDangNhap);
 
         JLabel txtTitle = new JLabel("Đăng nhập");
