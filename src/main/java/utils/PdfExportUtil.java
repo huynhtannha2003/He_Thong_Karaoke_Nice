@@ -176,12 +176,12 @@ public class PdfExportUtil {
 
         double totalPriceService = invoice.tinhTongTienDichVu();
         double totalPriceRoom = invoice.tinhTongTienPhieuDatPhong();
-        double vat = (totalPriceRoom + totalPriceService) * 0.1;
+//        double vat = (totalPriceRoom + totalPriceService) * 0.1;
         double totalPriceBill = invoice.getTongTien();
 
-        String[] labels = {"Tổng tiền dịch vụ:", "Tổng tiền phòng:", "VAT(10%):", "Tổng cộng:"};
+        String[] labels = {"Tổng tiền dịch vụ:", "Tổng tiền phòng:", "Tổng cộng:"};
         String[] values = {FormatCurrencyUtil.formatCurrency(totalPriceService), FormatCurrencyUtil.formatCurrency(totalPriceRoom),
-                FormatCurrencyUtil.formatCurrency(vat), FormatCurrencyUtil.formatCurrency(totalPriceBill)};
+                FormatCurrencyUtil.formatCurrency(totalPriceBill)};
 
         doc.add(skipRowPdf());
 

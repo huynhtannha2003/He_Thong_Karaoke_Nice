@@ -724,9 +724,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetPhongByTenAndLoaiPhong
-    @tenPhong NVARCHAR(255),
-    @maLoaiPhong VARCHAR(5) = NULL
+CREATE PROCEDURE GetPhongByTenAndLoaiPhong @tenPhong NVARCHAR(255),
+                                           @maLoaiPhong VARCHAR(5) = NULL
 AS
 BEGIN
     SELECT *
@@ -908,6 +907,15 @@ BEGIN
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @thoiGianKetThuc, @maHoaDon, @maPhong)
 END;
 GO
+SELECT * FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+CREATE PROCEDURE GetHoaDonByMaHoaDon(@MaHoaDon VARCHAR(13))
+AS
+BEGIN
+    SELECT *
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE HoaDon_MaHoaDon = @MaHoaDon
+END
+GO
 
 CREATE PROCEDURE GetNewHoaDonByMaPhong(@MaPhong VARCHAR(7))
 AS
@@ -940,7 +948,7 @@ BEGIN
            KhuyenMai_ThoiDiemKetThuc
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
     WHERE PhieuDatPhong_MaPhong = @MaPhong
-          AND HoaDon_ThoiDiemThanhToan IS NULL;
+      AND HoaDon_ThoiDiemThanhToan IS NULL;
 END;
 GO
 
@@ -1328,7 +1336,7 @@ BEGIN
     WHERE maPhong = @maPhong;
 END;
 GO
-CREATE PROCEDURE UpdateTrangThaiAndThoiGianBatDau @maHoaDon  VARCHAR(13), @maPhong VARCHAR(7)
+CREATE PROCEDURE UpdateTrangThaiAndThoiGianBatDau @maHoaDon VARCHAR(13), @maPhong VARCHAR(7)
 AS
 BEGIN
     UPDATE HoaDon
@@ -1355,10 +1363,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE InsertOrUpdateChiTietDatDichVu
-    @p_maPhieuDatPhong VARCHAR(15),
-    @p_maDichVu VARCHAR(10),
-    @p_soLuong INT
+CREATE PROCEDURE InsertOrUpdateChiTietDatDichVu @p_maPhieuDatPhong VARCHAR(15),
+                                                @p_maDichVu VARCHAR(10),
+                                                @p_soLuong INT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -1367,19 +1374,21 @@ BEGIN
 
     SELECT @existingCount = COUNT(*)
     FROM ChiTietDatDichVu
-    WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
+    WHERE maPhieuDatPhong = @p_maPhieuDatPhong
+      AND maDichVu = @p_maDichVu;
 
     IF @existingCount > 0
-    BEGIN
-        UPDATE ChiTietDatDichVu
-        SET soLuong = @p_soLuong
-        WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
-    END
+        BEGIN
+            UPDATE ChiTietDatDichVu
+            SET soLuong = @p_soLuong
+            WHERE maPhieuDatPhong = @p_maPhieuDatPhong
+              AND maDichVu = @p_maDichVu;
+        END
     ELSE
-    BEGIN
-        INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
-        VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
-    END;
+        BEGIN
+            INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
+            VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
+        END;
 END;
 GO
 
@@ -1389,6 +1398,6 @@ BEGIN
     SELECT *
     FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
     WHERE CONVERT(DATE, HoaDon_NgayThanhToan) = CONVERT(DATE, GETDATE())
-    AND Phong_TrangThai = 2;
+      AND Phong_TrangThai = 2;
 END;
 

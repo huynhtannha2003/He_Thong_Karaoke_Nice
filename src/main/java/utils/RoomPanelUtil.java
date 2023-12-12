@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.*;
+
 import dao.HoaDonDAO;
 import entity.DichVu;
 import entity.HoaDon;
@@ -29,7 +30,7 @@ public class RoomPanelUtil {
                             hoaDon.getPhieuDatPhongList().get(0).getPhong().getMaPhong().equals(phong.getMaPhong())
                                     && Math.abs(hoaDon.getPhieuDatPhongList().get(0).getThoiGianBatDau().toLocalTime().getHour() - currentHour) <= 2);
 
-            if (!isHoaDonCho && phong.getTrangThai() == TrangThaiPhong.PHONG_CHO) {
+            if (!isHoaDonCho && phong.getTrangThai().equals(TrangThaiPhong.PHONG_CHO)) {
                 phong.setTrangThai(TrangThaiPhong.PHONG_TRONG);
             }
 
