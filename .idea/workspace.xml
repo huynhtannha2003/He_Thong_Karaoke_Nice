@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3201a526-90c2-46d5-8be1-1d1f68689131" name="Changes" comment="feat: GD_ManHinhChinh action to menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ChiTietDatDichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ChiTietDatDichVuDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/DichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/LichSuGiaDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/LichSuGiaDichVu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_DatDichVu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GD_ThongKe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/Karaoke.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +78,20 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.GD_Login">
+  <component name="RunManager" selected="Application.GD_ChiTietThongKe">
+    <configuration name="GD_ChiTietThongKe" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.GD_ChiTietThongKe" />
+      <module name="karaoke_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GD_Login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.GD_Login" />
       <module name="karaoke_project" />
@@ -108,6 +120,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GD_ChiTietThongKe" />
         <item itemvalue="Application.GD_Login" />
         <item itemvalue="Application.GD_ManHinhChinh" />
       </list>
@@ -158,7 +171,20 @@
       <workItem from="1701486150733" duration="8140000" />
       <workItem from="1701513205342" duration="7392000" />
       <workItem from="1701531829160" duration="5387000" />
-      <workItem from="1701694670589" duration="1130000" />
+      <workItem from="1701694670589" duration="3633000" />
+      <workItem from="1701698953961" duration="1237000" />
+      <workItem from="1701765756022" duration="934000" />
+      <workItem from="1701778160639" duration="6278000" />
+      <workItem from="1701954960046" duration="875000" />
+      <workItem from="1702005510464" duration="593000" />
+      <workItem from="1702020037488" duration="1912000" />
+      <workItem from="1702048617578" duration="4855000" />
+      <workItem from="1702099905466" duration="604000" />
+      <workItem from="1702109316391" duration="5437000" />
+      <workItem from="1702282775147" duration="1103000" />
+      <workItem from="1702287492833" duration="45000" />
+      <workItem from="1702396018641" duration="22000" />
+      <workItem from="1702435899821" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="feat: GD_QuanLyHoaDon action">
       <option name="closed" value="true" />

@@ -322,7 +322,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
                 handleDeleteTask();
                 onDichVuPanelClicked(dichVu1);
                 updateOrderedServicesTable();
-
+                //ỏ 7 đây cái hàm nào thay đổi db
                 loadDichVu(listDichVu);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập một số nguyên không âm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -335,6 +335,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
             int key = JOptionPane.showConfirmDialog(this, "Bạn có muốn đặt dịch vụ?", "", JOptionPane.YES_NO_OPTION);
             if (key == JOptionPane.YES_OPTION) {
                 setVisible(false);
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Hủy đặt dịch vụ!");
             }
@@ -372,6 +373,7 @@ public class GD_DatDichVu extends JFrame implements DichVuPanelClickListener, Ac
     private boolean insertChiTietDatDichVu() {
         return chiTietDatDichVuDAO.insertChiTietDatDichVu(hoaDon.getPhieuDatPhongList().get(hoaDon.getPhieuDatPhongList().size() - 1).getMaPhieuDatPhong(), selectedDichVuList);
     }
+
 
     private void clearAllData() {
         for (DichVu dichVu : listDichVu)

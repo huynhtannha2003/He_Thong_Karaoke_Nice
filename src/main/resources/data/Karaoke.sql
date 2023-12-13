@@ -1215,3 +1215,11 @@ BEGIN
     SET trangThai = 2
     WHERE maPhong = @maPhong;
 END;
+ko lý thuyết sai rồi
+PDP.041223.0001
+SELECT * FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView where HoaDon_MaHoaDon = 'HD.041223.001'
+SELECT * FROM ChiTietDatDichVu where maPhieuDatPhong = 'PDP.041223.0001'
+SELECT * FROM DichVu
+trong database sai mẹ r
+//thế nếu ko fix đc thì thôi, bắt nó load lại đc ko//t nghĩ do cái hàm update vào cái db á
+
