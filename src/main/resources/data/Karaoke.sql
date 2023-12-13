@@ -339,7 +339,7 @@ VALUES ('GDV.041123001', '2018-01-01', NULL, '6:00', '12:00', 80000, 'DV.001.001
        ('GDV.041123027', '2023-11-11', NULL, '6:01', '12:00', 80000, 'DV.002.012'),
        ('GDV.041123028', '2023-11-12', NULL, '12:01', '18:00', 75000, 'DV.002.013'),
        ('GDV.041123029', '2023-11-12', NULL, '18:01', '23:59', 90000, 'DV.001.015'),
-       ('GDV.041123030', '2023-11-13', NULL, '00:00', '06:00', 85000, 'DV.001.016'),
+       ('GDV.041123030', '2023-11-13', NULL, '00:00', '06:00', 85000, 'DV.001.016')
 GO
 
 INSERT INTO KhuyenMai
@@ -420,26 +420,26 @@ VALUES ('HD.040123.001', 800000, '2023-01-04', '18:00', 'KH.041123.001', 'NV2300
        ('HD.040123.008', 420000, '2023-01-04', '18:00', 'KH.041123.008', 'NV230008', NULL),
        ('HD.040123.009', 280000, '2023-01-04', '19:00', 'KH.041123.009', 'NV230009', NULL),
        ('HD.040123.010', 350000, '2023-01-04', '20:00', 'KH.041123.010', 'NV230010', NULL),
-	   ('HD.040123.011', 220000, '2023-01-04', '21:30', 'KH.041123.011', 'NV230011', 'KM.041123.002'),
-    ('HD.040123.012', 330000, '2023-01-04', '22:45', 'KH.041123.012', 'NV230012', 'KM.041123.003'),
-    ('HD.040123.013', 440000, '2023-01-04', '23:30', 'KH.041123.013', 'NV230013', 'KM.041123.004'),
-    ('HD.040123.014', 110000, '2023-01-04', '12:30', 'KH.041123.014', 'NV230014', 'KM.041123.005'),
-    ('HD.040123.015', 220000, '2023-01-04', '15:30', 'KH.041123.015', 'NV230015', 'KM.041123.006'),
-    ('HD.040123.016', 330000, '2023-01-04', '17:45', 'KH.041123.016', 'NV230016', 'KM.041123.007'),
-    ('HD.040123.017', 440000, '2023-01-04', '19:30', 'KH.041123.017', 'NV230017', 'KM.041123.008'),
-    ('HD.040123.018', 220000, '2023-01-04', '21:45', 'KH.041123.018', 'NV230018', 'KM.041123.009'),
-    ('HD.040123.019', 110000, '2023-01-04', '13:30', 'KH.041123.019', 'NV230019', 'KM.041123.010'),
-    ('HD.040123.020', 220000, '2023-01-04', '15:45', 'KH.041123.020', 'NV230020', 'KM.041123.001'),
-    ('HD.040123.021', 330000, '2023-01-04', '18:45', 'KH.041123.021', 'NV230021', 'KM.041123.002'),
-    ('HD.040123.022', 440000, '2023-01-04', '20:30', 'KH.041123.022', 'NV230022', 'KM.041123.003'),
-    ('HD.040123.023', 110000, '2023-01-04', '22:30', 'KH.041123.023', 'NV230023', 'KM.041123.004'),
-    ('HD.040123.024', 220000, '2023-01-04', '23:45', 'KH.041123.024', 'NV230024', 'KM.041123.005'),
-    ('HD.040123.025', 330000, '2023-01-04', '15:30', 'KH.041123.025', 'NV230025', 'KM.041123.006'),
-    ('HD.040123.026', 440000, '2023-01-04', '17:45', 'KH.041123.026', 'NV230026', 'KM.041123.007'),
-    ('HD.040123.027', 110000, '2023-01-04', '19:30', 'KH.041123.027', 'NV230027', 'KM.041123.008'),
-    ('HD.040123.028', 220000, '2023-01-04', '21:45', 'KH.041123.028', 'NV230028', 'KM.041123.009'),
-    ('HD.040123.029', 330000, '2023-01-04', '13:30', 'KH.041123.029', 'NV230029', 'KM.041123.010'),
-    ('HD.040123.030', 440000, '2023-01-04', '15:45', 'KH.041123.030', 'NV230030', 'KM.041123.001');
+	   ('HD.040123.011', 220000, '2023-01-04', '21:30', 'KH.041123.011', 'NV230011',NULL ),
+    ('HD.040123.012', 330000, '2023-01-04', '22:45', 'KH.041123.012', 'NV230012', NULL),
+    ('HD.040123.013', 440000, '2023-01-04', '23:30', 'KH.041123.013', 'NV230013',NULL ),
+    ('HD.040123.014', 110000, '2023-01-04', '12:30', 'KH.041123.014', 'NV230014',NULL),
+    ('HD.040123.015', 220000, '2023-01-04', '15:30', 'KH.041123.015', 'NV230015', NULL),
+    ('HD.040123.016', 330000, '2023-01-04', '17:45', 'KH.041123.016', 'NV230016', NULL),
+    ('HD.040123.017', 440000, '2023-01-04', '19:30', 'KH.041123.017', 'NV230017', NULL),
+    ('HD.040123.018', 220000, '2023-01-04', '21:45', 'KH.041123.018', 'NV230018', NULL),
+    ('HD.040123.019', 110000, '2023-01-04', '13:30', 'KH.041123.019', 'NV230019', NULL),
+    ('HD.040123.020', 220000, '2023-01-04', '15:45', 'KH.041123.020', 'NV230020', NULL),
+    ('HD.040123.021', 330000, '2023-01-04', '18:45', 'KH.041123.021', 'NV230021', NULL),
+    ('HD.040123.022', 440000, '2023-01-04', '20:30', 'KH.041123.022', 'NV230022', NULL),
+    ('HD.040123.023', 110000, '2023-01-04', '22:30', 'KH.041123.023', 'NV230023', NULL),
+    ('HD.040123.024', 220000, '2023-01-04', '23:45', 'KH.041123.024', 'NV230024', NULL),
+    ('HD.040123.025', 330000, '2023-01-04', '15:30', 'KH.041123.025', 'NV230025', NULL),
+    ('HD.040123.026', 440000, '2023-01-04', '17:45', 'KH.041123.026', 'NV230026', NULL),
+    ('HD.040123.027', 110000, '2023-01-04', '19:30', 'KH.041123.027', 'NV230027', NULL),
+    ('HD.040123.028', 220000, '2023-01-04', '21:45', 'KH.041123.028', 'NV230028', NULL),
+    ('HD.040123.029', 330000, '2023-01-04', '13:30', 'KH.041123.029', 'NV230029', NULL),
+    ('HD.040123.030', 440000, '2023-01-04', '15:45', 'KH.041123.030', 'NV230030', NULL);
 
 GO
 
@@ -463,7 +463,7 @@ VALUES ('PDP.040123.0001', '15:00', '18:00', 'HD.040123.001', 'P0101'),
 	   ('PDP.040123.0011', '20:00', '22:00', 'HD.040123.011', 'P0402'),
     ('PDP.040123.0012', '21:00', '23:00', 'HD.040123.012', 'P0403'),
     ('PDP.040123.0013', '22:00', '23:59', 'HD.040123.013', 'P0404'),
-    ('PDP.040123.0014', '10:00', '12:00', 'HD.040123.014', 'P04054'),
+    ('PDP.040123.0014', '10:00', '12:00', 'HD.040123.014', 'P0405'),
     ('PDP.040123.0015', '14:00', '16:00', 'HD.040123.015', 'P0205'),
     ('PDP.040123.0016', '16:00', '18:00', 'HD.040123.016', 'P0201'),
     ('PDP.040123.0017', '18:00', '20:00', 'HD.040123.017', 'P0102'),
@@ -521,7 +521,7 @@ VALUES ('PDP.040123.0001', 'DV.001.001', 1),
     ('PDP.040123.0014', 'DV.001.015', 1),
     ('PDP.040123.0015', 'DV.001.016', 2),
     ('PDP.040123.0016', 'DV.002.011', 3),
-    ('PDP.040123.0017', 'DV.002.008', 4),
+    ('PDP.040123.0017', 'DV.002.008', 4);
 GO
 
 CREATE VIEW LoaiPhongView AS
@@ -1655,38 +1655,7 @@ BEGIN
    SET @stt = (
         SELECT COUNT(*)
         FROM KhuyenMai
-        WHERE maKhuyenMai LIKE '%' + FORMAT(GETDATE(), 'ddMMyy') + '%'
-SELECT * FROM ChiTietDatDichVuByConditionTimeView
-CREATE PROCEDURE InsertOrUpdateChiTietDatDichVu
-    @p_maPhieuDatPhong VARCHAR(15),
-    @p_maDichVu VARCHAR(10),
-    @p_soLuong INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @existingCount INT;
-
-    -- Check if the primary key combination already exists
-    SELECT @existingCount = COUNT(*)
-    FROM ChiTietDatDichVu
-    WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
-
-    -- If the combination exists, update the existing record
-    IF @existingCount > 0
-    BEGIN
-        UPDATE ChiTietDatDichVu
-        SET soLuong = @p_soLuong
-        WHERE maPhieuDatPhong = @p_maPhieuDatPhong AND maDichVu = @p_maDichVu;
-    END
-    ELSE
-    BEGIN
-        -- If the combination doesn't exist, insert a new record
-        INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
-        VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
-    END;
-END;
-    ) + 1
+        WHERE maKhuyenMai LIKE '%' + FORMAT(GETDATE(), 'ddMMyy') + '%' ) + 1
     -- Determine the number of leading zeros based on the value of stt
     IF @stt >= 10
         SET @formattedStt = '0'
@@ -1699,3 +1668,69 @@ END;
 
     RETURN @customerCode
 END;
+GO
+CREATE PROCEDURE InsertOrUpdateChiTietDatDichVu @p_maPhieuDatPhong VARCHAR(15),
+                                                @p_maDichVu VARCHAR(10),
+                                                @p_soLuong INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @existingCount INT;
+
+    SELECT @existingCount = COUNT(*)
+    FROM ChiTietDatDichVu
+    WHERE maPhieuDatPhong = @p_maPhieuDatPhong
+      AND maDichVu = @p_maDichVu;
+
+    IF @existingCount > 0
+        BEGIN
+            UPDATE ChiTietDatDichVu
+            SET soLuong = @p_soLuong
+            WHERE maPhieuDatPhong = @p_maPhieuDatPhong
+              AND maDichVu = @p_maDichVu;
+        END
+    ELSE
+        BEGIN
+            INSERT INTO ChiTietDatDichVu (maPhieuDatPhong, maDichVu, soLuong)
+            VALUES (@p_maPhieuDatPhong, @p_maDichVu, @p_soLuong);
+        END;
+END;
+GO
+
+CREATE PROCEDURE GetTodayPhieuDatPhongCho
+AS
+BEGIN
+    SELECT *
+    FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+    WHERE CONVERT(DATE, HoaDon_NgayThanhToan) = CONVERT(DATE, GETDATE())
+      AND Phong_TrangThai = 2;
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByMaDichVu @MaDichVu VARCHAR(20)
+AS
+BEGIN
+    SELECT *
+    FROM DichVuLichSuGiaByConditionTimeView
+    WHERE DichVu_MaDichVu LIKE '%' + @MaDichVu + '%'
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByTenDichVu @TenDichVu VARCHAR(20)
+AS
+BEGIN
+    SELECT *
+    FROM DichVuLichSuGiaByConditionTimeView
+    WHERE DichVu_TenDichVu LIKE N'%' + @TenDichVu + N'%'
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByGia @Gia FLOAT
+AS
+BEGIN
+    SELECT *
+    from DichVuLichSuGiaByConditionTimeView
+    WHERE LichSuGiaDichVu_Gia = '%' + @Gia + '%'
+END;
+GO
