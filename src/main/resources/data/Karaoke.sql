@@ -907,7 +907,7 @@ BEGIN
     VALUES (@maPhieuDatPhong, @thoiGianBatDau, @thoiGianKetThuc, @maHoaDon, @maPhong)
 END;
 GO
-SELECT * FROM HoaDonPhieuDatPhongPhongNhanVienKhachHangKhuyenMaiView
+
 CREATE PROCEDURE GetHoaDonByMaHoaDon(@MaHoaDon VARCHAR(13))
 AS
 BEGIN
@@ -1017,6 +1017,7 @@ BEGIN
     ORDER BY HoaDon_NgayThanhToan
     OFFSET @OffsetRows ROWS FETCH NEXT @RowsPerPage ROWS ONLY;
 END;
+
 GO
 CREATE PROCEDURE GetHoaDonPagedByTenKhachHangLike @TenKhachHang NVARCHAR(255),
                                                   @PageNumber INT,
@@ -1400,4 +1401,35 @@ BEGIN
     WHERE CONVERT(DATE, HoaDon_NgayThanhToan) = CONVERT(DATE, GETDATE())
       AND Phong_TrangThai = 2;
 END;
+GO
+
+CREATE PROCEDURE GetDichVuByMaDichVu @MaDichVu VARCHAR(20)
+AS
+BEGIN
+    SELECT *
+    FROM DichVuLichSuGiaByConditionTimeView
+    WHERE DichVu_MaDichVu LIKE '%' + @MaDichVu + '%'
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByTenDichVu @TenDichVu VARCHAR(20)
+AS
+BEGIN
+    SELECT *
+    FROM DichVuLichSuGiaByConditionTimeView
+    WHERE DichVu_TenDichVu LIKE N'%' + @TenDichVu + N'%'
+END;
+GO
+
+CREATE PROCEDURE GetDichVuByGia @Gia FLOAT
+AS
+BEGIN
+    SELECT *
+    from DichVuLichSuGiaByConditionTimeView
+    WHERE LichSuGiaDichVu_Gia = '%' + @Gia + '%'
+END;
+GO
+
+
+
 

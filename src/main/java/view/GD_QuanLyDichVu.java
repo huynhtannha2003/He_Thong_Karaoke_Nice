@@ -5,9 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +76,9 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
     LocalDate current = LocalDate.now();
     private JComboBox cbTypeTwo;
     private JComboBox cbStatusTwo;
+    private boolean kiemTraChonAnh;
+    private String imageDichVu;
+    private String filename;
 
     public GD_QuanLyDichVu() {
         dichVuDAO = new DichVuDAO();
@@ -151,7 +159,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         firstFormHorizontalBox.add(lblID);
 
         txtID = new JTextField();
-        txtID.setEnabled(false);
         txtID.setFont(new Font("Tahoma", Font.PLAIN, 14));
         txtID.setColumns(10);
         firstFormHorizontalBox.add(txtID);
@@ -207,6 +214,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         thirdFormHorizontalBox.add(lblPrice);
 
         txtPrice = new JTextField();
+        txtPrice.setEnabled(false);
         txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
         thirdFormHorizontalBox.add(txtPrice);
         txtPrice.setColumns(10);
@@ -235,7 +243,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
         fourFormHorizontalBox.add(Box.createHorizontalStrut(50));
 
-        btnUpdate = new JButton("Sửa");
+        btnUpdate = new JButton("Cập nhật");
         btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnUpdate.setBackground(new Color(107, 208, 107));
         fourFormHorizontalBox.add(btnUpdate);
@@ -258,15 +266,8 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         verticalBox = Box.createVerticalBox();
         pnImageInfo.add(verticalBox);
 
-        verticalBox.add(Box.createVerticalStrut(20));
-
         lbImageStaff = new JLabel("");
-        lbImageStaff.setMaximumSize(new Dimension(500, 200));
-        lbImageStaff.setHorizontalAlignment(SwingConstants.CENTER);
-        lbImageStaff.setBorder(new LineBorder(new Color(0, 0, 0)));
         verticalBox.add(lbImageStaff);
-
-        verticalBox.add(Box.createVerticalStrut(20));
 
         horizontalBox = Box.createHorizontalBox();
         verticalBox.add(horizontalBox);
@@ -275,8 +276,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         btnChoose.setBackground(new Color(107, 208, 107));
         btnChoose.setFont(new Font("Tahoma", Font.BOLD, 14));
         horizontalBox.add(btnChoose);
-
-        verticalBox.add(Box.createVerticalStrut(20));
 
         pnImageInfo.add(Box.createHorizontalStrut(20));
 
@@ -305,12 +304,12 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         lblSelectKey = new JLabel("Chọn từ khóa");
         lblSelectKey.setFont(new Font("Tahoma", Font.BOLD, 14));
         searchHorizontalBox.add(lblSelectKey);
-
         searchHorizontalBox.add(Box.createHorizontalStrut(20));
 
         cbSelectKey = new JComboBox();
         cbSelectKey.setPreferredSize(new Dimension(200, 22));
         cbSelectKey.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        cbSelectKey.setModel(new DefaultComboBoxModel<>(new String[]{"Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái"}));
         searchHorizontalBox.add(cbSelectKey);
 
         searchHorizontalBox.add(Box.createHorizontalStrut(20));
@@ -338,7 +337,7 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
         centerForm.add(Box.createVerticalStrut(20));
 
-        String[] headers = {"STT", "Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái"};
+        String[] headers = {"Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ", "Trạng thái"};
         modelTable = new DefaultTableModel(headers, 0);
         table = new JTable(modelTable);
         table.setBackground(new Color(255, 255, 255));
@@ -357,16 +356,13 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         loadData();
         updateComboBoxStatus();
         updateComboBoxType();
-        updateComboBoxKey();
     }
 
     private void loadData() {
-//		DecimalFormat df = new DecimalFormat("#,##0đ");
-        List<DichVu> list = dichVuDAO.getAllDichVu();
-        int i = 0;
         modelTable.setRowCount(0);
+        List<DichVu> list = dichVuDAO.getAllDichVu();
         for (DichVu s : list) {
-            Object[] row = {(++i), s.getMaDichVu(), s.getTenDichVu(), FormatCurrencyUtil.formatCurrency(s.getGia()),
+            Object[] row = {s.getMaDichVu(), s.getTenDichVu(), FormatCurrencyUtil.formatCurrency(s.getGia()),
                     s.getSoLuong(), s.getLoaiDichVu().getTenLoaiDichVu(), s.getTrangThai().getName()};
             modelTable.addRow(row);
         }
@@ -382,13 +378,6 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         List<LoaiDichVu> list = dichVuDAO.getLoaiDichVu();
         for (LoaiDichVu dichVu : list) {
             cbLoaiDichVu.addItem(dichVu);
-        }
-    }
-
-    private void updateComboBoxKey() {
-        String[] s = {"Mã dịch vụ", "Tên dịch vụ", "Giá", "Số lượng", "Tên loại dịch vụ"};
-        for (String string : s) {
-            cbSelectKey.addItem(string);
         }
     }
 
@@ -415,21 +404,24 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
 
     private void handleSearch() {
         int selectedOption = cbSelectKey.getSelectedIndex();
-        invoices = getColumnName(1, selectedOption);
+        invoices = getColumnName(selectedOption);
         loadData();
     }
 
     private void addObject() {
         DichVu dv = reverSPFromTextFile();
-        LichSuGiaDichVu lichSu = rever();
-        int i = modelTable.getColumnCount() + 1;
-        Object[] row = {i, dv.getMaDichVu(), dv.getTenDichVu(), FormatCurrencyUtil.formatCurrency(dv.getGia()),
-                dv.getSoLuong(), dv.getLoaiDichVu().getTenLoaiDichVu(), dv.getTrangThai().getName()};
-        modelTable.addRow(row);
-        dichVuDAO.addDichVu(dv);
-        dichVuDAO.addLichSuGiaGiaoDich(lichSu, dv);
-        loadData();
-        JOptionPane.showMessageDialog(this, "Thêm thành công" );
+//        LichSuGiaDichVu lichSu = rever();
+//        Object[] row = {dv.getMaDichVu(), dv.getTenDichVu(), 0,
+//                dv.getSoLuong(), dv.getLoaiDichVu().getTenLoaiDichVu(), dv.getTrangThai().getName()};
+//        modelTable.addRow(row);
+//        dichVuDAO.addLichSuGiaGiaoDich(lichSu, dv);
+        boolean in = dichVuDAO.addDichVu(dv);
+        if(in == true){
+             JOptionPane.showMessageDialog(this, "Thêm thành công");
+             loadData();
+        }else{
+            JOptionPane.showMessageDialog(this,"Thêm không thành công");
+        }
     }
 
     private DichVu reverSPFromTextFile() {
@@ -437,16 +429,17 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         LoaiDichVu loaiDichVu = (LoaiDichVu) cbLoaiDichVu.getSelectedItem();
         List<LichSuGiaDichVu> lichSuGiaDichVuList = new ArrayList<>();
         lichSuGiaDichVuList.add(new LichSuGiaDichVu("", Date.valueOf(current), null, Time.valueOf("8:00:00"),
-                Time.valueOf("23:00:00"), Double.parseDouble(txtPrice.getText())));
-        DichVu dichVu = new DichVu(txtID.getText(), txtName.getText(), Integer.parseInt(txtQuantity.getText()),
-                trangThai, loaiDichVu, lichSuGiaDichVuList);
+                Time.valueOf("23:00:00"), 0.0));
+//        DichVu dichVu = new DichVu(txtID.getText(), txtName.getText(), Integer.parseInt(txtQuantity.getText()),
+//                trangThai, loaiDichVu, lichSuGiaDichVuList);
+        DichVu dichVu = new DichVu(txtID.getText(), txtName.getText(), Integer.parseInt(txtQuantity.getText()), filename, trangThai, loaiDichVu);
         return dichVu;
     }
 
     private LichSuGiaDichVu rever() {
         LocalDate current = LocalDate.now();
-        LichSuGiaDichVu lichSu = new LichSuGiaDichVu("", Date.valueOf(current), null, Time.valueOf("8:00:00"),
-                Time.valueOf("23:00:00"), Double.parseDouble(txtPrice.getText()));
+        LichSuGiaDichVu lichSu = new LichSuGiaDichVu("", Date.valueOf(current), (Date) null, Time.valueOf("8:00:00"),
+                Time.valueOf("23:00:00"),  0.0);
         return lichSu;
     }
 
@@ -462,70 +455,72 @@ public class GD_QuanLyDichVu extends JPanel implements ActionListener, MouseList
         if (hangDuocChon > -1) {
             DichVu dv = reverSPFromTextFile();
             dichVuDAO.updateDichVu(dv, dv.getMaDichVu());
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             loadData();
         }
     }
 
     private void selectImage() {
-        JFileChooser f = new JFileChooser();
-        f.setDialogTitle("Mở file");
-        f.showOpenDialog(null);
-        File fileAnh = f.getSelectedFile();
-        String strAnh = fileAnh.getAbsolutePath();
+        JFileChooser fch = new JFileChooser("D:\\He_Thong_Karaoke_Nice\\src\\main\\resources\\image\\dichVu");
+        fch.setDialogTitle("Mở file");
+        fch.showOpenDialog(null);
+        File fImageName = fch.getSelectedFile();
+        filename = fImageName.getAbsolutePath();
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(filename).getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+        lbImageStaff.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbImageStaff.setText("");
+        lbImageStaff.setIcon(imageIcon);
     }
 
-    private List<DichVu> getColumnName(int selectedKey, int selectedOption) {
-        switch (selectedKey) {
+    private List<DichVu> getColumnName(int selectedOption) {
+        switch (selectedOption) {
             case 0:
-                return dichVuDAO.getAllDichVu();
-            case 1:
                 return dichVuDAO.getDichVuTheoMa(txtKey.getText());
-            case 2:
+            case 1:
                 return dichVuDAO.getDSDichVuTheoTen(txtKey.getText());
+            case 2:
+                // tìm theo giá
             case 3:
-                searchHorizontalBox.remove(txtKey);
-                searchHorizontalBox.add(cbStatusTwo);
-                List<LoaiDichVu> list = dichVuDAO.getLoaiDichVu();
-                for (LoaiDichVu dichVu : list) {
-                    cbStatusTwo.addItem(dichVu);
-                }
-//			return dichVuDAO.getDSTheoLoai(cbStatusTwo.getSelectedIndex());
+                // Tìm theo số lượng
             case 4:
+                // Tìm theo loại dịch vụ
                 searchHorizontalBox.remove(txtKey);
                 searchHorizontalBox.add(cbTypeTwo);
                 cbTypeTwo.addItem(TrangThaiDichVu.VO_HIEU.getName());
                 cbTypeTwo.addItem(TrangThaiDichVu.HIEU_LUC.getName());
-//			return dichVuDAO;
+                // return dichVuDAO;
             default:
-                return new ArrayList<DichVu>();
+                // Tìm theo trạng thái
         }
 
+        return null;
     }
 
-    private void loadImage(String maDichVu) {
-        List<DichVu> list = dichVuDAO.getDichVuTheoMa(maDichVu);
-        for (DichVu dichVu : list) {
-//            ImageIcon icon = new ImageIcon(dichVu.getHinhAnh());
-//            Image image = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-//            ImageIcon resizedIcon = new ImageIcon(image);
-
-            lbImageStaff = new JLabel(ResizeImageUtil.getResizedImage(dichVu.getHinhAnh(), 100, 100));
-//            lbImageStaff.setIcon(resizedIcon);
-            lbImageStaff.setAlignmentX(Component.CENTER_ALIGNMENT);
-        }
-    }
+//    private void loadImage(String maDichVu) {
+//        List<DichVu> list = dichVuDAO.getDichVuTheoMa(maDichVu);
+//        for (DichVu dichVu : list) {
+//            lbImageStaff = new JLabel(ResizeImageUtil.getResizedImage(dichVu.getHinhAnh(), 100, 100));
+//            lbImageStaff.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        }
+//    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         int rowSelect = table.getSelectedRow();
-        txtID.setText(modelTable.getValueAt(rowSelect, 1).toString());
-        txtName.setText(modelTable.getValueAt(rowSelect, 2).toString());
-        txtPrice.setText(modelTable.getValueAt(rowSelect, 3).toString());
-        txtQuantity.setText(modelTable.getValueAt(rowSelect, 4).toString());
-        cbLoaiDichVu.setSelectedItem(modelTable.getValueAt(rowSelect, 5));
-        cbType.setSelectedItem(modelTable.getValueAt(rowSelect, 6));
+        txtID.setText(modelTable.getValueAt(rowSelect, 0).toString());
+        txtName.setText(modelTable.getValueAt(rowSelect, 1).toString());
+        NumberFormat df = NumberFormat.getCurrencyInstance();
+        String text = modelTable.getValueAt(rowSelect, 2).toString();
+        try {
+            txtPrice.setText(df.parse(text).toString());
+        } catch (ParseException e2) {
+            e2.printStackTrace();
+        }
+        txtQuantity.setText(modelTable.getValueAt(rowSelect, 3).toString());
+        cbLoaiDichVu.setSelectedItem(modelTable.getValueAt(rowSelect, 4));
+        cbType.setSelectedItem(modelTable.getValueAt(rowSelect, 5));
 
-        loadImage(txtID.getText());
+//      loadImage(txtID.getText());
     }
 
     @Override

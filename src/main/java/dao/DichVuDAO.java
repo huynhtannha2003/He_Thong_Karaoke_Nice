@@ -1,11 +1,8 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import connectDB.ConnectDB;
@@ -81,19 +78,17 @@ public class DichVuDAO {
 
     public boolean addDichVu(DichVu dichVu) {
         Connection con = connectDB.getConnection();
-        String query = "insert into DichVu values(?,?,?,?,?)";
+        String query = "insert into DichVu values(?,?,?,?,?,?)";
         int n = 0;
-        PreparedStatement pre = null;
-        try {
-            pre = con.prepareStatement(query);
+        try (PreparedStatement pre = con.prepareStatement(query)) {
             pre.setString(1, dichVu.getMaDichVu());
             pre.setString(2, dichVu.getTenDichVu());
             pre.setInt(3, dichVu.getSoLuong());
             pre.setString(4, dichVu.getLoaiDichVu().getMaLoaiDichVu());
             pre.setInt(5, dichVu.getTrangThai().getValue());
+            pre.setString(6,dichVu.getHinhAnh());
             n = pre.executeUpdate();
         } catch (SQLException e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return n > 0;
@@ -164,12 +159,28 @@ public class DichVuDAO {
     }
 
     public List<DichVu> getDichVuTheoMa(String ma) {
-        return executeGetDichVuPage("select * from DichVuLichSuGiaByConditionTimeView where DichVu_MaDichVu = ?", ma);
+        return executeGetDichVuPage("{CALL GetDichVuByMaDichVu(?)}", ma);
     }
 
     public List<DichVu> getDSDichVuTheoTen(String ten) {
         return executeGetDichVuPage(
-                "select * from DichVuLichSuGiaByConditionTimeView where DichVu_TenDichVu LIKE ?", "%" + ten + "%");
+                "{CALL GetDichVuByTenDichVu(?)})", ten);
+    }
+
+    public List<DichVu> getDSDichVuTheoGia(float Gia) {
+        List<LichSuGiaDichVu> list = new ArrayList<>();
+        Connection connection = connectDB.getConnection();
+        String query = "{CALL GetDichVuByGia(?)}";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setFloat(1, Gia);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<DichVu> getDSTheoLoai(String loai) {
