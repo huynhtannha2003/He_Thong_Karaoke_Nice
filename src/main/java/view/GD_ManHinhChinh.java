@@ -68,27 +68,21 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
         menuItemPhong = new JMenuItem("Phòng");
         menuItemPhong.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuDanhMuc.add(menuItemPhong);
 
         menuItemNhanVien = new JMenuItem("Nhân viên");
         menuItemNhanVien.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuDanhMuc.add(menuItemNhanVien);
 
         menuItemDichVu = new JMenuItem("Dịch vụ");
         menuItemDichVu.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuDanhMuc.add(menuItemDichVu);
 
         menuItemKhachHang = new JMenuItem("Khách hàng");
         menuItemKhachHang.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuDanhMuc.add(menuItemKhachHang);
 
         menuItemKhuyenMai = new JMenuItem("Khuyến mãi");
         menuItemKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuDanhMuc.add(menuItemKhuyenMai);
 
         menuItemHoaDon = new JMenuItem("Hóa đơn");
         menuItemHoaDon.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuDanhMuc.add(menuItemHoaDon);
 
         menuXuLy = new JMenu("Xử lý");
         menuXuLy.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -108,7 +102,6 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
 
         menuThongKe = new JMenu("Thống kê");
         menuThongKe.setFont(new Font("Tahoma", Font.BOLD, 14));
-        menuBar.add(menuThongKe);
 
         menuItemTKDoanhThu = new JMenuItem("Thống kê doanh thu");
         menuItemTKDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -137,6 +130,17 @@ public class GD_ManHinhChinh extends JFrame implements ActionListener {
         menuItemHoaDon.addActionListener(this);
         menuItemNhanPhong.addActionListener(this);
         menuItemHuyDatPhong.addActionListener(this);
+        if(!taiKhoanLogin.getNhanVien().getChucVu().equals("Nhân viên")){
+            menuDanhMuc.add(menuItemPhong);
+            menuDanhMuc.add(menuItemNhanVien);
+            menuDanhMuc.add(menuItemDichVu);
+            menuDanhMuc.add(menuItemKhuyenMai);
+            menuDanhMuc.add(menuItemHoaDon);
+            menuDanhMuc.add(menuItemKhachHang);
+            menuBar.add(menuThongKe);
+        }else{
+            menuDanhMuc.add(menuItemKhachHang);
+        }
     }
 
     private void init() {

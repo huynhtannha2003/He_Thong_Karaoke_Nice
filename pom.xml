@@ -51,6 +51,7 @@
 							<mainClass>view.GD_Login</mainClass>
 						</manifest>
 					</archive>
+					<finalName>App_Karaoke</finalName>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
