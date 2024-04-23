@@ -9,6 +9,7 @@ import java.util.Objects;
 import enums.TrangThaiLoaiPhong;
 
 public class LoaiPhong {
+	private static final long serialVersionUID = 1L;
 	private String maLoaiPhong;
 	private String tenLoaiPhong;
 	private TrangThaiLoaiPhong trangThai;
