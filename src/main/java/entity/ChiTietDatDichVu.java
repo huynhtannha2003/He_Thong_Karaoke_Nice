@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ChiTietDatDichVu {
+    private static final long serialVersionUID = 1L;
     private int soLuong;
     private PhieuDatPhong phieuDatPhong;
     private DichVu dichVu;
