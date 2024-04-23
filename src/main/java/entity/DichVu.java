@@ -9,6 +9,7 @@ import java.util.Objects;
 import enums.TrangThaiDichVu;
 
 public class DichVu {
+    private static final long serialVersionUID = 1L;
     private String maDichVu;
     private String tenDichVu;
     private int soLuong;
