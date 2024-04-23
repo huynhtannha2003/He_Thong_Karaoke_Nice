@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 
 public class LichSuGiaPhong {
+	private static final long serialVersionUID = 1L;
 	private String maLichSuGiaPhong;
 	private Date ngayBatDau;
 	private Date ngayKetThuc;
