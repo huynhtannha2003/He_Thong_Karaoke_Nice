@@ -7,6 +7,7 @@ import java.util.List;
 import enums.TrangThaiPhong;
 
 public class Phong {
+	private static final long serialVersionUID = 1L;
 	private String maPhong;
 	private String tenPhong;
 	private int sucChua;
