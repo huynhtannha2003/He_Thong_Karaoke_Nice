@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 
 public class KhuyenMai {
+	private static final long serialVersionUID = 1L;
 	private String maKhuyenMai;
 	private String tenKhuyenMai;
 	private double phanTram;
