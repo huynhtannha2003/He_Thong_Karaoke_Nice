@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDon {
+    private static final long serialVersionUID = 1L;
     private String maHoaDon;
     private double tongTien;
     private Date ngayThanhToan;
