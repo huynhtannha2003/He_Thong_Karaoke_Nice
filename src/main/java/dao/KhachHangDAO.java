@@ -15,6 +15,7 @@ import entity.NhanVien;
 import enums.TrangThaiNhanVien;
 
 public class KhachHangDAO {
+	private static final long serialVersionUID = 1L;
 	private ConnectDB connectDB;
 
 	public KhachHangDAO() {
