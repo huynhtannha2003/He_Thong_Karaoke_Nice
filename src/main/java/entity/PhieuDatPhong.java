@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhieuDatPhong {
+    private static final long serialVersionUID = 1L;
     private String maPhieuDatPhong;
     private Time thoiGianBatDau;
     private Time thoiGianKetThuc;
