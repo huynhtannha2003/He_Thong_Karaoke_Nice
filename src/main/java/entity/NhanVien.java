@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import enums.TrangThaiNhanVien;
 
 public class NhanVien {
+	private static final long serialVersionUID = 1L;
 	private String maNhanVien;
 	private String ten;
 	private String chucVu;
